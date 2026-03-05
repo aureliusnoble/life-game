@@ -1,0 +1,19 @@
+[project]
+id = ""  # Set after Supabase project creation
+
+[api]
+port = 54321
+schemas = ["public"]
+
+[db]
+port = 54322
+
+[studio]
+port = 54323
+
+[auth]
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+
+[auth.external.google]
+enabled = false  # Manager: configure Google OAuth credentials

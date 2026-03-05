@@ -1,0 +1,50 @@
+-- Seed data: default world and admin user
+-- Run after migrations on a fresh instance.
+--
+-- MANAGER STEPS (manual, not automatable via SQL migrations):
+--
+-- 1. Create admin user via Supabase Auth (handle_new_user trigger auto-creates players row)
+-- 2. UPDATE players SET role = 'admin' WHERE id = '<admin-user-uuid>';
+-- 3. Insert default world (see below)
+-- 4. Configure Google OAuth in Supabase dashboard (Google Cloud Console credentials, redirect URLs)
+-- 5. Create 'share-cards' storage bucket:
+--    - Public: true (public read, authenticated write)
+--    - File size limit: 500 KB
+--    - Allowed MIME types: image/png
+--    - Path pattern: {speciesId}.png
+--    - Retention: 90 days (lifecycle policy)
+-- 6. Enable pg_cron extension and schedule jobs:
+--    SELECT cron.schedule('expire-mutations', '0 * * * *', $$ SELECT expire_stale_mutations(); $$);
+--    SELECT cron.schedule('prune-snapshots', '0 */6 * * *', $$
+--      DELETE FROM world_snapshots
+--      WHERE id NOT IN (
+--        SELECT id FROM (
+--          SELECT id, ROW_NUMBER() OVER (PARTITION BY world_id ORDER BY created_at DESC) rn
+--          FROM world_snapshots
+--        ) t WHERE rn <= 3
+--      );
+--    $$);
+--    SELECT cron.schedule('prune-events', '0 3 * * *', $$
+--      DELETE FROM event_log WHERE created_at < now() - interval '30 days' AND event_scope != 'world';
+--      DELETE FROM event_log WHERE created_at < now() - interval '90 days';
+--    $$);
+--    SELECT cron.schedule('prune-summaries', '0 4 * * *', $$
+--      DELETE FROM player_summaries
+--      WHERE id NOT IN (
+--        SELECT id FROM (
+--          SELECT id, ROW_NUMBER() OVER (PARTITION BY player_id ORDER BY period_end DESC) rn
+--          FROM player_summaries
+--        ) t WHERE rn <= 7
+--      );
+--    $$);
+--
+-- Default world (run after admin player exists):
+--
+--   INSERT INTO worlds (name, created_by, status, access_type, description)
+--   VALUES (
+--     'Genesis',
+--     '<admin-user-uuid>',
+--     'running',
+--     'public',
+--     'The default world. Welcome to Life Game!'
+--   );
