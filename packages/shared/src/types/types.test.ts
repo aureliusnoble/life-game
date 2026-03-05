@@ -11,7 +11,6 @@ import {
   ACHIEVEMENT_DEFINITIONS,
 } from './index.js';
 import type {
-  Entity,
   OrganismEntity,
   PelletEntity,
   EggEntity,
@@ -19,18 +18,11 @@ import type {
   SporeEntity,
   BodyGenes,
   BrainConfig,
-  SpeciesDesign,
-  WorldConfig,
-  PlayerProfile,
-  LeaderboardEntry,
-  GameEvent,
-  TickProfile,
-  WorldSnapshot,
   TraitConfig,
   DeploymentConfig,
   MutationOption,
 } from './index.js';
-import { TraitId, WorldStatus, WorldAccessType, PlayerRole, EventScope } from '../enums.js';
+import { TraitId } from '../enums.js';
 
 describe('type guards', () => {
   const organism: OrganismEntity = {

@@ -56,7 +56,7 @@ describe('stat ranges', () => {
   });
 
   it('all stat ranges have min < max', () => {
-    for (const [name, range] of Object.entries(STAT_RANGES)) {
+    for (const [_name, range] of Object.entries(STAT_RANGES)) {
       expect(range.min).toBeLessThan(range.max);
       expect(range.default).toBeGreaterThanOrEqual(range.min);
       expect(range.default).toBeLessThanOrEqual(range.max);

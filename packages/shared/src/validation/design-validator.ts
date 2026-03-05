@@ -17,7 +17,7 @@ import {
   OUTPUT_TIERS,
   HIDDEN_NODE_TIERS,
 } from '../enums.js';
-import type { InputType, OutputType, BiomeType } from '../enums.js';
+import type { InputType, OutputType } from '../enums.js';
 import { computeBodyBPCost, computeBiomeBPCost } from '../formulas.js';
 import type { BodyGenes } from '../types/organism.js';
 import type { SpeciesDesign } from '../types/species.js';

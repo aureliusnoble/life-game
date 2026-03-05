@@ -1,4 +1,4 @@
-import type { AuthFailReason, JoinFailReason, DeployStatus, Season } from '../enums.js';
+import type { AuthFailReason, JoinFailReason, DeployStatus } from '../enums.js';
 import type { EnvironmentHeader, Viewport, WorldSummary } from './world.js';
 
 // ── Client → Server Message Payloads ──
