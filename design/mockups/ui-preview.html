@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Game — UI Mockup (Hybrid)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #080c16;
+    color: #e0e8f0;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #8090a0;
+  }
+  h1 span { color: #4fc3f7; }
+
+  .subtitle {
+    text-align: center;
+    color: #5a6a7a;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+  }
+
+  /* ==========================================
+     Hybrid UI — Lucide icons + CSS + Canvas
+     ========================================== */
+  .ui-d {
+    background: #0e1420;
+    border-radius: 12px;
+    padding: 16px;
+    color: #e0e8f0;
+    margin: 0 20px 20px;
+  }
+  .ui-d .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 16px;
+    min-height: 550px;
+  }
+  .ui-d .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ui-d .main-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ui-d .panel-card {
+    background: #141e2e;
+    border: 1px solid #2a3a50;
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .ui-d h3 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #8090a0;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .ui-d h3 .icon-sm {
+    width: 16px;
+    height: 16px;
+    stroke: #4fc3f7;
+  }
+  .ui-d .stat-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .ui-d .stat-icon {
+    color: #4fc3f7;
+    flex-shrink: 0;
+  }
+  .ui-d .stat-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ui-d .stat-label {
+    width: 70px;
+    font-size: 0.7rem;
+    color: #8090a0;
+  }
+  .ui-d .stat-slider-track {
+    flex: 1;
+    height: 6px;
+    background: #1e2d40;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ui-d .stat-slider-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: #4fc3f7;
+  }
+  .ui-d .stat-val {
+    width: 28px;
+    font-size: 0.7rem;
+    text-align: right;
+    color: #e0e8f0;
+    font-variant-numeric: tabular-nums;
+  }
+  .ui-d .organism-canvas {
+    background: #1a2a3a;
+    border: 1px solid #2a3a50;
+    border-radius: 10px;
+    flex: 1;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ui-d .organism-canvas canvas {
+    width: 100%;
+    height: 100%;
+  }
+  .ui-d .btn {
+    background: #4fc3f7;
+    border: none;
+    color: #0a0f1a;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+  .ui-d .btn.outline {
+    background: transparent;
+    border: 1px solid #2a3a50;
+    color: #8090a0;
+  }
+  .ui-d .species-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #1a2840;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .ui-d .species-item:hover { border-color: #4fc3f7; }
+  .ui-d .species-item.active { border-color: #4fc3f7; background: #1e3050; }
+  .ui-d .species-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #2a3a50;
+  }
+  .ui-d .species-info {
+    flex: 1;
+  }
+  .ui-d .species-info .name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #e0e8f0;
+  }
+  .ui-d .species-info .meta {
+    font-size: 0.65rem;
+    color: #5a6a7a;
+  }
+  .ui-d .bp-badge {
+    font-size: 0.65rem;
+    background: #1e2d40;
+    color: #4fc3f7;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .ui-d .vision-canvas {
+    width: 100%;
+    height: 120px;
+    background: #0e1420;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+  }
+  .ui-d .brain-preview {
+    width: 100%;
+    height: 100px;
+    background: #0e1420;
+    border: 1px solid #2a3a50;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5a6a7a;
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 700px) {
+    .ui-d .layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1><span>Life Game</span> — UI Mockup (Hybrid)</h1>
+<p class="subtitle">Design. Explore. Evolve. — Species designer with Lucide icons + CSS layout + Canvas previews</p>
+
+<div class="ui-d">
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="panel-card">
+        <h3>
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          My Species
+        </h3>
+        <div class="species-item active">
+          <div class="species-dot" style="background: radial-gradient(circle at 35% 35%, #81C784, #4CAF50, #2E7D32);"></div>
+          <div class="species-info">
+            <div class="name">Green Grazer</div>
+            <div class="meta">Herbivore · Gen 1</div>
+          </div>
+          <span class="bp-badge">78 BP</span>
+        </div>
+        <div class="species-item">
+          <div class="species-dot" style="background: radial-gradient(circle at 35% 35%, #EF5350, #F44336, #C62828);"></div>
+          <div class="species-info">
+            <div class="name">Red Fang</div>
+            <div class="meta">Carnivore · Gen 1</div>
+          </div>
+          <span class="bp-badge">95 BP</span>
+        </div>
+        <div class="species-item">
+          <div class="species-dot" style="background: radial-gradient(circle at 35% 35%, #FFD54F, #FFC107, #FF8F00);"></div>
+          <div class="species-info">
+            <div class="name">Amber Drifter</div>
+            <div class="meta">Omnivore · Gen 1</div>
+          </div>
+          <span class="bp-badge">82 BP</span>
+        </div>
+        <button class="btn" style="width:100%; margin-top:8px;">+ New Species</button>
+      </div>
+
+      <div class="panel-card">
+        <h3>
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Bio-Points
+        </h3>
+        <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:6px;">
+          <span style="font-size:1.5rem; font-weight:600;">78</span>
+          <span style="font-size:0.75rem; color:#5a6a7a;">/ 100</span>
+        </div>
+        <div class="stat-slider-track" style="height:8px; margin-bottom:6px;">
+          <div class="stat-slider-fill" style="width:78%"></div>
+        </div>
+        <div style="font-size:0.65rem; color:#5a6a7a;">Body: 56 BP · Brain: 22 BP</div>
+      </div>
+    </div>
+
+    <!-- Main area -->
+    <div class="main-area">
+      <!-- Organism preview (canvas-rendered) -->
+      <div class="organism-canvas" id="hybridPreview">
+        <canvas id="hybridCanvas"></canvas>
+      </div>
+
+      <!-- Stats panel with Lucide icons -->
+      <div class="panel-card">
+        <h3>
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          Body Stats
+        </h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 4px 16px;">
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg></div>
+            <div class="stat-label">Size</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:33%"></div></div>
+            <div class="stat-val">1.0</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div class="stat-label">Speed</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:44%"></div></div>
+            <div class="stat-val">1.2</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/></svg></div>
+            <div class="stat-label">Strength</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:10%"></div></div>
+            <div class="stat-val">0.5</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="stat-label">Defense</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:12%"></div></div>
+            <div class="stat-val">0.5</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div class="stat-label">View</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:48%"></div></div>
+            <div class="stat-val">180°</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2"/><path d="M12 21v2"/><path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/></svg></div>
+            <div class="stat-label">Metab.</div>
+            <div class="stat-slider-track"><div class="stat-slider-fill" style="width:33%"></div></div>
+            <div class="stat-val">1.0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vision & Brain (custom canvas elements) -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="panel-card">
+          <h3>
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            Vision Cone
+          </h3>
+          <canvas class="vision-canvas" id="visionCanvas"></canvas>
+        </div>
+        <div class="panel-card">
+          <h3>
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-4.96.44 2.5 2.5 0 01-2.96-3.08 3 3 0 01-.34-5.58 2.5 2.5 0 011.32-4.24 2.5 2.5 0 011.98-3A2.5 2.5 0 019.5 2z"/><path d="M14.5 2A2.5 2.5 0 0012 4.5v15a2.5 2.5 0 004.96.44 2.5 2.5 0 002.96-3.08 3 3 0 00.34-5.58 2.5 2.5 0 00-1.32-4.24 2.5 2.5 0 00-1.98-3A2.5 2.5 0 0014.5 2z"/></svg>
+            Brain Preview
+          </h3>
+          <div class="brain-preview" id="brainPreview">
+            <canvas id="brainCanvas" style="width:100%; height:100%;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:4px;">
+        <button class="btn">Deploy Species</button>
+        <button class="btn outline">Save Draft</button>
+        <button class="btn outline" style="margin-left:auto; color:#ef5350; border-color:#4a2020;">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// Canvas Elements — Organism, Vision, Brain
+// ==========================================
+
+function drawHybridCanvases() {
+  drawHybridOrganism();
+  drawVisionCone();
+  drawBrainPreview();
+}
+
+function drawHybridOrganism() {
+  const canvas = document.getElementById('hybridCanvas');
+  const container = document.getElementById('hybridPreview');
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  if (!w || !h) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const cx = w / 2, cy = h / 2;
+
+  // Soup background
+  const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.5);
+  bgGrad.addColorStop(0, '#2d5a3a');
+  bgGrad.addColorStop(1, '#1a3a2a');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Particles
+  for (let i = 0; i < 15; i++) {
+    const px = (Math.sin(i * 137.5) * 0.5 + 0.5) * w;
+    const py = (Math.cos(i * 97.3) * 0.5 + 0.5) * h;
+    ctx.fillStyle = `rgba(74, 122, 90, ${0.15 + (i % 3) * 0.05})`;
+    ctx.beginPath();
+    ctx.arc(px, py, 1 + i % 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Vision cone
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(-Math.PI / 2);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  const vcAngle = Math.PI / 2; // 180° / 2
+  ctx.arc(0, 0, 100, -vcAngle, vcAngle);
+  ctx.closePath();
+  const vcGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, 100);
+  vcGrad.addColorStop(0, 'rgba(76, 175, 80, 0.12)');
+  vcGrad.addColorStop(1, 'rgba(76, 175, 80, 0)');
+  ctx.fillStyle = vcGrad;
+  ctx.fill();
+  ctx.restore();
+
+  // Organism
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // Membrane
+  ctx.strokeStyle = 'rgba(76, 175, 80, 0.25)';
+  ctx.lineWidth = 0.8;
+  ctx.setLineDash([3, 2]);
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 55, 50, 0, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Cilia
+  ctx.strokeStyle = 'rgba(76, 175, 80, 0.4)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * Math.PI * 2;
+    const bx = Math.cos(a) * 40;
+    const by = Math.sin(a) * 38;
+    const ex = Math.cos(a) * 52;
+    const ey = Math.sin(a) * 50;
+    ctx.beginPath();
+    ctx.moveTo(bx, by);
+    ctx.lineTo(ex, ey);
+    ctx.stroke();
+  }
+
+  // Flagellum
+  ctx.strokeStyle = 'rgba(76, 175, 80, 0.5)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(0, 40);
+  ctx.bezierCurveTo(10, 65, -10, 85, 5, 110);
+  ctx.stroke();
+
+  // Body
+  const bodyGrad = ctx.createRadialGradient(-10, -8, 0, 0, 0, 45);
+  bodyGrad.addColorStop(0, '#81C784');
+  bodyGrad.addColorStop(0.4, '#4CAF50');
+  bodyGrad.addColorStop(1, '#2E7D32');
+  ctx.fillStyle = bodyGrad;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 38, 35, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Body outline
+  ctx.strokeStyle = 'rgba(46, 125, 50, 0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Organelle (nucleus)
+  ctx.fillStyle = 'rgba(200, 230, 201, 0.2)';
+  ctx.beginPath();
+  ctx.ellipse(-5, -3, 15, 12, 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Organelle (vacuole)
+  ctx.fillStyle = 'rgba(165, 214, 167, 0.15)';
+  ctx.beginPath();
+  ctx.arc(12, 8, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Eyes
+  // Left eye
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(-14, -22, 9, 10, -0.1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+  ctx.fillStyle = '#2E7D32';
+  ctx.beginPath();
+  ctx.arc(-13, -22, 4.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.arc(-12.5, -22, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(-14, -24, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Right eye
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.ellipse(14, -22, 9, 10, 0.1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+  ctx.fillStyle = '#2E7D32';
+  ctx.beginPath();
+  ctx.arc(13, -22, 4.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.arc(12.5, -22, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(14, -24, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Mouth (filter feeder — small cilia at front)
+  ctx.strokeStyle = 'rgba(56, 142, 60, 0.6)';
+  ctx.lineWidth = 1;
+  for (let i = -2; i <= 2; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * 5, -35);
+    ctx.lineTo(i * 4.5, -42);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+function drawVisionCone() {
+  const canvas = document.getElementById('visionCanvas');
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  if (!w || !h) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  ctx.fillStyle = '#0e1420';
+  ctx.fillRect(0, 0, w, h);
+
+  const cx = w / 2, cy = h * 0.7;
+
+  // Vision cone
+  const angle = Math.PI / 2;
+  const radius = Math.min(w, h) * 0.7;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(-Math.PI / 2);
+
+  // Cone fill
+  const coneGrad = ctx.createRadialGradient(0, 0, 5, 0, 0, radius);
+  coneGrad.addColorStop(0, 'rgba(76, 175, 80, 0.25)');
+  coneGrad.addColorStop(0.5, 'rgba(76, 175, 80, 0.1)');
+  coneGrad.addColorStop(1, 'rgba(76, 175, 80, 0)');
+  ctx.fillStyle = coneGrad;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.arc(0, 0, radius, -angle, angle);
+  ctx.closePath();
+  ctx.fill();
+
+  // Cone edges
+  ctx.strokeStyle = 'rgba(76, 175, 80, 0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(Math.cos(-angle) * radius, Math.sin(-angle) * radius);
+  ctx.moveTo(0, 0);
+  ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+  ctx.stroke();
+
+  // Center dot (organism)
+  ctx.fillStyle = '#4CAF50';
+  ctx.beginPath();
+  ctx.arc(0, 0, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+
+  // Label
+  ctx.fillStyle = '#5a6a7a';
+  ctx.font = '9px system-ui';
+  ctx.textAlign = 'center';
+  ctx.fillText('180° · Range 5.0', cx, h - 4);
+}
+
+function drawBrainPreview() {
+  const canvas = document.getElementById('brainCanvas');
+  const container = document.getElementById('brainPreview');
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  if (!w || !h) return;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  ctx.fillStyle = '#0e1420';
+  ctx.fillRect(0, 0, w, h);
+
+  // Input nodes (left column)
+  const inputs = ['Food', 'Threat', 'Energy', 'Health'];
+  const outputs = ['Move', 'Turn', 'Eat', 'Attack'];
+  const hidden = 3;
+
+  const nodeR = 6;
+  const leftX = 30, midX = w / 2, rightX = w - 30;
+
+  // Draw connections (synapses)
+  ctx.strokeStyle = 'rgba(79, 195, 247, 0.15)';
+  ctx.lineWidth = 0.5;
+  inputs.forEach((_, i) => {
+    const iy = 15 + (i + 0.5) * (h - 30) / inputs.length;
+    for (let j = 0; j < hidden; j++) {
+      const hy = 15 + (j + 0.5) * (h - 30) / hidden;
+      ctx.beginPath();
+      ctx.moveTo(leftX, iy);
+      ctx.lineTo(midX, hy);
+      ctx.stroke();
+    }
+  });
+  for (let j = 0; j < hidden; j++) {
+    const hy = 15 + (j + 0.5) * (h - 30) / hidden;
+    outputs.forEach((_, k) => {
+      const oy = 15 + (k + 0.5) * (h - 30) / outputs.length;
+      ctx.beginPath();
+      ctx.moveTo(midX, hy);
+      ctx.lineTo(rightX, oy);
+      ctx.stroke();
+    });
+  }
+
+  // Input nodes
+  inputs.forEach((label, i) => {
+    const iy = 15 + (i + 0.5) * (h - 30) / inputs.length;
+    ctx.fillStyle = 'rgba(102, 187, 106, 0.6)';
+    ctx.beginPath();
+    ctx.arc(leftX, iy, nodeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#5a6a7a';
+    ctx.font = '8px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText(label, leftX + 10, iy + 3);
+  });
+
+  // Hidden nodes
+  for (let j = 0; j < hidden; j++) {
+    const hy = 15 + (j + 0.5) * (h - 30) / hidden;
+    ctx.fillStyle = 'rgba(79, 195, 247, 0.5)';
+    ctx.beginPath();
+    ctx.arc(midX, hy, nodeR, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Output nodes
+  outputs.forEach((label, k) => {
+    const oy = 15 + (k + 0.5) * (h - 30) / outputs.length;
+    ctx.fillStyle = 'rgba(239, 83, 80, 0.6)';
+    ctx.beginPath();
+    ctx.arc(rightX, oy, nodeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#5a6a7a';
+    ctx.font = '8px system-ui';
+    ctx.textAlign = 'right';
+    ctx.fillText(label, rightX - 10, oy + 3);
+  });
+}
+
+// ==========================================
+// INIT
+// ==========================================
+
+window.addEventListener('resize', drawHybridCanvases);
+setTimeout(drawHybridCanvases, 100);
+</script>
+</body>
+</html>
