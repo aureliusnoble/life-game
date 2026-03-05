@@ -20,9 +20,9 @@ lint:
 typecheck:
 	pnpm typecheck
 
-# Apply Supabase migrations (requires local Supabase running)
+# Push Supabase migrations to the remote project
 migrate:
-	supabase db reset
+	supabase db push
 
 # Clean build artifacts
 clean:

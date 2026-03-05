@@ -14,12 +14,13 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
-    "@life-game/shared": "workspace:*"
+    "@life-game/shared": "workspace:*",
+    "@supabase/supabase-js": "^2.98.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.0",
     "tsx": "^4.7.0",
     "typescript": "^5.4.0",
-    "vitest": "^2.0.0",
-    "@types/node": "^20.11.0"
+    "vitest": "^2.0.0"
   }
 }

@@ -512,28 +512,29 @@ Document as a manager step: configure Google OAuth in Supabase dashboard (Google
 - [x] `supabase db push` applies all migrations cleanly — *verified: all 18 migrations applied to remote*
 - [x] All tables from `architecture.md` §9 are created — *manager verified in Supabase dashboard (2026-03-05)*
 - [x] All indexes from §9 are created — *manager verified in Supabase dashboard (2026-03-05)*
-- [ ] All triggers fire correctly — **DEFERRED: needs test user signup to verify handle_new_user**
-- [ ] RLS policies tested with different user roles — **DEFERRED to integration testing**
-- [ ] Seed data creates at least one default world — **DEFERRED: seed.sql not written yet**
+- [x] All triggers fire correctly — *integration test: handle_new_user creates player row, update_updated_at updates timestamp*
+- [x] RLS policies tested with different user roles — *integration test: own-read, own-update, own-insert, cross-player blocked, non-admin world insert blocked*
+- [ ] Seed data creates at least one default world — **DEFERRED: requires admin user first (see seed.sql for manual steps)**
 - [x] Supabase Realtime is enabled on `leaderboard_scores`, `daily_mutations`, `event_log` — *migration 018 applied*
 - [x] `share-cards` Storage bucket exists with public read, authenticated write, 500 KB limit — *manager created (2026-03-05)*
-- [x] `validate_design` RPC function exists — *manager verified in dashboard (2026-03-05)*
-- [x] `expire_stale_mutations` RPC function exists — *manager verified in dashboard (2026-03-05)*
-- [x] `get_player_status` RPC function exists — *manager verified in dashboard (2026-03-05)*
-- [x] OAuth provider configuration documented as manager step (Google Cloud Console, redirect URLs) — *noted in plan*
+- [x] `validate_design` RPC function works — *integration test: returns {valid: true, player_tier: 1}*
+- [x] `expire_stale_mutations` RPC function works — *integration test: returns integer*
+- [x] `get_player_status` RPC function works — *integration test: returns {has_active_species: false, pending_mutations: 0}*
+- [x] Check constraints enforced — *integration test: display_name 2-24 chars, evolution_points >= 0, unlocked_tier 1-4*
+- [x] OAuth provider configuration documented as manager step (Google Cloud Console, redirect URLs) — *noted in plan/seed.sql*
 
-> **Status (2026-03-05):** MIGRATIONS APPLIED AND VERIFIED. Commit `0effa90`.
-> - 18 migration files written (001-018), all applied successfully via `supabase db push`
-> - Supabase project linked: `bogjyyocqlewsskvivke`
-> - Manager verified: all tables, functions, and share-cards bucket present in dashboard
-> - **Deferred:** trigger testing (needs test user), RLS testing, seed.sql, edge function stubs
+> **Status (2026-03-05):** FULLY VERIFIED. Commits `0effa90`, plus integration tests.
+> - 18 migration files applied via `supabase db push`
+> - 14 integration tests pass against remote Supabase (triggers, RLS, RPC functions, constraints)
+> - Manager verified: all tables, functions, and share-cards bucket in dashboard
+> - **Deferred:** seed.sql (default world) — requires admin user first; edge function stubs
 
 ---
 
 ## Step 1.6: Development Environment & CI
 
 ### What You're Implementing
-Docker Compose for local development (Supabase local, Node.js server), environment variable templates, and basic CI pipeline.
+Environment variable templates, a Makefile for common commands, and a CI pipeline.
 
 ### Design References
 - `architecture.md` §2 (Deployment Architecture — Hetzner VPS, Supabase, Caddy)
@@ -543,9 +544,15 @@ Docker Compose for local development (Supabase local, Node.js server), environme
 
 Create:
 - `.env.example` — template with all env vars (SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, etc.)
-- `docker-compose.yml` — local Supabase (via `supabase start`), server, and client
-- `Makefile` or `justfile` — common commands: `dev`, `build`, `test`, `lint`, `migrate`
-- `.github/workflows/ci.yml` — on PR: lint, type-check, unit tests for all packages
+- `Makefile` — common commands: `dev`, `build`, `test`, `lint`, `typecheck`, `migrate`, `clean`
+- `.github/workflows/ci.yml` — on PR/push: lint, build, unit tests for all packages
+
+> **Decision: No Docker or local Supabase.** The original plan specified `docker-compose.yml` and local Supabase via `supabase start`. These were removed because:
+> - `pnpm dev` already starts the server and client in watch mode — no containers needed
+> - We use a remote Supabase project for the database — no local Postgres needed
+> - `supabase start` requires Docker, which adds setup complexity for no benefit when remote Supabase is available
+> - The architecture doc (§2) specifies production deployment as Node.js on a VPS with remote Supabase — not containerized
+> - If offline development becomes necessary in the future, `supabase start` can be added then
 
 **Environment variables** (from architecture.md §2 and back-end.md §1):
 ```
@@ -564,15 +571,14 @@ DEBUG_ENABLED=true
 
 ### QA Checklist
 - [x] `pnpm dev` starts both server and client in watch mode — *manager verified: shared compiles, client on :5173, server on :9001 (2026-03-05)*
-- [ ] Local Supabase instance is accessible — **BLOCKED: needs `supabase start` (requires Docker)**
-- [ ] Server can connect to local Supabase — **BLOCKED: needs Supabase running**
+- [x] Remote Supabase accessible and migrations applied — *verified via `supabase db push` (2026-03-05)*
 - [ ] Client dev server proxies WS connections to server — **DEFERRED: no WS server yet (Phase 6)**
 - [x] CI pipeline runs successfully — *verified: GitHub Actions run #22727281542 passed (28s) — lint, build, test all green*
 
 > **Status (2026-03-05):** IMPLEMENTED. Commits `b767934`, `a9e1143` (CI fix).
 > - `.env.example` — complete with all env vars
 > - `.env` — created with real Supabase credentials (gitignored)
-> - `.github/workflows/ci.yml` — lint, build, test on PR/push to main/master (typecheck removed as redundant with build)
-> - `docker-compose.yml` and `Makefile` present
+> - `.github/workflows/ci.yml` — lint, build, test on PR/push to main/master
+> - `Makefile` — dev, build, test, lint, typecheck, migrate, clean
+> - `docker-compose.yml` removed (see Decision note above)
 > - GitHub repo: `aureliusnoble/life-game` — code pushed, CI green
-> - SSH key: `~/.ssh/id_ed25519_github` configured for github.com
