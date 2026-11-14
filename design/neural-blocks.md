@@ -756,3 +756,7 @@ One fixed budget covers body and brain, and it never grows.
 
 1. A phone prototype of the designer and test tank with the Start and Early vocabulary, tried on two or three friends.
 2. Run the atlas through the stand-in world, starting with the pieces nothing has exercised yet: moments, what-it-is-doing, attention, and the Catching, Count, Born with and Learn functions.
+3. **Verb audit, after the visual design review round.** Every act and behaviour word added in draft 3 must be meaningfully different, not filler. The test for each:
+   - it has a mechanic of its own, something it does in the world that no other word does (the example given: following must differ from chasing);
+   - that mechanic interacts with the world in a way that changes outcomes, shown by running it against its nearest neighbour in the stand-in world;
+   - any word that only restates another is merged or cut.
