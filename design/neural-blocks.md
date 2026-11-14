@@ -24,7 +24,7 @@ Nothing in the vocabulary is a behaviour. Hunting, courting, flocking and nestin
 6. An instinct can carry up to two conditions: **only when** a feeling is on, and **not when** a feeling is on. Feelings are moods, body states (hungry, dark) and fixed traits (female, young).
 7. That is everything. There are no loops, sequences or free-form numbers. Settings come in three or four named steps.
 
-Two of these rules exist because the first version failed in testing; see "What testing changed".
+Rule 4 exists because the first version failed in testing; see "What testing changed".
 
 ## Vocabulary
 
@@ -167,7 +167,7 @@ Warning colours, camouflage and mimicry need senses tuned to appearance. That la
 
 ## Tested recipes
 
-Each list is exactly what was run. "(weak)" and "(strong)" are instinct strengths.
+Each list is what was run, apart from the grazing rows noted under courtship. "(weak)" and "(strong)" are instinct strengths.
 
 ### Pack hunt on big prey
 
@@ -215,6 +215,8 @@ Male
   see female → show red
   touch female → mate
 ```
+
+Both sexes also had grazing rows (see plant → approach, only when hungry; touch plant → bite) and a weak wander.
 
 Males that display competed with identical males that never do (30 runs).
 
@@ -298,13 +300,14 @@ Short forms; none of these has been run.
 ## What testing changed
 
 1. **How moods fill.** At first a mood faded continuously, so one raised slowly could never reach its kick-in point: courtship and nesting produced no matings and no eggs. Rule 4 now says a mood fades only while nothing is raising it.
-2. **Wider speed steps.** With speeds a factor of three apart, "slowly" was too quick to tell a persistent suitor from a passing one. The steps are now about a factor of ten apart.
+2. **Wider speed steps.** The first speed settings were about a factor of three apart. They are now about a factor of ten apart, so one setting can suit a reflex and another a ritual. This was a judgement call: the tests did not show it changing an outcome.
 3. **"My group" is required for flocking.** The nearest neighbour alone gives cohesion but no shared heading.
-4. **Calling the pack together can make things worse.** Against small prey slightly slower than the hunters on an open plain, six scattered hunters with no signals caught it in 95 of 100 runs. Adding "call, and come to the caller" cut that to 35, because the pack bunched up behind the prey and lost the spread that had been cornering it. Adding keep apart and circle recovered it to 81, still below no signals at all.
+4. **Calling the pack together can make things worse.** Against small prey slightly slower than the hunters on an open plain, six scattered hunters with no signals caught it in 95 of 100 runs. Adding "call, and come to the caller" cut that to 35, most likely because the pack bunched up behind the prey and lost the spread that had been cornering it. Adding keep apart and circle recovered it to 81, still below no signals at all.
 5. **Packs pay off against prey one hunter cannot take.** That is the table under "Pack hunt on big prey". The body side of the game has to supply such prey for pack designs to be worth their cost.
 6. **Mate choice needs Bond.** Without it, choosiness is exploitable, as the courtship table shows.
+7. **Choosiness did not reward attentive males.** An earlier test pitted attentive males against males strongly drawn to food. The attentive ones took about two-thirds of matings whatever the females required, so a slow-filling mood on its own did not select for persistence as expected.
 
-Findings 4 and 6 were not predicted. They are the kind of result the game is meant to produce, and also a warning that recipes cannot be trusted until run.
+Findings 4, 6 and 7 were not predicted. They are the kind of result the game is meant to produce, and also a warning that recipes cannot be trusted until run.
 
 ## The designer on a phone
 
