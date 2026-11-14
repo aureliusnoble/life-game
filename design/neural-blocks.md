@@ -1,153 +1,346 @@
 # Neural editor: instincts, moods and signals
 
-Draft 2, November 2026. This replaces the wired-blocks draft (still in git history), which was judged too low-level: players should not have to build memory or timing out of loops and thresholds. This draft keeps behaviour emergent but supplies that machinery as settings.
+Draft 3, November 2026. Earlier drafts are in git history.
 
 Anything marked **tested** was run in `design/checks/moodsim.js`, a small stand-in world that implements the rules below. It is not the game, and its numbers show direction, not balance. Everything else is on paper.
 
-## The idea
+**What changed since draft 2.** The vocabulary was audited against behaviour seen in nature and in other simulation games, and widened where it could not say something:
+
+- A notice is now a phrase built from slots: reach, how many or which one, what, and what it is doing.
+- Quantity has five steps instead of two, including "no", which lets a creature act on absence.
+- New words for choosing among several, for what another creature is doing, for things that just happened, and for a creature's own state of mind (idle, torn, stuck).
+- New acts: go along, head off, get behind, face, cling, tend, watch, wipe, dig, build, plus a pace on any movement.
+- Conditions gained degree words (a little, very) and graded forms (more when, less when).
+- A section on how competing urges are settled, and a rule for attention.
+- Mood functions grew: Place replaces Home, Rhythm can be hurried, and several new ones.
+- Four more recipes tested, and an atlas of about a hundred behaviours.
+
+## 1. The idea
 
 A species' brain is a list of **instincts** and a handful of **moods**.
 
 - An instinct is one small reaction: notice something, do something. All instincts run at once and their effects add up.
 - A mood is a named meter the player defines. Instincts raise it and calm it, it lingers for a set time, and other instincts can be switched on or off by it.
-- Creatures affect each other only through the world: what they do, and the **signals** (calls, scent marks, displays) they make.
+- Creatures affect each other only through the world: what they do, and the **signals** they make.
 
 Nothing in the vocabulary is a behaviour. Hunting, courting, flocking and nesting are what the instincts add up to.
 
-## The rules
+## 2. How a brain is written
+
+```
+instinct   =  notice → act  (strength)  + up to two conditions
+
+notice     =  reach · how many or which one · what · what it is doing
+           or feel [feeling]  |  just [moment]  |  always  |  sometimes
+
+condition  =  only when / not when / more when / less when
+              + (a little | very) + a feeling
+```
+
+An example using every slot:
+
+```
+see · the weakest · smaller creature · going away → head off (strong, sprinting)
+      only when Hunting, not when very hungry
+```
+
+Each slot offers a short list, and most instincts leave most slots at their default. The lists are what unlock over time.
+
+### The rules
 
 1. Thinking happens in beats. Every beat, each instinct whose conditions hold makes its contribution.
-2. Movement contributions add as arrows, and nearer things pull harder. The body moves along the sum, so two urges produce a compromise path nobody wrote.
-3. Other acts (bite, call, lay) happen when the notice behind them is strong enough and the body allows it: it must be touching, have the energy, and not be on cooldown.
+2. Movement contributions add as arrows, and nearer things pull harder. The body moves along the sum, and the stronger the sum the faster it goes: a weak pull is an amble, a strong one a run.
+3. Other acts (bite, call, lay) happen when the notice behind them is strong enough and the body allows it.
 4. A mood rises while anything is raising it, drops when something calms it, and fades at its own rate only while nothing is raising it.
-5. A mood is "on" above its kick-in point, with a small margin so it does not flicker.
-6. An instinct can carry up to two conditions: **only when** a feeling is on, and **not when** a feeling is on. Feelings are moods, body states (hungry, dark) and fixed traits (female, young).
-7. That is everything. There are no loops, sequences or free-form numbers. Settings come in three or four named steps.
+5. A mood is on above its kick-in point, with a small margin so it does not flicker.
+6. "Only when" and "not when" switch an instinct on or off. "More when" and "less when" scale it with how strong the feeling is.
+7. What a creature is doing limits what it can notice (section 6).
+8. There are no loops, sequences or free-form numbers. Settings come in three to five named steps.
 
-Rule 4 exists because the first version failed in testing; see "What testing changed".
+## 3. Senses: what a creature can notice
 
-## Vocabulary
+### Sense organs
 
-"When" shows roughly where in the unlock order a piece would arrive: Start, Early, Mid or Late.
+The body decides which senses a species has. Each has a strength and a blind spot, and those differences are what make niches.
 
-### What a creature can notice
+| Organ | Gives | Good at | Blind to |
+|---|---|---|---|
+| Eyes | see, far | Long reach; tells size, kind and what the other is doing | Anything behind cover; little in the dark. Wide-set eyes see all round but not far; forward eyes see far but only ahead |
+| Nose | smell | Works in the dark and through cover; reads scent marks | Short reach; scent drifts with any current |
+| Ears | hear | All directions, long range, through cover | Anything silent; says little about what made the sound |
+| Skin, whiskers | touch, near | Certain, and works anywhere | Anything more than a few body lengths away |
+| Side line | feel | Senses anything moving nearby, even unseen | Cannot tell what it is; a still creature is invisible to it |
+| Heat pits | see, for warm bodies | Works in the dark | Cold things; short reach |
+| Voice and ears | ping | A call whose echo shows everything nearby for a moment | The ping is itself a call that others hear |
 
-Every notice has a strength, and things in the world also have a direction.
-
-**Reach**
+### Reach
 
 | Word | Meaning | When |
 |---|---|---|
 | touch | In contact | Start |
-| see | Within eyesight; nearer is stronger | Start |
 | near | Within a few body lengths | Early |
-| hear | A call, from any direction, at long range | Early |
-| smell | A scent mark; points toward where it is stronger | Early |
+| see | Anywhere in view; nearer is stronger | Start |
+| far | In view but not near | Mid |
+| hear | A sound, from any direction | Early |
+| smell | A scent; points toward where it is stronger | Early |
+| feel | Movement nearby | Mid |
 
-**How many**
+### How many
 
-| Word | Meaning | When |
+| Word | Roughly | Use |
 |---|---|---|
-| (none) | The nearest one | Start |
-| many | Three or more in view | Mid |
-| my group | The few nearest of my kind taken together: their centre and their average heading | Mid |
+| no | None in reach | Acting on absence: safety, loneliness, an empty nest |
+| a | One or more; means the nearest unless a "which one" word is used | The default |
+| a few | Three or more | Small groups, a quorum |
+| many | Eight or more | Herds, safety in numbers |
+| a crowd | Twenty or more | Swarms and mass events |
 
-**Things in the world**
+Two more forms treat several as one thing:
+
+- **my group**: the few nearest of my kind taken together, giving their centre and their average heading. Flocking needs it (tested).
+- **outnumbering** and **outnumbered**: feelings that compare how many of my kind and how many of another kind are in view.
+
+### Which one
+
+When several things match, the nearest is used unless one of these is chosen.
+
+| Word | Picks | When |
+|---|---|---|
+| nearest | The closest (default) | Start |
+| biggest, smallest | By size | Mid |
+| weakest | The most hurt | Mid |
+| lone | The one farthest from others of its own kind | Mid |
+| my [mood] one | The creature a Bond mood is about | Late |
+
+### What
 
 | Kind | Options | When |
 |---|---|---|
-| Food | plant, meat, egg | Start, Early, Mid |
-| My kind | any, male, female, young, adult, showing a display, carrying something | Start; sex and age Early |
+| Food | plant, meat, egg | Start to Mid |
+| My kind | any; male, female; young, adult; family, stranger | Start; refinements Early to Late |
 | Other creatures | bigger, smaller, about my size | Start |
-| A species I have met | Picked from the list of species this lineage has encountered | Mid |
-| A kind I learned about | one that hurt me, one I have eaten, one that fed or groomed me | Late (Learn) |
-| One particular creature | "my [mood] one": the creature a mood is about | Late (Bond) |
+| A species I have met | Picked from the species this lineage has encountered | Mid |
+| A kind I learned about | See Learn in section 7 | Late |
+| Things to carry | food, egg, young, building material, the dead | Mid |
 | Signals | a call, a scent mark (mine, my kind's, a stranger's), a display | Early |
-| Places | cover, open ground, water's edge, warmer, cooler, brighter, darker | Early to Mid |
-| A remembered place | home | Late (Home) |
+| Places | cover, open ground, an edge (of cover, water or a marked area) | Early |
+| Gradients | brighter, darker; warmer, cooler; deeper, shallower; upstream, downstream | Mid |
+| A remembered place | my [mood] place | Late |
+| My keeper | The player's touch-and-hold beacon | Start |
 
-**Feelings (no direction)**
+### What it is doing
 
-| Kind | Options | When |
-|---|---|---|
-| Body | hungry, hurt, in pain, tired, carrying, covered | Start to Early |
-| Breeding | fertile, gravid | Early |
-| Surroundings | dark, light, cold, warm, crowded, alone | Start to Mid |
-| Traits | male, female, young, adult, old | Early |
-| Moods | any mood the player has made | Start |
-| Constants | always, sometimes | Start |
+A creature seen clearly can also be noticed by its state. This is how one creature reads another without any signal being sent.
 
-### What a creature can do
+| Word | Meaning |
+|---|---|
+| still | Not moving |
+| coming at me, going away | Its motion relative to me |
+| looking at me, looking away | Whether I am in its view |
+| eating, resting, fighting, carrying | What it is busy with |
+| hurt | Visibly wounded |
+| calling, showing [display] | Signalling |
 
-| Kind | Act | Effect | When |
+### Feelings
+
+Feelings have no direction. They are what conditions test, and they can also start an instinct ("feel cold → ...").
+
+| Kind | Options |
+|---|---|
+| Body | hungry, hurt, tired, cold, warm, carrying, covered, clung to |
+| Breeding | fertile, gravid |
+| Surroundings | dark, light, crowded |
+| Company | alone, outnumbering, outnumbered |
+| Traits | male, female; young, adult, old |
+| State of mind | idle (nothing but wandering is firing), torn (its pulls nearly cancel), stuck (trying to move and getting nowhere) |
+| Moods | Any mood the player has made |
+| Constants | always, sometimes |
+
+Degree words work on any graded feeling: **a little** hungry, hungry, **very** hungry.
+
+### Moments
+
+A moment is something that just happened. It lasts a beat or two, so to act on it for longer an instinct raises a mood.
+
+| Kind | Options |
+|---|---|
+| To me | just hatched, just ate, just bitten, just fed, just tended, just grabbed, startled (something appeared close by) |
+| By me | just bit, just killed, just mated, just laid |
+| Losing track | just lost sight of it |
+| Moods | [mood] just started, [mood] just ended |
+| Keeper | keeper's touch, keeper's treat |
+
+## 4. Acts: what a creature can do
+
+### Moving
+
+| Act | Effect | Setting | When |
 |---|---|---|---|
-| Move | approach | Toward what was noticed | Start |
-| | move away | Away from it | Start |
-| | wander | Drift in a slowly changing direction | Start |
-| | keep apart | Away only when too close | Early |
-| | stay near | Toward only when too far | Early |
-| | go the same way | Match its heading | Mid |
-| | circle | Sideways around it; each individual has a fixed side | Mid |
-| | hold still | Damps all movement | Mid |
-| | sprint | Faster, at an energy cost | Mid |
-| Body | bite | Eat or wound what it is touching | Start |
-| | rest | Recover; lower energy use | Start |
-| | lay | Lay an egg here | Start |
-| | mate | With the one it is touching, if both want to | Early |
-| | grab, drop, give | Carry things; hand food to another | Mid |
-| | hide | Withdraw, if the body has a shell or burrow | Mid |
-| | groom | Clean another creature; feeds the groomer | Late |
-| Signal | call | A named sound, heard at once and far | Early |
-| | mark | A named scent left on the ground | Early |
-| | show | A named display others can see | Mid |
-| Mood | raise, calm | Fill or drain a mood: quickly, normally or slowly | Start |
+| approach | Go to it | | Start |
+| move away | Leave it behind | | Start |
+| stay near | Approach only when farther than a set distance | close, mid, far | Early |
+| keep apart | Move away only when nearer than a set distance | close, mid, far | Early |
+| circle | Go around it sideways; each individual has a fixed side | | Mid |
+| go along | Follow its line, such as an edge or a trail of marks, keeping it to one side | | Mid |
+| go the same way | Match its heading | | Mid |
+| head off | Aim for where it is going | | Mid |
+| get behind | Move to its back | | Mid |
+| face | Turn to it without moving | | Mid |
+| wander | Drift with a slowly changing heading | tight, medium, wide | Start |
+| hold still | Damp all movement | | Mid |
 
-Body parts add their own acts: sting, glow, dig, spray.
+Any moving instinct can also carry a **pace**: creeping (slow and hard to hear or feel), normal, or sprinting (fast, costly, loud).
 
-### Moods
+### Body
+
+| Act | Effect | When |
+|---|---|---|
+| bite | Eat or wound what it is touching; the target decides which | Start |
+| rest | Recover; lower energy use | Start |
+| lay | Lay an egg here | Start |
+| mate | With the one it is touching, if both want to | Early |
+| grab, drop | Pick up and carry food, an egg, a young one, material or a smaller creature | Mid |
+| give | Hand over what it carries, or share food it has eaten | Mid |
+| tend | Care for what it is touching: an egg hatches sooner, a young one grows faster, another creature is cleaned and calmed | Mid |
+| cling, let go | Hold on to what it is touching and be carried along | Mid |
+| hide | Withdraw, if the body has a shell or burrow | Mid |
+| watch | Stop and sense farther | Mid |
+
+Body parts add their own: sting, spit, shock, spray (a cloud that works as cover), glow, shed a tail. Some parts add **poses** that change how others perceive the creature: puff up (seen as bigger), play dead, crouch (harder to see while still).
+
+### Changing the world
+
+| Act | Effect | When |
+|---|---|---|
+| mark | Leave a named scent (see Signals) | Early |
+| wipe | Remove the marks here | Mid |
+| dig | Make a hollow that works as cover | Late |
+| build | Set down material so that it stays, as a wall or a nest | Late |
+
+### Signals and moods
+
+| Act | Effect | When |
+|---|---|---|
+| call | Make a named sound | Early |
+| show | Make a named display | Mid |
+| ping | A call whose echo reveals what is nearby | Late |
+| raise, calm | Fill or drain a mood: quickly, normally or slowly | Start |
+| hurry | Nudge a Rhythm mood toward its next pulse | Late |
+
+### Verbs that look alike
+
+| Pair | Difference |
+|---|---|
+| approach, stay near | Approach keeps closing in; stay near stops once close enough |
+| move away, keep apart | Move away keeps going; keep apart stops once far enough |
+| circle, go along | Circle orbits a point; go along traces a line |
+| go the same way, head off, get behind | Travel beside it, cut across its path, or follow in its wake |
+| hold still, rest, hide, watch | Not moving; recovering; out of sight; alert |
+| grab, cling | Grab carries the other; cling makes the other carry you |
+| give, tend | Give moves food; tend moves care |
+| call, mark, show | Heard now and far; smelled later and near; seen while in view |
+
+### Verbs deliberately left out
+
+- **Eat and attack as separate verbs.** One verb, bite, and the target decides.
+- **Flee, chase, stalk, follow, guard, patrol, search.** Each is a movement act with a pace or a second instinct: flee is move away sprinting; stalk is approach creeping while the target is looking away; patrol is go along the edge of my own marks.
+- **Push, block, dodge.** Bodies already get in each other's way, so these come from approach, head off and circle.
+- **Copy.** Covered by noticing what another creature is doing.
+- **Grow, heal, digest.** Automatic. Clutch size and egg size are body settings; when to breed is left to instincts.
+- **Hunt, court, nest, flock.** Not verbs, by design.
+
+## 5. Moods
 
 A mood has four settings.
 
 | Setting | Options | What it gives the player |
 |---|---|---|
 | Raised by | Any notice, at a speed | What the mood is about |
-| Calmed by | Any notice, at a speed | Choosing: "Scared calms Hungry" |
-| Lingers | briefly, a while, a long time, until calmed | Memory: "Wary lingers a long time" |
+| Calmed by | Any notice, at a speed | One urge quietening another |
+| Lingers | briefly, a while, a long time, until calmed | Memory |
 | Kicks in | low, half, high | How much it takes before it matters |
 
-Timing comes from the raise speed: a mood raised slowly ignores a glimpse and responds only to something sustained. Each speed step is about ten times the last, so one setting suits reflexes and another suits rituals.
+Timing comes from the raise speed: a mood raised slowly ignores a glimpse and responds only to something sustained. Each speed step is about ten times the last.
 
-### Mood functions
+A mood is a timer and a latch, not a measure of how much. Under rule 4 any stimulus fills it eventually. "How hungry" and "how close" come from graded feelings and from "more when".
 
-These are the unlockable "neural functions". Each is one switch on a mood.
+## 6. How competing urges are settled
+
+A creature usually has several things it could be doing. These are the tools for deciding, from softest to hardest.
+
+| Tool | What it does | Example |
+|---|---|---|
+| Blending | Movement pulls add, giving a compromise path | Skirting a threat on the way to food |
+| Strength | Weak, normal or strong sets each instinct's share of the blend | Fear outweighs appetite |
+| More when, less when | Scales an instinct with a feeling | Flee harder the nearer the threat; forage harder the hungrier |
+| Only when, not when | Switches an instinct on or off | Feed only when dark |
+| Degree words | Put the switch at a different level | Ignore danger when very hungry (tested) |
+| Calmed by | One mood drains another | Scared calms Curious |
+| Blocking a raise | "Raise A, not when B" and "raise B, not when A": whichever starts first holds | Either courting or feeding, never both |
+| Lingers | A mood outlasts what caused it, so the creature does not flip back at once | Stay wary after a scare |
+| Kicks in | Sets how much it takes to change course | Bold and timid designs |
+| Bond | Fixes attention on one creature | Chase one prey instead of whichever is nearest |
+| Idle, torn, stuck | Let a creature notice its own indecision | "Feel torn → wander" breaks a deadlock |
+| Mood moments | "[Mood] just ended → raise the next one" hands over | Steps in a ritual; a pause after a panic |
+| Takes over | While on, silences every instinct not tied to this mood | Blind panic |
+
+**Attention** (rule 7, on paper). What a creature is doing dulls its senses:
+
+| While | Effect on its senses |
+|---|---|
+| Eating, tending, mating | Sees only what is near |
+| Resting | Sees nothing; still hears and feels |
+| Hiding | Sees nothing and cannot be seen |
+| Sprinting | Smells nothing, and is easy to hear and feel |
+| Creeping | Hard to hear or feel |
+| Holding still | Invisible to a side line |
+| Watching | Sees farther, cannot move |
+
+This gives vigilance a cost, so sentinels, taking turns to watch and safety in numbers have something to trade against.
+
+**What emerges from these.** A creature whose fear always outweighs its appetite hovers at the edge of danger and starves beside food (tested). One that drops its fear only when very hungry feeds in spite of the danger and survives (tested). A hunter without Bond switches target whenever another prey comes nearer. A mood that takes over makes a creature blind to everything else while it lasts.
+
+## 7. Mood functions
+
+Each is one switch on a mood, and each is an unlock.
 
 | Function | What it does | What it makes possible | Status |
 |---|---|---|---|
-| Bond | The mood is about one creature: whoever first raised it. Only that creature keeps raising it, and instincts can refer to "my [mood] one" | Mate choice, pair bonds, parent and young, sticking to one target, grudges | Tested |
-| Rhythm | The mood rises and falls by itself at a set tempo | Patrols, pulsing calls, taking shifts | On paper |
-| Count | The mood steps up once per event and switches on at a set number | "After three failed chases, move on" | On paper |
-| Born with | A set share of newborns start with the mood full, for life | Castes, sentinels, bold and shy individuals | On paper |
-| Catching | The mood rises on seeing one's own kind in it | Panic, excitement, synchronised breeding | On paper |
-| Learn | Experience fills in three kinds: one that hurt me, one I have eaten, one that fed me | Enemies and allies formed by what actually happened | On paper |
-| Home | Remembers a place: where it hatched, or where the mood was last full | Returning to a nest, hoarding, trails | On paper |
+| Bond | The mood is about one creature: whoever first raised it. Instincts can refer to "my [mood] one" | Mate choice, pair bonds, parent and young, one target, grudges, imprinting | Tested |
+| Place | The mood remembers where it was last raised. Instincts can refer to "my [mood] place" | Home, hoards, returning to a food patch, avoiding where it was hurt, breeding where it hatched | Tested |
+| Rhythm | The mood rises and falls by itself at a set tempo. It can start at a random point for each individual, and can be hurried by a notice | Patrols, shifts, pulsing calls, flashing in time, mass spawning | Tested |
+| Count | Steps up once per event and switches on at a set number | "After three failed chases, move on"; a quorum of visits | On paper |
+| Born with | A set share of newborns start with the mood on for life. Optionally every individual gets its own kick-in point | Castes, sentinels, bold and shy individuals, division of labour | On paper |
+| Catching | The mood shows on the body and rises in others of its kind who see it | Panic, excitement, synchronised breeding | On paper |
+| Learn | Experience fills in kinds: one that hurt me, one that hurt my kind, one I have eaten, one that made me ill, one that fed or tended me, a familiar one | Enemies and allies formed by what happened; returning favours; knowing neighbours from strangers | On paper |
+| Takes over | While on, silences instincts not tied to this mood | Panic, frenzy, single-mindedness | On paper |
+| Habit | Marks one instinct, not a mood: it strengthens when soon followed by eating, mating or being tended, and weakens when followed by pain | Individuals that differ by experience; creatures a keeper can train | On paper |
 
-### Signals
+Imprinting is a pattern, not a function: a Bond mood raised only when young that lingers until calmed.
+
+## 8. Signals
 
 | Signal | Reach | Lasts | Typical use |
 |---|---|---|---|
-| Call | Far, all directions | A moment | Alarm, recruiting, advertising |
-| Mark | Close; followed by smell | Minutes to hours, fading | Trails, territory, nest sites |
-| Display | Line of sight | While shown | Courtship, threat, warning |
+| Call | Near or far (a setting); all directions | A moment | Alarm, recruiting, advertising, keeping in touch |
+| Mark | Close; followed by smell | Short or long (a setting), fading | Trails, territory, nest sites, warnings |
+| Display | Line of sight | While shown | Courtship, threat, begging, bluff |
 
-Signals are public. There is a small shared set of sounds, scents and displays, and any species with the right sense can notice any of them. A player names what a sound means for their own species; nothing stops another species reacting to it.
+- **Signals are public.** There is a small shared set of sounds, scents and displays, and any species with the right sense can notice any of them. A player names what a sound means for their own species; nothing stops another species reacting to it, or making it.
+- **Signals can be graded.** A call made by a strong instinct, or one scaled with "more when Scared", is louder.
+- **Signals can lie.** A species can make another's mating call, lay a nest scent where there is no nest, or show a display it does not mean.
+- **Telling who made it.** Marks can be told apart as mine, my kind's or a stranger's. Calls and displays cannot at first; "from my kind" is a later refinement that a mimic body part can defeat.
+- **Pointing.** Facing something while showing a display gives watchers a direction: "see my kind showing → go the same way" sends them where it points.
+- **Treaties.** Because displays are public, two players can agree a convention, such as "mine will not bite anything showing blue". Nothing enforces it.
 
-## Body, sex and age
+## 9. Body, sex, age and caste
 
-- **The body sets the vocabulary.** Eyes give see and its range; a nose gives smell; ears give hear; a voice, scent gland or crest gives call, mark or show; a mouth type decides what bite can eat. A brain can only use what the body has.
-- **Sex.** A species is either cloning or two-sexed. In a two-sexed species every individual runs the same brain, and "only when female" or "only when male" makes the sexes behave differently. Parts can also be grown by one sex only.
-- **Age.** "Only when young" and "only when adult" do the same for life stages.
+- **The body sets the vocabulary.** A brain can only use the senses and acts its parts provide.
+- **Sex.** A species is cloning or two-sexed. Every individual runs the same brain; "only when female" makes the sexes behave differently. Parts can be grown by one sex only.
+- **Age.** "Only when young" and "only when adult" do the same for life stages, and parts can be tied to a stage, so young and adults can have different bodies.
+- **Caste.** A Born with mood divides a species into kinds of individual, and parts can be tied to it.
 
-## How relationships between species arise
+## 10. How relationships between species arise
 
 None of these is a setting. Each falls out of pieces that exist for other reasons.
 
@@ -155,19 +348,26 @@ None of these is a setting. Each falls out of pieces that exist for other reason
 |---|---|
 | Predator and prey | Size senses and bite |
 | Learned enemies and allies | Learn: "see one that hurt me → move away" |
+| Returning favours | Learn: "see one that fed me, while carrying → give" |
 | Eavesdropping | Reacting to another species' alarm call or trail |
 | Luring | Making another species' mating call |
 | Nest raiding | Following another species' nest scent to its eggs |
-| Brood parasitism | Laying where another species' nest scent is strong |
-| Cleaning | One species grooms, the other holds still when groomed |
+| Decoys | Laying nest scent where there is no nest |
+| Brood parasitism | Laying where another species' nest scent is strong; the host tends what it finds |
+| Cleaning | One species tends; the other holds still when tended |
+| Riding | A small species clings to a big one and is carried |
+| Parasites | Cling, then bite |
 | Following | Staying near a bigger species to eat what it leaves |
 | Guarding | A small species' alarm call that a big species has chosen to heed |
+| Herding | Staying near another species, driving off its enemies, and being fed by it |
+| Tribute | Giving food to a bigger species that has learned to spare whoever feeds it |
+| Treaty | A shared display both species have agreed to respect |
 
-Warning colours, camouflage and mimicry need senses tuned to appearance. That layer is deferred; see "Gaps".
+Warning colours, camouflage and mimicry of appearance need senses tuned to colour or pattern. That layer is still deferred.
 
-## Tested recipes
+## 11. Tested recipes
 
-Each list is what was run, apart from the grazing rows noted under courtship. "(weak)" and "(strong)" are instinct strengths.
+Each list is what was run, apart from grazing and wandering rows noted where they were left out. "(weak)" and "(strong)" are instinct strengths.
 
 ### Pack hunt on big prey
 
@@ -179,7 +379,7 @@ Moods
   Brave:   lingers briefly, kicks in high
 
 see bigger creature → raise Hunting (quickly)
-many my kind → raise Brave (quickly)
+see a few my kind → raise Brave (quickly)
 always → call "Prey!"                  only when Hunting
 hear "Prey!" → approach                not when Hunting
 see bigger creature → approach         only when Brave
@@ -194,11 +394,9 @@ always → wander (weak)
 | Attack only when Brave, no call | 2 | 0.6 | 1506 |
 | Brave plus the call (above) | 100 | 3.1 | 445 |
 
-Courage without a way to gather is useless; with the call, the pack kills every time and in under half the time.
-
 ### Choosy courtship
 
-In the check, each sex ran only its own rows.
+Each sex ran only its own rows. Both also grazed and wandered.
 
 ```
 Mood
@@ -216,18 +414,12 @@ Male
   touch female → mate
 ```
 
-Both sexes also had grazing rows (see plant → approach, only when hungry; touch plant → bite) and a weak wander.
-
-Males that display competed with identical males that never do (30 runs).
-
-| Female design | Displayers' share of matings |
+| Female design (30 runs) | Share of matings going to males that display |
 |---|---|
 | Accepts any male at once | 50% |
 | Charmed by any displaying male in sight | 66% |
 | Charmed only by a displaying male close by | 77% |
 | Charmed is a Bond; mates only with that male | 100% |
-
-Without Bond, one male's display charms her and a male that never displays takes the mating. Cheating emerged without being designed, and Bond is what closes it.
 
 ### Nesting ground
 
@@ -245,7 +437,7 @@ smell "Nest" → approach (strong)       only when gravid
 always → wander (weak)
 ```
 
-With six equal patches of cover (30 runs), the busiest patch took 36% of later eggs without the scent rows and 45% with them, and the number of patches still in use fell from 5.6 to 4.8. The scent concentrates laying, but modestly.
+With six equal patches of cover (30 runs), the busiest patch took 36% of later eggs without the scent rows and 45% with them.
 
 ### Flocking
 
@@ -256,98 +448,311 @@ see my group → go the same way
 always → wander (weak)
 ```
 
-Alignment (0 is random headings, 1 is all the same way) was 0.86 with these rows. The same rows using only the nearest neighbour gave 0.14. Flocking needs "my group".
+Alignment (0 is random headings, 1 is all the same way) was 0.86. With only the nearest neighbour it was 0.14.
 
-## Recipes on paper
+### Choosing a target
 
-Short forms; none of these has been run.
+Three hunters against a shoal of 24 flocking prey slightly slower than them (25 runs). Every chase was strong, and each hunter also had "touch smaller creature → bite" and a weak wander.
+
+| Hunter design | Prey caught per run |
+|---|---|
+| see smaller creature → approach | 10.3 |
+| see lone smaller creature → approach | 4.3 |
+| Bond: lock on to one, then approach it | 11.4 |
+| see smaller creature → head off | 10.9 |
+| Bond, then head off | 11.9 |
+
+Locking on caught about a tenth more than taking the nearest, heading off about half that, and both together about a sixth more. Picking the straggler did far worse.
+
+### Torn between food and fear
+
+All the food grows close to a creature that bites on touch (one forager, 40 runs).
+
+```
+see plant → approach                   only when hungry
+touch plant → bite
+see bigger creature → move away (strong)    not when very hungry
+always → wander (weak)
+```
+
+| Forager design | Alive at the end | Killed by the big one | Meals |
+|---|---|---|---|
+| No fear | 23 of 40 | 5 | 15.1 |
+| Always moves away | 0 of 40 | 0 | 0 |
+| Moves away, but not when very hungry (above) | 31 of 40 | 0 | 19.3 |
+
+### Flashing in time
+
+```
+Mood
+  Beat: Rhythm
+
+always → show glow                     only when Beat
+see my kind showing → hurry Beat
+```
+
+Twenty-four creatures started at random points in their rhythm (30 runs). Togetherness (1 is all flashing at once) was 0.20 without the second row and 1.00 with it.
+
+### Remembering a place
+
+One food patch regrows far from where ten foragers start (20 runs).
+
+```
+Mood
+  Feast: Place, lingers until calmed
+
+see plant → approach                   only when hungry
+touch plant → bite
+touch plant → raise Feast (quickly)
+my Feast place → approach              only when hungry, only when Feast
+always → wander
+```
+
+Meals per forager rose from 10.9 to 20.7, and time spent very hungry fell from 76% to 59%.
+
+## 12. Behaviour atlas
+
+Short forms. None has been run unless marked. "Needs" names the latest piece required.
+
+### Finding the way
 
 | Behaviour | Built from | Needs |
 |---|---|---|
-| **Feeding** | | |
+| Following a gradient | see warmer → approach | Mid |
+| Gathering where it is comfortable | feel cold → wander wide; feel warm → hold still | Start |
+| Searching where food was | just ate → raise Searching; only when Searching → wander tight | Mid |
+| Returning to a food patch | Tested above | Place |
+| Avoiding where it was hurt | Fright: Place, raised by just bitten; my Fright place → keep apart (far) | Place |
+| Following an edge | see edge → go along | Mid |
+| Following a trail | smell "Trail" → go along | Mid |
+| Patrolling a border | always → mark; smell the edge of my own marks → go along | Mid |
+| Migration | when cold → approach warmer, with flocking rows | Mid |
+| Leaving home | only when adult: my Birth place → keep apart (far) | Place |
+| Breeding where it hatched | Birth: Place, raised by just hatched; when fertile → approach my Birth place | Place |
+| Searching where it lost something | just lost sight of it → raise Seeking (Place); my Seeking place → approach, wander tight | Place |
+
+### Feeding
+
+| Behaviour | Built from | Needs |
+|---|---|---|
 | Grazing | see plant → approach, only when hungry; touch plant → bite | Start |
 | Scavenging | see meat → approach; touch meat → bite | Early |
-| Ambush | in cover and hungry → hold still; near smaller creature → sprint, bite | Mid |
-| Hoarding | carrying → approach home; at home → drop | Home |
-| Food trails | carrying → approach home and mark "Trail"; not carrying → approach "Trail" and move away from home (weak) | Home; trail direction is a known hard case |
-| Egg raiding | smell a stranger's "Nest" → approach; touch egg → bite | Mid |
-| **Defence** | | |
-| Fleeing | see bigger creature → move away | Start |
-| Staying wary | Wary: raised by pain, lingers a long time; only when Wary → stay near cover | Early |
+| Pursuit | see smaller creature → approach (strong, sprinting) | Start |
+| Stalking | see smaller creature looking away → approach (creeping); looking at me → hold still | Mid |
+| Ambush | feel covered and hungry → hold still; near smaller creature → approach (sprinting), bite | Mid |
+| Cutting off | Tested above | Mid |
+| Fixing on one prey | Tested above | Bond |
+| Pack hunt on big prey | Tested above | Mid |
+| Joining a feast | see my kind eating → approach | Mid |
+| Stealing | see creature carrying → approach; touch it → grab | Mid |
+| Hoarding | carrying food → approach my Home place; there → drop | Place |
+| Defending a kill | near meat: see creature coming at me → show threat, bite | Mid |
+| Food trails | carrying food → approach my Home place and mark "Trail"; not carrying → go along "Trail", keep apart from home | Place |
+| Passing food along | carrying, near my kind not carrying → give | Mid |
+| Feeding in a current | hold still facing upstream; bite what touches | Mid |
+| Raiding when starving | Tested above | Start |
+| Fattening before winter | when cold → approach plant even when not hungry | Mid |
+| Keeping another species | see [species] → stay near; touch it → tend, and it feeds me | Late |
+
+### Staying alive
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Fleeing | see bigger creature → move away (sprinting) | Start |
+| Staying wary | Wary: raised by just bitten, lingers a long time; only when Wary → stay near cover | Early |
 | Freezing or hiding | see bigger creature → hold still, or hide | Mid |
-| Alarm calls | see bigger creature → call "Danger"; hear "Danger" → raise Scared; only when Scared → approach cover | Early |
-| Mobbing | many my kind → raise Brave; only when Brave → approach bigger creature, bite | Mid |
-| Sentinels | Watchful: Born with, one in eight; only when Watchful → hold still, and call on seeing a bigger creature | Born with |
-| **Daily and seasonal** | | |
-| Nocturnal habits | feeding rows "only when dark"; when light → approach cover, rest | Start |
+| Flight distance | far bigger creature → watch; near bigger creature → move away | Mid |
+| Reading intent | bigger creature coming at me → move away; looking away → carry on | Mid |
+| Getting used to it | Used: raised slowly by see bigger creature; move away, not when Used | Early |
+| Alarm calls | see bigger creature → call "Danger"; hear "Danger" → raise Scared | Early |
+| Different alarms | A different call for each kind of threat, each raising a different mood | Mid |
+| Graded alarm | call "Danger", more when Scared | Mid |
+| Mobbing | see a few my kind → raise Brave; only when Brave → approach bigger creature, bite | Mid |
+| Standing ground in numbers | feel outnumbering → approach; feel outnumbered → move away | Mid |
+| Hiding in the herd | only when Scared → approach my group | Mid |
+| Sentinels | Watchful: Born with, one in eight; only when Watchful → watch, and call on seeing a bigger creature | Born with |
+| Watching in shifts | Watch: Rhythm starting at a random point; only when Watch → watch | Rhythm |
+| Bluff | see bigger creature coming at me → puff up | Mid |
+| Playing dead | just bitten → play dead | Mid |
+| Leading danger away | near my egg, see bigger creature → show "hurt", move away (creeping) | Mid |
+| Fighting when cornered | feel stuck, only when Scared → bite | Mid |
+| A wave of panic | Scared: Catching; Scared just ended → raise Spent; raise Scared, not when Spent | Catching |
+
+### Day and year
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Night habits | feeding rows only when dark; when light → approach cover, rest | Start |
 | Shared roosts | resting → mark "Roost"; when light → approach "Roost" | Early |
 | Winter sleep | when cold → approach cover, rest | Mid |
-| Migration | when cold → approach warmer | Mid |
-| **Breeding** | | |
-| Finding mates | feel fertile → call or mark; hear or smell it → approach | Early |
-| Male contests | see male showing → show, approach; Rival raised by it; touch male → bite, only when Rival | Mid |
-| Pair bonds | Mate: Bond, lingers a long time; see my Mate one → stay near | Bond |
-| Guarding eggs | Brooding raised by laying; only when Brooding → stay near egg, bite smaller creatures near it | Mid |
-| Feeding young | carrying and near young → give | Mid |
-| Young keeping close | only when young → stay near adult | Early |
-| **Social** | | |
-| Herding under threat | flocking rows, plus only when Scared → stay near my group (strong) | Mid |
-| Spacing and territory | always → mark; smell a stranger's mark → move away | Early |
-| Castes | Born with moods that switch on different sets of instincts | Born with |
-| Age roles | only when young → stay near home; only when adult → roam | Home |
-| Panic | Scared with Catching | Catching |
+| Basking | when cold → approach brighter, hold still | Mid |
+| Huddling | when cold → approach my group, hold still | Mid |
+| Flashing in time | Tested above | Rhythm |
+| Breeding all at once | Ready: Rhythm, hurried by see my kind showing; only when Ready → lay and show | Rhythm |
 
-## What testing changed
+### Breeding
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Finding mates | feel fertile → call or mark; hear or smell it → approach | Early |
+| Choosy courtship | Tested above | Bond |
+| Gifts | male, carrying food, near female → give; female: just fed → raise Charmed | Mid |
+| Contests | see bigger male → move away; see smaller male → approach, show threat | Mid |
+| Gathering to display | males: hear male calling → approach, and call; females approach a few males showing | Mid |
+| Hanging about a displayer | see male showing → stay near; see female → approach | Mid |
+| Cheating | Emerged unprompted in the courtship test | |
+| Guarding a mate | see my Mate one → stay near; near male → show threat | Bond |
+| Pair bonds | Mate: Bond, lingers a long time; see my Mate one → stay near | Bond |
+| Breeding alone | feel alone and fertile → lay, if the body can clone | Early |
+| A last effort | only when old → lay whenever fertile, even when hungry | Early |
+
+### Raising young
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Choosing a nest site | Tested above | Early |
+| Nesting together | Tested above | Early |
+| Sitting on eggs | touch my egg → tend | Mid |
+| Guarding eggs | Brooding: raised by just laid; only when Brooding → stay near egg, bite smaller creatures near it | Mid |
+| Feeding young | carrying food, near young → give | Mid |
+| Begging | young: feel hungry → show "beg"; adult: see young showing "beg" → approach, give | Mid |
+| Carrying young | touch young → grab; or young: touch adult → cling | Mid |
+| Following the parent | Parent: Bond, raised only when young by see adult; see my Parent one → stay near | Bond |
+| A nursery | only when young → approach a few young | Mid |
+| Helpers | adult, not fertile, near family young → give | Late |
+| Throwing out strangers' eggs | touch stranger's egg → grab; carrying it → move away from my Home place, drop | Late |
+| Laying in another's nest | smell a stranger's "Nest" → approach, lay | Mid |
+
+### Living in groups
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Flocking | Tested above | Mid |
+| Spacing out | always → mark; smell a stranger's mark → move away | Early |
+| Neighbours and strangers | see a familiar one → carry on; see a stranger of my kind in my Home place → approach, bite | Learn |
+| Rank | just bit one of my kind → raise Confident; see bigger of my kind → keep apart, not when Confident | Mid |
+| Following a leader | Leader: Bond, raised by see biggest of my kind; see my Leader one → stay near, go the same way | Bond |
+| Deciding together | at a candidate site: see a few my kind → raise Settled; only when Settled → call "Here" | Mid |
+| Castes | Born with moods that switch on different instincts | Born with |
+| Division of labour | A Born with mood whose kick-in point varies between individuals | Born with |
+| Age roles | only when young → stay near my Home place; only when adult → wander wide | Place |
+| Returning favours | see one that fed me, while carrying → give | Learn |
+| Grudges | see one that hurt me → bite | Learn |
+| Learning enemies from others | see one that hurt my kind → move away | Learn |
+| Removing the dead | touch the dead of my kind → grab; carrying it → keep apart from my Home place, drop | Place |
+
+### Colonies
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| One breeder | Queen: Born with, rare; only when Queen → lay, mark "Queen"; others: smell "Queen" → not lay | Born with |
+| Nurses and foragers | only when young → tend eggs near home; only when adult → forage | Place |
+| Recruiting to food | carrying food → mark "Trail"; smell "Trail" → go along | Place |
+| Building a mound | carrying material: smell "Build" → drop, mark "Build" | Late |
+| Living chains | at an edge: touch my kind clinging → cling | Mid |
+| Founding a new nest | feel crowded, only when Queen → wander wide, call "Follow"; hear "Follow" → approach | Born with |
+| Raiding a rival nest | smell a stranger's "Nest" → approach; touch egg → grab; carrying egg → approach my Home place | Place |
+
+### Talking
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Keeping in touch | sometimes → call "Here"; see no my kind, hear "Here" → approach | Early |
+| Food calls | just ate → call "Food" | Mid |
+| Pointing the way | at home, only when Feast → face my Feast place, show "dance"; see my kind showing "dance" → go the same way | Place |
+| Passing a message on | hear "Danger" → call "Danger", not when Spent | Mid |
+| No-entry marks | at a dead end → mark "Keep out"; smell "Keep out" → move away | Mid |
+| Overmarking | smell a stranger's mark → wipe, mark | Mid |
+| A false alarm | near meat: see creature coming at me → call "Danger" | Mid |
+
+### Beyond nature
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Decoys | Decoy: Born with, one in ten; only when Decoy: see bigger creature → approach, call | Born with |
+| Lighthouses | Beacon: Born with, rare; only when Beacon → hold still at my Home place, call "Home"; others, carrying → approach "Home" | Born with |
+| Toll gates | In a narrow gap → hold still; just fed → raise Paid (lingers briefly); only when Paid → move away | Mid |
+| A population on one clock | A shared Rhythm, hurried by each other, switching the whole species between feeding and hiding | Rhythm |
+| A raid on a signal | Ready: Count of "Muster" calls heard; only when Ready → call "Go"; hear "Go" → approach a stranger's "Nest" | Count |
+| A flock that follows the player | Tame: raised only when young by see my keeper, lingers until calmed; only when Tame: see my keeper → stay near | Early |
+| Trained individuals | Habit on chosen instincts, with keeper's touch as the reward | Habit |
+
+## 13. What the vocabulary still cannot say
+
+- **Comparing two things noticed.** "Is the food nearer than the threat?" can only be approximated by blending.
+- **Placing itself relative to two things at once:** getting between its young and a threat, or driving a herd toward a chosen place.
+- **More than one place per mood,** or a route between places.
+- **Knowing individuals** beyond one Bond per mood and "familiar".
+- **Exact counting** of what is in view, or arithmetic of any kind.
+- **A fixed plan** whose steps happen in order whatever the world does.
+- **Messages with content** beyond a name, a loudness and, through pointing, a direction.
+- **Teaching a skill** as opposed to passing on what to fear or favour.
+- **Appearance.** Warning colours, camouflage and mimicry of looks remain deferred.
+
+**What the world must provide** for parts of this vocabulary to mean anything: cover that blocks sight; darkness; warmth and cold; water depth or current; carcasses, eggs and young as things that can be carried; building material; heavy things that need several carriers; and eggs and young that do better when tended.
+
+## 14. What testing changed
 
 1. **How moods fill.** At first a mood faded continuously, so one raised slowly could never reach its kick-in point: courtship and nesting produced no matings and no eggs. Rule 4 now says a mood fades only while nothing is raising it.
-2. **Wider speed steps.** The first speed settings were about a factor of three apart. They are now about a factor of ten apart, so one setting can suit a reflex and another a ritual. This was a judgement call: the tests did not show it changing an outcome.
-3. **"My group" is required for flocking.** The nearest neighbour alone gives cohesion but no shared heading.
-4. **Calling the pack together can make things worse.** Against small prey slightly slower than the hunters on an open plain, six scattered hunters with no signals caught it in 95 of 100 runs. Adding "call, and come to the caller" cut that to 35, most likely because the pack bunched up behind the prey and lost the spread that had been cornering it. Adding keep apart and circle recovered it to 81, still below no signals at all.
-5. **Packs pay off against prey one hunter cannot take.** That is the table under "Pack hunt on big prey". The body side of the game has to supply such prey for pack designs to be worth their cost.
-6. **Mate choice needs Bond.** Without it, choosiness is exploitable, as the courtship table shows.
-7. **Choosiness did not reward attentive males.** An earlier test pitted attentive males against males strongly drawn to food. The attentive ones took about two-thirds of matings whatever the females required, so a slow-filling mood on its own did not select for persistence as expected.
+2. **Wider speed steps.** Now about a factor of ten apart. This was a judgement call; the tests did not show it changing an outcome.
+3. **Flocking needs "my group".** The nearest neighbour alone gives cohesion but no shared heading.
+4. **Calling the pack together can make things worse.** Against small prey on an open plain, six scattered hunters with no signals caught it in 95 of 100 runs; adding "call, and come to the caller" cut that to 35, most likely because the pack bunched up behind the prey.
+5. **Packs pay off against prey one hunter cannot take.** See the pack hunt table.
+6. **Mate choice needs Bond.** Without it, males that never display took a third of matings.
+7. **Choosiness did not reward attentive males** over males strongly drawn to food: their share stayed at about two-thirds whatever the females required.
+8. **Strength sets speed.** With a normal-strength chase, hunters caught 1.6 prey per run from a shoal; with a strong one, 10.3. A chase that is not marked strong ambles. Rule 2 now says so, and the designer should make it visible.
+9. **Target choice mattered less than expected.** Locking on and heading off together caught about a sixth more than taking the nearest. Picking the straggler cut catches by more than half.
+10. **Degree words earn their place.** "Not when very hungry" turned a forager that always starved into one that survived in 31 of 40 runs and was never caught.
+11. **Rhythm is "hurried by", not "restarted by".** Being nudged toward the next pulse brought 24 creatures fully into step. Restarting on each flash seen was the first idea; it was dropped on reasoning, not tested.
+12. **Place memory doubled feeding** in a patchy world.
 
-Findings 4, 6 and 7 were not predicted. They are the kind of result the game is meant to produce, and also a warning that recipes cannot be trusted until run.
+Findings 4, 6, 7, 8 and 9 were not predicted. Recipes in the atlas should not be trusted until run.
 
-## The designer on a phone
+## 15. Keeping a large vocabulary learnable
 
-- **Mood board.** The brain screen shows the moods as large bubbles, plus an "always" group for instincts with no condition. The game draws arrows between moods that raise or calm each other; the player never routes anything.
-- **Mood card.** Tapping a mood opens its settings and two lists: what raises and calms it, and the instincts that run only when it is on.
-- **Instinct row.** `[notice] → [do]`, a strength, and up to two condition chips. Each slot is filled by tapping it and choosing from a sheet that shows only what this body can sense or do and what is unlocked. Nothing is typed or dragged except to reorder rows for tidiness; order has no effect.
-- **Test tank.** The top half of the screen runs the creature live. Buttons drop food, add a bigger creature, add ten of its own kind, switch day to night, or bring in the species currently alive in the shared world.
-- **Watching it think.** Mood bubbles fill as the creature feels them, firing instincts glow, and the creature shows its strongest mood as an emote using the player's own name and icon for it. The same view opens on any of the player's creatures in the live world, which is the daily check-in.
-- **After a death.** A strip shows the species' moods over its last hours and which instincts were firing, so the player can see what it was doing when it failed.
-- **Small edits to a living species.** One change at a time: one setting, one row added or removed, or one condition. Changes apply to newborns.
-- **Puzzles.** A ladder of small tank challenges ("reach the food without being caught, four rows") introduces each piece and gates its unlock, with a daily puzzle scored on fewest rows among friends.
+The vocabulary is now about seven reaches, five quantities, six ways of choosing, twenty-five kinds, a dozen states, thirty-five acts and nine functions. Four things keep that manageable:
 
-## Budget and unlocks
+- **Slots.** A notice is assembled from short lists, one slot at a time, and most slots are left at their default.
+- **The body.** A species sees only the words its parts provide. A blind burrower's lists are short.
+- **Unlocks.** A new player starts with about a dozen words.
+- **Puzzles.** Each new word arrives with a small tank challenge that needs it.
+
+## 16. The designer on a phone
+
+- **Mood board.** Moods appear as large bubbles, plus an "always" group for instincts with no condition. The game draws arrows between moods that raise or calm each other; the player never routes anything.
+- **Mood card.** Tapping a mood opens its settings, what raises and calms it, and the instincts that run only when it is on.
+- **Instinct row.** A notice phrase, an arrow, an act, and condition chips. Tapping a slot opens a sheet showing only what this body can sense or do and what is unlocked. Order has no effect.
+- **Strength and pace are visible** on every moving instinct, because a chase left at normal strength ambles.
+- **Test tank.** The top half of the screen runs the creature live, with buttons to drop food, add a bigger creature, add ten of its own kind, switch day to night, or bring in the species currently alive in the shared world.
+- **Watching it think.** Mood bubbles fill, firing instincts glow, and the creature shows its strongest mood as an emote using the player's own name and icon for it. The same view opens on any creature in the live world.
+- **Warnings.** The designer flags an instinct that has never fired, a mood that can never reach its kick-in point, and a creature that spends long periods torn or idle.
+- **After a death.** A strip shows the species' moods over its last hours and which instincts were firing.
+- **Edits to a living species.** A couple a day, applied to newborns.
+- **Puzzles.** A ladder of tank challenges that introduce each word, and a daily puzzle scored on fewest rows among friends.
+
+## 17. Budget and unlocks
 
 One fixed budget covers body and brain, and it never grows.
 
 - Body parts cost points, and the senses and acts they bring come with them.
-- Each mood, each instinct and each mood function costs points. Moods also cost energy to run, so a large brain needs a better diet.
-- A separate cap keeps brains readable: about six moods, twenty-four instincts and two conditions per instinct. These numbers are placeholders until the simulation can price them.
-
-Unlocks add kinds of piece, not capacity:
+- Each mood, instinct and function costs points. Moods also cost energy to run.
+- A separate cap keeps brains readable: about six moods, twenty-four instincts and two conditions per instinct. These numbers are placeholders.
 
 | Stage | Opens up |
 |---|---|
-| Start | Plants, sizes, own kind; approach, move away, wander, bite, rest, lay; two moods |
-| Early | Sexes and mating; calls and marks; near; keep apart, stay near; cover; "until calmed" |
-| Mid | Many, my group; go the same way, circle, hold still, sprint; carrying; displays; species I have met; eggs as food |
-| Late | The mood functions, one at a time; grooming; more sounds, scents and displays |
+| Start | touch, see; a, no; plants, sizes, own kind, my keeper; approach, move away, wander, bite, rest, lay; hungry, dark; only when, not when; two moods |
+| Early | hear, smell, near; sexes and mating; calls and marks; stay near, keep apart; cover; young and adult; degree words; "until calmed" |
+| Mid | far, feel; a few, many, a crowd, my group; biggest, smallest, weakest, lone; what it is doing; moments; idle, torn, stuck; more when, less when; go along, go the same way, head off, get behind, circle, face, hold still, watch; pace; grab, give, tend, cling; show, poses, wipe; gradients; species I have met |
+| Late | The mood functions, one at a time; family and stranger; dig, build; ping; more sounds, scents and displays |
 
-## Gaps and risks
+## 18. Risks
 
-- **Which one?** A notice reports the nearest match. "Many", "my group" and Bond cover the cases found so far, but others will appear, such as choosing the weakest of several prey.
-- **No sequences.** A fixed order of steps can only be approximated with moods that raise one another. Whether players miss it is unknown.
-- **Direction is not remembered,** except through Home and through marks left in the world.
-- **Appearance is deferred.** Senses use plain kinds (bigger, my kind, a species I have met). Warning colours, camouflage and mimicry need senses tuned to colour or pattern, which adds a layer of difficulty and is left for later.
-- **Tuning.** Outcomes flipped on single settings in testing. The game needs a fast test loop to make that enjoyable.
-- **The stand-in world is crude.** Bites are instant, there is no terrain, and prey are simple. Results show whether a recipe works at all, not how well it would do in the game.
-- **Untested with people.** Whether friends can build these on a phone, and read them back a week later, is the largest unknown.
+- **Size.** The vocabulary has more than doubled. Section 15 is a plan for keeping it learnable, not evidence that it is.
+- **Tuning.** Outcomes flipped on single settings in testing.
+- **The stand-in world is crude.** Bites are instant, there is no terrain, and prey are simple.
+- **Untested with people.** Whether friends can build these on a phone, and read them back a week later, is still the largest unknown.
 
-## Next
+## 19. Next
 
-1. A phone prototype of the designer and test tank, with the Start and Early vocabulary, tried on two or three friends.
-2. Run the paper recipes through the stand-in world, starting with alarm calls, guarding eggs and food trails, and add the remaining mood functions to it.
+1. A phone prototype of the designer and test tank with the Start and Early vocabulary, tried on two or three friends.
+2. Run the atlas through the stand-in world, starting with the pieces nothing has exercised yet: moments, what-it-is-doing, attention, and the Catching, Count, Born with and Learn functions.
