@@ -1,0 +1,477 @@
+<title>Creature Art Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one large lit scene with its controls above, a close-up beside it, then notes on each direction. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --card: #ffffff; --line: #d2dcd7;
+    --accent: #b8355b; --press: #17282b; --press-ink: #f3f7f5;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 26px; }
+  header, section { display: flex; flex-direction: column; gap: 10px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.2; margin: 0; text-wrap: balance; }
+  h3 { font-family: var(--display); font-weight: 700; font-size: 17px; margin: 0; }
+  p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .lede strong { color: var(--ink); font-weight: 600; }
+  .controls { display: flex; flex-direction: column; gap: 10px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .label { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; min-width: 52px; }
+  button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  button:hover { border-color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"], button.primary { background: var(--press); color: var(--press-ink); border-color: var(--press); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+  @media (min-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr) 250px; } }
+  .scene { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 18px; cursor: pointer; touch-action: manipulation; max-width: 100%; background: #24484a; }
+  .side { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .closeup { width: 100%; max-width: 230px; aspect-ratio: 1; display: block; border-radius: 50%; align-self: center; background: #24484a; }
+  .traits { font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: 0.02em; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips button { padding: 4px 10px; font-size: 13px; }
+  .note { color: var(--muted); font-size: 14px; }
+  .dirs { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 620px) { .dirs { grid-template-columns: repeat(2, 1fr); } }
+  .dir { border-top: 2px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .dir .tag { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 70ch; }
+  .fail { padding: 14px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); }
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="kicker">Art direction trial · second pass</p>
+    <h1>Four ways the pond could look</h1>
+    <p class="lede">One pond and one cast of critters, rendered four ways with real lighting. <strong>Each look is a different material</strong>: modelled clay, translucent jelly, needle felt, and cut paper. Switch the look and the time of day, then tap a critter for a close-up or tap the ground to call them over.</p>
+  </header>
+
+  <div class="controls">
+    <div class="row" role="group" aria-label="Look">
+      <span class="label">Look</span>
+      <button type="button" data-style="0" aria-pressed="true">Clay hollow</button>
+      <button type="button" data-style="1" aria-pressed="false">Jelly cove</button>
+      <button type="button" data-style="2" aria-pressed="false">Felt garden</button>
+      <button type="button" data-style="3" aria-pressed="false">Paper lagoon</button>
+    </div>
+    <div class="row" role="group" aria-label="Light">
+      <span class="label">Light</span>
+      <button type="button" data-light="morning" aria-pressed="true">Morning</button>
+      <button type="button" data-light="golden" aria-pressed="false">Golden hour</button>
+      <button type="button" data-light="night" aria-pressed="false">Night</button>
+    </div>
+    <div class="row" role="group" aria-label="Mood">
+      <span class="label">Mood</span>
+      <button type="button" data-mood="0" aria-pressed="true">Calm</button>
+      <button type="button" data-mood="1" aria-pressed="false">Hungry</button>
+      <button type="button" data-mood="2" aria-pressed="false">Scared</button>
+      <button type="button" data-mood="3" aria-pressed="false">Charmed</button>
+      <button type="button" data-mood="4" aria-pressed="false">Sleepy</button>
+      <button class="primary" id="shuffle" type="button" style="margin-left:auto">Shuffle species</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <canvas class="scene" id="scene" aria-label="Live pond scene with critters"></canvas>
+    <aside class="side">
+      <canvas class="closeup" id="closeup" aria-label="Close-up of the selected critter"></canvas>
+      <h3 id="cname">Critter</h3>
+      <div class="traits" id="ctraits"></div>
+      <div class="chips" id="chips"></div>
+    </aside>
+  </div>
+  <div class="fail" id="fail" hidden>This page needs WebGL 2 to draw the scene, and this browser did not provide it.</div>
+
+  <section>
+    <h2>The four directions</h2>
+    <div class="dirs">
+      <div class="dir"><span class="tag">Clay hollow</span><h3>Modelled clay in a mossy hollow</h3><p class="note">Matte, hand-pressed bodies under dappled leaf light, with mushrooms in the shade and flowers in the sun. Feels like stop-motion. Parts melt into the body, so any combination looks made on purpose.</p></div>
+      <div class="dir"><span class="tag">Jelly cove</span><h3>Translucent jelly in a bright cove</h3><p class="note">Glossy, see-through bodies over pale sand and clear water. Light passes through thin parts, and at night the critters glow. The most toy-like and the most distinctive in motion.</p></div>
+      <div class="dir"><span class="tag">Felt garden</span><h3>Needle felt on a stitched garden</h3><p class="note">Fuzzy edges, bead eyes and running stitches, on layered felt with a stitched pond. The warmest and most handmade. Needs the least lighting, so it is the cheapest to draw on a phone.</p></div>
+      <div class="dir"><span class="tag">Paper lagoon</span><h3>Cut paper in a layered lagoon</h3><p class="note">Flat painted shapes with white cut edges, and a pond made of stacked sheets stepping down into the deep. Reads like a picture book, and would make the best portraits and share cards.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What changed from the first pass</h2>
+    <ul>
+      <li><strong>Bodies have plans.</strong> Bun, tadpole, pear, bean, noodle and chonk change the outline before any part is added.</li>
+      <li><strong>More parts.</strong> Round, pointed and droopy ears, antennae, gills and horns; whip, fan and stub tails; feet, fins and many legs; a head sprout, a shell or a crest; four patterns and four kinds of eye.</li>
+      <li><strong>Real light.</strong> Bodies and props are shaded from one light, cast shadows, and change with the time of day.</li>
+      <li><strong>Placement rules.</strong> Reeds grow along the shore, flowers in sunny spots, mushrooms in shade, and lily pads only over deeper water.</li>
+    </ul>
+    <p class="note">Everything here is still generated by code: no drawn textures or painted plants. A hand-made set of plants, stones and ground textures, placed by rules like these and lit the same way, is what would take the environments further.</p>
+  </section>
+</main>
+
+<script>
+(() => {
+  const N = 10, W = 400, H = 300, TAU = Math.PI * 2;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rng = (a) => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const lerpA = (a, b, t) => a + ((((b - a) % TAU) + TAU * 1.5) % TAU - Math.PI) * t;
+
+  const VS = `#version 300 es
+in vec2 aPos; void main(){ gl_Position = vec4(aPos, 0.0, 1.0); }`;
+  const FS = `#version 300 es
+precision highp float;
+#define N 10
+#define PI 3.14159265
+uniform vec2 uRes, uSpan, uCenter; uniform float uTime, uNight, uShadowLen;
+uniform int uStyle, uCount; uniform vec3 uSunDir, uSunCol, uAmb, uCall;
+uniform vec4 uA[N]; uniform vec4 uB[N]; uniform vec4 uC[N]; uniform vec4 uD[N]; uniform vec4 uE[N]; uniform vec4 uF[N]; uniform vec4 uG[N]; uniform vec4 uH[N];
+out vec4 outColor;
+
+float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+vec2 hash2(vec2 p){ float n = hash(p); return vec2(n, hash(p + n + 17.1)); }
+float vnoise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y); }
+float fbm(vec2 p){ float a = 0.5, s = 0.0; for (int i = 0; i < 4; i++) { s += a * vnoise(p); p = p * 2.03 + vec2(11.7, 5.3); a *= 0.5; } return s; }
+vec3 hsl(float h, float s, float l){ vec3 rgb = clamp(abs(mod(h / 60.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0); return l + s * (rgb - 0.5) * (1.0 - abs(2.0 * l - 1.0)); }
+float smin(float a, float b, float k){ float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0); return mix(b, a, h) - k * h * (1.0 - h); }
+float sdTaper(vec2 p, vec2 a, vec2 b, float ra, float rb){ vec2 pa = p - a, ba = b - a; float h = clamp(dot(pa, ba) / max(dot(ba, ba), 1e-4), 0.0, 1.0); return length(pa - ba * h) - mix(ra, rb, h); }
+float sdEll(vec2 p, vec2 r){ float k0 = length(p / r), k1 = length(p / (r * r)); return k0 * (k0 - 1.0) / max(k1, 1e-4); }
+float sdUneven(vec2 p, float r1, float r2, float h){ p.x = abs(p.x); float b = (r1 - r2) / h, a = sqrt(max(1.0 - b * b, 0.0)), k = dot(p, vec2(-b, a));
+  if (k < 0.0) return length(p) - r1; if (k > a * h) return length(p - vec2(0.0, h)) - r2; return dot(p, vec2(a, b)) - r1; }
+vec2 rot(vec2 p, float a){ float c = cos(a), s = sin(a); return vec2(c * p.x + s * p.y, -s * p.x + c * p.y); }
+float dome(float d, float R){ float t = clamp(-d / R, 0.0, 1.0); return R * sqrt(1.0 - (1.0 - t) * (1.0 - t)); }
+
+// ---------------------------------------------------------------- the pond
+float pondD(vec2 p){ vec2 q = (p - vec2(212.0, 158.0)) / vec2(1.36, 1.0); float d = length(q) - 88.0 + (fbm(p * 0.013 + 3.1) - 0.5) * 64.0;
+  float brook = sdTaper(p + vec2(sin(p.y * 0.05) * 6.0, 0.0), vec2(318.0, 70.0), vec2(418.0, -20.0), 13.0, 9.0) + (vnoise(p * 0.06) - 0.5) * 6.0;
+  return smin(d, brook, 14.0); }
+float caustic(vec2 p, float t){ vec2 q = p * 0.05; float c = 0.0; for (int i = 0; i < 3; i++) { float f = float(i);
+    q += vec2(sin(q.y * 1.7 + t * 0.6 + f), cos(q.x * 1.9 - t * 0.5 + f * 1.7)) * 0.6; c += abs(sin(q.x + q.y)); } return pow(max(1.0 - c / 3.0, 0.0), 3.0); }
+
+// nearest scattered prop in a jittered grid
+void cellProp(vec2 p, float cs, float seed, out vec2 rel, out vec2 pos, out float r1, out float r2){ vec2 g = floor(p / cs); float best = 1e9; rel = vec2(0.0); pos = vec2(0.0); r1 = 0.0; r2 = 0.0;
+  for (int j = -1; j <= 1; j++) for (int i = -1; i <= 1; i++) { vec2 c = g + vec2(float(i), float(j)); vec2 h = hash2(c + seed); vec2 ps = (c + 0.2 + 0.6 * h) * cs; vec2 r = p - ps; float dd = dot(r, r);
+    if (dd < best) { best = dd; rel = r; pos = ps; r1 = hash(c + seed + 3.7); r2 = hash(c + seed + 9.1); } } }
+// 0 pebble, 1 flower, 2 mushroom, 3 tuft, 4 reeds, 5 lily pad
+float propSD(int type, vec2 rel, float r2){ float t = uTime;
+  if (type == 0) return sdEll(rot(rel, r2 * 6.28), vec2(5.0 + 6.0 * r2, 3.5 + 4.0 * r2));
+  if (type == 1) { float ang = atan(rel.y, rel.x) + r2 * 6.28; return length(rel) - (4.0 + 2.0 * r2) * (0.55 + 0.45 * abs(cos(2.5 * ang))); }
+  if (type == 2) return length(rel) - (4.5 + 2.5 * r2);
+  if (type == 3) { float ang = atan(rel.y, rel.x) + r2 * 6.28; return length(rel) - ((6.0 + 4.0 * r2) * pow(abs(cos(3.0 * ang)), 5.0) + 1.2); }
+  if (type == 4) { float ang = atan(rel.y, rel.x) + r2 * 6.28 + sin(t * 0.9 + r2 * 20.0) * 0.07; return length(rel) - ((11.0 + 6.0 * r2) * pow(abs(cos(2.5 * ang)), 7.0) + 1.5); }
+  float ang = atan(rel.y, rel.x) - r2 * 6.28 - sin(t * 0.3 + r2 * 9.0) * 0.15; ang = atan(sin(ang), cos(ang)); float d = length(rel) - (10.0 + 7.0 * r2);
+  if (abs(ang) < 0.26 && length(rel) > 1.5) d = max(d, (0.26 - abs(ang)) * length(rel)); return d; }
+vec3 lightFlat(float sh, float dap){ return uAmb * 1.12 + uSunCol * 0.64 * dap * (1.0 - 0.55 * sh); }
+vec3 propLit(vec3 alb, vec2 e, vec2 r, float dap, float sh){ float k = clamp(1.0 - length(e / r), 0.0, 1.0), hz = sqrt(1.0 - (1.0 - k) * (1.0 - k)); vec3 n = normalize(vec3(e / r * (1.0 - hz) * 1.3, hz + 0.3));
+  float wrap = clamp((dot(n, uSunDir) + 0.5) / 1.5, 0.0, 1.0); vec3 c = alb * (uAmb + uSunCol * wrap * dap * (1.0 - 0.5 * sh) * 0.9);
+  if (uStyle == 1) c += uSunCol * pow(max(dot(n, normalize(uSunDir + vec3(0.0, 0.0, 1.0))), 0.0), 50.0) * 0.6 * dap; return c; }
+
+vec3 env(vec2 p, float pd, float sh, float dap){
+  float dp = -pd, depth = smoothstep(0.0, 60.0, dp), t = uTime, px = uSpan.x / uRes.x; vec3 col; vec2 L2 = normalize(uSunDir.xy);
+  if (uStyle == 0) { // clay hollow: moss, damp sand, clear water
+    float n1 = fbm(p * 0.06), n2 = vnoise(p * 0.9);
+    vec3 moss = mix(vec3(0.30, 0.47, 0.20), vec3(0.48, 0.64, 0.28), n1) * (0.92 + 0.16 * n2);
+    moss = mix(moss, vec3(0.63, 0.71, 0.36), smoothstep(0.52, 0.72, fbm(p * 0.02 + 9.0)) * 0.55);
+    vec3 sand = vec3(0.80, 0.71, 0.52) * (0.93 + 0.12 * vnoise(p * 0.7));
+    vec3 land = mix(sand, moss, smoothstep(4.0, 13.0, pd + (n1 - 0.5) * 8.0)); land = mix(land, land * 0.82, smoothstep(7.0, 0.0, pd));
+    vec2 rb; vec2 pb; float b1, b2; cellProp(p, 30.0, 13.0, rb, pb, b1, b2);
+    vec3 bottom = mix(sand, vec3(0.46, 0.50, 0.40), depth * 0.65); bottom = mix(bottom, bottom * vec3(0.80, 0.82, 0.80), smoothstep(6.0 + 4.0 * b2, 2.0 + 3.0 * b2, length(rb * vec2(1.0, 1.0 + b1))) * step(b1, 0.36));
+    bottom += caustic(p, t) * 0.34 * (1.0 - depth * 0.7) * dap; bottom *= 1.0 - 0.5 * sh;
+    vec3 water = mix(bottom, mix(vec3(0.60, 0.85, 0.79), vec3(0.14, 0.47, 0.53), depth), 0.34 + 0.5 * depth);
+    water = mix(water, vec3(0.95, 1.0, 0.97), smoothstep(2.4, 0.5, abs(dp - 1.6 - sin(t * 0.8 + p.x * 0.05) * 0.8)) * 0.5 * (1.0 - depth));
+    col = mix(water * (uAmb * 1.05 + uSunCol * 0.62 * mix(dap, 1.0, 0.5)), land * (uAmb + uSunCol * 0.74 * dap * (1.0 - 0.55 * sh)), smoothstep(-px, px, pd));
+  } else if (uStyle == 1) { // jelly cove: rippled sand, bright water
+    float rip = sin(p.x * 0.33 + p.y * 0.58 + fbm(p * 0.03) * 9.0);
+    vec3 sand = mix(vec3(0.98, 0.91, 0.79), vec3(0.93, 0.83, 0.69), smoothstep(-0.2, 0.6, rip) * 0.5) * (0.96 + 0.08 * vnoise(p * 1.2));
+    vec3 land = mix(sand * 0.9, sand, smoothstep(0.0, 9.0, pd));
+    vec3 bottom = mix(sand, vec3(0.78, 0.90, 0.86), depth * 0.55); bottom += caustic(p, t) * 0.5 * (1.0 - depth * 0.6) * dap; bottom *= 1.0 - 0.45 * sh;
+    vec3 water = mix(bottom, mix(vec3(0.62, 0.95, 0.92), vec3(0.16, 0.66, 0.80), depth), 0.30 + 0.5 * depth);
+    water += pow(vnoise(p * 0.42 + vec2(t * 0.5, -t * 0.35)), 22.0) * 2.4 * (1.0 - uNight * 0.6);
+    water = mix(water, vec3(1.0), smoothstep(2.2, 0.4, abs(dp - 1.4 - sin(t * 0.9 + p.y * 0.06) * 0.8)) * 0.6 * (1.0 - depth));
+    col = mix(water * (uAmb * 1.08 + uSunCol * 0.62), land * (uAmb + uSunCol * 0.72 * dap * (1.0 - 0.5 * sh)), smoothstep(-px, px, pd));
+  } else if (uStyle == 2) { // felt garden: appliqué patches and a stitched pond
+    float fib = vnoise(p * vec2(1.6, 0.5)) * 0.5 + vnoise(p * 2.7) * 0.5, ptc = vnoise(p * 0.028 + 2.0) * 0.62 + vnoise(p * 0.055 + 7.0) * 0.38;
+    vec3 land = ptc < 0.42 ? vec3(0.44, 0.61, 0.40) : ptc < 0.58 ? vec3(0.56, 0.72, 0.42) : vec3(0.69, 0.80, 0.50);
+    float edge = min(abs(ptc - 0.42), abs(ptc - 0.58)) / max(fwidth(ptc), 1e-5) * px;
+    land = mix(land, land * 0.80, smoothstep(1.6, 0.0, edge));
+    land = mix(land, vec3(0.97, 0.95, 0.86), smoothstep(1.0, 0.45, abs(edge - 3.2)) * step(0.5, fract((p.x * 0.8 + p.y * 0.6) * 0.21)) * 0.85);
+    float lv = floor(clamp(dp / 22.0, 0.0, 2.99)), db = dp - lv * 22.0;
+    vec3 wc = lv < 0.5 ? vec3(0.63, 0.83, 0.91) : lv < 1.5 ? vec3(0.50, 0.74, 0.88) : vec3(0.41, 0.64, 0.83);
+    vec2 cc = p - vec2(212.0, 158.0); float arc = atan(cc.y, cc.x) * length(cc);
+    wc = mix(wc, vec3(0.98, 0.99, 1.0), smoothstep(1.3, 0.5, abs(db - 2.8)) * step(0.5, fract(arc * 0.13)) * 0.9);
+    wc *= mix(0.84, 1.0, smoothstep(0.0, 5.0, db));
+    float ripple = smoothstep(1.2, 0.5, abs(fract(length(cc) * 0.045 - t * 0.03) - 0.5) * 22.0) * step(0.5, fract(arc * 0.09)) * smoothstep(40.0, 60.0, dp);
+    wc = mix(wc, vec3(0.96, 0.98, 1.0), ripple * 0.6);
+    col = (pd > 0.0 ? land : wc) * (0.90 + 0.18 * fib) * lightFlat(sh, 1.0);
+  } else { // paper lagoon: stacked sheets stepping down
+    float grain = vnoise(p * 2.3) * 0.5 + vnoise(p * vec2(0.4, 2.0)) * 0.5, bw = 26.0; vec3 c;
+    if (pd > 0.0) { float k = floor(pd / bw), fr = pd - k * bw;
+      c = k < 0.5 ? vec3(0.80, 0.85, 0.63) : k < 1.5 ? vec3(0.67, 0.79, 0.53) : k < 2.5 ? vec3(0.56, 0.71, 0.47) : vec3(0.47, 0.63, 0.45);
+      c *= 1.0 - 0.3 * smoothstep(bw - 7.0, bw, fr) * step(k, 2.5); c = mix(c, vec3(0.99, 0.98, 0.93), smoothstep(1.4, 0.4, fr) * 0.6 * step(0.5, k));
+    } else { float k = floor(dp / bw), fr = dp - k * bw;
+      c = k < 0.5 ? vec3(0.71, 0.89, 0.90) : k < 1.5 ? vec3(0.50, 0.79, 0.87) : k < 2.5 ? vec3(0.33, 0.65, 0.81) : vec3(0.23, 0.50, 0.73);
+      c *= 1.0 - 0.34 * smoothstep(7.0, 0.0, fr); }
+    c = mix(c, vec3(0.99, 0.98, 0.93), smoothstep(1.3, 0.3, pd) * step(0.0, pd) * 0.65);
+    col = c * (0.92 + 0.13 * grain) * lightFlat(sh, 1.0);
+  }
+  bool lit = uStyle < 2;
+  // things on land: reeds by the shore, flowers in sun, mushrooms in shade
+  vec2 rel, pos; float r1, r2; cellProp(p, 42.0, 1.0, rel, pos, r1, r2); float ppd = pondD(pos); int type = -1;
+  if (ppd > 3.0 && ppd < 15.0) type = r1 < 0.72 ? 4 : 0;
+  else if (ppd >= 15.0) { float sunny = fbm(pos * 0.017 + 5.0); if (r1 < 0.24) type = 0; else if (r1 < 0.54) type = sunny > 0.5 ? 1 : 2; else if (r1 < 0.86) type = 3; }
+  if (type >= 0) {
+    float sd = propSD(type, rel, r2); float castLen = type == 2 || type == 0 ? 3.2 : 2.0;
+    float ps = propSD(type, rel + L2 * castLen, r2); col *= 1.0 - (uStyle == 3 ? 0.30 : 0.26) * smoothstep(uStyle == 3 ? 0.4 : 1.6, uStyle == 3 ? -0.4 : -1.6, ps) * step(0.0, sd);
+    float a = smoothstep(px, -px, sd); vec3 pc;
+    if (type == 0) { vec3 alb = uStyle == 1 ? hsl(r1 * 900.0, 0.5, 0.80) : uStyle == 2 ? vec3(0.74, 0.72, 0.70) : uStyle == 3 ? vec3(0.83, 0.79, 0.72) : mix(vec3(0.58, 0.56, 0.52), vec3(0.78, 0.74, 0.66), r2);
+      vec2 e = rot(rel, r2 * 6.28); pc = lit ? propLit(alb, e, vec2(5.0 + 6.0 * r2, 3.5 + 4.0 * r2), dap, sh) : alb * lightFlat(sh, 1.0); }
+    else if (type == 1) { vec3 alb = r2 < 0.33 ? vec3(0.99, 0.97, 0.92) : r2 < 0.66 ? vec3(0.98, 0.72, 0.80) : vec3(0.99, 0.87, 0.45);
+      alb = mix(alb, vec3(0.98, 0.76, 0.22), smoothstep(1.7, 1.2, length(rel))); if (uStyle == 2) alb = mix(alb, vec3(0.35, 0.3, 0.3), smoothstep(0.55, 0.3, length(abs(rel) - 0.55)) * 0.8);
+      pc = alb * (lit ? uAmb + uSunCol * 0.78 * dap * (1.0 - 0.5 * sh) : lightFlat(sh, 1.0)) * (1.0 - 0.12 * smoothstep(0.0, 3.0, length(rel)) * float(lit)); }
+    else if (type == 2) { float rr = 4.5 + 2.5 * r2; vec3 alb = r2 < 0.5 ? vec3(0.86, 0.30, 0.25) : vec3(0.93, 0.58, 0.28);
+      for (int k = 0; k < 4; k++) { vec2 c = rot(vec2(rr * 0.5, 0.0), float(k) * 1.6 + r2 * 5.0); alb = mix(alb, vec3(0.99, 0.96, 0.90), smoothstep(0.9, 0.6, length(rel - c) / (rr * 0.2))); }
+      pc = lit ? propLit(alb, rel, vec2(rr), dap, sh) : alb * lightFlat(sh, 1.0); }
+    else { float len = length(rel) / (type == 4 ? 16.0 : 9.0); vec3 alb = type == 4 ? mix(vec3(0.33, 0.56, 0.30), vec3(0.62, 0.76, 0.38), len) : mix(vec3(0.28, 0.50, 0.22), vec3(0.55, 0.74, 0.33), len);
+      if (uStyle == 1) alb = mix(vec3(0.45, 0.78, 0.62), vec3(0.75, 0.93, 0.70), len); if (uStyle == 2) alb = type == 4 ? vec3(0.36, 0.56, 0.36) : vec3(0.40, 0.60, 0.33); if (uStyle == 3) alb = type == 4 ? vec3(0.36, 0.60, 0.42) : vec3(0.42, 0.63, 0.36);
+      pc = alb * (lit ? uAmb + uSunCol * 0.78 * dap * (1.0 - 0.5 * sh) : lightFlat(sh, 1.0)); }
+    if (uStyle == 3) pc = mix(pc, vec3(0.99, 0.98, 0.93) * lightFlat(sh, 1.0), smoothstep(-1.1, -0.5, sd) * 0.6);
+    if (uStyle == 2) pc *= 0.9 + 0.2 * vnoise(p * 2.6);
+    col = mix(col, pc, a);
+  }
+  // things on the water: lily pads over the deeper parts
+  cellProp(p, 60.0, 7.0, rel, pos, r1, r2); ppd = pondD(pos);
+  if (ppd < -16.0 && r1 < 0.6) {
+    rel -= vec2(sin(t * 0.5 + r2 * 20.0), cos(t * 0.4 + r1 * 20.0)) * 1.2; float sd = propSD(5, rel, r2), rr = 10.0 + 7.0 * r2;
+    float ps = propSD(5, rel + L2 * (uStyle == 3 ? 3.0 : 5.0 + depth * 6.0), r2); col *= 1.0 - 0.26 * smoothstep(uStyle == 3 ? 0.4 : 2.5, uStyle == 3 ? -0.4 : -2.5, ps) * step(0.0, sd);
+    float ang = atan(rel.y, rel.x) - r2 * 6.28; float vein = smoothstep(0.10, 0.02, abs(sin(ang * 5.0))) * smoothstep(1.0, 3.0, length(rel));
+    vec3 alb = uStyle == 1 ? vec3(0.55, 0.86, 0.66) : uStyle == 2 ? vec3(0.42, 0.66, 0.44) : uStyle == 3 ? vec3(0.45, 0.72, 0.50) : vec3(0.36, 0.62, 0.34);
+    alb = mix(alb, alb * 1.25, smoothstep(-2.4, -0.4, sd)); alb = mix(alb, alb * 0.78, vein * (uStyle == 2 ? step(0.5, fract(length(rel) * 0.35)) : 1.0) * 0.7);
+    if (uStyle == 3) alb = mix(alb, vec3(0.99, 0.98, 0.93), smoothstep(-1.2, -0.5, sd) * 0.6);
+    vec3 pc = alb * (lit ? uAmb + uSunCol * 0.76 * mix(dap, 1.0, 0.4) * (1.0 - 0.5 * sh) : lightFlat(sh, 1.0));
+    if (r1 < 0.2) { vec2 fr = rel - vec2(rr * 0.25, rr * 0.1); float fa = atan(fr.y, fr.x); float open = 1.0 - 0.5 * uNight; float fd = length(fr) - (3.6 * open) * (0.6 + 0.4 * abs(cos(4.0 * fa)));
+      vec3 fc = mix(vec3(0.99, 0.80, 0.86), vec3(1.0, 0.97, 0.95), smoothstep(0.5, 3.4, length(fr))); fc = mix(vec3(0.99, 0.84, 0.35), fc, smoothstep(0.7, 1.2, length(fr)));
+      pc = mix(pc, fc * (uAmb * 1.1 + uSunCol * 0.7), smoothstep(px, -px, fd)); }
+    col = mix(col, pc, smoothstep(px, -px, sd));
+  }
+  return col;
+}
+
+// ---------------------------------------------------------------- critters
+#define LOC(w) (vec2(ca * ((w).x - A.x) + sa * ((w).y - A.y), -sa * ((w).x - A.x) + ca * ((w).y - A.y)) / S)
+// signed distance in world units. part: 0 body, 1 accent, 3 shell
+float creature(int i, vec2 p, out float part, out vec2 q){
+  vec4 A = uA[i], B = uB[i], E = uE[i], Hh = uH[i]; float S = A.w * 13.0, ca = cos(A.z), sa = sin(A.z);
+  vec2 rel = p - A.xy; q = vec2(ca * rel.x + sa * rel.y, -sa * rel.x + ca * rel.y) / S;
+  float ph = Hh.x, mv = clamp(Hh.y, 0.15, 1.0), t = uTime, br = 1.0 + 0.035 * sin(t * 2.2 + ph), rb = B.z, rf = B.w; vec2 hc = vec2(B.y, 0.0);
+  float d = sdUneven(vec2(q.y / br, q.x + B.x), rb, rf, B.x + B.y), dl; part = 0.0;
+  vec2 qa = vec2(q.x, abs(q.y)); float sgn = q.y > 0.0 ? 0.0 : PI;
+  int ears = int(E.x + 0.5), tail = int(E.y + 0.5), limbs = int(E.z + 0.5), acc = int(E.w + 0.5);
+  if (limbs == 1) {
+    dl = length(qa - vec2(B.y * 0.6 + sin(t * 8.0 + ph + sgn) * 0.2 * mv, rf * 0.93)) - 0.3; d = smin(d, dl, 0.12);
+    dl = length(qa - vec2(-B.x * 0.65 + sin(t * 8.0 + ph + sgn + PI) * 0.2 * mv, rb * 0.93)) - 0.3; d = smin(d, dl, 0.12);
+  } else if (limbs == 2) { float fl = sin(t * 5.0 + ph) * 0.35; vec2 a0 = vec2(0.2, mix(rb, rf, 0.6) * 0.72), dir = vec2(-cos(1.0 + fl), sin(1.0 + fl));
+    dl = sdTaper(qa, a0, a0 + dir * 1.05, 0.3, 0.13); if (dl < d) part = 1.0; d = smin(d, dl, 0.1);
+  } else if (limbs == 3) { for (int k = 0; k < 3; k++) { float f = float(k) / 2.0;
+      dl = length(qa - vec2(mix(-B.x * 0.8, B.y * 0.5, f) + sin(t * 9.0 + ph + f * 3.0 + sgn) * 0.14 * mv, mix(rb, rf, f) * 0.98)) - 0.2; d = smin(d, dl, 0.08); } }
+  if (ears == 1) { vec2 c = hc + vec2(-0.2 * rf, 0.92 * rf); dl = length(qa - c) - 0.42 * rf; d = smin(d, dl, 0.12); if (length(qa - c) < 0.23 * rf) part = 1.0; }
+  else if (ears == 2) { dl = sdTaper(qa, hc + vec2(-0.05 * rf, 0.7 * rf), hc + vec2(-0.5 * rf, 1.75 * rf), 0.36 * rf, 0.05 * rf); d = smin(d, dl, 0.1);
+    if (sdTaper(qa, hc + vec2(-0.14 * rf, 0.88 * rf), hc + vec2(-0.42 * rf, 1.5 * rf), 0.16 * rf, 0.02 * rf) < 0.0) part = 1.0; }
+  else if (ears == 3) { float wob = sin(t * 3.0 + ph) * 0.12; dl = sdTaper(qa, hc + vec2(-0.25 * rf, 0.8 * rf), hc + vec2(-1.5 * rf, 1.4 * rf + wob), 0.3 * rf, 0.22 * rf); d = smin(d, dl, 0.1); }
+  else if (ears == 4) { float wob = sin(t * 4.0 + ph + sgn) * 0.12; vec2 b2 = hc + vec2(1.4 * rf, 0.75 * rf + wob);
+    dl = sdTaper(qa, hc + vec2(0.5 * rf, 0.3 * rf), b2, 0.08, 0.06); d = smin(d, dl, 0.05); dl = length(qa - b2) - 0.2; if (dl < d) part = 1.0; d = smin(d, dl, 0.04); }
+  else if (ears == 5) { for (int k = 0; k < 3; k++) { float an = 1.75 + float(k) * 0.5 + sin(t * 2.0 + ph + float(k)) * 0.08; vec2 a0 = hc + vec2(-0.3 * rf, 0.82 * rf);
+      dl = sdTaper(qa, a0, a0 + vec2(cos(an), sin(an)) * 0.85 * rf, 0.15 * rf, 0.07 * rf); if (dl < d) part = 1.0; d = smin(d, dl, 0.06); } }
+  else if (ears == 6) { dl = sdTaper(qa, hc + vec2(0.1 * rf, 0.6 * rf), hc + vec2(0.7 * rf, 1.1 * rf), 0.2 * rf, 0.04 * rf); if (dl < d) part = 1.0; d = smin(d, dl, 0.06); }
+  if (tail > 0) { vec2 t0 = vec2(-B.x * 0.85, 0.0), t1 = LOC(uC[i].xy), t2 = LOC(uC[i].zw), t3 = LOC(uD[i].xy), t4 = LOC(uD[i].zw); float r0 = rb * 0.6;
+    if (tail == 3) { dl = sdTaper(q, t0, t1, r0 * 0.9, r0 * 0.7); d = smin(d, dl, 0.15); }
+    else { dl = sdTaper(q, t0, t1, r0, r0 * 0.72); dl = min(dl, sdTaper(q, t1, t2, r0 * 0.72, r0 * 0.5)); dl = min(dl, sdTaper(q, t2, t3, r0 * 0.5, r0 * 0.32)); dl = min(dl, sdTaper(q, t3, t4, r0 * 0.32, r0 * 0.18)); d = smin(d, dl, 0.18);
+      if (tail == 2) { vec2 dir = normalize(t4 - t3 + vec2(1e-4, 0.0)); vec2 e = q - (t4 + dir * 0.3); dl = sdEll(vec2(dot(e, dir), dot(e, vec2(-dir.y, dir.x))), vec2(0.5, 0.42)); if (dl < d) part = 1.0; d = smin(d, dl, 0.08); } } }
+  if (acc == 2) { dl = length(q - vec2(-B.x * 0.4, 0.0)) - rb * 0.92; if (dl < 0.0) part = 3.0; d = smin(d, dl, 0.06); }
+  return d * S;
+}
+float shadowAt(vec2 p, float len, float soft){ float s = 0.0; vec2 sp = p + normalize(uSunDir.xy) * len;
+  for (int i = 0; i < N; i++) { if (i >= uCount) break; if (distance(sp, uA[i].xy) > uA[i].w * 13.0 * 3.9) continue; float part; vec2 q; s = max(s, smoothstep(soft, -soft, creature(i, sp, part, q))); } return s; }
+
+vec3 shade(int i, vec2 p, float dW, float part, vec2 q, vec3 under, float dap, out float alpha){
+  vec4 A = uA[i], B = uB[i], E = uE[i], F = uF[i], G = uG[i]; float S = A.w * 13.0, px = uSpan.x / uRes.x, d = dW / S, aa = px / S * 1.3, rb = B.z, rf = B.w; vec2 hc = vec2(B.y, 0.0);
+  int pattern = int(F.z + 0.5), eyes = int(F.w + 0.5), mood = int(G.w + 0.5), acc = int(E.w + 0.5);
+  float sat = uStyle == 1 ? 0.80 : uStyle == 2 ? 0.44 : uStyle == 3 ? 0.52 : 0.56, lig = uStyle == 1 ? 0.63 : 0.62;
+  vec3 base = hsl(F.x, sat, lig), accent = hsl(F.y, sat + 0.05, lig + 0.09), dark = hsl(F.x, sat * 0.8, lig * 0.58), alb = base;
+  if (part > 0.5 && part < 1.5) alb = accent;
+  if (part > 2.5) { vec2 e = q - vec2(-B.x * 0.4, 0.0); float sp = sin(length(e) / (rb * 0.92) * 13.0 - atan(e.y, e.x));
+    alb = mix(hsl(F.y, sat * 0.8, lig * 0.74), hsl(F.y, sat * 0.7, lig * 1.02), smoothstep(-0.2, 0.2, sp)); }
+  if (part < 0.5) {
+    if (pattern == 1) { for (int k = 0; k < 4; k++) { vec2 c = vec2(-B.x * 0.8 + float(k) * 0.42, (mod(float(k), 2.0) < 0.5 ? 0.32 : -0.3) * rb); alb = mix(alb, dark, 0.55 * smoothstep(0.03, -0.03, length(q - c) - 0.17)); } }
+    else if (pattern == 2) alb = mix(alb, dark, 0.45 * smoothstep(0.55, 0.35, abs(fract(q.x * 1.6 + 0.2) - 0.5) * 2.0) * smoothstep(B.y * 0.1, B.y * 0.1 - 0.3, q.x));
+    else if (pattern == 3) alb = mix(alb, mix(base, vec3(1.0), 0.48), smoothstep(0.05, -0.05, sdEll(q - vec2(-B.x * 0.45, 0.0), vec2(B.x * 0.6 + 0.25, rb * 0.55))));
+    else if (pattern == 4) alb = mix(alb, accent, smoothstep(0.2, -B.x - 0.3, q.x) * 0.85);
+  }
+  if (acc == 3) for (int k = 0; k < 3; k++) { float dc = length(q - vec2(-B.x * 0.55 + float(k) * 0.42, 0.0)) - (0.2 - 0.02 * float(k)); alb = mix(alb, hsl(F.y, sat + 0.05, lig + 0.16), smoothstep(aa, -aa, dc)); }
+  float e = max(px * 1.5, 0.5), pA; vec2 qA; float dx = creature(i, p + vec2(e, 0.0), pA, qA) / S, dy = creature(i, p + vec2(0.0, e), pA, qA) / S, R = 0.8;
+  float h0 = dome(d, R); vec3 n = normalize(vec3(-(dome(dx, R) - h0) * S / e, -(dome(dy, R) - h0) * S / e, 1.0));
+  float tt = clamp(-d / R, 0.0, 1.0), wrap = clamp((dot(n, uSunDir) + 0.5) / 1.5, 0.0, 1.0), nh = max(dot(n, normalize(uSunDir + vec3(0.0, 0.0, 1.0))), 0.0), rim = pow(1.0 - n.z, 2.2); vec3 col;
+  if (uStyle == 0) { alb *= 0.97 + vnoise(p * 1.3) * 0.06; col = alb * (uAmb + uSunCol * wrap * dap * 0.88) + uSunCol * pow(nh, 22.0) * 0.10 * dap; col *= mix(0.76, 1.0, smoothstep(0.0, 0.3, tt)); }
+  else if (uStyle == 1) { vec3 a2 = mix(mix(alb, vec3(1.0), 0.30) * 1.08, alb * 0.86, smoothstep(0.0, 0.95, tt));
+    col = a2 * (uAmb * 1.15 + uSunCol * wrap * dap * 0.78) + uSunCol * (pow(nh, 70.0) * 0.9 + pow(nh, 8.0) * 0.10) * dap + rim * 0.18 * uSunCol + alb * uNight * 0.6; }
+  else if (uStyle == 2) { float fib = vnoise(p * vec2(2.2, 0.7) + 7.0) * 0.6 + vnoise(p * 3.1) * 0.4; col = alb * (0.86 + 0.24 * fib) * (uAmb * 1.1 + uSunCol * wrap * 0.64);
+    float dash = step(0.42, fract(atan(q.y, q.x - 0.1) * 4.5)); col = mix(col, vec3(0.97, 0.94, 0.86) * (uAmb * 1.1 + uSunCol * 0.6), smoothstep(0.045, 0.02, abs(d + 0.15)) * dash * 0.9); }
+  else { float st = vnoise(p * vec2(0.5, 2.4) + 3.0) * 0.5 + vnoise(p * 2.0) * 0.5; col = alb * (0.9 + 0.16 * st) * (uAmb * 1.2 + uSunCol * 0.64);
+    col = mix(col, vec3(0.99, 0.97, 0.93) * (uAmb * 1.2 + uSunCol * 0.64), smoothstep(-0.085, -0.05, d) * 0.75); }
+  vec3 unlit = uAmb * 1.25 + uSunCol * 0.62;
+  if (acc == 1) { vec2 b0 = hc + vec2(-0.45 * rf, 0.0); float sway = sin(uTime * 2.4 + uH[i].x) * 0.12;
+    for (int k = 0; k < 2; k++) { float sg = k == 0 ? 1.0 : -1.0; float an = PI + sg * (0.62 + sway); vec2 c = b0 + vec2(cos(an), sin(an)) * 0.34; vec2 lq = rot(q - c, -an); float dlf = sdEll(lq, vec2(0.36, 0.16));
+      vec3 lc = mix(vec3(0.38, 0.70, 0.33), vec3(0.62, 0.86, 0.45), smoothstep(0.05, 0.0, abs(lq.y))) * unlit * (0.8 + 0.25 * wrap); col = mix(col * mix(1.0, 0.8, smoothstep(0.1, 0.0, dlf)), lc, smoothstep(aa, -aa, dlf)); } }
+  // face
+  col = mix(col, vec3(1.0, 0.48, 0.60) * unlit, smoothstep(0.06, -0.06, sdEll(vec2(q.x, abs(q.y)) - (hc + vec2(-0.02 * rf, 0.78 * rf)), vec2(0.2, 0.12) * rf)) * (mood == 3 ? 0.62 : 0.32));
+  vec3 ink = vec3(0.10, 0.11, 0.18); bool bead = eyes == 1 || uStyle == 2; bool closed = G.z > 0.5 || mood == 4;
+  float er = bead ? (uStyle == 2 ? 0.20 : 0.17) * rf : eyes == 3 ? 0.50 * rf : 0.37 * rf; if (mood == 2) er *= 1.12;
+  vec2 ec = eyes == 3 ? hc + vec2(0.25 * rf, 0.0) : hc + vec2(eyes == 2 ? 0.05 * rf : 0.2 * rf, eyes == 2 ? 0.62 * rf : 0.45 * rf);
+  vec2 eq = eyes == 3 ? q - ec : vec2(q.x, abs(q.y)) - ec; float de = length(eq) - er;
+  if (closed) col = mix(col, ink, smoothstep(aa, -aa, abs(length(eq + vec2(er * 0.35, 0.0)) - er * 0.75) - 0.035) * step(0.0, eq.x + er * 0.2));
+  else if (bead) { col = mix(col, ink, smoothstep(aa, -aa, de)); col = mix(col, vec3(1.0), smoothstep(aa, -aa, length(eq - vec2(er * 0.25, sign(q.y) * -er * 0.3)) - er * (mood == 3 ? 0.42 : 0.28)) * (uStyle == 3 ? 0.0 : 1.0)); }
+  else { col = mix(col, vec3(0.99, 0.99, 0.97) * (uStyle >= 2 ? unlit : unlit * (0.82 + 0.2 * wrap)), smoothstep(aa, -aa, de));
+    vec2 pq = eq - G.xy * er * 0.3; float pr = er * (mood == 2 ? 0.30 : mood == 3 ? 0.70 : 0.56); col = mix(col, ink, smoothstep(aa, -aa, length(pq) - pr));
+    if (uStyle != 3) { col = mix(col, vec3(1.0), smoothstep(aa, -aa, length(pq - vec2(pr * 0.25, -pr * 0.35)) - pr * 0.32)); if (mood == 3) col = mix(col, vec3(1.0), smoothstep(aa, -aa, length(pq + vec2(pr * 0.3, -pr * 0.3)) - pr * 0.18)); } }
+  vec2 m = q - (hc + vec2(0.66 * rf, 0.0)); float mo;
+  if (mood == 1) col = mix(col, vec3(0.45, 0.14, 0.20), smoothstep(aa, -aa, sdEll(m, vec2(0.09, 0.12))));
+  else if (mood == 2) col = mix(col, ink, smoothstep(aa, -aa, abs(length(m) - 0.065) - 0.022));
+  else if (mood == 3) col = mix(col, ink, smoothstep(aa, -aa, abs(length(m + vec2(0.06, 0.0)) - 0.14) - 0.025) * step(0.0, m.x));
+  else if (mood == 4) col = mix(col, ink, smoothstep(aa, -aa, max(abs(m.x) - 0.02, abs(m.y) - 0.06)));
+  else { mo = abs(length(vec2(m.x, abs(m.y) - 0.075)) - 0.075) - 0.022; col = mix(col, ink, smoothstep(aa, -aa, mo) * step(0.0, m.x)); }
+  float dEdge = d; if (uStyle == 2) dEdge += (vnoise(p * 1.9) - 0.5) * 0.16; alpha = smoothstep(aa, -aa, dEdge);
+  if (uStyle == 1) col = mix(under * mix(vec3(1.0), alb, 0.55) * 1.05, col, mix(0.70, 1.0, smoothstep(0.0, 0.6, tt)));
+  return col;
+}
+
+void main(){
+  vec2 uv = gl_FragCoord.xy / uRes; uv.y = 1.0 - uv.y; vec2 p = uCenter + (uv - 0.5) * uSpan; float px = uSpan.x / uRes.x, t = uTime;
+  float pd = pondD(p), depth = smoothstep(0.0, 60.0, -pd);
+  float dap = 1.0; if (uStyle == 0) dap = mix(0.40, 1.0, smoothstep(0.40, 0.62, fbm(p * 0.017 + vec2(t * 0.012, t * 0.007) + 5.0))); else if (uStyle == 1) dap = mix(0.84, 1.0, smoothstep(0.3, 0.7, fbm(p * 0.006 + t * 0.01)));
+  float sh = shadowAt(p, uShadowLen * (uStyle == 3 ? 0.7 : 1.0 + depth * 1.6), uStyle == 3 ? 0.5 : 2.4 + depth * 3.0);
+  vec3 col = env(p, pd, sh, dap);
+  float best = 1e9, bpart = 0.0; int bi = -1; vec2 bq = vec2(0.0);
+  for (int i = 0; i < N; i++) { if (i >= uCount) break; if (distance(p, uA[i].xy) > uA[i].w * 13.0 * 3.9) continue; float part; vec2 q; float d = creature(i, p, part, q); if (d < best) { best = d; bi = i; bpart = part; bq = q; } }
+  if (bi >= 0) {
+    if (uStyle == 1) col += hsl(uF[bi].x, 0.85, 0.62) * exp(-max(best, 0.0) * 0.2) * 0.42 * uNight;
+    if (best < px * 2.0 + (uStyle == 2 ? 3.0 : 0.0)) { float a; vec3 c = shade(bi, p, best, bpart, bq, col, dap, a); col = mix(col, c, a); }
+  }
+  if (uCall.z > 0.0) { float q1 = 1.0 - uCall.z; for (int k = 0; k < 2; k++) { float q2 = fract(q1 + float(k) * 0.5); col += smoothstep(1.6, 0.0, abs(distance(p, uCall.xy) - (6.0 + q2 * 46.0))) * 0.5 * (1.0 - q2); } }
+  if (uNight > 0.5) for (int k = 0; k < 14; k++) { float f = float(k); vec2 fp = vec2(hash(vec2(f, 1.3)) * 400.0, hash(vec2(f, 7.7)) * 300.0) + vec2(sin(t * 0.3 + f * 2.1), cos(t * 0.24 + f * 1.3)) * 22.0;
+    float gl = exp(-dot(p - fp, p - fp) / 14.0) + exp(-dot(p - fp, p - fp) / 260.0) * 0.25; col += vec3(0.95, 1.0, 0.5) * gl * (0.55 + 0.45 * sin(t * 1.7 + f * 3.0)); }
+  vec2 vv = (uv - 0.5) * vec2(1.05, 1.2); col *= 1.0 - 0.34 * smoothstep(0.38, 0.86, length(vv));
+  col += (hash(gl_FragCoord.xy + fract(t) * 91.0) - 0.5) * (uStyle >= 2 ? 0.05 : 0.028);
+  outColor = vec4(clamp(col * 0.96, 0.0, 1.0), 1.0);
+}`;
+
+  // ------------------------------------------------------------ renderer
+  function makeRenderer(canvas) {
+    const gl = canvas.getContext('webgl2', { antialias: false, preserveDrawingBuffer: true });
+    if (!gl) return null;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(s)); return null; } return s; };
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return null;
+    const prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(prog)); return null; }
+    gl.useProgram(prog);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'aPos'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const U = {}; for (const n of ['uRes', 'uSpan', 'uCenter', 'uTime', 'uNight', 'uShadowLen', 'uStyle', 'uCount', 'uSunDir', 'uSunCol', 'uAmb', 'uCall']) U[n] = gl.getUniformLocation(prog, n);
+    for (const n of 'ABCDEFGH') U['u' + n] = gl.getUniformLocation(prog, `u${n}[0]`);
+    return { gl, U, canvas };
+  }
+  const LIGHTS = {
+    morning: { sun: [-0.45, -0.62, 0.66], sunCol: [1.0, 0.96, 0.86], amb: [0.50, 0.55, 0.60], len: 5, night: 0 },
+    golden: { sun: [-0.80, -0.36, 0.48], sunCol: [1.14, 0.80, 0.50], amb: [0.45, 0.43, 0.55], len: 11, night: 0 },
+    night: { sun: [0.42, -0.60, 0.68], sunCol: [0.40, 0.50, 0.84], amb: [0.15, 0.19, 0.35], len: 5, night: 1 },
+  };
+  function draw(r, t, center, span) {
+    const { gl, U } = r, L = LIGHTS[light], m = Math.hypot(...L.sun);
+    gl.viewport(0, 0, r.canvas.width, r.canvas.height);
+    gl.uniform2f(U.uRes, r.canvas.width, r.canvas.height); gl.uniform2f(U.uSpan, span[0], span[1]); gl.uniform2f(U.uCenter, center[0], center[1]);
+    gl.uniform1f(U.uTime, t); gl.uniform1f(U.uNight, L.night); gl.uniform1f(U.uShadowLen, L.len); gl.uniform1i(U.uStyle, style); gl.uniform1i(U.uCount, agents.length);
+    gl.uniform3f(U.uSunDir, L.sun[0] / m, L.sun[1] / m, L.sun[2] / m); gl.uniform3fv(U.uSunCol, L.sunCol); gl.uniform3fv(U.uAmb, L.amb);
+    gl.uniform3f(U.uCall, call ? call.x : 0, call ? call.y : 0, call ? call.t / 4 : 0);
+    for (const n of 'ABCDEFGH') gl.uniform4fv(U['u' + n], data[n]);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  // ------------------------------------------------------------ species and motion
+  const NAMES = ['Mossback', 'Pibble', 'Quillow', 'Bramblet', 'Noodle', 'Tufty', 'Glimmer', 'Wumple', 'Sprocket', 'Dabble', 'Fennick', 'Thimble', 'Bogwort', 'Skitter', 'Pookin', 'Lumen', 'Hobnob', 'Squill', 'Burble', 'Tansy', 'Marrow', 'Puddle', 'Nibbin', 'Oolo'];
+  const PLANS = [['bun', 0.4, 0.15, 0.92, 0.98, 1.0], ['tadpole', 1.15, 0.2, 0.42, 1.0, 1.0], ['pear', 0.75, 0.3, 1.05, 0.74, 1.05], ['bean', 0.95, 0.35, 0.8, 0.86, 1.0], ['noodle', 1.8, 0.3, 0.58, 0.72, 0.95], ['chonk', 0.65, 0.25, 1.12, 1.0, 1.25]];
+  const EARS = ['no ears', 'round ears', 'pointed ears', 'droopy ears', 'antennae', 'gills', 'horns'], TAILS = ['no tail', 'whip tail', 'fan tail', 'stub tail'];
+  const LIMBS = ['no limbs', 'feet', 'fins', 'many legs'], ACCS = ['', 'head sprout', 'shell', 'crest'], PATS = ['plain', 'spots', 'stripes', 'pale back', 'fade'], EYES = ['round eyes', 'dot eyes', 'wide eyes', 'one eye'];
+  const MOODS = [{ speed: 16, jitter: 2.2 }, { speed: 25, jitter: 3 }, { speed: 46, jitter: 9 }, { speed: 12, jitter: 1.6 }, { speed: 2.5, jitter: 0.6 }];
+  let seed = 11, style = 0, light = 'morning', mood = 0, species = [], agents = [], call = null, selected = 0, rnd = rng(1);
+  const data = {}; for (const n of 'ABCDEFGH') data[n] = new Float32Array(N * 4);
+  const shuffled = (arr, r) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  function makeSpecies() {
+    const r = rng(seed * 7919 + 3); rnd = rng(seed * 31 + 5);
+    const plans = shuffled(PLANS, r), ears = shuffled([1, 2, 3, 4, 5, 6], r), names = shuffled(NAMES, r), base = r() * 360;
+    const tails = shuffled([1, 2, 3, 1, 0, 2], r), limbs = shuffled([1, 2, 3, 1, 0, 2], r), accs = shuffled([1, 2, 3, 0, 0, 1], r), pats = shuffled([1, 2, 3, 4, 0, 3], r), eyes = shuffled([0, 1, 2, 3, 0, 1], r);
+    species = plans.map((pl, i) => ({ name: names[i], plan: pl[0], Lb: pl[1], Lf: pl[2], rb: pl[3], rf: pl[4], size: pl[5] * (0.86 + r() * 0.26), hue: (base + i * 60 + r() * 24) % 360, acc2: 0,
+      ears: ears[i], tail: tails[i], limbs: limbs[i], acc: accs[i], pattern: pats[i], eyes: eyes[i] }));
+    for (const s of species) { s.accent = (s.hue + (r() < 0.5 ? 35 : 180) + r() * 30) % 360; if (s.acc === 2 && s.plan === 'tadpole') s.acc = 3; }
+    agents = [];
+    species.forEach((s, si) => { for (let j = 0; j < (si < 4 ? 2 : 1); j++) {
+      const a = { sp: si, x: 60 + rnd() * (W - 120), y: 50 + rnd() * (H - 100), h: rnd() * TAU, v: 0, turn: 0, phase: rnd() * TAU, blink: 1 + rnd() * 4, tail: [] };
+      for (let k = 0; k < 4; k++) a.tail.push({ x: a.x - Math.cos(a.h) * (12 + k * 5), y: a.y - Math.sin(a.h) * (12 + k * 5) });
+      agents.push(a); } });
+    selected = 0;
+  }
+  function step(dt, t) {
+    const m = MOODS[mood];
+    if (call && (call.t -= dt) <= 0) call = null;
+    for (const a of agents) {
+      const s = species[a.sp], S = s.size * 13;
+      a.turn = (a.turn + (rnd() - 0.5) * m.jitter * dt * 6) * 0.96;
+      let target = a.h + a.turn * dt * 3, speed = m.speed * (0.8 + s.size * 0.25);
+      if (a.x < 40 || a.x > W - 40 || a.y < 36 || a.y > H - 36) target = lerpA(a.h, Math.atan2(H / 2 - a.y, W / 2 - a.x), 0.07);
+      if (call) { const dx = call.x - a.x, dy = call.y - a.y, d = Math.hypot(dx, dy); target = lerpA(a.h, Math.atan2(dy, dx), 0.16); speed = d > 32 ? 38 : 0; }
+      a.h = target; a.v += (speed - a.v) * Math.min(1, dt * 3);
+      a.x = Math.max(14, Math.min(W - 14, a.x + Math.cos(a.h) * a.v * dt)); a.y = Math.max(14, Math.min(H - 14, a.y + Math.sin(a.h) * a.v * dt));
+      let px = a.x - Math.cos(a.h) * S * s.Lb * 0.85, py = a.y - Math.sin(a.h) * S * s.Lb * 0.85; const seg = S * 0.42;
+      for (const p of a.tail) { const dx = p.x - px, dy = p.y - py, d = Math.hypot(dx, dy) || 1; p.x = px + (dx / d) * seg; p.y = py + (dy / d) * seg; px = p.x; py = p.y; }
+      a.blink -= dt; if (a.blink < -0.13) a.blink = 1.6 + rnd() * 4;
+    }
+    for (const a of agents) for (const b of agents) if (a !== b) { const dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx, dy) || 1, min = 34; if (d < min) { a.x += (dx / d) * (min - d) * 0.06; a.y += (dy / d) * (min - d) * 0.06; } }
+    agents.forEach((a, i) => { const s = species[a.sp], o = i * 4;
+      data.A.set([a.x, a.y, a.h, s.size], o); data.B.set([s.Lb, s.Lf, s.rb, s.rf], o);
+      data.C.set([a.tail[0].x, a.tail[0].y, a.tail[1].x, a.tail[1].y], o); data.D.set([a.tail[2].x, a.tail[2].y, a.tail[3].x, a.tail[3].y], o);
+      data.E.set([s.ears, s.tail, s.limbs, s.acc], o); data.F.set([s.hue, s.accent, s.pattern, s.eyes], o);
+      const lk = call ? (() => { const dx = call.x - a.x, dy = call.y - a.y, d = Math.hypot(dx, dy) || 1, c = Math.cos(-a.h), sn = Math.sin(-a.h); return [(dx * c - dy * sn) / d, (dx * sn + dy * c) / d]; })() : [0.7, Math.sin(t * 0.7 + a.phase) * 0.6];
+      data.G.set([lk[0], lk[1], a.blink < 0 ? 1 : 0, mood], o); data.H.set([a.phase, a.v / 30, 0, 0], o); });
+  }
+
+  // ------------------------------------------------------------ page wiring
+  const sceneEl = document.getElementById('scene'), closeEl = document.getElementById('closeup');
+  const main = makeRenderer(sceneEl), close = makeRenderer(closeEl);
+  if (!main || !close) { document.getElementById('fail').hidden = false; return; }
+  function fit() { const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    const w = Math.min(960, Math.round((sceneEl.clientWidth || 400) * dpr)); sceneEl.width = w; sceneEl.height = Math.round(w * 0.75);
+    const c = Math.min(360, Math.round((closeEl.clientWidth || 200) * dpr)); closeEl.width = c; closeEl.height = c; }
+  function render(t) { draw(main, t, [W / 2, H / 2], [W, H]); const a = agents[selected], s = species[a.sp], back = s.size * 13 * (s.Lb - s.Lf) * 0.5; draw(close, t, [a.x - Math.cos(a.h) * back, a.y - Math.sin(a.h) * back], [86, 86]); }
+  function describe() { const a = agents[selected], s = species[a.sp];
+    document.getElementById('cname').textContent = s.name;
+    document.getElementById('ctraits').textContent = [s.plan, EYES[s.eyes], EARS[s.ears], TAILS[s.tail], LIMBS[s.limbs], ACCS[s.acc], PATS[s.pattern]].filter(Boolean).join(' · ');
+    for (const b of document.querySelectorAll('#chips button')) b.setAttribute('aria-pressed', String(Number(b.dataset.sp) === a.sp)); }
+  function buildChips() { const host = document.getElementById('chips'); host.textContent = '';
+    species.forEach((s, si) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = s.name; b.dataset.sp = si; b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', () => { selected = agents.findIndex((a) => a.sp === si); describe(); once(); }); host.append(b); }); }
+  function rebuild() { makeSpecies(); buildChips(); describe(); for (let i = 0; i < 80; i++) step(0.05, i * 0.05); }
+  function once() { if (still) { step(0.001, 3); render(3); } }
+  const group = (attr, set) => { for (const b of document.querySelectorAll(`[data-${attr}]`)) b.addEventListener('click', () => { set(b.dataset[attr]); for (const o of document.querySelectorAll(`[data-${attr}]`)) o.setAttribute('aria-pressed', String(o === b)); once(); }); };
+  group('style', (v) => { style = Number(v); }); group('light', (v) => { light = v; }); group('mood', (v) => { mood = Number(v); });
+  document.getElementById('shuffle').addEventListener('click', () => { seed++; rebuild(); once(); });
+  sceneEl.addEventListener('pointerdown', (e) => { const b = sceneEl.getBoundingClientRect(), x = ((e.clientX - b.left) / b.width) * W, y = ((e.clientY - b.top) / b.height) * H;
+    let hit = -1, hd = 22; agents.forEach((a, i) => { const d = Math.hypot(a.x - x, a.y - y); if (d < hd) { hd = d; hit = i; } });
+    if (hit >= 0) { selected = hit; describe(); } else call = { x, y, t: 4 };
+    if (still) { for (let i = 0; i < 60; i++) step(0.05, 3); render(3); } });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { fit(); once(); }, 120); });
+  fit(); rebuild();
+  if (still) { step(0.001, 3); render(3); }
+  else { let last = performance.now(); const frame = (now) => { const dt = Math.min(0.05, (now - last) / 1000); last = now; step(dt, now / 1000); render(now / 1000); requestAnimationFrame(frame); }; requestAnimationFrame(frame); }
+})();
+</script>

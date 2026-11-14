@@ -9,7 +9,7 @@ November 2026. Decisions from discussion, plus proposals for how to carry them o
 - **Designs do not drift.** A species changes only through its owner's edits.
 - **Daily edits can be strong,** a couple of upgrades a day applied to newborns, but never strong enough to escape the curve.
 - **The daily check-in includes light, direct interaction** with the creatures, in the spirit of a Tamagotchi.
-- **Creature style is undecided.** Mockups of microbes against soft critters, with portraits, are in `design/mockups/creature-styles.html`.
+- **Creatures are soft critters, not microbes.** The look itself is still being developed; see `design/art-direction.md`.
 
 ## Lifespan pressure: proposal
 
