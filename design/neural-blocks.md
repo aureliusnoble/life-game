@@ -1,19 +1,21 @@
 # Neural editor: instincts, moods and signals
 
-Draft 3, November 2026. Earlier drafts are in git history.
+Draft 4, November 2026. Earlier drafts are in git history.
 
-Anything marked **tested** was run in `design/checks/moodsim.js`, a small stand-in world that implements the rules below. It is not the game, and its numbers show direction, not balance. Everything else is on paper.
+Anything marked **tested** was run in `design/checks/moodsim.js` or `design/checks/verbaudit.js`, small stand-in worlds that implement the rules below. It is not the game, and its numbers show direction, not balance. Everything else is on paper.
 
 **What changed since draft 2.** The vocabulary was audited against behaviour seen in nature and in other simulation games, and widened where it could not say something:
 
 - A notice is now a phrase built from slots: reach, how many or which one, what, and what it is doing.
 - Quantity has five steps instead of two, including "no", which lets a creature act on absence.
 - New words for choosing among several, for what another creature is doing, for things that just happened, and for a creature's own state of mind (idle, torn, stuck).
-- New acts: go along, head off, get behind, face, cling, tend, watch, wipe, dig, build, plus a pace on any movement.
+- New acts: go along, head off, face, cling, tend, wipe, dig, build, plus a pace on any movement.
 - Conditions gained degree words (a little, very) and graded forms (more when, less when).
 - A section on how competing urges are settled, and a rule for attention.
 - Mood functions grew: Place replaces Home, Rhythm can be hurried, and several new ones.
 - Four more recipes tested, and an atlas of about a hundred behaviours.
+
+**What changed in draft 4.** Every act was audited against its nearest neighbour (section 14). Two verbs were cut, "near" and "far" were redefined, one pair of state words was replaced, and the body rules the verbs depend on are now written down.
 
 ## 1. The idea
 
@@ -49,7 +51,7 @@ Each slot offers a short list, and most instincts leave most slots at their defa
 ### The rules
 
 1. Thinking happens in beats. Every beat, each instinct whose conditions hold makes its contribution.
-2. Movement contributions add as arrows, and nearer things pull harder. The body moves along the sum, and the stronger the sum the faster it goes: a weak pull is an amble, a strong one a run.
+2. Movement contributions add as arrows, and nearer things pull harder. The body moves along the sum. Its speed comes from the pace of the strongest pull (creeping, walking or sprinting) and from how strong the sum is.
 3. Other acts (bite, call, lay) happen when the notice behind them is strong enough and the body allows it.
 4. A mood rises while anything is raising it, drops when something calms it, and fades at its own rate only while nothing is raising it.
 5. A mood is on above its kick-in point, with a small margin so it does not flicker.
@@ -78,12 +80,14 @@ The body decides which senses a species has. Each has a strength and a blind spo
 | Word | Meaning | When |
 |---|---|---|
 | touch | In contact | Start |
-| near | Within a few body lengths | Early |
+| near | Seen, and within a few body lengths | Early |
 | see | Anywhere in view; nearer is stronger | Start |
-| far | In view but not near | Mid |
+| far | Seen, but not near | Mid |
 | hear | A sound, from any direction | Early |
 | smell | A scent; points toward where it is stronger | Early |
 | feel | Movement nearby | Mid |
+
+"Near" and "far" are bands of sight, not senses of their own. Only touch and feel work all round at close range. When "near" was a free all-round sense, nothing could ever be crept up on (section 14).
 
 ### How many
 
@@ -136,7 +140,7 @@ A creature seen clearly can also be noticed by its state. This is how one creatu
 |---|---|
 | still | Not moving |
 | coming at me, going away | Its motion relative to me |
-| looking at me, looking away | Whether I am in its view |
+| facing me, facing away | Whether I am inside its arc of view |
 | eating, resting, fighting, carrying | What it is busy with |
 | hurt | Visibly wounded |
 | calling, showing [display] | Signalling |
@@ -184,8 +188,7 @@ A moment is something that just happened. It lasts a beat or two, so to act on i
 | go along | Follow its line, such as an edge or a trail of marks, keeping it to one side | | Mid |
 | go the same way | Match its heading | | Mid |
 | head off | Aim for where it is going | | Mid |
-| get behind | Move to its back | | Mid |
-| face | Turn to it without moving | | Mid |
+| face | Stop and turn toward it | | Mid |
 | wander | Drift with a slowly changing heading | tight, medium, wide | Start |
 | hold still | Damp all movement | | Mid |
 
@@ -204,7 +207,6 @@ Any moving instinct can also carry a **pace**: creeping (slow and hard to hear o
 | tend | Care for what it is touching: an egg hatches sooner, a young one grows faster, another creature is cleaned and calmed | Mid |
 | cling, let go | Hold on to what it is touching and be carried along | Mid |
 | hide | Withdraw, if the body has a shell or burrow | Mid |
-| watch | Stop and sense farther | Mid |
 
 Body parts add their own: sting, spit, shock, spray (a cloud that works as cover), glow, shed a tail. Some parts add **poses** that change how others perceive the creature: puff up (seen as bigger), play dead, crouch (harder to see while still).
 
@@ -234,8 +236,8 @@ Body parts add their own: sting, spit, shock, spray (a cloud that works as cover
 | approach, stay near | Approach keeps closing in; stay near stops once close enough |
 | move away, keep apart | Move away keeps going; keep apart stops once far enough |
 | circle, go along | Circle orbits a point; go along traces a line |
-| go the same way, head off, get behind | Travel beside it, cut across its path, or follow in its wake |
-| hold still, rest, hide, watch | Not moving; recovering; out of sight; alert |
+| go the same way, head off | Travel beside it, or cut across its path |
+| hold still, face, rest, hide | Not moving; not moving and turned toward it; recovering; out of sight |
 | grab, cling | Grab carries the other; cling makes the other carry you |
 | give, tend | Give moves food; tend moves care |
 | call, mark, show | Heard now and far; smelled later and near; seen while in view |
@@ -243,7 +245,9 @@ Body parts add their own: sting, spit, shock, spray (a cloud that works as cover
 ### Verbs deliberately left out
 
 - **Eat and attack as separate verbs.** One verb, bite, and the target decides.
-- **Flee, chase, stalk, follow, guard, patrol, search.** Each is a movement act with a pace or a second instinct: flee is move away sprinting; stalk is approach creeping while the target is looking away; patrol is go along the edge of my own marks.
+- **Flee, chase, stalk, follow, guard, patrol, search.** Each is a movement act with a pace or a second instinct: flee is move away sprinting; stalk is approach creeping while the target is facing away; patrol is go along the edge of my own marks.
+- **Get behind.** Cut in the audit: circling while the target faces me, then approaching when it faces away, did the same job.
+- **Watch.** Cut in the audit: stopping to look farther changed almost nothing. A creature that is not eating or resting already has its full senses.
 - **Push, block, dodge.** Bodies already get in each other's way, so these come from approach, head off and circle.
 - **Copy.** Covered by noticing what another creature is doing.
 - **Grow, heal, digest.** Automatic. Clutch size and egg size are body settings; when to breed is left to instincts.
@@ -294,9 +298,8 @@ A creature usually has several things it could be doing. These are the tools for
 | Sprinting | Smells nothing, and is easy to hear and feel |
 | Creeping | Hard to hear or feel |
 | Holding still | Invisible to a side line |
-| Watching | Sees farther, cannot move |
 
-This gives vigilance a cost, so sentinels, taking turns to watch and safety in numbers have something to trade against.
+This gives eating and resting a cost in awareness, so sentinels, taking turns to keep their heads up and safety in numbers have something to trade against.
 
 **What emerges from these.** A creature whose fear always outweighs its appetite hovers at the edge of danger and starves beside food (tested). One that drops its fear only when very hungry feeds in spite of the danger and survives (tested). A hunter without Bond switches target whenever another prey comes nearer. A mood that takes over makes a creature blind to everything else while it lasts.
 
@@ -538,7 +541,7 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 | Grazing | see plant → approach, only when hungry; touch plant → bite | Start |
 | Scavenging | see meat → approach; touch meat → bite | Early |
 | Pursuit | see smaller creature → approach (strong, sprinting) | Start |
-| Stalking | see smaller creature looking away → approach (creeping); looking at me → hold still | Mid |
+| Stalking | Tested in section 14: see smaller creature facing me → circle, keep apart (far); far and facing away → approach; near → approach (creeping) | Mid |
 | Ambush | feel covered and hungry → hold still; near smaller creature → approach (sprinting), bite | Mid |
 | Cutting off | Tested above | Mid |
 | Fixing on one prey | Tested above | Bond |
@@ -561,8 +564,8 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 | Fleeing | see bigger creature → move away (sprinting) | Start |
 | Staying wary | Wary: raised by just bitten, lingers a long time; only when Wary → stay near cover | Early |
 | Freezing or hiding | see bigger creature → hold still, or hide | Mid |
-| Flight distance | far bigger creature → watch; near bigger creature → move away | Mid |
-| Reading intent | bigger creature coming at me → move away; looking away → carry on | Mid |
+| Flight distance | far bigger creature → face; near bigger creature → move away | Mid |
+| Reading intent | bigger creature coming at me → move away; facing away → carry on | Mid |
 | Getting used to it | Used: raised slowly by see bigger creature; move away, not when Used | Early |
 | Alarm calls | see bigger creature → call "Danger"; hear "Danger" → raise Scared | Early |
 | Different alarms | A different call for each kind of threat, each raising a different mood | Mid |
@@ -570,8 +573,8 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 | Mobbing | see a few my kind → raise Brave; only when Brave → approach bigger creature, bite | Mid |
 | Standing ground in numbers | feel outnumbering → approach; feel outnumbered → move away | Mid |
 | Hiding in the herd | only when Scared → approach my group | Mid |
-| Sentinels | Watchful: Born with, one in eight; only when Watchful → watch, and call on seeing a bigger creature | Born with |
-| Watching in shifts | Watch: Rhythm starting at a random point; only when Watch → watch | Rhythm |
+| Sentinels | Watchful: Born with, one in eight; only when Watchful → hold still, never eat, and call on seeing a bigger creature | Born with |
+| Keeping heads up in shifts | Alert: Rhythm starting at a random point; feeding rows not when Alert | Rhythm |
 | Bluff | see bigger creature coming at me → puff up | Mid |
 | Playing dead | just bitten → play dead | Mid |
 | Leading danger away | near my egg, see bigger creature → show "hurt", move away (creeping) | Mid |
@@ -691,7 +694,75 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 
 **What the world must provide** for parts of this vocabulary to mean anything: cover that blocks sight; darkness; warmth and cold; water depth or current; carcasses, eggs and young as things that can be carried; building material; heavy things that need several carriers; and eggs and young that do better when tended.
 
-## 14. What testing changed
+## 14. Verb audit
+
+Every act has to earn its place: it must do something in the world that its nearest neighbour does not, and that difference must change what happens. Each was run against its neighbour in `design/checks/verbaudit.js`.
+
+### Body rules the verbs depend on
+
+Without these, several verbs collapse into one another. They have to be in the game.
+
+- **Pace and stamina.** Sprinting drains stamina and an exhausted creature slows down. Walking does not drain it.
+- **Noise.** The movement sense cannot feel a creature that is still or creeping, and feels a sprinting one from twice as far.
+- **View arcs.** Eyes cover an arc ahead and leave a blind rear.
+- **Reach of a bite.** A bite reaches only what is in front, and big bodies turn slowly.
+- **Injury.** A hurt creature is slower.
+- **Head down.** While eating, a creature sees only what is near.
+- **Load.** A rider slows whoever carries it.
+
+### Results
+
+| Verb | What only it does | Run against | Result | Verdict |
+|---|---|---|---|---|
+| stay near | Holds a distance instead of closing | approach | Living off a dangerous animal's leftovers: 7.8 meals each and 1.6 of 6 lost, against 1.3 meals and 3.6 lost | Keep |
+| keep apart | Gives ground only when crowded | move away | Grazing beside dangerous animals: 77.5 meals each against 27.3, with the same losses (0.1 and 0.2 of 8) | Keep |
+| go along | Travels a line | smell → approach | Following a scent trail to food: 60 of 60 against 0 of 60 | Keep |
+| go the same way | Uses another's heading, not its position | stay near with keep apart | Flocking: alignment 0.86 against 0.12 | Keep |
+| head off | Aims where the target will be | approach | Prey crossing faster than the hunters: caught in 146 of 150 runs against 117 | Keep |
+| circle | Moves sideways around the target | waiting; approach | Stalking: reached the prey in 335 beats against 477 for waiting until it turned. In a five-against-one fight it cut attackers' losses from 1.9 to 1.4 when the prey turned on them, and raised them from 1.3 to 1.8 when it did not | Keep; situational |
+| wander (tight, medium, wide) | Sets how sharply it turns | each other | Food in far-apart patches: 8.7, 17.6 and 21.2 meals; tight just after eating and wide otherwise gave 22.5 | Keep |
+| hold still | Invisible to the movement sense | move away | Against a hunter that feels movement: 1.6 of 6 lost against 3.2. Against a hunter that sees: 5.6 against 5.2 | Keep |
+| pace: sprinting | Fast, and drains stamina | walking | One hunter and one equally fast prey: sprinting after it never caught it (0 of 60) and left the hunter exhausted 81% of the time; walking after it and sprinting only when near caught it every time | Keep |
+| pace: creeping | Slow, and cannot be felt | walking | Stalking prey that walks away from whatever it notices: walking in caught it in 0 of 60 runs; creeping in, 60 of 60 | Keep |
+| face | Stops and turns, bringing the bite to bear | ignoring; approach | Big prey attacked head-on: attackers lost 1.9 when it faced them, 1.3 when it ignored them and 2.3 when it approached them | Keep; weak |
+| cling | Travels at another's speed | stay near | Slow young with fast parents: 1.6 of 6 young lost against 2.4, with adults' losses about the same | Keep; modest |
+| puff up | Changes how others class it | move away | Against hunters that attack smaller creatures and avoid bigger ones: 0 of 6 lost against 5.2 | Keep; only works on hunters that judge by size |
+| weakest | Picks out the hurt | nearest | Prey that outrun the hunters unless hurt: 5.7 killed against 4.9 | Keep; modest |
+| get behind | Goes to the target's back | circle while it faces me | Stalking, three kinds of prey: 322, 323 and 342 beats against 335, 334 and 356. In the fight it was never better than circling | **Cut** |
+| watch | Stops, looks all round and farther | not watching | Against a hunter that walks up on feeding prey: losses of 0.7 and 7.9 of 8 became 0.6 and 7.9, and meals fell by a quarter. Against a stalker it delayed capture by 5 to 10% | **Cut** |
+
+Call, mark, show, bite, raise, calm and hurry were each shown to matter in the earlier recipe tests.
+
+### Words changed
+
+- **"Near" and "far" are now bands of sight.** As a free all-round sense, "near" let prey notice anything within a few body lengths, so creeping and approaching from behind could never work.
+- **"Facing me" and "facing away" replace "looking at me" and "looking away".** A creature can observe which way another is pointed, not what it can see. Whether its head is down is covered by "eating".
+
+### Not yet audited
+
+These have no mechanic in the stand-in world yet, so nothing shows they differ from their neighbours. None should go into a first prototype until it passes the same test.
+
+| Verb | What it is meant to do that nothing else does |
+|---|---|
+| rest | Recovers faster than holding still, with the senses off |
+| hide | Cannot be seen or bitten, and sees nothing; needs a shell or burrow |
+| grab, drop | Moves things, eggs, young and smaller creatures |
+| give | Moves food from one creature to another |
+| tend | Moves care: eggs hatch sooner, young grow faster. Filler unless the world gives eggs and young something to gain |
+| wipe, dig, build | Change the world. Deferred until marks are worth removing and structures exist |
+| ping | Sensing that gives the sensor away. Deferred |
+| play dead, crouch | Poses that change how others class it |
+
+### What else the audit turned up
+
+- **A sprint chase fails against equal prey.** It never closes the gap and it exhausts the hunter.
+- **Prey that sprints from everything can be walked down.** Prey designs need the same care over pace as hunters.
+- **A fleeing creature cannot see what is behind it.** To keep running it needs a mood that lingers or a movement sense.
+- **Following for scraps did not pay.** Staying near the dangerous animal and keeping out of its reach gave 10.0 meals; simply wandering while keeping out of its reach gave 10.4. Stay near is different from approach, but following was not worth it in that world.
+- **Circling can backfire.** It cost more attackers than a plain approach when the prey did not defend itself.
+- **Four scenarios were redesigned** after their first run could not separate the verbs, for example because arena walls cornered the prey whatever the hunter did. The redesigns changed the test world, not the verbs.
+
+## 15. What testing changed
 
 1. **How moods fill.** At first a mood faded continuously, so one raised slowly could never reach its kick-in point: courtship and nesting produced no matings and no eggs. Rule 4 now says a mood fades only while nothing is raising it.
 2. **Wider speed steps.** Now about a factor of ten apart. This was a judgement call; the tests did not show it changing an outcome.
@@ -708,16 +779,16 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 
 Findings 4, 6, 7, 8 and 9 were not predicted. Recipes in the atlas should not be trusted until run.
 
-## 15. Keeping a large vocabulary learnable
+## 16. Keeping a large vocabulary learnable
 
-The vocabulary is now about seven reaches, five quantities, six ways of choosing, twenty-five kinds, a dozen states, thirty-five acts and nine functions. Four things keep that manageable:
+The vocabulary is now about seven reaches, five quantities, six ways of choosing, twenty-five kinds, a dozen states, about thirty acts and nine functions. Four things keep that manageable:
 
 - **Slots.** A notice is assembled from short lists, one slot at a time, and most slots are left at their default.
 - **The body.** A species sees only the words its parts provide. A blind burrower's lists are short.
 - **Unlocks.** A new player starts with about a dozen words.
 - **Puzzles.** Each new word arrives with a small tank challenge that needs it.
 
-## 16. The designer on a phone
+## 17. The designer on a phone
 
 - **Mood board.** Moods appear as large bubbles, plus an "always" group for instincts with no condition. The game draws arrows between moods that raise or calm each other; the player never routes anything.
 - **Mood card.** Tapping a mood opens its settings, what raises and calms it, and the instincts that run only when it is on.
@@ -730,7 +801,7 @@ The vocabulary is now about seven reaches, five quantities, six ways of choosing
 - **Edits to a living species.** A couple a day, applied to newborns.
 - **Puzzles.** A ladder of tank challenges that introduce each word, and a daily puzzle scored on fewest rows among friends.
 
-## 17. Budget and unlocks
+## 18. Budget and unlocks
 
 One fixed budget covers body and brain, and it never grows.
 
@@ -742,21 +813,19 @@ One fixed budget covers body and brain, and it never grows.
 |---|---|
 | Start | touch, see; a, no; plants, sizes, own kind, my keeper; approach, move away, wander, bite, rest, lay; hungry, dark; only when, not when; two moods |
 | Early | hear, smell, near; sexes and mating; calls and marks; stay near, keep apart; cover; young and adult; degree words; "until calmed" |
-| Mid | far, feel; a few, many, a crowd, my group; biggest, smallest, weakest, lone; what it is doing; moments; idle, torn, stuck; more when, less when; go along, go the same way, head off, get behind, circle, face, hold still, watch; pace; grab, give, tend, cling; show, poses, wipe; gradients; species I have met |
+| Mid | far, feel; a few, many, a crowd, my group; biggest, smallest, weakest, lone; what it is doing; moments; idle, torn, stuck; more when, less when; go along, go the same way, head off, circle, face, hold still; pace; grab, give, tend, cling; show, poses, wipe; gradients; species I have met |
 | Late | The mood functions, one at a time; family and stranger; dig, build; ping; more sounds, scents and displays |
 
-## 18. Risks
+## 19. Risks
 
-- **Size.** The vocabulary has more than doubled. Section 15 is a plan for keeping it learnable, not evidence that it is.
+- **Size.** The vocabulary has more than doubled. Section 16 is a plan for keeping it learnable, not evidence that it is.
 - **Tuning.** Outcomes flipped on single settings in testing.
 - **The stand-in world is crude.** Bites are instant, there is no terrain, and prey are simple.
 - **Untested with people.** Whether friends can build these on a phone, and read them back a week later, is still the largest unknown.
 
-## 19. Next
+## 20. Next
 
 1. A phone prototype of the designer and test tank with the Start and Early vocabulary, tried on two or three friends.
 2. Run the atlas through the stand-in world, starting with the pieces nothing has exercised yet: moments, what-it-is-doing, attention, and the Catching, Count, Born with and Learn functions.
-3. **Verb audit, after the visual design review round.** Every act and behaviour word added in draft 3 must be meaningfully different, not filler. The test for each:
-   - it has a mechanic of its own, something it does in the world that no other word does (the example given: following must differ from chasing);
-   - that mechanic interacts with the world in a way that changes outcomes, shown by running it against its nearest neighbour in the stand-in world;
-   - any word that only restates another is merged or cut.
+3. **Finish the verb audit.** Give rest, hide, grab, give, tend and the poses a mechanic in the stand-in world and run each against its neighbour (section 14).
+4. **Carry the body rules from section 14 into the prototype's simulation,** since the verbs are only distinct with them in place.

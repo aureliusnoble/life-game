@@ -5,6 +5,9 @@ November 2026. Work in progress. Nothing here is final art.
 ## Decided
 
 - **Soft critters, not microbes.** Chosen after the first mockup (`design/mockups/creature-styles.html`).
+- **Paper lagoon is the favourite** of the four directions in the second study, and the one to take further.
+- **"Expressive" means two things.** More variety in the parts a creature can be built from, and bodies that show what the creature is doing and feeling. The second matters a great deal because there are so many moods and acts to show.
+- **The second study has rendering artifacts** to track down and fix.
 - **The first mockup was only a start.** The brief from that review:
   - a cute look that is the game's own, found by exploring the design space;
   - critters that are far more varied and expressive;
@@ -60,6 +63,6 @@ For places:
 
 ## Next
 
-1. Choose one or two directions to take further, or name what is missing from all four.
-2. Take the chosen direction deeper: more body plans and parts, fuller expressions and idle habits, and a place composed with landmarks.
+1. ~~Choose a direction.~~ Paper lagoon.
+2. Take Paper lagoon deeper: more body plans and parts, a way of showing each act and mood on the body, and a place composed with landmarks.
 3. Measure frame rate on a mid-range phone and move the heavy parts out of the per-pixel path.
