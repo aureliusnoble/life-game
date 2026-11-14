@@ -1,5 +1,7 @@
 # Neural blocks: what level, what kinds, and how they meet
 
+> **Status: judged too low-level.** Feedback on this draft: players should not have to work out how to build memory, timing or social behaviour from loops and thresholds, and the designer need not use wires. The direction now under discussion keeps small sense→act instincts but mediates them through a handful of named moods (meters that are raised, calmed and linger), so memory, timing and choosing become settings on a mood. This draft is kept for its reasoning and test results until that direction is settled.
+
 Draft 1, November 2026. A proposal to react to, not a decision. It replaces the "rule cards in mode pages" editor recommended in `reports/Creature sim game design exploration.md`, which treated behaviours such as courting or hunting as things the player picks. Here they are things the player's wiring produces.
 
 ## The level: one link is one tendency
