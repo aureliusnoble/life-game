@@ -1,152 +1,350 @@
-# Neural blocks: what level, what kinds, and how they meet
+# Neural editor: instincts, moods and signals
 
-> **Status: judged too low-level.** Feedback on this draft: players should not have to work out how to build memory, timing or social behaviour from loops and thresholds, and the designer need not use wires. The direction now under discussion keeps small sense→act instincts but mediates them through a handful of named moods (meters that are raised, calmed and linger), so memory, timing and choosing become settings on a mood. This draft is kept for its reasoning and test results until that direction is settled.
+Draft 2, November 2026. This replaces the wired-blocks draft (still in git history), which was judged too low-level: players should not have to build memory or timing out of loops and thresholds. This draft keeps behaviour emergent but supplies that machinery as settings.
 
-Draft 1, November 2026. A proposal to react to, not a decision. It replaces the "rule cards in mode pages" editor recommended in `reports/Creature sim game design exploration.md`, which treated behaviours such as courting or hunting as things the player picks. Here they are things the player's wiring produces.
+Anything marked **tested** was run in `design/checks/moodsim.js`, a small stand-in world that implements the rules below. It is not the game, and its numbers show direction, not balance. Everything else is on paper.
 
-## The level: one link is one tendency
+## The idea
 
-Three levels are possible. The proposal is the middle one.
+A species' brain is a list of **instincts** and a handful of **moods**.
 
-| Level | A block is | Courting is | Problem |
-|---|---|---|---|
-| Raw neurons (The Bibites) | A number with a weight and an activation function | Emergent | Angle maths, weight tuning, unreadable graphs |
-| **Tendencies (this proposal)** | A sense, a muscle or gland, or a tiny piece of timing | Emergent | Untested with players |
-| Behaviour cards (the report) | A whole behaviour | A card or mode you select | Nothing emerges; you are swapping parts |
+- An instinct is one small reaction: notice something, do something. All instincts run at once and their effects add up.
+- A mood is a named meter the player defines. Instincts raise it and calm it, it lingers for a set time, and other instincts can be switched on or off by it.
+- Creatures affect each other only through the world: what they do, and the **signals** (calls, scent marks, displays) they make.
 
-At the middle level the smallest meaningful act is one link: "the smell of scent A pulls me toward it". A creature is a dozen such tendencies running at once, and behaviour is what happens when they add up, suppress one another, and meet other creatures doing the same.
+Nothing in the vocabulary is a behaviour. Hunting, courting, flocking and nesting are what the instincts add up to.
 
-## Signals: two kinds
+## The rules
 
-- **Level**: how much, from nothing to full. Hunger, brightness, the strength of a smell.
-- **Pull**: which way and how strongly, as an arrow relative to the body. Toward the nearest green thing; up a scent gradient.
+1. Thinking happens in beats. Every beat, each instinct whose conditions hold makes its contribution.
+2. Movement contributions add as arrows, and nearer things pull harder. The body moves along the sum, so two urges produce a compromise path nobody wrote.
+3. Other acts (bite, call, lay) happen when the notice behind them is strong enough and the body allows it: it must be touching, have the energy, and not be on cooldown.
+4. A mood rises while anything is raising it, drops when something calms it, and fades at its own rate only while nothing is raising it.
+5. A mood is "on" above its kick-in point, with a small margin so it does not flicker.
+6. An instinct can carry up to two conditions: **only when** a feeling is on, and **not when** a feeling is on. Feelings are moods, body states (hungry, dark) and fixed traits (female, young).
+7. That is everything. There are no loops, sequences or free-form numbers. Settings come in three or four named steps.
 
-Pulls are the main simplification over The Bibites, which splits every sight into separate angle and closeness numbers that the player must wire to separate turn and thrust outputs with correctly signed weights. With Pulls, approaching is one link, fleeing is the same link set to "away", and two Pulls into the legs add as arrows, so a creature drawn to food and pushed from a threat takes a detour without anyone designing detours. A Pull plugged into a Level input reads as its strength.
+Two of these rules exist because the first version failed in testing; see "What testing changed".
 
-## Blocks: three families
+## Vocabulary
 
-**Senses** come with body parts. Each is tuned to a physical cue, never to a role. There is no "predator" or "mate" sense.
+"When" shows roughly where in the unlock order a piece would arrive: Start, Early, Mid or Late.
 
-- Eye, tuned to a colour, to bigger or smaller than me, or to moving things: where it is (Pull), how many (Level), which way it is heading (Pull).
-- Nose, tuned to a scent: which way it gets stronger (Pull), how strong (Level).
-- Touch and pain: where (Pull), how much (Level).
-- Body states: hunger, health, age, fertile, carrying, sex (fixed per individual), light, warmth.
+### What a creature can notice
 
-**Actions** come with body parts and are muscles and glands, not behaviours: Move (takes Pulls), Bite, Grab, Give, Mate, Lay, Emit a scent, Display a colour, Rest. Parts add their own: Sting, Glow, Dig, Call.
+Every notice has a strength, and things in the world also have a direction.
 
-**Inner blocks** are what the brain budget buys. The starting kit is four:
+**Reach**
 
-- **Trigger**: off until its input passes low, mid or high, then fully on.
-- **Slow**: follows its input gradually (quick, medium or long), rising and fading.
-- **Noise**: a random Level, or a wandering Pull.
-- **Always**: constantly on.
-
-## How blocks meet: add, only when, unless
-
-A link carries one block's output into another. Links into the same block add. Each link has:
-
-- a strength: weak, normal or strong (no free-form weights);
-- for Pulls, toward or away;
-- two optional modifiers: **only when** a Level is high, and **unless** a Level is high.
-
-That is the whole mediating logic. "Only when" and "unless" are RoboZZle's idea of a condition attached to any instruction, applied to links: the brain's equivalents are a signal that enables a pathway and a signal that suppresses it. Day and night differences are an "only when Light" on a link. Sexual dimorphism is an "unless Female".
-
-Loops are allowed, and every block takes one beat to respond. That delay is what turns loops into memory and rhythm.
-
-## Circuits that fall out of the starting kit
-
-Checked in a throwaway script (not kept in the repo) using exactly the rules above:
-
-| Circuit | Built from | Result |
+| Word | Meaning | When |
 |---|---|---|
-| Memory | A Trigger linked to itself, "unless" a reset signal | Works: stays on after a one-beat pulse until reset |
-| Clock | Always → Trigger, "unless" a second Trigger fed by a Slow copy of the first | Works with 3 blocks; the Slow setting sets the tempo. A cleaner, slower beat took 5 |
-| Getting-stronger detector | A signal, "unless" a Slow copy of itself | Works with 2 blocks: fires on a rise, then fades |
-| Rivalry (only the stronger urge wins) | Two blocks, each "unless" the other | The obvious version fails: equal inputs flicker in lockstep, and graded versions settle on a mushy compromise. It works when both blocks are Slows with strong links |
+| touch | In contact | Start |
+| see | Within eyesight; nearer is stronger | Start |
+| near | Within a few body lengths | Early |
+| hear | A call, from any direction, at long range | Early |
+| smell | A scent mark; points toward where it is stronger | Early |
 
-The rivalry result matters. Choosing between urges is the hardest thing to build from this kit, so it is the first candidate for a dedicated block.
+**How many**
 
-## Worked examples
+| Word | Meaning | When |
+|---|---|---|
+| (none) | The nearest one | Start |
+| many | Three or more in view | Mid |
+| my group | The few nearest of my kind taken together: their centre and their average heading | Mid |
 
-Notation: `source → target`, then link settings. Only the pack hunt has been simulated; the rest are constructions on paper.
+**Things in the world**
 
-**Skittish grazer** (no inner blocks)
+| Kind | Options | When |
+|---|---|---|
+| Food | plant, meat, egg | Start, Early, Mid |
+| My kind | any, male, female, young, adult, showing a display, carrying something | Start; sex and age Early |
+| Other creatures | bigger, smaller, about my size | Start |
+| A species I have met | Picked from the list of species this lineage has encountered | Mid |
+| A kind I learned about | one that hurt me, one I have eaten, one that fed or groomed me | Late (Learn) |
+| One particular creature | "my [mood] one": the creature a mood is about | Late (Bond) |
+| Signals | a call, a scent mark (mine, my kind's, a stranger's), a display | Early |
+| Places | cover, open ground, water's edge, warmer, cooler, brighter, darker | Early to Mid |
+| A remembered place | home | Late (Home) |
+
+**Feelings (no direction)**
+
+| Kind | Options | When |
+|---|---|---|
+| Body | hungry, hurt, in pain, tired, carrying, covered | Start to Early |
+| Breeding | fertile, gravid | Early |
+| Surroundings | dark, light, cold, warm, crowded, alone | Start to Mid |
+| Traits | male, female, young, adult, old | Early |
+| Moods | any mood the player has made | Start |
+| Constants | always, sometimes | Start |
+
+### What a creature can do
+
+| Kind | Act | Effect | When |
+|---|---|---|---|
+| Move | approach | Toward what was noticed | Start |
+| | move away | Away from it | Start |
+| | wander | Drift in a slowly changing direction | Start |
+| | keep apart | Away only when too close | Early |
+| | stay near | Toward only when too far | Early |
+| | go the same way | Match its heading | Mid |
+| | circle | Sideways around it; each individual has a fixed side | Mid |
+| | hold still | Damps all movement | Mid |
+| | sprint | Faster, at an energy cost | Mid |
+| Body | bite | Eat or wound what it is touching | Start |
+| | rest | Recover; lower energy use | Start |
+| | lay | Lay an egg here | Start |
+| | mate | With the one it is touching, if both want to | Early |
+| | grab, drop, give | Carry things; hand food to another | Mid |
+| | hide | Withdraw, if the body has a shell or burrow | Mid |
+| | groom | Clean another creature; feeds the groomer | Late |
+| Signal | call | A named sound, heard at once and far | Early |
+| | mark | A named scent left on the ground | Early |
+| | show | A named display others can see | Mid |
+| Mood | raise, calm | Fill or drain a mood: quickly, normally or slowly | Start |
+
+Body parts add their own acts: sting, glow, dig, spray.
+
+### Moods
+
+A mood has four settings.
+
+| Setting | Options | What it gives the player |
+|---|---|---|
+| Raised by | Any notice, at a speed | What the mood is about |
+| Calmed by | Any notice, at a speed | Choosing: "Scared calms Hungry" |
+| Lingers | briefly, a while, a long time, until calmed | Memory: "Wary lingers a long time" |
+| Kicks in | low, half, high | How much it takes before it matters |
+
+Timing comes from the raise speed: a mood raised slowly ignores a glimpse and responds only to something sustained. Each speed step is about ten times the last, so one setting suits reflexes and another suits rituals.
+
+### Mood functions
+
+These are the unlockable "neural functions". Each is one switch on a mood.
+
+| Function | What it does | What it makes possible | Status |
+|---|---|---|---|
+| Bond | The mood is about one creature: whoever first raised it. Only that creature keeps raising it, and instincts can refer to "my [mood] one" | Mate choice, pair bonds, parent and young, sticking to one target, grudges | Tested |
+| Rhythm | The mood rises and falls by itself at a set tempo | Patrols, pulsing calls, taking shifts | On paper |
+| Count | The mood steps up once per event and switches on at a set number | "After three failed chases, move on" | On paper |
+| Born with | A set share of newborns start with the mood full, for life | Castes, sentinels, bold and shy individuals | On paper |
+| Catching | The mood rises on seeing one's own kind in it | Panic, excitement, synchronised breeding | On paper |
+| Learn | Experience fills in three kinds: one that hurt me, one I have eaten, one that fed me | Enemies and allies formed by what actually happened | On paper |
+| Home | Remembers a place: where it hatched, or where the mood was last full | Returning to a nest, hoarding, trails | On paper |
+
+### Signals
+
+| Signal | Reach | Lasts | Typical use |
+|---|---|---|---|
+| Call | Far, all directions | A moment | Alarm, recruiting, advertising |
+| Mark | Close; followed by smell | Minutes to hours, fading | Trails, territory, nest sites |
+| Display | Line of sight | While shown | Courtship, threat, warning |
+
+Signals are public. There is a small shared set of sounds, scents and displays, and any species with the right sense can notice any of them. A player names what a sound means for their own species; nothing stops another species reacting to it.
+
+## Body, sex and age
+
+- **The body sets the vocabulary.** Eyes give see and its range; a nose gives smell; ears give hear; a voice, scent gland or crest gives call, mark or show; a mouth type decides what bite can eat. A brain can only use what the body has.
+- **Sex.** A species is either cloning or two-sexed. In a two-sexed species every individual runs the same brain, and "only when female" or "only when male" makes the sexes behave differently. Parts can also be grown by one sex only.
+- **Age.** "Only when young" and "only when adult" do the same for life stages.
+
+## How relationships between species arise
+
+None of these is a setting. Each falls out of pieces that exist for other reasons.
+
+| Relationship | How it arises |
+|---|---|
+| Predator and prey | Size senses and bite |
+| Learned enemies and allies | Learn: "see one that hurt me → move away" |
+| Eavesdropping | Reacting to another species' alarm call or trail |
+| Luring | Making another species' mating call |
+| Nest raiding | Following another species' nest scent to its eggs |
+| Brood parasitism | Laying where another species' nest scent is strong |
+| Cleaning | One species grooms, the other holds still when groomed |
+| Following | Staying near a bigger species to eat what it leaves |
+| Guarding | A small species' alarm call that a big species has chosen to heed |
+
+Warning colours, camouflage and mimicry need senses tuned to appearance. That layer is deferred; see "Gaps".
+
+## Tested recipes
+
+Each list is exactly what was run. "(weak)" and "(strong)" are instinct strengths.
+
+### Pack hunt on big prey
+
+Prey is bigger, slower, has 8 hit points and bites back; hunters have 2.
 
 ```
-Eye[green] → Move        only when Hunger, unless Eye[bigger]
-Eye[bigger] → Move       away, strong
-Touch[green] → Bite
-Noise → Move             weak
+Moods
+  Hunting: lingers briefly
+  Brave:   lingers briefly, kicks in high
+
+see bigger creature → raise Hunting (quickly)
+many my kind → raise Brave (quickly)
+always → call "Prey!"                  only when Hunting
+hear "Prey!" → approach                not when Hunting
+see bigger creature → approach         only when Brave
+see bigger creature → keep apart (strong)   not when Brave
+touch bigger creature → bite
+always → wander (weak)
 ```
 
-**Courtship** (two inner blocks). Nothing here is called courting.
+| Design (8 hunters, 100 runs) | Prey killed | Hunters lost per run | Beats to kill |
+|---|---|---|---|
+| Attack on sight | 90 | 3.7 | 1008 |
+| Attack only when Brave, no call | 2 | 0.6 | 1506 |
+| Brave plus the call (above) | 100 | 3.1 | 445 |
+
+Courage without a way to gather is useless; with the call, the pack kills every time and in under half the time.
+
+### Choosy courtship
+
+In the check, each sex ran only its own rows.
 
 ```
-Fertile → Emit[scent A]                    only when Female
-Nose[scent A] → Move                       unless Female
-Eye[own colour] → Display[red]             unless Female
-Eye[red] → Slow(long) → Trigger(high) → Mate    only when Female
-Touch[own colour] → Mate                   unless Female
+Mood
+  Charmed: Bond, lingers briefly, kicks in high
+
+Female
+  feel fertile → call "Here"
+  near male showing → raise Charmed (slowly)
+  touch my Charmed one → mate          only when Charmed
+
+Male
+  hear "Here" → approach
+  see female → approach
+  see female → show red
+  touch female → mate
 ```
 
-Females advertise, males follow the scent and show red near their own kind, and a female accepts only after seeing red for a sustained time. Males that wander off to feed lose the mating. Another species that emits scent A can lure the males.
+Males that display competed with identical males that never do (30 runs).
 
-**Pack hunt** (no inner blocks)
+| Female design | Displayers' share of matings |
+|---|---|
+| Accepts any male at once | 50% |
+| Charmed by any displaying male in sight | 66% |
+| Charmed only by a displaying male close by | 77% |
+| Charmed is a Bond; mates only with that male | 100% |
 
-```
-Eye[smaller, moving] → Move
-Eye[own colour] → Move        away, only when Eye[smaller, moving]
-Eye[smaller, moving] → Emit[scent B]
-Nose[scent B] → Move          weak
-Touch[smaller] → Bite
-```
+Without Bond, one male's display charms her and a male that never displays takes the mating. Cheating emerged without being designed, and Bond is what closes it.
 
-In a toy simulation (5 hunters starting bunched, prey fleeing at 85% of their speed, 200 runs), the first link alone left the pack strung out in a line behind the prey. Adding the second link fanned it out to cover more than half the circle around the prey and caught it slightly sooner (140 beats against 157). Setting that link to strong spread the pack further but it then caught the prey in only 10 of 200 runs. Surrounding emerges, and how hard packmates repel each other is a real design choice.
-
-**Nesting ground** (two inner blocks)
+### Nesting ground
 
 ```
-Light → Move                  away, only when Fertile
-Nose[scent C] → Move          only when Fertile
-Always → Slow(long)           unless Light, unless Eye[bigger]
-Slow → Trigger(high) → Lay    only when Fertile
-Trigger → Emit[scent C]
+Mood
+  Settled: lingers briefly, kicks in high
+
+see cover → approach                   only when gravid
+feel covered → raise Settled (slowly)  only when gravid
+see bigger creature → calm Settled (quickly)
+see bigger creature → move away (strong)
+feel gravid → lay                      only when Settled
+feel gravid → mark "Nest"              only when Settled
+smell "Nest" → approach (strong)       only when gravid
+always → wander (weak)
 ```
 
-A fertile female seeks dark cover, lays only after the spot has stayed dark and safe for a while, and scents it. Later females are drawn to the scent, so a traditional nesting ground forms and lasts only while it is used. Anything that can smell scent C can find the eggs.
+With six equal patches of cover (30 runs), the busiest patch took 36% of later eggs without the scent rows and 45% with them, and the number of patches still in use fell from 5.6 to 4.8. The scent concentrates laying, but modestly.
 
-## Where the emergence comes from
+### Flocking
 
-1. **Inside one brain.** Tendencies add and suppress each other; loops add memory and rhythm.
-2. **Between individuals.** No block talks to another creature. Coordination goes through the world: scent left behind, colours shown, bodies seen.
-3. **Between species.** Cues are public. Any species with the right sense can read another's scent or colour, which is what makes eavesdropping, lures, mimicry and warning colours possible. Relationships are wired, not declared.
+```
+see my group → stay near
+see my kind → keep apart
+see my group → go the same way
+always → wander (weak)
+```
 
-## Phone interface
+Alignment (0 is random headings, 1 is all the same way) was 0.86 with these rows. The same rows using only the nearest neighbour gave 0.14. Flocking needs "my group".
 
-- Senses along the top and actions along the bottom, both fixed by the body. Inner blocks sit between. Portrait, scrolling vertically.
-- Tap a source, then a target, to link them. Tap a link to set strength, toward or away, only when, unless. No dragging wires.
-- A second view lists every link as a one-line sentence, as in the examples above. Which view people edit in is a question for the prototype.
-- Links glow with live signal and Pulls draw as arrows on the creature, in a test tank on the top half of the screen.
-- **Clusters**: select a few blocks, name them, and collapse them to one tile. This keeps a brain larger than one screen readable, and it means "Courting" is something the player built and named.
+## Recipes on paper
+
+Short forms; none of these has been run.
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| **Feeding** | | |
+| Grazing | see plant → approach, only when hungry; touch plant → bite | Start |
+| Scavenging | see meat → approach; touch meat → bite | Early |
+| Ambush | in cover and hungry → hold still; near smaller creature → sprint, bite | Mid |
+| Hoarding | carrying → approach home; at home → drop | Home |
+| Food trails | carrying → approach home and mark "Trail"; not carrying → approach "Trail" and move away from home (weak) | Home; trail direction is a known hard case |
+| Egg raiding | smell a stranger's "Nest" → approach; touch egg → bite | Mid |
+| **Defence** | | |
+| Fleeing | see bigger creature → move away | Start |
+| Staying wary | Wary: raised by pain, lingers a long time; only when Wary → stay near cover | Early |
+| Freezing or hiding | see bigger creature → hold still, or hide | Mid |
+| Alarm calls | see bigger creature → call "Danger"; hear "Danger" → raise Scared; only when Scared → approach cover | Early |
+| Mobbing | many my kind → raise Brave; only when Brave → approach bigger creature, bite | Mid |
+| Sentinels | Watchful: Born with, one in eight; only when Watchful → hold still, and call on seeing a bigger creature | Born with |
+| **Daily and seasonal** | | |
+| Nocturnal habits | feeding rows "only when dark"; when light → approach cover, rest | Start |
+| Shared roosts | resting → mark "Roost"; when light → approach "Roost" | Early |
+| Winter sleep | when cold → approach cover, rest | Mid |
+| Migration | when cold → approach warmer | Mid |
+| **Breeding** | | |
+| Finding mates | feel fertile → call or mark; hear or smell it → approach | Early |
+| Male contests | see male showing → show, approach; Rival raised by it; touch male → bite, only when Rival | Mid |
+| Pair bonds | Mate: Bond, lingers a long time; see my Mate one → stay near | Bond |
+| Guarding eggs | Brooding raised by laying; only when Brooding → stay near egg, bite smaller creatures near it | Mid |
+| Feeding young | carrying and near young → give | Mid |
+| Young keeping close | only when young → stay near adult | Early |
+| **Social** | | |
+| Herding under threat | flocking rows, plus only when Scared → stay near my group (strong) | Mid |
+| Spacing and territory | always → mark; smell a stranger's mark → move away | Early |
+| Castes | Born with moods that switch on different sets of instincts | Born with |
+| Age roles | only when young → stay near home; only when adult → roam | Home |
+| Panic | Scared with Catching | Catching |
+
+## What testing changed
+
+1. **How moods fill.** At first a mood faded continuously, so one raised slowly could never reach its kick-in point: courtship and nesting produced no matings and no eggs. Rule 4 now says a mood fades only while nothing is raising it.
+2. **Wider speed steps.** With speeds a factor of three apart, "slowly" was too quick to tell a persistent suitor from a passing one. The steps are now about a factor of ten apart.
+3. **"My group" is required for flocking.** The nearest neighbour alone gives cohesion but no shared heading.
+4. **Calling the pack together can make things worse.** Against small prey slightly slower than the hunters on an open plain, six scattered hunters with no signals caught it in 95 of 100 runs. Adding "call, and come to the caller" cut that to 35, because the pack bunched up behind the prey and lost the spread that had been cornering it. Adding keep apart and circle recovered it to 81, still below no signals at all.
+5. **Packs pay off against prey one hunter cannot take.** That is the table under "Pack hunt on big prey". The body side of the game has to supply such prey for pack designs to be worth their cost.
+6. **Mate choice needs Bond.** Without it, choosiness is exploitable, as the courtship table shows.
+
+Findings 4 and 6 were not predicted. They are the kind of result the game is meant to produce, and also a warning that recipes cannot be trusted until run.
+
+## The designer on a phone
+
+- **Mood board.** The brain screen shows the moods as large bubbles, plus an "always" group for instincts with no condition. The game draws arrows between moods that raise or calm each other; the player never routes anything.
+- **Mood card.** Tapping a mood opens its settings and two lists: what raises and calms it, and the instincts that run only when it is on.
+- **Instinct row.** `[notice] → [do]`, a strength, and up to two condition chips. Each slot is filled by tapping it and choosing from a sheet that shows only what this body can sense or do and what is unlocked. Nothing is typed or dragged except to reorder rows for tidiness; order has no effect.
+- **Test tank.** The top half of the screen runs the creature live. Buttons drop food, add a bigger creature, add ten of its own kind, switch day to night, or bring in the species currently alive in the shared world.
+- **Watching it think.** Mood bubbles fill as the creature feels them, firing instincts glow, and the creature shows its strongest mood as an emote using the player's own name and icon for it. The same view opens on any of the player's creatures in the live world, which is the daily check-in.
+- **After a death.** A strip shows the species' moods over its last hours and which instincts were firing, so the player can see what it was doing when it failed.
+- **Small edits to a living species.** One change at a time: one setting, one row added or removed, or one condition. Changes apply to newborns.
+- **Puzzles.** A ladder of small tank challenges ("reach the food without being caught, four rows") introduces each piece and gates its unlock, with a daily puzzle scored on fewest rows among friends.
 
 ## Budget and unlocks
 
-Every sense organ, gland, inner block and link draws on the one fixed body-and-brain budget, and inner blocks also cost energy to run. Unlocks add kinds, not capacity:
+One fixed budget covers body and brain, and it never grows.
 
-- new cues to sense (motion, size, sound, heat) and new glands (more scents, displays, glow, calls);
-- new inner blocks: Turn (swing a Pull sideways, for circling), Clock, Memory, Rival, Count, Home (remember a place), Learn (a link that strengthens with reward);
-- several of these compress circuits players will already have built by hand, so the unlock rewards understanding. Whether the compressed block should be cheaper than the hand-built circuit is open.
+- Body parts cost points, and the senses and acts they bring come with them.
+- Each mood, each instinct and each mood function costs points. Moods also cost energy to run, so a large brain needs a better diet.
+- A separate cap keeps brains readable: about six moods, twenty-four instincts and two conditions per instinct. These numbers are placeholders until the simulation can price them.
 
-RoboZZle also suggests the teaching method: a ladder of tiny tank puzzles ("reach the food without touching the big thing, three links") that introduce each block and gate its unlock, plus a daily puzzle scored on fewest blocks among friends.
+Unlocks add kinds of piece, not capacity:
 
-## Risks
+| Stage | Opens up |
+|---|---|
+| Start | Plants, sizes, own kind; approach, move away, wander, bite, rest, lay; two moods |
+| Early | Sexes and mating; calls and marks; near; keep apart, stay near; cover; "until calmed" |
+| Mid | Many, my group; go the same way, circle, hold still, sprint; carrying; displays; species I have met; eggs as food |
+| Late | The mood functions, one at a time; grooming; more sounds, scents and displays |
 
-- **Harder than picking behaviours.** The research found Bibites players struggle to hand-wire brains. This design removes three causes (angle maths, free-form weights, activation functions) but whether that is enough is untested.
-- **Tuning.** The pack hunt flipped from working to failing on one strength setting. That is the game, but only with a fast test loop.
-- **Beat races.** The naive rivalry circuit flickers. Players will hit this.
-- **Which one?** A sense reports the nearest match only. Targets defined by two cues at once need a compound tuning.
-- **Reading your own brain a week later.** Clusters, live glow and the sentence view are the answer on paper only.
+## Gaps and risks
 
-## What to build first
+- **Which one?** A notice reports the nearest match. "Many", "my group" and Bond cover the cases found so far, but others will appear, such as choosing the weakest of several prey.
+- **No sequences.** A fixed order of steps can only be approximated with moods that raise one another. Whether players miss it is unknown.
+- **Direction is not remembered,** except through Home and through marks left in the world.
+- **Appearance is deferred.** Senses use plain kinds (bigger, my kind, a species I have met). Warning colours, camouflage and mimicry need senses tuned to colour or pattern, which adds a layer of difficulty and is left for later.
+- **Tuning.** Outcomes flipped on single settings in testing. The game needs a fast test loop to make that enjoyable.
+- **The stand-in world is crude.** Bites are instant, there is no terrain, and prey are simple. Results show whether a recipe works at all, not how well it would do in the game.
+- **Untested with people.** Whether friends can build these on a phone, and read them back a week later, is the largest unknown.
 
-A phone sandbox: one tank, the starting kit, and an attempt to build the four examples above. If they cannot be built comfortably on a phone, the level is wrong and should change before anything else is designed around it.
+## Next
+
+1. A phone prototype of the designer and test tank, with the Start and Early vocabulary, tried on two or three friends.
+2. Run the paper recipes through the stand-in world, starting with alarm calls, guarding eggs and food trails, and add the remaining mood functions to it.
