@@ -23,20 +23,21 @@ class World {
     const a = o.heading ?? this.rnd() * Math.PI * 2;
     const c = { kind, brain, tag: o.tag ?? kind, young: !!o.young, x: o.x ?? this.rnd() * this.size, y: o.y ?? this.rnd() * this.size, hx: Math.cos(a), hy: Math.sin(a),
       size: brain.size ?? 1, top: brain.top ?? 1, sight: brain.sight ?? 60, arc: ((brain.arc ?? 360) * Math.PI) / 180, feel: brain.feel ?? 0,
-      hp: o.hp ?? brain.hp ?? 1, hpMax: brain.hp ?? 1, energy: 0.8, stamina: 1, tired: false, alive: true, moods: {}, on: {}, headDown: 0, watching: false, pose: null,
+      hp: o.hp ?? brain.hp ?? 1, hpMax: brain.hp ?? 1, energy: 0.8 * (brain.store ?? 1), stamina: 1, tired: false, alive: true, moods: {}, on: {}, headDown: 0, watching: false, pose: null,
       riding: null, riders: 0, spd: 0, pace: 'normal', vx: 0, vy: 0, biteCool: 0, wx: Math.cos(a), wy: Math.sin(a), side: this.rnd() < 0.5 ? 1 : -1, id: this.creatures.length, meals: 0 };
     for (const m of Object.keys(brain.moods ?? {})) { c.moods[m] = 0; c.on[m] = false; }
     this.creatures.push(c); return c;
   }
   off(a, b) { let dx = b.x - a.x, dy = b.y - a.y; if (this.torus) { const h = this.size / 2; if (dx > h) dx -= this.size; else if (dx < -h) dx += this.size; if (dy > h) dy -= this.size; else if (dy < -h) dy += this.size; } return [dx, dy, Math.hypot(dx, dy)]; }
   // Sight: within range and inside the view arc. Eating keeps the head down; watching reaches farther.
-  canSee(c, o) { const [dx, dy, d] = this.off(c, o); let R = c.sight * (c.watching ? 1.6 : 1); if (c.headDown > 0 && !c.watching) R = Math.min(R, NEAR); if (d >= R) return false;
+  canSee(c, o) { const [dx, dy, d] = this.off(c, o); let R = c.sight * (c.watching ? 1.6 : 1); if (c.headDown > 0 && !c.watching) R = Math.min(R, NEAR); if (o.brain && o.brain.camo && o.spd < 0.05) R *= o.brain.camo; if (d >= R) return false;
     if (c.arc < 6.28 && !c.watching) { const cs = (dx * c.hx + dy * c.hy) / (d || 1); if (Math.acos(Math.max(-1, Math.min(1, cs))) > c.arc / 2) return false; } return true; }
   // The movement sense: all round, but only things that are moving, and not things that creep.
-  canFeel(c, o) { if (!c.feel || o.spd < 0.05 || o.pace === 'creep') return false; return this.off(c, o)[2] < c.feel * (o.pace === 'sprint' ? 2 : 1); }
+  canFeel(c, o) { if (!c.feel || o.spd < 0.05 || o.pace === 'creep' || o.brain.silent) return false; return this.off(c, o)[2] < c.feel * (o.pace === 'sprint' ? 2 : 1); }
   isA(c, o, cat) { if (o === c || !o.alive || o.pose === 'dead') return false; const kin = o.kind === c.kind, sz = o.size * (o.pose === 'puff' ? 1.6 : 1);
     return cat === 'my kind' ? kin : cat === 'adult' ? kin && !o.young : cat === 'bigger creature' ? !kin && sz > c.size * 1.2 : cat === 'smaller creature' ? !kin && sz < c.size * 0.8 : cat === 'movement' || cat === 'creature' ? !kin : false; }
   state(c, o, st) { const [dx, dy, d] = this.off(c, o); const toward = -(o.vx * dx + o.vy * dy) / (d || 1);
+    if ((st === 'facing me' || st === 'facing away') && o.brain.falseEyes) return st === 'facing me';
     if (st === 'facing me' || st === 'facing away') { const inArc = o.arc >= 6.28 || Math.acos(Math.max(-1, Math.min(1, -(dx * o.hx + dy * o.hy) / (d || 1)))) <= o.arc / 2; return st === 'facing me' ? inArc : !inArc; }
     return st === 'still' ? o.spd < 0.05 : st === 'coming at me' ? toward > 0.2 : st === 'going away' ? toward < -0.2 : st === 'looking at me' ? this.canSee(o, c) : st === 'looking away' ? !this.canSee(o, c) : st === 'hurt' ? o.hp < o.hpMax : st === 'eating' ? o.headDown > 0 : false; }
   notice(c, when) {
@@ -46,9 +47,10 @@ class World {
     if (verb === 'am') return { s: what === 'hungry' ? 1 - c.energy : what === 'tired' ? (c.tired ? 1 : 0) : what in c.moods ? c.moods[what] : 0 };
     if (verb === 'smell') { let w = 0, cx = 0, cy = 0; for (const m of this.marks) if (m.type === what) { const [ox, oy, d] = this.off(c, m); if (d < 40) { const k = 1 - d / 40; w += k; cx += ox * k; cy += oy * k; } }
       if (w < 0.02) return { s: 0 }; const d = Math.hypot(cx / w, cy / w) || 1; return { s: Math.min(1, w / 2), dx: cx / w / d, dy: cy / w / d, d, trail: what }; }
+    if (verb === 'see' && what === 'land') { if (!this.inWater(c)) return { s: 0 }; const [dx, dy, d] = this.off(this.pond, c); return { s: 1, dx: dx / (d || 1), dy: dy / (d || 1), d: this.pond.r - d }; }
     let st = null, sel = null; for (const s of STATES) if (what.endsWith(' ' + s)) { st = s; what = what.slice(0, -s.length - 1); }
     if (what.startsWith('weakest ')) { sel = 'weakest'; what = what.slice(8); }
-    const reach = (o) => verb === 'touch' ? this.off(c, o)[2] < TOUCH : verb === 'near' ? this.canSee(c, o) && this.off(c, o)[2] < NEAR : verb === 'far' ? this.canSee(c, o) && this.off(c, o)[2] >= NEAR : verb === 'feel' ? this.canFeel(c, o) : this.canSee(c, o);
+    const reach = (o) => verb === 'touch' ? this.off(c, o)[2] < (c.brain.reach ?? TOUCH) : verb === 'near' ? this.canSee(c, o) && this.off(c, o)[2] < NEAR : verb === 'far' ? this.canSee(c, o) && this.off(c, o)[2] >= NEAR : verb === 'feel' ? this.canFeel(c, o) : this.canSee(c, o);
     let list;
     if (what === 'plant' || what === 'meat') list = (what === 'plant' ? this.plants : this.meat).filter((o) => reach(o));
     else list = this.creatures.filter((o) => this.isA(c, o, what) && reach(o) && (!st || this.state(c, o, st)));
@@ -57,7 +59,8 @@ class World {
     const best = list.reduce((a, b) => (key(b) < key(a) ? b : a)); const [dx, dy, d0] = this.off(c, best), d = d0 || 1e-6;
     return { s: verb === 'see' || verb === 'far' ? Math.max(0.05, 1 - d / c.sight) : 1, dx: dx / d, dy: dy / d, d: d0, target: best };
   }
-  holds(c, f) { return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 : f === 'tired' ? c.tired : false; }
+  inWater(c) { return !!this.pond && this.off(this.pond, c)[2] < this.pond.r; }
+  holds(c, f) { return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 * (c.brain.store ?? 1) : f === 'in water' ? this.inWater(c) : f === 'tired' ? c.tired : false; }
   step() {
     const plans = [];
     for (const c of this.creatures) {
@@ -102,23 +105,30 @@ class World {
       if (c.headDown > 0) c.headDown--; if (c.biteCool > 0) c.biteCool--;
       for (const [act, { u, n }] of Object.entries(urge)) { if (u < 0.5) continue;
         if (act === 'bite' && n.target && c.biteCool === 0) { const tg = n.target;
-          if (tg.alive !== undefined) { const [dx, dy, d] = this.off(c, tg); const ok = !c.brain.biteArc || Math.acos(Math.max(-1, Math.min(1, (dx * c.hx + dy * c.hy) / (d || 1)))) <= (c.brain.biteArc * Math.PI) / 360;
-            if (ok && tg.alive) { c.biteCool = 5; if (--tg.hp <= 0) { tg.alive = false; this.log.kills.push({ t: this.t, by: c.tag, who: tg.tag }); } } }
-          else { const arr = this.plants.includes(tg) ? this.plants : this.meat; const i = arr.indexOf(tg); if (i >= 0) { arr.splice(i, 1); c.energy = Math.min(1, c.energy + 0.3); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } }
+          if (tg.alive !== undefined) { const [dx, dy, d] = this.off(c, tg), cl = (v) => Math.acos(Math.max(-1, Math.min(1, v)));
+            const fwd = (c.brain.biteDir === 'rear' ? -1 : 1) * (dx * c.hx + dy * c.hy) / (d || 1);
+            const ok = (!c.brain.biteArc || cl(fwd) <= (c.brain.biteArc * Math.PI) / 360) && tg.size <= (c.brain.gape ?? Infinity);
+            if (ok && tg.alive) { c.biteCool = c.brain.biteCool ?? 5;
+              const rear = cl((dx * tg.hx + dy * tg.hy) / (d || 1)), within = (arc) => !!arc && rear <= (arc * Math.PI) / 360; // 0 = attacker directly behind the target
+              if (within(tg.brain.spikes) && --c.hp <= 0) { c.alive = false; this.log.kills.push({ t: this.t, by: tg.tag, who: c.tag }); }
+              if (within(tg.brain.shell) && !c.brain.crack) this.log.blocked = (this.log.blocked ?? 0) + 1;
+              else if ((tg.hp -= c.brain.dmg ?? 1) <= 0) { tg.alive = false; this.log.kills.push({ t: this.t, by: c.tag, who: tg.tag }); } } }
+          else if (c.brain.diet !== 'meat' || this.meat.includes(tg)) { const arr = this.plants.includes(tg) ? this.plants : this.meat; const i = arr.indexOf(tg); if (i >= 0) { arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + (c.brain.mealGain ?? 0.3)); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } }
         else if (act === 'cling' && n.target && !c.riding) { c.riding = n.target; n.target.riders++; } }
       if (c.riding) { const h = c.riding; if (!h.alive) { c.riding = null; h.riders = 0; } else { c.x = h.x - h.hx * 5; c.y = h.y - h.hy * 5; c.vx = h.vx; c.vy = h.vy; c.spd = h.spd; c.pace = 'creep'; continue; } }
       // movement: strength gives direction and effort, pace gives speed, stamina limits sprinting
       let m = Math.hypot(px, py), dx = m ? px / m : c.hx, dy = m ? py / m : c.hy; let effort = Math.min(1, m) * (1 - still);
-      let p = pace; if (c.tired && p === 'sprint') p = 'normal';
-      let speed = c.top * effort * PACE[p] * (c.tired ? 0.7 : 1) * (c.hp < c.hpMax ? 0.6 : 1) * (1 - 0.12 * c.riders);
+      let p = pace; if ((c.tired || c.brain.noSprint) && p === 'sprint') p = 'normal';
+      let speed = c.top * effort * PACE[p] * (c.tired ? 0.7 : 1) * (c.hp < c.hpMax ? 0.6 : 1) * (1 - 0.12 * c.riders) * (this.inWater(c) ? c.brain.water ?? 1 : c.brain.land ?? 1);
       if (effort < 0.02 && face) { dx = face[0]; dy = face[1]; }
       if (c.brain.turn) { const cur = Math.atan2(c.hy, c.hx), want = Math.atan2(dy, dx); let diff = ((want - cur + Math.PI * 3) % (Math.PI * 2)) - Math.PI; diff = Math.max(-c.brain.turn, Math.min(c.brain.turn, diff)); c.hx = Math.cos(cur + diff); c.hy = Math.sin(cur + diff); dx = c.hx; dy = c.hy; }
       else if (effort > 0.02 || face) { c.hx = dx; c.hy = dy; }
       c.vx = dx * speed; c.vy = dy * speed; c.spd = speed; c.pace = p;
       if (this.torus) { c.x = (c.x + c.vx + this.size) % this.size; c.y = (c.y + c.vy + this.size) % this.size; } else { c.x = Math.max(0, Math.min(this.size, c.x + c.vx)); c.y = Math.max(0, Math.min(this.size, c.y + c.vy)); }
-      if (p === 'sprint' && speed > 0.3) c.stamina -= 0.01; else c.stamina = Math.min(1, c.stamina + (speed < 0.05 ? 0.006 : 0.002));
+      if (p === 'sprint' && speed > 0.3) c.stamina -= 0.01 / (c.brain.stam ?? 1); else c.stamina = Math.min(1, c.stamina + (speed < 0.05 ? 0.006 : 0.002));
       if (c.stamina <= 0) c.tired = true; else if (c.stamina > 0.3) c.tired = false;
-      c.energy = Math.max(0, c.energy - 0.0012);
+      c.energy = Math.max(0, c.energy - 0.0012 * (c.brain.upkeep ?? 1));
+      if (this.starve && c.energy <= 0) { c.alive = false; this.log.starved = (this.log.starved ?? 0) + 1; }
     }
     this.t++;
   }
@@ -317,6 +327,6 @@ function bluffing() {
     row(name, `prey lost ${mean(lost).toFixed(1)} of 6`); }
 }
 
+module.exports = { World, I, mean, row, rng };
 const all = [chaseOrFollow, headOff, stalking, flanking, trail, shadowing, givingGround, searching, freezing, riding, watching, weakest, bluffing];
-const only = process.argv[2];
-for (const f of all) if (!only || f.name === only) f();
+if (require.main === module) { const only = process.argv[2]; for (const f of all) if (!only || f.name === only) f(); }
