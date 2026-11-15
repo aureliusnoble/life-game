@@ -36,6 +36,10 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | View | The world is seen from above, and creatures turn to face where they are heading. A front-on close-up is used for tending, portraits and the card for one creature. Confirmed on 15 November after seeing both |
 | Interface material | Scrapbook: torn slips, tape, pencil and rubber stamps |
 | How the look is developed | Depth before breadth. One small thing is worked on until it looks like a beautifully crafted game, judged each round by an independent reviewer, before it is extended or made into a design language |
+| Every biome | Each biome gets the attention to detail the pond scene had, with its own assets, before the look is called done. Asked on 15 November |
+| Systems | Creatures, parts, states, acts, assets, places and weather are tables and rows, so that content can be added without new drawing code. Asked on 15 November |
+| Body designer | It has to let a player be as expressive as the creature kit in the paper study. To be checked against `design/body.md` when the screens are designed |
+| Remains | A dead creature is shown in stages, so that feeding on it can be seen |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
 
@@ -224,6 +228,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits; a classification of events. Its four questions are answered. The first hour and the daily visit are wireframed |
 | Look, sound and feel | `design/look.md` (draft 3), on top of `design/art-direction.md` | The paper rulebook; three distances; how a body shows what it is doing, how it is and what it feels, with eight bearings for player-made moods; the eight places in paper; the interface's direction; sound; what it costs to draw. Three studies drawn in code, with creatures seen from above. Bearings, voices, quiet deaths and the scrapbook interface are decided. The world and the creatures were judged not yet good enough, so one small scene is being worked on in depth in `design/mockups/paper-study.html` before anything is broadened |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
+| Performance | `design/performance.md` (draft 1) | What runs on the server and what on the phone; what crosses the connection; a stand-in measurement of the simulation's cost (3,000 creatures at four steps a second take a third of a percent of one processor); and where a frame's time goes in the paper study (86% is live blurred shadows), with what the game would do instead. Proposed, not decided |
 
 ## 7. Building, once the design is closed
 
