@@ -1,6 +1,6 @@
 # Look, sound and feel
 
-Draft 1, November 2026. Design area 12 in `design/plan.md`. It builds on `design/art-direction.md`. Section 1 is decided. The rest is a proposal, and none of it is final art.
+Draft 2, November 2026. Design area 12 in `design/plan.md`. It builds on `design/art-direction.md`. Sections 1, 3 and 14 are decided. The rest is a proposal, and none of it is final art.
 
 ## 1. Decided
 
@@ -242,11 +242,16 @@ How many creatures a mid-range phone can draw at each distance has not been meas
 
 These are drawn in code and stand in for drawn art. They test the rules, and they are not the art.
 
-## 14. Questions
+## 14. Answered, and one still open
 
-1. **Bearings.** A mood wears one of eight bearings, picked by the player when the mood is made. Proposed: yes.
-2. **Voices.** A species' named calls are real sounds picked from a set. Proposed: yes.
-3. **Deaths are quiet:** a fall and a pale cut-out, with nothing gory. Proposed: yes.
+Decided on 15 November:
+
+1. **Bearings.** A mood wears one of eight bearings, picked by the player when the mood is made.
+2. **Voices.** A species' named calls are real sounds picked from a set.
+3. **Deaths are quiet:** a fall and a pale cut-out, with nothing gory.
+
+Still open:
+
 4. **The interface's material:** scrapbook, field guide, paper theatre, or a mix.
 
 ## 15. Next
