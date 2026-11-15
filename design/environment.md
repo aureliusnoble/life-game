@@ -63,12 +63,12 @@ A feature passes if it changes who thrives.
 | Day and night | At night eyes reach a fifth as far | Hunters that see killed 10.2 prey a day and 1.8 a night. Hunters that feel movement killed 4.1 a day and 6.7 a night. A silent grazer was never caught by the second kind | Keep |
 | Reed beds | Hide what is inside from anything not close | Kills fell from 26.4 to 12.6 only when prey ran to cover and held still, and those prey ate a fifth less. Prey that merely ran lost almost as many as on open ground (23.8) | Keep |
 | Crevices | Only small bodies fit | 1.7 of 6 small grazers survived against 0.6 of medium ones; on open ground none of either. They had to be given the habit of staying near the rocks | Keep; modest |
-| Kinds of food, mixed together | Different mouths for different foods | With three foods mixed evenly, the species that eats anything took over and the three specialists mostly died out | Not enough alone |
+| Kinds of food, mixed together | Different mouths for different foods | With three foods mixed evenly, the species that eats anything dominated (17.8) and the three specialists hung on at low numbers (5.2, 2.2 and 5.6) | Not enough alone |
 | Kinds of food, each in its own region | The same foods, separated in space | All three specialists thrived (about 17 each) and the generalist nearly vanished | Keep |
 | Kinds of food, each in its own season | The same foods, separated in time | Only the generalist survived | Keep |
-| Seasons | A winter with no growth | With food all year, a fast breeder held 28.6. With a winter, it died out in every run, and only the species whose eggs wait for spring survived | Keep |
+| Seasons | A winter with no growth | With food all year, a fast breeder held 25.0. With a winter, it died out in every run; the species whose eggs wait for spring held 19.6, and a fat storer hung on in 3 of 5 runs | Keep |
 | Ground that slows some bodies | Thicket slows big bodies; mud slows armoured ones | Giants fell from 6.0 survivors to 3.7 in thicket; tanks from 5.6 to 3.2 on mud; small builds rose in thicket (2.4 to 4.4) | Keep |
-| Refuges with breeding populations | Prey can hide where hunters cannot follow | On open ground hunters wiped out the grazers in 4 of 5 runs; with crevices in none. The hunters died out in every run either way | Unresolved |
+| Refuges with breeding populations | Prey can hide where hunters cannot follow | On open ground hunters wiped out the grazers in 2 of 5 runs; with crevices in none. The hunters died out in every run either way | Unresolved |
 
 ### The same eight builds in seven places
 
@@ -91,9 +91,11 @@ Survivors of six, with one hunter that sees and one that feels movement.
 - **Regions make room for specialists, and seasons make room for generalists.** A world with several foods mixed evenly has neither.
 - **Night starves anything that finds food by sight.** With day and night alternating, most builds starved. A night niche needs food that can be smelled.
 - **There is no lasting balance between hunters and prey yet.** Hunters either ate the prey out or starved once the prey could hide. Since the world is to be filled mostly by player species, this is the largest open problem.
-- **Storing fat did not carry a species through winter;** eggs that wait did. Together with the body audit, this says the inside of the body needs rework.
+- **Storing fat barely carried a species through winter;** eggs that wait did, and so did sleeping through it (`design/world.md`). Together with the body audit, this says the inside of the body needs rework.
 - **Giants still lead in four of seven places,** because the test hunters cannot take them. Until hunters come in all sizes, size is under-priced.
 - **Grazing never ran the food down,** so the loop between food, grazers and richness is untested.
+
+These figures were re-run after a counting error was fixed: eggs waiting to hatch did not count toward a species' ceiling, which flattered the species whose eggs wait.
 
 Two artefacts were removed along the way: a permanent night, which only measured starvation, and food growing inside crevices, which left big grazers pushing at rocks until they starved.
 

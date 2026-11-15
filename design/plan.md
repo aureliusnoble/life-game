@@ -53,7 +53,7 @@ Earlier areas constrain later ones, so the order matters. Art runs alongside fro
 |---|---|---|
 | Behaviour | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited; ten verbs and most functions untested |
 | Bodies | `design/body.md` (draft 1) | Parts audited; shells, the inside and camouflage need rework |
-| World | `design/environment.md` (draft 1) | Layers, regions and cycles proposed and partly audited, for one pond only |
+| World | `design/world.md` (draft 1), on top of `design/environment.md` | Six biomes on one connected map. An overused biome recovers. Biomes do not yet each have their own best build, and there is no map mockup |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |

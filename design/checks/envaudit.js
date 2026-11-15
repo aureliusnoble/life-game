@@ -15,7 +15,7 @@ function live(w, beats, { grow, cap = 20, respawn } = {}) {
   while (w.t < beats) {
     const before = w.log.kills.length; w.step(); if (grow) grow(w);
     if (respawn) for (let i = before; i < w.log.kills.length; i++) if (w.log.kills[i].who === respawn.kind) w.add(respawn.kind, respawn.brain);
-    const n = {}; for (const c of w.creatures) if (c.alive) n[c.kind] = (n[c.kind] ?? 0) + 1;
+    const n = {}; for (const c of w.creatures) if (c.alive) n[c.kind] = (n[c.kind] ?? 0) + 1; for (const e of eggs) n[e.kind] = (n[e.kind] ?? 0) + 1; // eggs count toward a species' ceiling
     for (const c of w.creatures) { if (!c.alive) continue; const b = c.brain, st = b.store ?? 1; c.age = (c.age ?? 0) + 1;
       if (c.eggCool > 0) c.eggCool--;
       else if (b.breedAt && c.age > (b.adultAt ?? 250) && c.energy >= b.breedAt * st && (n[c.kind] ?? 0) < (b.cap ?? cap)) { c.energy -= (b.eggCost ?? 0.35) * st; c.eggCool = b.eggGap ?? 200; n[c.kind]++; eggs.push({ x: c.x, y: c.y, kind: c.kind, brain: b, at: w.t + (b.hatch ?? 150) }); } }

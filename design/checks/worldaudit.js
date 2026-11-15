@@ -1,0 +1,80 @@
+// World audit for design/world.md. NOT the game's simulation.
+// Three questions: does each biome have a different best build, does a biome recover after being overused,
+// and do different ways of living through the year win in different climates?
+// Run: node design/checks/worldaudit.js [scenario]
+const { World, I, mean, row } = require('./verbaudit.js');
+const { build, hunter, prey, flee, graze, hunterBody, HUNT } = require('./bodyaudit.js');
+const { live, count, toCover } = require('./envaudit.js');
+
+// Each biome as the stand-in world can express it: its ground rule, its cover, its light and where its food grows.
+const BIOMES = {
+  rocks:   { cover: { n: 8, r: 15, maxSize: 0.9 }, food: 'open', plants: 30, regrow: 0.12 },      // crevices only small bodies fit; thin food
+  thicket: { cover: { n: 7, r: 30 }, bigDrag: 0.33, light: 0.6, food: 'inside', plants: 45, regrow: 0.25 }, // tangle slows big bodies; dim
+  meadow:  { plants: 60, regrow: 0.35 },                                                           // open, fast, rich
+  reeds:   { cover: { n: 9, r: 26 }, bigDrag: 0.6, food: 'inside', plants: 45, regrow: 0.25 },     // hides what is inside
+  pond:    { water: true, plants: 45, regrow: 0.25 },                                              // everything swims
+  mudflat: { mud: true, plants: 45, regrow: 0.25 },                                                // heavy and armoured bodies bog down
+};
+function makeBiome(name, seed, size = 260) {
+  const b = BIOMES[name], w = new World(size, seed, true); w.starve = true; w.light = b.light ?? 1;
+  if (b.cover) for (let i = 0; i < b.cover.n; i++) w.covers.push({ x: w.rnd() * size, y: w.rnd() * size, r: b.cover.r, maxSize: b.cover.maxSize });
+  if (b.water) w.pond = { x: size / 2, y: size / 2, r: 1e6 };
+  w.drag = (c) => (b.bigDrag && c.size > 1.2 && w.coverOf(c) ? b.bigDrag : 1) * (b.mud ? (c.brain.shell ? 0.4 : 1) * (c.size > 1.3 ? 0.55 : 1) : 1);
+  w.sow = () => { for (let k = 0; k < 40; k++) { const q = { x: w.rnd() * size, y: w.rnd() * size, type: 'grass' }, c = w.coverOf(q); if (b.food === 'inside' ? c : b.food === 'open' ? !c : true) { w.plants.push(q); return; } } };
+  for (let i = 0; i < b.plants; i++) w.sow();
+  w.grow = (w) => { if (w.plants.length < b.plants && w.rnd() < b.regrow) w.sow(); };
+  return w;
+}
+
+// 1. Ten builds in six biomes, with a middling hunter, a big hunter and a hunter that feels movement in each.
+function biomes() {
+  const run = [toCover, I('always', 'hold still', { str: 'strong', in: ['Scared', 'covered'] }), ...flee, ...graze], still = [I('see bigger creature', 'hold still', { str: 'strong' }), ...graze];
+  const B = { sprinter: [{ len: 1.8, wid: 0.7, organs: { muscle: 0.45, lungs: 0.35, gut: 0.1, fat: 0.1 } }, run], tank: [{ len: 1.1, wid: 1.1, shell: 'back', spikes: 'back' }, run], giant: [{ scale: 1.5 }, run], ghost: [{ camo: true }, still],
+    lookout: [{ eyes: 'stalk', eyeSize: 1 }, run], stinger: [{ weapon: 'stinger' }, [I('touch bigger creature', 'bite'), ...run]], tiptoe: [{ move: 'cilia', sideLine: true }, [I('feel movement', 'move away', { str: 'strong' }), ...run]],
+    mite: [{ scale: 0.7 }, run], swimmer: [{ move: 'fins' }, run], wader: [{ move: 'paddles' }, run] };
+  console.log('\n1. TEN BUILDS IN SIX BIOMES  (6 of one build; a middling hunter, a big one and one that feels movement; starvation on; 4000 beats, 8 runs)  survivors of 6');
+  console.log('  ' + 'build'.padEnd(10) + Object.keys(BIOMES).map((k) => k.padStart(10)).join(''));
+  const table = {};
+  for (const [name, [spec, ins]] of Object.entries(B)) { const cells = []; table[name] = [];
+    for (const bn of Object.keys(BIOMES)) { const alive = [];
+      for (let seed = 1; seed <= 8; seed++) { const w = makeBiome(bn, seed), wet = !!BIOMES[bn].water, hb = wet ? { ...hunterBody, move: 'fins' } : hunterBody;
+        for (let i = 0; i < 6; i++) w.add('g', prey(spec, ins));
+        w.add('hunter', { ...build(hb), instincts: HUNT.chaser }); w.add('hunter', { ...build({ ...hb, scale: 1.9 }), instincts: HUNT.chaser }); w.add('hunter', { ...build({ ...hb, eyes: 'none', sideLine: true }), feel: 45, instincts: HUNT.feeler });
+        live(w, 4000, { grow: w.grow }); alive.push(count(w, 'g')); }
+      table[name].push(mean(alive)); cells.push(mean(alive).toFixed(1).padStart(10)); }
+    console.log('  ' + name.padEnd(10) + cells.join('')); }
+  const names = Object.keys(B); console.log('  ' + 'best'.padEnd(10) + Object.keys(BIOMES).map((_, i) => names.reduce((a, b) => (table[b][i] > table[a][i] ? b : a)).padStart(10)).join(''));
+  console.log('  ' + 'worst'.padEnd(10) + Object.keys(BIOMES).map((_, i) => names.reduce((a, b) => (table[b][i] < table[a][i] ? b : a)).padStart(10)).join(''));
+}
+
+// 2. Overuse and recovery. Food grows faster the more of it stands, up to a ceiling, so heavy grazing slows its own regrowth.
+// With a root stock a little always comes back; without one, food eaten to nothing is gone.
+function recovery() {
+  const grazer = { ...build({}), breedAt: 0.7, eggCost: 0.3, cap: 70, instincts: [I('see plant', 'approach', { str: 'strong', in: ['hungry'] }), I('touch plant', 'bite'), I('always', 'wander')] };
+  console.log('\n2. OVERUSE AND RECOVERY  (10 breeding grazers on food that regrows from what is standing, 14000 beats, 6 runs)');
+  for (const [name, roots, rest] of [['no root stock', 0, false], ['root stock: a trickle always regrows', 0.012, false], ['root stock, and grazed ground rests before regrowing fast', 0.012, true]]) { const low = [], peak = [], endFood = [], endG = [], gone = [], back = [];
+    for (let seed = 1; seed <= 6; seed++) { const w = new World(300, seed, true); w.starve = true; const K = 80; let lowest = K, most = 0, tLow = null, tBack = null, worn = 0;
+      const sow = () => w.plants.push({ x: w.rnd() * 300, y: w.rnd() * 300, type: 'grass' }); for (let i = 0; i < 60; i++) sow(); for (let i = 0; i < 10; i++) w.add('g', grazer);
+      live(w, 14000, { grow: (w) => { const N = w.plants.length; if (rest) worn = Math.max(0, worn * 0.999 + (N < 10 ? 0.002 : 0)); const g = 0.006 * (rest ? 1 - Math.min(0.8, worn) : 1);
+        if (w.rnd() < roots + g * N * (1 - N / K)) sow(); if (w.t % 100 === 0 && w.t > 500) { const n = count(w, 'g'); most = Math.max(most, n); if (N < lowest) { lowest = N; tLow = w.t; tBack = null; } if (tLow !== null && tBack === null && N >= 0.7 * K) tBack = w.t - tLow; } } });
+      low.push(lowest); peak.push(most); endFood.push(w.plants.length); endG.push(count(w, 'g')); gone.push(count(w, 'g') === 0 && !w.eggCount('g') ? 1 : 0); back.push(tBack); }
+    const rec = back.filter((x) => x !== null);
+    row(name, `grazers peaked at ${mean(peak).toFixed(0)}`, `food fell to ${mean(low).toFixed(0)} of 80`, `food back to 70% in ${rec.length}/6 runs${rec.length ? `, taking ${mean(rec).toFixed(0)} beats` : ''}`, `at the end: food ${mean(endFood).toFixed(0)}, grazers ${mean(endG).toFixed(0)}, died out ${gone.reduce((a, b) => a + b, 0)}/6`); }
+}
+
+// 3. Ways of living through the year, in three climates.
+function lifeCycles() {
+  const eat = [I('see plant', 'approach', { str: 'strong', in: ['hungry'] }), I('touch plant', 'bite'), I('always', 'wander')], lean = { organs: { fat: 0.1, muscle: 0.35, gut: 0.3, lungs: 0.25 } };
+  const kinds = { 'fast breeder': { ...build(lean), breedAt: 0.6, eggCost: 0.25, eggGap: 120, instincts: eat }, 'fat storer': { ...build({ organs: { fat: 0.55, muscle: 0.15, gut: 0.15, lungs: 0.15 } }), breedAt: 0.85, eggCost: 0.35, eggGap: 250, instincts: eat },
+    'layer of waiting eggs': { ...build(lean), breedAt: 0.6, eggCost: 0.25, eggGap: 120, hatch: 1150, instincts: eat }, 'sleeper': { ...build({ organs: { fat: 0.45, muscle: 0.2, gut: 0.2, lungs: 0.15 } }), breedAt: 0.8, eggCost: 0.3, eggGap: 200, sleeps: true, instincts: eat } };
+  console.log('\n3. WAYS OF LIVING THROUGH THE YEAR  (4 species, 6 of each, one food, 10000 beats, 5 runs)  adults at the end, plus eggs; in brackets, runs survived');
+  for (const [wn, winter] of [['no winter', 0], ['short winter (500 beats in 2500)', 500], ['long winter (1100 beats in 2500)', 1100]]) { const fin = {}, kept = {}; for (const k of Object.keys(kinds)) { fin[k] = []; kept[k] = 0; }
+    for (let seed = 1; seed <= 5; seed++) { const w = new World(300, seed, true); w.starve = true; for (let i = 0; i < 50; i++) w.plants.push({ x: w.rnd() * 300, y: w.rnd() * 300, type: 'grass' });
+      for (const [k, b] of Object.entries(kinds)) for (let i = 0; i < 6; i++) w.add(k, b);
+      live(w, 10000, { cap: 25, grow: (w) => { const cold = winter && w.t % 2500 >= 2500 - winter; w.cold = cold; if (!cold && w.plants.length < 70 && w.rnd() < 0.3) w.plants.push({ x: w.rnd() * 300, y: w.rnd() * 300, type: 'grass' });
+        if (cold) for (const c of w.creatures) if (c.alive && c.brain.sleeps) { c.energy += 0.0012 * (c.brain.upkeep ?? 1) * 0.75; c.x -= c.vx; c.y -= c.vy; } } }); // a sleeper lies still through the cold and burns a quarter as much
+      for (const k of Object.keys(kinds)) { const a = count(w, k), e = w.eggCount(k); fin[k].push([a, e]); if (a + e > 0) kept[k]++; } }
+    row(wn, ...Object.keys(kinds).map((k) => `${k} ${mean(fin[k].map((x) => x[0])).toFixed(1)}+${mean(fin[k].map((x) => x[1])).toFixed(1)} (${kept[k]}/5)`)); }
+}
+
+if (require.main === module) { const only = process.argv[2]; for (const f of [biomes, recovery, lifeCycles]) if (!only || f.name === only) f(); }
