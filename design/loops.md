@@ -127,4 +127,4 @@ Decided on 15 November:
 
 ## 9. Next
 
-The first hour and the daily visit are wireframed in `design/mockups/loop-wireframes.html`. Next: the design session and the end as wireframes, then pet play and the named line in full.
+All four loops are wireframed in `design/mockups/loop-wireframes.html`: 26 screens. Next: pet play and the named line in full, then feedback and friends.

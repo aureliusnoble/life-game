@@ -164,8 +164,8 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 - **Where memories live:** on the server, with the species. How much is kept, what is forgotten and what an heir receives are still to design.
 - **How it would run:** a small model on the game's own server is not practical. A server at this price has no graphics card, and a model small enough to run on its processor would be slow, would compete with the simulation, and would write poorly. A cheap hosted model with a daily limit for each player is practical: each reply is short and built from a few facts. The provider, the price and the speed are to be checked when it is designed.
 - **It must be optional:** nothing in the game depends on it.
-- **A few talks a day for each player** (decided). Proposed: five, shown as pips beside the Talk button, refilled overnight.
-- **Running out is shown in the game's own language, never as a limit or a credit** (decided). Proposed: the named one has said what it has to say for today. It still answers a stroke or food with sounds and poses, the Talk button shows it settling down, and it turns back to its own life. The same thing happens if the service is down. Its place in the simulation is untouched, because the model cannot change the game.
+- **Five talks a day for each player** (decided), shown as pips beside the Talk button and refilled overnight.
+- **Running out is shown in the game's own language, never as a limit or a credit** (decided): the named one has said what it has to say for today. It still answers a stroke or food with sounds and poses, the Talk button shows it settling down, and it turns back to its own life. The same thing happens if the service is down. Its place in the simulation is untouched, because the model cannot change the game.
 - **Every call is the same bounded size,** so the cost has a ceiling: the standing instructions, the species' personality sheet, the last twenty or so events from the species memory, the named line's memories, its state now, and the last few exchanges. About 2,500 tokens in and a reply of a sentence or two, allowed up to 300 tokens out, with the model's extra reasoning turned off.
 
 **The most it can cost.** Twenty players, each using all five talks every day, is 100 calls a day. With one more call a day for each player to shorten their conversation memory, and a personality sheet for each new species, that is about 125 calls a day, or 3,750 a month.
@@ -193,7 +193,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Home screen and daily visit | The founder, the recap, pet play. Wireframes made: `design/mockups/loop-wireframes.html` | 8, 9 |
 | Creature inspector | What a creature is doing and why | 10 |
 | World views | Basin, biome and close-up; where each species lives; where the openings are | 1, 10 |
-| Death and history | The shape of a species' life, why it ended, what carries over | 7, 10 |
+| Death and history | The shape of a species' life, what ended it, what carries over. Wireframes made, in `design/mockups/loop-wireframes.html` | 7, 10 |
 | First hour | The guided first build, with callouts. Wireframes made, in the same file | 8, 13 |
 | Friends and records | Seeing and comparing each other's species | 11 |
 | Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style sheet | 12 |

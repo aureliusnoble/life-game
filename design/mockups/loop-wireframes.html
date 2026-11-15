@@ -46,20 +46,25 @@
   .wf .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; } .wf .nums div { border: 1px solid var(--w-line); border-radius: 10px; padding: 6px 2px; } .wf .nums b { display: block; font-size: 16px; }
   .wf .nav { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--w-ink); } .wf .nav span { text-align: center; padding: 11px 2px; font-size: 12px; color: var(--w-soft); } .wf .nav .on { color: var(--w-ink); font-weight: 700; box-shadow: inset 0 3px 0 var(--w-ink); }
   .wf .rank { display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--w-line); } .wf .rank small { color: var(--w-soft); display: block; }
+  .wf .box { border: 1.5px dashed var(--w-line); border-radius: 10px; min-height: 58px; display: grid; place-items: center; color: var(--w-soft); font-family: var(--mono); font-size: 10.5px; text-align: center; padding: 4px; }
+  .wf .rowl { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--w-line); } .wf .rowl small { color: var(--w-soft); display: block; }
+  .wf .pad { padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; overflow: hidden; }
   .banner { font-family: var(--mono); font-size: 12px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; }
 </style>
 
 <main class="wrap">
   <header style="display:flex;flex-direction:column;gap:8px">
     <p class="kicker">Flows · wireframe stage</p>
-    <h1>The first hour and the daily visit</h1>
-    <p class="lede">Each screen of the two loops as a wireframe: where things sit and the words on them, and nothing else. Step through and say where a screen is wrong, missing or one too many.</p>
+    <h1>The loops, screen by screen</h1>
+    <p class="lede">Each screen of the four loops as a wireframe: where things sit and the words on them, and nothing else. Step through and say where a screen is wrong, missing or one too many.</p>
   </header>
   <p class="banner">Wireframes. Striped areas stand for the living world. Nothing here is a visual design, and nothing is interactive except the stepping.</p>
 
   <div class="pick" role="group" aria-label="Loop">
     <button type="button" data-flow="first" aria-pressed="true">The first hour</button>
     <button type="button" data-flow="daily" aria-pressed="false">The daily visit</button>
+    <button type="button" data-flow="design" aria-pressed="false">The design session</button>
+    <button type="button" data-flow="end" aria-pressed="false">The end</button>
   </div>
 
   <div class="stage">
@@ -126,6 +131,28 @@
         h: bar('Friends', 'by total life') + `<div class="area" style="padding:10px 14px;overflow:hidden"><p class="big" style="margin-bottom:6px">Mara's Fidgets reached the Marsh.</p><div class="rank"><b>1</b><div>Mara · Fidgets<small>day 6</small></div><span>▮▮▮▮▮</span></div><div class="rank"><b>2</b><div>You · Mossbacks<small>day 3</small></div><span>▮▮▮</span></div><div class="rank"><b>3</b><div>Jon · Glimmerfish<small>ended on day 5</small></div>${btn('Open design', 'quiet')}</div><div class="rank"><b>–</b><div>Lollops<small>preset · not scored</small></div><span>▮▮</span></div></div>` + nav('Friends') },
       { t: 'Ahead', does: 'Leaves.', for: 'One line about tomorrow, as the reason to come back.', open: 'How sure the forecast has to be before it is shown.',
         h: top + world('the same place, at dusk', `<div class="card" style="top:30%"><p class="big">Winter begins tomorrow.</p><p>About three days left at this rate.</p>${line(btn('Done', 'primary'))}</div>`) + nav('World') },
+    ],
+    design: [
+      { t: 'What happened', does: 'Reads how the last species went, by looking.', for: 'The shape of its life and what took its members, as counts and a line. No account of why.', open: 'Whether "which instincts fired" belongs here or one tap further in.',
+        h: bar('Mossbacks', 'ended on day 6') + `<div class="area pad"><div class="box">its living weight, day by day · the area is the score</div><p class="big">Total life 412</p><p class="soft">hunted 31 · hunger 12 · cold 9 · old age 20</p><div class="rowl"><div>Fired most<small>see a bigger creature → move away</small></div><span>▮▮▮▮</span></div><div class="rowl"><div>Never fired<small>see my kind → stay near</small></div><span>▯</span></div>${line(btn('Its chronicle') + btn('Open the design', 'primary'))}</div>` + nav('Design') },
+      { t: 'Where the openings are', does: 'Looks over the basin and picks a place and an idea.', for: 'Dominance moves with what else is alive. This shows where there is room now.', open: 'How openings are worked out, and how sure the game has to be before it marks one.',
+        h: bar('The basin', 'autumn · winter in 2 days') + world('the whole basin, with markers', `<div class="pin" style="left:8%;top:26%">spare seed</div><div class="pin" style="left:54%;top:64%">no hunters</div><div class="pin" style="left:44%;top:22%">crowded</div>`) + sheet(`<div class="opt"><b>Tidal flats</b>Buried food and no hunters. Under water part of the day.</div>${line(btn('Design for here', 'primary'))}`) + nav('Design') },
+      { t: 'Design', does: 'Builds the species: its body, its forms, its instincts and how it breeds.', for: 'The hub for a design. Each line opens one editor.', open: 'Whether body and instincts are separate screens, or one screen with the tank always on top.',
+        h: bar('New species', 'budget ▮▮▮▮▯▯') + `<div class="area pad">${line(chip('Grown', 'act') + chip('+ form', 'set'))}<div class="rowl"><div>Body<small>plain size · legs · eyes on the sides</small></div><span>›</span></div><div class="rowl"><div>Instincts<small>4 rows · 1 mood</small></div><span>›</span></div><div class="rowl"><div>Breeding<small>alone · many small eggs</small></div><span>›</span></div><p class="soft">Start from</p>${line(chip('a plain body') + chip('my last design') + chip('a preset'))}${line(btn('Try it', 'primary'))}</div>` + nav('Design') },
+      { t: 'Try it', does: 'Watches the design among what lives in the chosen place, changes it, watches again.', for: 'A trial against the real neighbours before anything is released.', open: 'How long a trial runs, and whether it can be sped up.',
+        h: bar('Test tank', 'Tidal flats · as they are now') + world('test tank, with the species living there brought in', blob('yours', 16, 40, 44, 'ring') + blob('Pipkin', 58, 20, 36) + blob('Mooch', 64, 60, 40)) + sheet(line(btn('Drop food') + btn('Tide in') + btn('Night') + btn('Send a hunter')) + rowi('smell', 'buried food', 'approach') + line(btn('Back to the design', 'quiet') + btn('Ready', 'primary'))) },
+      { t: 'Release, or hold', does: 'Releases now, or keeps the design for a better moment.', for: 'The player chooses when. Releasing retires the species they have.', open: 'How plainly to say what retiring means. One line here.',
+        h: bar('Release', 'autumn · winter in 2 days') + world('the chosen place, close in', blob('eggs', 38, 30, 84)) + sheet(`<p class="big">Release in the Tidal flats?</p><p>Your Mossbacks will be retired: their eggs stop hatching and the living ones grow old.</p>${line(btn('Release now', 'primary') + btn('Hold for later', 'quiet'))}`) },
+    ],
+    end: [
+      { t: 'The last one', does: 'Watches.', for: 'The moment itself, without a screen in the way.', open: 'What this is like when the species was retired and dwindled, and not killed.',
+        h: world('the world, close in on the last one', blob('Pip VI', 34, 34, 80) + mark('it lies down', 40, 72)) + sheet(`<p class="big">The Mossbacks are gone.</p>${line(btn('Their life', 'primary'))}`) },
+      { t: 'Its life', does: 'Reads it, and can share it with friends.', for: 'The whole life in one view: its shape, the score, the records, the major events and the named line.', open: 'How many events make the chronicle. Four here.',
+        h: bar('Mossbacks', 'day 1 to day 6') + `<div class="area pad"><div class="box">its living weight over six days</div><p class="big">Total life 412 · 2nd among friends</p>${line(chip('longest named line') + chip('first to winter in the Marsh'))}<div class="rowl"><div>Day 1<small>hatched in the Grassland</small></div></div><div class="rowl"><div>Day 3<small>Yips found the herd</small></div></div><div class="rowl"><div>Day 4<small>the first winter</small></div></div><div class="rowl"><div>Day 6<small>the last one died of cold</small></div></div><p class="soft">Pip · Pip II · Pip III · Pip IV · Pip V · Pip VI</p></div>` },
+      { t: 'What is kept', does: 'Opens the old design to change it, or leaves it.', for: 'Nothing earned is lost when a species ends.', open: 'Where old designs live, and how many are kept.',
+        h: bar('Kept', 'from the Mossbacks') + `<div class="area pad"><div class="rowl"><div>The design<small>open it again and change it</small></div>${btn('Open', 'quiet')}</div><div class="rowl"><div>Unlocked<small>a nose · Scared · stay near</small></div></div><div class="rowl"><div>Records<small>2 set</small></div></div><div class="rowl"><div>The named line<small>six name-bearers, and how each died</small></div><span>›</span></div><p class="soft">Friends can now open this design too.</p></div>` },
+      { t: 'What next', does: 'Begins a design session, now or later.', for: 'The openings in the world as they stand, as the nudge toward the next idea.', open: 'Whether this is its own screen or simply the start of the design session.',
+        h: bar('The basin', 'winter') + world('the whole basin, with markers', `<div class="pin" style="left:8%;top:26%">spare seed</div><div class="pin" style="left:54%;top:64%">no hunters</div>`) + sheet(line(btn('Start a new species', 'primary') + btn('Later', 'quiet'))) + nav('Design') },
     ],
   };
 
