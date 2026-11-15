@@ -199,7 +199,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Death and history | The shape of a species' life, what ended it, what carries over. Wireframes made, in `design/mockups/loop-wireframes.html` | 7, 10 |
 | First hour | The guided first build, with callouts. Wireframes made, in the same file | 8, 13 |
 | Friends and records | Seeing and comparing each other's species. Concept test made: `design/mockups/basin-ages.html` | 11 |
-| Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style sheet | 12 |
+| Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style. Studies made: `design/mockups/eight-places.html`, `design/mockups/body-language.html`, `design/mockups/interface-materials.html` | 12 |
 | Click-through | Every screen joined up, tried by someone who has not seen it | 13 |
 
 ## 6. What exists already
@@ -219,7 +219,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Feedback | `design/feedback.md` (draft 2) | Five steps from an outcome to a change, what the simulation records, eleven instruments used the same way everywhere, the recap, and what is shown of other players' species. A paper check of twenty outcomes added two records. Its four questions are answered. A concept test is in `design/mockups/since-yesterday.html` |
 | Playing with friends | `design/friends.md` (draft 2) | Relationships between two species, measured and named; alliances as instincts; what is open of a living and an ended species; a board for each world year and for all time; titles and firsts; the basin's shared history; postcards; joining and leaving. Its four questions are answered. A concept test is in `design/mockups/basin-ages.html` |
 | Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits; a classification of events. Its four questions are answered. The first hour and the daily visit are wireframed |
-| Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
+| Look, sound and feel | `design/look.md` (draft 1), on top of `design/art-direction.md` | The paper rulebook; three distances; how a body shows what it is doing, how it is and what it feels, with eight bearings for player-made moods; the eight places in paper; the interface's direction; sound; what it costs to draw. Three studies drawn in code. Four questions open, one of them the interface's material |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 
 ## 7. Building, once the design is closed

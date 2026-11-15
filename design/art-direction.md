@@ -1,6 +1,6 @@
 # Art direction
 
-November 2026. Work in progress. Nothing here is final art.
+November 2026. Work in progress. Nothing here is final art. `design/look.md` takes this further: the paper rules, body language, the eight places, the interface's direction and sound.
 
 ## Decided
 

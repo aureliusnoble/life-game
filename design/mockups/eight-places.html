@@ -1,0 +1,198 @@
+<title>Eight Places in Paper</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: one place large and alive at the top, the eight as small still pictures under it to pick from, notes last. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b; --card: #fbf5e6; --card-ink: #2b2a26; --shadow: rgba(60, 48, 20, 0.2);
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; } h2 { font-family: var(--display); font-size: 19px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: start; } @media (min-width: 880px) { .stage { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); } }
+  .big { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .frame { background: var(--card); border-radius: 20px; padding: 10px; box-shadow: 0 8px 24px var(--shadow); display: flex; flex-direction: column; gap: 8px; color: var(--card-ink); }
+  .frame canvas { border-radius: 12px; } canvas { width: 100%; aspect-ratio: 4 / 3; display: block; max-width: 100%; }
+  .cap { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 0 4px 2px; } .cap b { font-family: var(--display); font-size: 20px; } .cap span { font: 11.5px var(--mono); color: #7a7466; text-align: right; }
+  .set { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; } .set button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; min-height: 40px; cursor: pointer; } .set button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .thumbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } @media (min-width: 560px) and (max-width: 879px) { .thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .thumbs button { background: var(--card); color: var(--card-ink); border: 2px solid transparent; border-radius: 14px; padding: 6px 6px 4px; cursor: pointer; display: flex; flex-direction: column; gap: 3px; font: 600 13px var(--body); box-shadow: 0 3px 10px var(--shadow); min-width: 0; } .thumbs button[aria-pressed="true"] { border-color: var(--card-ink); } .thumbs canvas { border-radius: 8px; }
+  .notes { display: grid; gap: 18px; grid-template-columns: 1fr; } @media (min-width: 760px) { .notes { grid-template-columns: 1fr 1fr; } } .notes div { display: flex; flex-direction: column; gap: 6px; min-width: 0; } .notes ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Study · look, sound and feel</p>
+    <h1>Eight places in paper</h1>
+    <p class="lede">A test of one question: can the paper rules make eight places that are each their own and still one world? Every shape is a flat sheet with a cut edge and a shadow from one sun. The same two creatures stand in all eight.</p>
+  </header>
+
+  <div class="stage">
+    <div class="big">
+      <div class="frame"><canvas id="big" role="img" aria-label="The chosen place, close in"></canvas><div class="cap"><b id="name"></b><span id="what"></span></div></div>
+      <div class="set" role="group" aria-label="Time of day" id="times"></div>
+      <div class="set" role="group" aria-label="Season" id="seasons"></div>
+    </div>
+    <div class="thumbs" id="thumbs" role="group" aria-label="Which place"></div>
+  </div>
+
+  <div class="notes">
+    <div>
+      <h2>What to try</h2>
+      <ul>
+        <li>Pick a place, then step through the day. Shadows swing round and lengthen, and night is a blue wash with small glows.</li>
+        <li>Step through the year. The Grassland and the Woodland change most; the Dunes and the Tidal flats hardly at all.</li>
+        <li>Look for the two creatures in each place. Their colours are the same everywhere, and should stand clear of every ground.</li>
+        <li>Things to find: the snow line, the canopy cut away round a creature, the burnt ground, the grazed patch, the ice rim, the reeds laid flat, the footprints filling in, the tide.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>What is real and what is not</h2>
+      <ul>
+        <li>Everything is drawn in code from the paper rules: flat sheets, cut edges, one shadow direction, few colours. It stands in for drawn art, and a person would compose each place far better.</li>
+        <li>Each picture is about one phone screen of a biome that is ten screens across. Landmarks are placed by hand in the code; nothing here is the game's map.</li>
+        <li>Paper grain, the pale lip on cut edges and sheets that slide as the view moves are left out.</li>
+        <li>Only the large picture moves. How fast a phone can draw this has not been measured.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const W = 240, H = 180, TAU = Math.PI * 2, INK = '#2b2a26';
+  const rng = (seed) => { let s = seed * 9301 + 49297; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; };
+  const TIMES = [['Dawn', -5, 2.5, 0.2, '#ffe2d0'], ['Day', 1.5, 2.5, 0.22, null], ['Dusk', 6.5, 3, 0.26, '#ffc68e'], ['Night', 0.5, 1.5, 0.28, '#7c86c6']], SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
+  let L = { ox: 1.5, oy: 2.5, a: 0.22 }, night = false;
+  // ---------- paper: a sheet is a flat shape, with a copy of itself as its shadow, moved by the sun ----------
+  function cut(g, path, col, h = 1) { if (h) { g.save(); g.translate(L.ox * h, L.oy * h); g.fillStyle = `rgba(40,34,20,${L.a})`; path(g); g.fill(); g.restore(); } g.fillStyle = col; path(g); g.fill(); }
+  const blob = (cx, cy, rx, ry, seed, n = 13, j = 0.13, straight = false) => { const r = rng(seed), p = []; for (let i = 0; i < n; i++) { const a = i / n * TAU, k = 1 + (r() - 0.5) * 2 * j; p.push([cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k]); }
+    return (g) => { g.beginPath(); if (straight) { p.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); } else { const m = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], s = m(p[n - 1], p[0]); g.moveTo(s[0], s[1]); for (let i = 0; i < n; i++) { const e = m(p[i], p[(i + 1) % n]); g.quadraticCurveTo(p[i][0], p[i][1], e[0], e[1]); } } g.closePath(); }; };
+  const leaf = (x, y, w, len, a) => (g) => { const c = Math.cos(a), s = Math.sin(a), tx = x + s * len, ty = y - c * len, mx = x + s * len * 0.5, my = y - c * len * 0.5; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(mx - c * w, my - s * w, tx, ty); g.quadraticCurveTo(mx + c * w, my + s * w, x, y); g.closePath(); };
+  const disc = (x, y, r, ry = r) => (g) => { g.beginPath(); g.ellipse(x, y, r, ry, 0, 0, TAU); };
+  const ribbon = (pts, w) => (g) => { g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y - w / 2) : g.moveTo(x, y - w / 2))); for (let i = pts.length - 1; i >= 0; i--) g.lineTo(pts[i][0], pts[i][1] + w / 2); g.closePath(); };
+  const wavy = (x0, y0, x1, y1, amp, seed, n = 9) => { const r = rng(seed); return Array.from({ length: n + 1 }, (_, i) => [x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n + (r() - 0.5) * amp]); };
+  const fill = (g, path, col) => { g.fillStyle = col; path(g); g.fill(); };
+  const dots = (g, n, seed, fn) => { const r = rng(seed); for (let i = 0; i < n; i++) fn(r() * W, r() * H, r, i); };
+  // the same two creatures in every place
+  function critter(g, x, y, t, kind = 0, k = 1) { const col = kind ? '#4f7fb8' : '#ef8a68', dk = kind ? '#3b659a' : '#d9714f', hop = Math.max(0, Math.sin(t / 11 + x)) * 2 * k; y -= hop;
+    if (!kind) for (const s of [-1, 1]) cut(g, leaf(x + s * 2.6 * k, y - 9 * k, 1.8 * k, 7 * k, s * 0.3), col, 1.2); else cut(g, leaf(x - 5 * k, y - 4 * k, 2.4 * k, 7 * k, -1.9), dk, 1.2);
+    cut(g, disc(x, y - 5 * k, 6.6 * k, 5.6 * k), col, 1.2 + hop * 0.4); for (const s of [-1, 1]) { fill(g, disc(x + 1.2 * k + s * 2.4 * k, y - 6.4 * k, 1.5 * k, 1.6 * k), '#fff'); fill(g, disc(x + 1.6 * k + s * 2.4 * k, y - 6.4 * k, 0.75 * k), INK); } }
+  const glow = (g, x, y, r, col) => { const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); };
+
+  // ---------- the eight places. s is the season, 0 spring to 3 winter. Each returns what should glow at night. ----------
+  const PLACES = [
+    { name: 'Highlands', what: 'stone in stacked sheets · the snow line', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, '#a8a1ba'); const snow = [1, 3.4, 2, 0][s];
+      ['#b8b2c9', '#c7c2d6', '#d8d4e2', '#e7e4ee'].forEach((c, i) => cut(g, blob(152 + i * 9, 78 - i * 7, 104 - i * 25, 80 - i * 20, 11 + i, 11, 0.1, true), i >= snow ? '#f6f8fb' : c, 1.6));
+      if (s === 1) cut(g, blob(181, 56, 13, 9, 5, 8, 0.2, true), '#f6f8fb', 0.6);
+      dots(g, s === 3 ? 3 : 10, 21, (x, y, r) => { const px = 30 + x * 0.8, py = 30 + y * 0.75; cut(g, blob(px, py, 4 + r() * 5, 3 + r() * 3, 3 + x, 7, 0.3), '#a9bf8c', 0.3); });
+      cut(g, blob(52, 130, 29, 19, 31, 11, 0.1), '#8d86a2', 0); fill(g, blob(53.5, 131.5, 26, 16.5, 31, 11, 0.1), s === 3 ? '#dfeaf0' : '#5f93a3');
+      fill(g, (g) => { g.beginPath(); g.ellipse(120, 136, 13, 10, 0, Math.PI, TAU); g.closePath(); }, '#3a3448');
+      dots(g, 16, 41, (x, y, r, i) => { const px = 12 + x * 0.42, py = 100 + y * 0.42; cut(g, blob(px, py, 2 + r() * 2.4, 1.6 + r() * 1.8, i, 5, 0.3, true), i % 3 ? '#8f88a3' : '#b0704f', 0.5); });
+      critter(g, 86, 158, t, 0); critter(g, 176, 118, t, 1);
+      for (let i = 0; i < 2; i++) fill(g, blob(((t * 0.12 + i * 170) % 380) - 70, 50 + i * 70, 62, 30, 51 + i, 10, 0.2), 'rgba(60,55,90,0.12)');
+      if (s === 3) dots(g, 46, 61, (x, y) => fill(g, disc((x + Math.sin(t / 30 + y) * 4) % W, (y + t * 0.35) % H, 1.2), '#fff'));
+      return [[53, 131, 20, 'rgba(210,225,255,0.35)']]; } },
+    { name: 'Woodland', what: 'a canopy cut away round the creature · light through the holes', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, ['#6f9a58', '#5f8a4e', '#8a7a4a', '#8d8b79'][s]); const lit = [['#86ad62', '#55793f'], ['#527a40', '#7da65f'], ['#d08a3a', '#c9643a', '#e0b04a'], ['#a39a84', '#7d7462']][s];
+      dots(g, 90, 12, (x, y, r, i) => { g.save(); g.translate(x, y); g.rotate(r() * 3); g.fillStyle = lit[i % lit.length]; g.fillRect(-2, -1, 4, 2.2); g.restore(); });
+      if (!night) for (let i = 0; i < 5; i++) fill(g, blob(30 + i * 48 + Math.sin(t / 90 + i) * 8, 40 + ((i * 53) % 110) + Math.cos(t / 110 + i) * 5, 16, 11, 70 + i, 9, 0.25), `rgba(255,238,150,${s === 3 ? 0.42 : 0.3})`);
+      const shrooms = []; for (let i = 0; i < (s === 2 ? 11 : 4); i++) { const a = i / 11 * TAU, x = 70 + Math.cos(a) * 22, y = 128 + Math.sin(a) * 13; shrooms.push([x, y]); fill(g, (g) => { g.beginPath(); g.rect(x - 0.8, y - 3, 1.6, 4); }, '#f3e9d2'); cut(g, (g) => { g.beginPath(); g.ellipse(x, y - 3, 3.6, 2.6, 0, Math.PI, TAU); g.closePath(); }, '#e2733a', 0.6); }
+      const trunks = [[38, 44, 11], [112, 30, 9], [196, 52, 12], [160, 128, 10], [24, 140, 9], [222, 150, 9]];
+      for (const [x, y, r] of trunks) { for (let k = 0; k < 3; k++) cut(g, leaf(x, y, r * 0.55, r * 1.7, k * 2.1 + x), '#5b4634', 0); cut(g, disc(x, y, r), '#5b4634', 3.2); fill(g, disc(x - 1, y - 1, r * 0.55), '#6d5540'); }
+      if (s === 1 || s === 2) dots(g, 9, 14, (x, y, r, i) => fill(g, disc(trunks[i % 2 ? 0 : 3][0] + (r() - 0.5) * 34, trunks[i % 2 ? 0 : 3][1] + 14 + r() * 12, 1.8), '#d0453a'));
+      critter(g, 120, 96, t, 0); critter(g, 84, 150, t, 1);
+      if (s === 3) { g.strokeStyle = '#5b4634'; g.lineWidth = 1.4; g.lineCap = 'round'; const r = rng(8); for (const [x, y] of trunks) for (let k = 0; k < 5; k++) { const a = r() * TAU, l = 16 + r() * 16; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); } }
+      else { const cols = [['#8fc46f', '#7fb862'], ['#4f8f4c', '#43803f'], ['#d08a3a', '#c2703a'], []][s]; g.save(); g.beginPath(); g.rect(-20, -20, W + 40, H + 40); g.arc(120, 92, 34, 0, TAU, true); g.clip('evenodd');
+        [[30, 30, 56, 40], [120, 12, 60, 30], [206, 40, 52, 44], [176, 140, 58, 40], [20, 150, 46, 38], [100, 176, 50, 24]].forEach(([x, y, rx, ry], i) => cut(g, blob(x + Math.sin(t / 70 + i) * 1.2, y, rx, ry, 30 + i, 12, 0.2), cols[i % 2], 4)); g.restore(); }
+      if (s === 2) dots(g, 14, 15, (x, y, r, i) => { g.save(); g.translate((x + Math.sin(t / 25 + i) * 10) % W, (y + t * 0.3) % H); g.rotate(t / 20 + i); g.fillStyle = lit[i % 3]; g.fillRect(-2.2, -1.2, 4.4, 2.4); g.restore(); });
+      return shrooms.map(([x, y]) => [x, y - 3, 9, 'rgba(255,170,90,0.5)']); } },
+    { name: 'Heath', what: 'heather in flower · burnt ground and what follows', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, ['#d6bb74', '#dcb866', '#d2ac62', '#c9b68a'][s]); fill(g, ribbon(wavy(-10, 150, 250, 90, 10, 3), 13), 'rgba(255,245,215,0.45)');
+      cut(g, blob(58, 56, 23, 15, 7), '#f0e2b6', 0); fill(g, blob(59, 57, 17, 10.5, 7), s === 1 ? '#7fb0b0' : '#6fa8b4');
+      const bx = 166, by = 118, embers = []; if (s === 0) cut(g, blob(bx, by, 46, 30, 9, 13, 0.18), '#9ccf6a', 0.3); else { if (s === 1) fill(g, blob(bx, by, 49, 33, 9, 13, 0.18), '#f08a3a'); cut(g, blob(bx, by, 46, 30, 9, 13, 0.18), s === 3 ? '#5a534a' : '#3a332c', 0.3);
+        if (s > 1) dots(g, s === 2 ? 26 : 10, 17, (x, y) => fill(g, leaf(bx - 36 + x * 0.3, by - 20 + y * 0.22, 1.1, 4.5, 0), '#8fd05f'));
+        if (s === 1) for (let i = 0; i < 6; i++) { const x = bx + 34 + (i % 3) * 5, y = by - 14 + i * 6, k = 7 + Math.sin(t / 4 + i * 2) * 2.5; cut(g, leaf(x, y, 3, k + 4, 0.1), '#f08a3a', 0.4); fill(g, leaf(x, y, 1.6, k, 0.1), '#fbdc6a'); embers.push([x, y - 4, 16, 'rgba(255,170,70,0.55)']); } }
+      const hc = [['#a9b58a', '#9aa77a'], ['#d98aa8', '#c96f95'], ['#b58a7a', '#a37c6e'], ['#8f8a78', '#857f6e']][s];
+      dots(g, 30, 19, (x, y, r, i) => { if (Math.hypot((x - bx) / 50, (y - by) / 34) < 1 || Math.hypot((x - 58) / 26, (y - 56) / 18) < 1) return; cut(g, blob(x, y, 5 + r() * 4, 3.4 + r() * 2.4, i, 8, 0.28), hc[i % 2], 0.7); });
+      dots(g, 20, 23, (x, y, r, i) => { if (Math.hypot((x - bx) / 50, (y - by) / 34) < 1) return; for (let k = -1; k <= 1; k++) cut(g, leaf(x, y, 1.6, 7 + r() * 3, k * 0.5 + Math.sin(t / 50 + x) * 0.06), ['#9fb07a', '#a3a66f', '#9a9a68', '#8f927a'][s], 0.8); });
+      critter(g, 100, 110, t, 0); critter(g, 70, 84, t, 1); return embers; } },
+    { name: 'Grassland', what: 'grass in flaps · a grazed patch · the river', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, ['#a6d472', '#cfcf68', '#cdaa5e', '#b8b09c'][s]); const riv = wavy(-10, 36, 250, 104, 12, 5), ry = (x) => 36 + (x + 10) / 260 * 68;
+      cut(g, ribbon(riv, 30), '#5f9fc4', 0); fill(g, ribbon(riv, 20), '#79b4d4'); if (s === 3) { fill(g, ribbon(riv.map(([x, y]) => [x, y - 13]), 5), '#eef5f8'); fill(g, ribbon(riv.map(([x, y]) => [x, y + 13]), 5), '#eef5f8'); }
+      for (let i = 0; i < 9; i++) { const x = ((t * 0.5 + i * 31) % 270) - 15; fill(g, ribbon([[x, ry(x) + (i % 3 - 1) * 5], [x + 12, ry(x + 12) + (i % 3 - 1) * 5]], 1.6), 'rgba(255,255,255,0.55)'); }
+      if (s === 3) dots(g, 7, 9, (x, y, r, i) => fill(g, blob(x, y, 20 + r() * 14, 10 + r() * 8, i, 9, 0.25), 'rgba(255,255,255,0.4)'));
+      const gc = [['#7fbf55', '#8fca62'], ['#b3b84e', '#c2c25a'], ['#b8924c', '#c29d57'], ['#a39a86', '#aea592']][s], len = s === 3 ? 5.5 : 9.5, r = rng(27);
+      for (let y = 14; y < 184; y += 10) for (let x = 4; x < 240; x += 8) { const px = x + (r() - 0.5) * 5, py = y + (r() - 0.5) * 4; if (Math.abs(py - 5 - ry(px)) < 21) continue; const gz = Math.hypot((px - 168) / 42, (py - 142) / 26) < 1;
+          cut(g, leaf(px, py, 2.1, gz ? 3.2 : len, gz ? 1.1 : Math.sin(t / 42 + px / 34 + py / 60) * 0.34 + 0.1), gc[(x / 8 + y / 10) % 2 | 0], 0.6); }
+      if (s < 2) dots(g, 18, 33, (x, y, r, i) => { if (Math.abs(y - ry(x)) < 22) return; const c = ['#fff', '#fbdc6a', '#f7b9cc'][i % 3]; if (night) fill(g, disc(x, y, 1.6), c); else { for (let k = 0; k < 5; k++) fill(g, disc(x + Math.cos(k / 5 * TAU) * 2.4, y + Math.sin(k / 5 * TAU) * 2.4, 1.7), c); fill(g, disc(x, y, 1.3), '#e9a23a'); } });
+      critter(g, 160, 146, t, 0); critter(g, 188, 136, t, 0, 0.8); critter(g, 60, 150, t, 1);
+      return s < 3 ? [[30, 130, 5, 'rgba(250,240,140,0.7)'], [96, 160, 5, 'rgba(250,240,140,0.7)'], [214, 28, 5, 'rgba(250,240,140,0.7)'], [130, 24, 5, 'rgba(250,240,140,0.7)']].map(([x, y, r2, c], i) => [x + Math.sin(t / 30 + i * 2) * 9, y + Math.cos(t / 26 + i) * 6, r2, c]) : []; } },
+    { name: 'Lakeland', what: 'water darker with depth · pads · an ice rim in winter', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, '#8fd0d8'); fill(g, blob(126, 94, 108, 70, 4, 13, 0.1), '#63b0c6'); fill(g, blob(132, 100, 62, 36, 6, 11, 0.14), '#3f86a3');
+      if (s === 0) dots(g, 6, 8, (x, y, r, i) => fill(g, blob(60 + x * 0.6, 50 + y * 0.5, 14 + r() * 10, 7 + r() * 5, i, 9, 0.3), 'rgba(140,195,90,0.4)'));
+      for (let i = 0; i < 7; i++) { const x = ((t * 0.25 + i * 47) % 280) - 20, y = 40 + i * 17; fill(g, ribbon([[x, y], [x + 22, y + 1]], 1.6), 'rgba(255,255,255,0.4)'); }
+      const sc = ['#9ccf6a', '#8fc46a', '#b9b060', '#b9b8a6'][s], shore = [blob(8, 10, 62, 44, 2, 12, 0.14), blob(232, 176, 70, 42, 3, 12, 0.14)];
+      if (s === 3) { g.save(); g.translate(4, 4); fill(g, blob(8, 10, 74, 54, 2, 12, 0.14), 'rgba(255,255,255,0.8)'); g.restore(); g.save(); g.translate(-4, -4); fill(g, blob(232, 176, 82, 52, 3, 12, 0.14), 'rgba(255,255,255,0.8)'); g.restore(); }
+      shore.forEach((p) => cut(g, p, sc, 1.2)); cut(g, blob(154, 66, 23, 15, 12, 10, 0.16), sc, 1.2); cut(g, disc(158, 62, 8), ['#7fb862', '#4f8f4c', '#d08a3a', '#8a7f6c'][s], 3); fill(g, disc(157, 61, 4.5), ['#8fc46f', '#5c9d57', '#dc9a4a', '#978c78'][s]);
+      for (let i = 0; i < 3; i++) { const p = ((t + i * 70) % 210) / 210; g.strokeStyle = `rgba(255,255,255,${0.6 * (1 - p)})`; g.lineWidth = 1.2; g.beginPath(); g.ellipse([92, 180, 120][i], [120, 108, 60][i], 3 + p * 15, 2 + p * 9, 0, 0, TAU); g.stroke(); }
+      if (s !== 3) dots(g, 15, 16, (x, y, r, i) => { const px = 40 + x * 0.66, py = 96 + y * 0.36 - (i % 4) * 14, rr = 4.6 + r() * 2.4, a = r() * TAU; cut(g, (g) => { g.beginPath(); g.moveTo(px, py); g.arc(px, py, rr, a, a + TAU - 0.7); g.closePath(); }, s === 2 ? '#8f9a52' : '#6fae5a', 0.5); if (s === 1 && i % 4 === 0) { for (let k = 0; k < 5; k++) fill(g, disc(px + Math.cos(k / 5 * TAU) * 1.8, py + Math.sin(k / 5 * TAU) * 1.8, 1.5), '#f7a9c4'); fill(g, disc(px, py, 1), '#fbdc6a'); } });
+      const rc = s === 3 ? '#cdc5a4' : '#d2b85a', rl = s === 3 ? 7 : 12; dots(g, 26, 18, (x, y, r, i) => { const a = i < 13 ? 0.2 + r() * 1.1 : Math.PI + 0.2 + r() * 1.1, cx = i < 13 ? 8 : 232, cy = i < 13 ? 10 : 176, px = cx + Math.cos(a) * (i < 13 ? 66 : 74), py = cy + Math.sin(a) * (i < 13 ? 46 : 44); cut(g, leaf(px, py, 1.5, rl + r() * 4, Math.sin(t / 45 + i) * 0.15 + (r() - 0.5) * 0.3), rc, 1); });
+      critter(g, 34, 30, t, 0); fill(g, ribbon([[96, 86], [108, 84]], 1.4), 'rgba(255,255,255,0.6)'); critter(g, 120, 88, t, 1);
+      return [[178, 118, 26, 'rgba(235,240,255,0.5)']]; } },
+    { name: 'Marsh', what: 'reed stands that hide · mud · the spring flood', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, ['#8fa25e', '#8a9a5a', '#97905a', '#9a9684'][s]);
+      [[60, 60, 36, 22], [176, 44, 30, 18], [128, 140, 44, 22], [214, 126, 24, 20]].forEach(([x, y, rx, ry], i) => { cut(g, blob(x, y, rx, ry, 5 + i, 11, 0.2), '#7a6248', 0); for (let k = 0; k < 3; k++) fill(g, ribbon([[x - rx * 0.5 + k * 9, y - ry * 0.3 + k * 5], [x - rx * 0.5 + k * 9 + 12, y - ry * 0.3 + k * 5 - 1]], 1.3), 'rgba(255,255,255,0.28)'); });
+      fill(g, ribbon(wavy(-10, 100, 250, 80, 22, 6, 11), 9), '#4f6f6a'); fill(g, (g) => { const p = wavy(-10, 20, 250, 30, 60, 13, 9); g.beginPath(); p.forEach(([x, y], i) => { const yy = 10 + i * 19, xx = 104 + (y - 25) * 0.5; i ? g.lineTo(xx - 4, yy) : g.moveTo(xx - 4, yy); }); for (let i = p.length - 1; i >= 0; i--) g.lineTo(104 + (p[i][1] - 25) * 0.5 + 4, 10 + i * 19); g.closePath(); }, '#4f6f6a');
+      if (s === 0) { fill(g, blob(70, 140, 112, 62, 14, 13, 0.14), 'rgba(110,170,182,0.55)'); for (let i = 0; i < 5; i++) { const x = ((t * 0.2 + i * 40) % 170) - 10; fill(g, ribbon([[x, 110 + i * 14], [x + 18, 111 + i * 14]], 1.4), 'rgba(255,255,255,0.4)'); } }
+      critter(g, 150, 100, t, 1); critter(g, 54, 108, t, 0);
+      const st = [[52, 112, 30, 16], [190, 92, 26, 15], [106, 44, 24, 13], [206, 160, 26, 13]], rc = ['#9ab860', '#cdb968', '#c9a85c', '#c9c0a0'][s], rl = [9, 17, 16, 14][s];
+      st.forEach(([cx, cy, rx, ry], k) => { const r = rng(40 + k); for (let i = 0; i < 26; i++) { const x = cx + (r() - 0.5) * 2 * rx, y = cy + (r() - 0.5) * 2 * ry + 8, a = s === 3 ? 1.25 + (r() - 0.5) * 0.3 : Math.sin(t / 50 + x / 20) * 0.12 + (r() - 0.5) * 0.24, l = rl + r() * 5; cut(g, leaf(x, y, 1.5, l, a), rc, s === 3 ? 0.4 : 1.4); if (s === 1 || s === 2) fill(g, disc(x + Math.sin(a) * l, y - Math.cos(a) * l, 1.3, 2.4), '#a8623a'); } });
+      for (let i = 0; i < 3; i++) { const p = ((t + i * 90) % 260) / 260; g.strokeStyle = `rgba(255,255,255,${0.55 * (1 - p)})`; g.lineWidth = 1; g.beginPath(); g.arc([30, 120, 200][i], [97, 92, 86][i], 1 + p * 5, 0, TAU); g.stroke(); }
+      if (L.name !== 'Day' || s === 2) for (let i = 0; i < 4; i++) fill(g, blob(((t * 0.1 + i * 90) % 340) - 50, 36 + i * 38, 54, 15, 60 + i, 11, 0.25), 'rgba(240,244,240,0.26)');
+      return s !== 3 ? [[84, 70, 5, 'rgba(250,240,140,0.7)'], [166, 130, 5, 'rgba(250,240,140,0.7)'], [30, 150, 5, 'rgba(250,240,140,0.7)']].map(([x, y, r2, c], i) => [x + Math.sin(t / 28 + i * 2) * 10, y + Math.cos(t / 24 + i) * 7, r2, c]) : []; } },
+    { name: 'Dunes', what: 'ripples that creep · a green hollow · footprints filling in', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, s === 3 ? '#e6d9b8' : '#eedcae'); g.strokeStyle = '#e0be8c'; g.lineWidth = 1.2; g.lineCap = 'round';
+      for (let y = 12; y < 180; y += 9) for (let x = -12 + ((y * 7 + t * 0.08) % 14); x < 250; x += 14) { g.beginPath(); g.arc(x, y, 6, 0.25, Math.PI - 0.25); g.stroke(); }
+      [[176, 46, 78, 26, 1], [70, 86, 70, 22, 2], [190, 138, 64, 20, 3]].forEach(([x, y, rx, ry, i]) => { cut(g, (g) => { g.beginPath(); g.ellipse(x, y, rx, ry, -0.12, Math.PI * 0.95, TAU * 1.02); g.quadraticCurveTo(x, y - ry * 0.2, x - rx, y + 3); g.closePath(); }, '#f7ecc9', 2.4); });
+      cut(g, blob(64, 132, 34, 21, 8, 11, 0.18), '#d9cf9a', 0); fill(g, blob(65, 133, 26, 15, 8, 11, 0.18), '#b7c48a'); dots(g, 12, 9, (x, y, r, i) => { const px = 44 + x * 0.17, py = 126 + y * 0.09; for (let k = -1; k <= 1; k++) cut(g, leaf(px, py, 1.2, 9 + r() * 4, k * 0.4 + Math.sin(t / 22 + px) * 0.2 + 0.2), '#9aa98a', 0.9); });
+      const dl = wavy(-10, 168, 250, 160, 8, 10, 14); dots(g, 34, 11, (x, y, r, i) => { const p = dl[i % dl.length], px = p[0] + r() * 14, py = p[1] + (r() - 0.5) * 6; g.save(); g.translate(px, py); g.rotate(r() * 3); if (i % 3 === 0) cut(g, (g) => { g.beginPath(); g.rect(-5, -0.9, 10, 1.8); }, '#9a938a', 0.5); else if (i % 3 === 1) cut(g, disc(0, 0, 1.8, 1.3), '#f0b7b0', 0.4); else cut(g, leaf(0, 0, 1.4, 5, 0), '#7fa06a', 0.4); g.restore(); });
+      for (let i = 0; i < 17; i++) { const k = i / 16, x = 206 - k * 92 + (i % 2) * 3, y = 34 + k * 62; fill(g, disc(x, y, 1.5, 1.1), `rgba(150,120,80,${0.12 + 0.5 * k})`); }
+      critter(g, 112, 104, t, 0); critter(g, 78, 138, t, 1);
+      for (let i = 0; i < 6; i++) { const x = ((t * 1.4 + i * 60) % 320) - 40, y = 20 + i * 27; fill(g, ribbon([[x, y], [x + 26, y - 1]], 1), 'rgba(255,250,235,0.7)'); } return []; } },
+    { name: 'Tidal flats', what: 'the sea as one sheet · pools left behind · the strandline', draw(g, t, s) {
+      fill(g, (g) => { g.beginPath(); g.rect(0, 0, W, H); }, '#8f887c'); for (let i = 0; i < 6; i++) fill(g, ribbon(wavy(-10, 20 + i * 24, 250, 26 + i * 24, 5, i, 7), 5), 'rgba(255,255,255,0.1)');
+      g.strokeStyle = '#6f675c'; g.lineWidth = 1; dots(g, 20, 13, (x, y) => { g.beginPath(); for (let a = 0; a < 9; a += 0.6) g.lineTo(x + Math.cos(a) * a * 0.42, y * 0.8 + Math.sin(a) * a * 0.3); g.stroke(); });
+      [[52, 52, 22, 13], [164, 76, 26, 14], [96, 118, 18, 11], [206, 30, 16, 10]].forEach(([x, y, rx, ry], i) => { cut(g, blob(x, y, rx + 3, ry + 3, 20 + i, 10, 0.16), '#a39c8e', 0); fill(g, blob(x + 1, y + 1, rx, ry, 20 + i, 10, 0.16), '#6fa9b8'); });
+      const sl = wavy(-10, 40, 250, 34, 7, 12, 14); dots(g, 30, 14, (x, y, r, i) => { const p = sl[i % sl.length], px = p[0] + r() * 14, py = p[1] + (r() - 0.5) * 5; if (i % 2) cut(g, leaf(px, py, 1.5, 5.5, r() * 3), '#6f9a5a', 0.4); else cut(g, disc(px, py, 1.9, 1.4), '#f0b7b0', 0.4); });
+      critter(g, 120, 62, t, 0); critter(g, 196, 54, t, 1);
+      const edge = 118 + Math.sin(t / 150) * 44, top = (dy, amp) => (g) => { g.beginPath(); g.moveTo(-10, H + 10); g.lineTo(-10, edge + dy); for (let x = -10; x <= 250; x += 20) g.quadraticCurveTo(x + 10, edge + dy - amp + Math.sin(x / 31 + t / 40) * 2.5, x + 20, edge + dy + Math.sin(x / 47) * 3); g.lineTo(250, H + 10); g.closePath(); };
+      cut(g, top(0, 7), '#f4f7f6', 0.8); fill(g, top(4, 6), '#79b4d4'); fill(g, top(18, 4), '#5f9fc4'); fill(g, top(40, 3), '#4a86ad');
+      return [[60, edge - 2, 12, 'rgba(140,240,235,0.45)'], [130, edge - 2, 12, 'rgba(140,240,235,0.45)'], [200, edge - 2, 12, 'rgba(140,240,235,0.45)']]; } },
+  ];
+
+  // ---------- one picture: the place, then the light of the hour laid over it ----------
+  let place = 3, time = 1, season = 1;
+  function render(cv, i, t) { const w = cv.clientWidth; if (!w) return; const dpr = Math.min(2, window.devicePixelRatio || 1), pw = Math.round(w * dpr), ph = Math.round(w * 0.75 * dpr); if (cv.width !== pw) { cv.width = pw; cv.height = ph; }
+    const g = cv.getContext('2d'), T = TIMES[time]; L = { ox: T[1], oy: T[2], a: T[3], name: T[0] }; night = time === 3; g.setTransform(pw / W, 0, 0, pw / W, 0, 0); g.globalCompositeOperation = 'source-over';
+    const glows = PLACES[i].draw(g, t, season) || [];
+    if (T[4]) { g.globalCompositeOperation = 'multiply'; g.fillStyle = T[4]; g.fillRect(0, 0, W, H); g.globalCompositeOperation = 'source-over'; }
+    if (night) { g.globalCompositeOperation = 'lighter'; for (const [x, y, r, c] of glows) glow(g, x, y, r, c); g.globalCompositeOperation = 'source-over'; } }
+  const $ = (id) => document.getElementById(id), big = $('big'), thumbs = [];
+  $('thumbs').innerHTML = PLACES.map((p, i) => `<button type="button" data-i="${i}"><canvas role="img" aria-label="${p.name}, small"></canvas>${p.name}</button>`).join(''); for (const b of $('thumbs').children) thumbs.push(b.firstChild);
+  $('times').innerHTML = TIMES.map((x, i) => `<button type="button" data-i="${i}">${x[0]}</button>`).join(''); $('seasons').innerHTML = SEASONS.map((x, i) => `<button type="button" data-i="${i}">${x}</button>`).join('');
+  function refresh(all) { $('name').textContent = PLACES[place].name; $('what').textContent = PLACES[place].what; const mark = (el, v) => { for (const b of el.children) b.setAttribute('aria-pressed', String(+b.dataset.i === v)); }; mark($('thumbs'), place); mark($('times'), time); mark($('seasons'), season); if (all) thumbs.forEach((c, i) => render(c, i, 300)); if (still) render(big, place, 300); }
+  const pick = (id, set, all) => $(id).addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { set(+b.dataset.i); refresh(all); } });
+  pick('thumbs', (v) => { place = v; }, false); pick('times', (v) => { time = v; }, true); pick('seasons', (v) => { season = v; }, true);
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; let t0 = null;
+  const frame = (now) => { if (t0 === null) t0 = now; render(big, place, 300 + (now - t0) * 0.06); requestAnimationFrame(frame); };
+  window.addEventListener('resize', () => refresh(true)); refresh(true); if (!still) requestAnimationFrame(frame);
+})();
+</script>

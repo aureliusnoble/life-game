@@ -238,4 +238,4 @@ These are drawn in code and stand in for drawn art. They test the rules, and the
 
 ## 14. Next
 
-The three studies. Then screens, which is area 13.
+The three studies are made. They were checked to run on a phone-width screen without errors; whether each pose reads, whether the places are beautiful and which material to take are for a person to judge. Then screens, which is area 13.
