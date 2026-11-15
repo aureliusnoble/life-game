@@ -1,6 +1,6 @@
 # Pet play: the named line, tending and talking
 
-Draft 1, November 2026. Design area 9 in `design/plan.md`. Section 1 is decided. The rest is a proposal on paper.
+Draft 2, November 2026. Design area 9 in `design/plan.md`. Section 1 is decided. The rest is a proposal on paper.
 
 ## 1. Decided
 
@@ -12,6 +12,11 @@ Draft 1, November 2026. Design area 9 in `design/plan.md`. Section 1 is decided.
 - **Running out of talks is shown in the game's own language:** the named one has said what it has to say for today.
 - **The player's tools work through the creatures' own language,** so a species responds the way its instincts say it should.
 - **Little text.** The creature shows how it is; it is not described.
+- **Only the line is named.** Other individuals cannot be given names.
+- **An heir meets its keeper as a stranger.** Memories pass down the line; trust does not.
+- **The heir is not too old.** It is chosen to have most of its life ahead of it.
+- **Nudges are not rationed.** They are short-lived.
+- **No marker is left** where a name-bearer falls.
 
 ## 2. The named one
 
@@ -32,13 +37,13 @@ Each individual also has one quirk of its own, such as a liking for the water's 
 
 ## 3. The line
 
-- **The heir** is the name-bearer's oldest living child, or failing that its nearest living relative.
+- **The heir** is a descendant with most of its life ahead of it: a young adult if there is one, and otherwise the oldest of the young. Children come before grandchildren. If there is no descendant, the nearest living relative is chosen by the same test.
 - **In a colony** the line is the breeder's.
 - **In a species that splits,** one of the two halves keeps the name.
 - **In a species that lays once and dies,** the name waits in an egg through the winter.
 - **The line ends only when the species does.**
 
-**When the name passes.** It is a major event, and the day's headline when it happens. The player is shown the heir, and how the last name-bearer died. Where it fell, a small marker stays in the world.
+**When the name passes.** It is a major event, and the day's headline when it happens. The player is shown the heir, and how the last name-bearer died.
 
 **What an heir receives:**
 
@@ -46,8 +51,7 @@ Each individual also has one quirk of its own, such as a liking for the water's 
 |---|---|---|
 | The name and its number | "Pip the Fourth" | The count of generations is a visible age for the species |
 | The line's memories | A short list of major events that happened to name-bearers: where the nest was, what killed the last one, the worst winter | The creature can speak of them, and the player can read them |
-| A summary of what was said | The conversation memory, shortened | The heir has heard of its keeper |
-| A little trust | A share of the last one's ease with the player | An heir is less wary of the finger than a stranger would be |
+| A summary of what was said | The conversation memory, shortened | The heir knows the line's stories. It still meets its keeper as a stranger, and is as wary of the finger as any other |
 
 An heir does not receive its parent's places, bonds or learned enemies. Those belong to an individual, and each creature makes its own.
 
@@ -64,15 +68,17 @@ What the player does with the named one, close in. None of it is rationed, and n
 | Follow | Carries on with its life | None. The view stays with it |
 | Keep its portrait | Looks up | None. The portrait goes into the line's album |
 
+The album holds every name-bearer: its portrait, its number, how long it lived and how it died.
+
 A stroke or a call reaches the creature as something it notices. What it does about it is the species' own instincts, which the player wrote. A species can be designed to be calmed by its keeper, or emboldened, or to ignore them.
 
 ## 5. Nudging the species
 
 The keeper's tools from `design/world-and-loop.md`: drop one of the species' own scents or calls, stir one of its moods, or hold a finger down as a beacon. These reach many creatures, not one, and so they can move a species.
 
-- **They work through the species' instincts,** like everything else.
-- **They are short-lived.** A dropped scent fades and a stirred mood settles.
-- **They need a limit.** Proposed: a few a day, shown the same way as talks, so that a player's visit can help a species and cannot herd it through every danger.
+- **They work through the species' instincts,** like everything else. A species that was not built to follow a scent will not follow one.
+- **They are not rationed.** A player can use them as often as they like while they are there.
+- **They are short-lived.** A dropped scent fades and a stirred mood settles, so a nudge helps for a moment and cannot stand in for a design. How long each lasts is for the balance pass.
 
 ## 6. Talking
 
@@ -95,15 +101,17 @@ Each talk is one thing from a fixed set, and uses one of the day's five.
 
 - **Nothing here makes the named one stronger,** and its death is as likely as any other's.
 - **Tending touches one animal.** At the scale of a species it is nothing.
-- **Nudges are limited** and fade.
+- **Nudges fade,** and only work while the player is there.
 - **The model changes nothing in the game.**
 
-## 8. Questions for you
+## 8. Answered
 
-1. **Nudges.** A few a day, as proposed, or left unlimited and merely short-lived?
-2. **Naming others.** Only the line carries memory and can be talked to. Should a player also be able to give other individuals a name of their own, as a keepsake with no effect?
-3. **A marker where a name-bearer fell.** A small thing that stays in the world. Wanted, or too sad for the tone?
-4. **Trust passing down.** Should an heir start a little easier with its keeper, or meet them as a stranger?
+Decided on 15 November:
+
+1. **Nudges** are unlimited and short-lived.
+2. **Only the line is named.**
+3. **No marker** where a name-bearer fell.
+4. **An heir meets its keeper as a stranger,** and is chosen so that it is not too old.
 
 ## 9. Next
 

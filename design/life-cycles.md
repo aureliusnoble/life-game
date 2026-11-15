@@ -107,7 +107,7 @@ Still open, for area 7: what fading acts on. It should weigh on everything a spe
 ## 9. The named line
 
 - **The name-bearer** is the founder you named, and after its death an heir.
-- **The heir** is its oldest living child, or failing that its nearest living relative. The line ends only when the species does.
+- **The heir** is a descendant with most of its life ahead of it: a young adult if there is one, otherwise the oldest of the young. Failing any descendant, the nearest living relative. The line ends only when the species does.
 - **What passes down:** the name with a number, and a short list of memories, such as where the nest was, what killed the last name-bearer, and the worst winter.
 - **Tempo shows here too.** A small species reaches "the Twentieth" in a few days; a large one may still be on its founder's grandchild.
 
