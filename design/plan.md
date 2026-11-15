@@ -12,11 +12,12 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Overlap | No. A player has one species alive at a time |
 | Scope | Do the whole design now, as completely as possible, before building. This is the moment to find out which systems are not rich enough |
 | The world | Much richer than one pond: several biomes, each with its own cycles, that respond to how species use them, recover after being overexploited, and offer niches for different bodies, life cycles and social organisation |
-| Pet play | There must be Tamagotchi-like interaction with the species. It centres on one special individual: each species has a named founder that its player looks after closely, and whose fate matters more than the rest |
+| Pet play | There must be Tamagotchi-like interaction with the species. A species goes through many generations, the old die, and it is extinct when the last one dies. So the special individual is a line, not one animal: the player names a founder, and when it dies the name and some of its memories pass to an heir among its descendants. The details are area 9's to settle |
 | World shape | One connected map. Biomes sit side by side, creatures spread wherever they can live, and the borders between biomes are places in their own right |
 | World size | Eight biomes in one river basin: Highlands, Woodland, Heath, Grassland, Lakeland, Marsh, Dunes and Tidal flats. Each is a region about ten phone screens across with several habitats in it; the basin is about 26 screens across and 20 tall. Animals gather at water, food and cover, with emptier ground between |
 | Time | A day is about one real hour and a season about two real days |
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
+| Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. How weight is counted is proposed in section 3. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. Every area is tested the way section 3 describes |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
@@ -43,6 +44,10 @@ Each area below goes through the same four steps, and is not called done until i
 | Counters | Any winner can be beaten by some other design, when they share food or in another place |
 | Skill shows | A searched design clearly beats a plain one, and a sensible hand-made one gets most of the way there |
 | Lasting | A mixed world keeps several species going for a long time |
+| Open | Whatever a settled world holds, some different design can establish itself in it |
+| Turning over | As newcomers are added one after another, no design stays on top and the world does not collapse to one |
+
+The last three matter most. Balance in the game moves: what does well depends on which other species are around and how they are doing. A world with no hunters fills with grazers, and that is an opening for a hunter. So the lab's main test, once it can search hunters as well as grazers, is to fill a world with the current winners, search for a newcomer that can get in, add it and repeat. The game should also show players where the openings are.
 
 **The balance lab** (`design/checks/balancelab.js`) runs these.
 
@@ -55,7 +60,7 @@ Each area below goes through the same four steps, and is not called done until i
 
 **What a simulation cannot test** is whether any of it is fun, readable or satisfying. That is tested with people: mockups to react to in each area, a playable test tank with friends as the first thing built, and in the first season a record of which options get used and how species die.
 
-**First run, 15 November.** Six habitat patches, about a hundred designs searched in each, grazers only. The lab's checks on itself pass. Scores run from 0 to about 2, and differences under about 0.15 are noise.
+**First run, 15 November, scored by head count.** Six habitat patches, about a hundred designs searched in each, grazers only. The lab's checks on itself pass. Scores run from 0 to about 2, and differences under about 0.15 are noise.
 
 | Test | Result |
 |---|---|
@@ -74,9 +79,22 @@ What it found:
 - **Spikes won everywhere at first, for a bad reason.** Test hunters bit spiked prey until they died, which left the habitat with no hunters for most of the run. With dead hunters replaced, spikes were in one winner of six. Hunters need a way to notice spikes and leave them alone, and a species that kills off its hunters is a question for the shared world.
 - **The earlier build tables were wrong about what wins.** Their hunters starved about a quarter of the way through each run, because they gained nothing from a kill. Those tables show how hard each build is to catch early on, and say nothing about food or breeding. Large and armoured builds looked dominant there; large builds do worst here. The affected tables in `body.md`, `environment.md` and `world.md` now carry a correction.
 
+**Second run, 15 November, scored by total life.** The same search, with the score you chose, counting weight two ways.
+
+| Score | Sizes that win | Inside that wins | One design is near the best in |
+|---|---|---|---|
+| Head count (first run) | The smallest only | Fat storage, in every winner | 5 of 6 habitats |
+| Total life, weight as it is | Large and largest only | A large gut, in 5 of 6 | 5 of 6 |
+| Total life, weight counted by appetite | Plain, large and largest; never small | A large gut, in every winner | 4 of 6 |
+
+- **How the score counts weight decides which body wins.** Count heads and the smallest wins. Count weight and the largest wins, because the same food carries more weight as fewer, larger animals.
+- **Counting by appetite is the even-handed version.** It scores a species by how much of the world's food it turns into life, so size is neither rewarded nor punished by the count itself. It also gives the hunter weighting for free: meat is counted at the plants it took to grow. I propose this as what "living weight" means in the score. The lab can run either (`LIFE_EXP=0.75` or `1`).
+- **Three failures do not depend on the score.** One inside wins everywhere, whichever it is. Small bodies have no place once heads are not counted. One design is near the best in most habitats.
+
 Limits of the lab today:
 
-- **The score is numbers,** which favours small bodies. The game's real measure is how long a species lasts, which is area 7.
+- **Its hunters are a fixed cast, replaced when they die,** so nothing a design does to its hunters lasts. Spikes won everywhere while hunters could be killed off and nowhere once they were replaced. The truth is between the two, and needs hunters that are designs as well.
+- **A run is 5,000 beats,** so the lasting half of total life is barely tested, and fading is not in it.
 - **Food regrows at a fixed rate,** so holding back from laying cannot pay. The root-stock rule from the world design has to go in.
 - **It searches grazers only,** against three fixed hunters, with four behaviour choices out of a vocabulary of about a hundred words.
 - **It runs the six habitat patches,** not the eight biomes, and about a hundred designs a habitat is a thin search.
@@ -85,7 +103,7 @@ Next for the lab: the root-stock food rule; hunter designs searched against the 
 
 ## 4. Design areas, in order
 
-Earlier areas constrain later ones, so the order matters. Art runs alongside from the start.
+Earlier areas constrain later ones, so the order matters. Area 7 is being taken first, because every balance test depends on what the score is. Art and the mockups in section 5 run alongside from the start.
 
 | # | Area | Has to answer | Done when |
 |---|---|---|---|
@@ -97,27 +115,53 @@ Earlier areas constrain later ones, so the order matters. Art runs alongside fro
 | 6 | **Behaviour** | Audit the untested verbs and mood functions; check it can express areas 2 and 3 | Every word has passed its audit |
 | 7 | **Lifespan and scoring** | Fading, what counts as doing well, what happens at death, the rhythm of play across weeks | Lifespans land in 3 to 7 days in simulation, and skill moves them |
 | 8 | **Player loops** | The first hour and how the game teaches itself; the daily visit; the design session; death and what follows; unlocks and puzzles; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
-| 9 | **Pet play** | What a player can do with individuals, where, and what comes back | A mockup that is pleasant to poke at for five minutes |
+| 9 | **Pet play** | The named line: who the heir is, and which memories pass down. What a player can do with the name-bearer and with others, where, and what comes back. Whether the name-bearer can be talked to (below) | A mockup that is pleasant to poke at for five minutes |
 | 10 | **Feedback** | Recap, watching it think, the death view, the food web, records | For any outcome, the player can find out why |
 | 11 | **Playing with friends** | Relationships between species, seeing each other's work, sharing, rankings | Friends have reasons to talk about it |
 | 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; an interface that feels handmade and stays readable; sound | Mockups of each biome, of a creature in every mood, and of the interface style |
 | 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
 | 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
 
-## 5. What exists already
+**Scoped for area 9: talking with your creature.** An idea to design, not yet a decision. The player taps a few buttons to talk to the name-bearer, and it answers in character.
+
+- **What it draws on:** a personality that follows from the species' design, its mood and needs now, and memories: its own, its line's, and what others of its kind have been through.
+- **What it is for:** affection, and finding out what happened in the world and what is troubling the species. The player can ask it to do things or give it things, and it may agree or refuse.
+- **Who decides:** the simulation decides whether it agrees, from its real moods and instincts. The language model only puts that into words, so talking cannot be used to cheat and the model cannot be talked into anything.
+- **Buttons, not typing:** cheaper, safer, and it suits a phone.
+- **How it would run:** a small model on the game's own server is not practical. A server at this price has no graphics card, and a model small enough to run on its processor would be slow, would compete with the simulation, and would write poorly. A cheap hosted model with a daily limit for each player is practical: each reply is short and built from a few facts. The provider, the price and the speed are to be checked when it is designed.
+- **It must be optional:** when the limit is reached or the service is down, the creature falls back to written lines, and nothing in the game depends on it.
+
+## 5. Mockups still to make
+
+Each is something to react to on a phone, and each belongs to one or more of the areas above.
+
+| Mockup | Covers | Areas |
+|---|---|---|
+| Behaviour editor with "watch it think" | Building instincts, moods and signals, and seeing which urges are pulling. The core of the game, and the one piece the research found no precedent for | 6, 10 |
+| Body designer | Parts, placement and the budget | 5 |
+| Home screen and daily visit | The founder, the recap, pet play | 8, 9 |
+| Creature inspector | What a creature is doing and why | 10 |
+| World views | Basin, biome and close-up; where each species lives; where the openings are | 1, 10 |
+| Death and history | The shape of a species' life, why it ended, what carries over | 7, 10 |
+| First hour | The guided first build, with callouts | 8, 13 |
+| Friends and records | Seeing and comparing each other's species | 11 |
+| Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style sheet | 12 |
+| Click-through | Every screen joined up, tried by someone who has not seen it | 13 |
+
+## 6. What exists already
 
 | Area | Document | State |
 |---|---|---|
 | Behaviour | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited; ten verbs and most functions untested |
 | Bodies | `design/body.md` (draft 1) | Parts audited; size, the inside, sting, camouflage and spikes need rework. Its table of whole builds is superseded by the balance lab |
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
-| Balance | `design/checks/balancelab.js`, section 3 above | First run done. Smallest size and fat storage are dominant; one design is near the best on every land habitat |
+| Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 
-## 6. Building, once the design is closed
+## 7. Building, once the design is closed
 
 The order from draft 1 stands, with the designers first:
 
@@ -129,7 +173,7 @@ The order from draft 1 stands, with the designers first:
 6. Look, sound and feel in production form.
 7. A first season with the group.
 
-## 7. Risks carried into the design
+## 8. Risks carried into the design
 
 | Risk | Where it is dealt with |
 |---|---|

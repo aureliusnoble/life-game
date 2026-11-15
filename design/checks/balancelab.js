@@ -19,7 +19,9 @@ const GENES = {
 const PLAIN = { scale: 1, shape: 'mid', eyes: 'side', bigEyes: false, move: 'legs', shell: 'none', spikes: 'none', sting: false, camo: false, sideLine: false, falseEyes: false, inside: 'even', nose: false, threat: 'run', herd: false, laying: 'always', eggs: 'many small' };
 const SHAPE = { round: [1.0, 1.1], mid: [1.2, 0.9], long: [1.8, 0.7] };
 const INSIDE = { even: {}, runner: { muscle: 0.45, lungs: 0.35, gut: 0.1, fat: 0.1 }, storer: { fat: 0.55, muscle: 0.15, gut: 0.15, lungs: 0.15 }, digester: { gut: 0.55, fat: 0.15, muscle: 0.15, lungs: 0.15 } };
-const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, HABITATS = Object.keys(BIOMES), OUT = path.join(__dirname, 'balance');
+const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), OUT = path.join(__dirname, EXP === 1 ? 'balance' : 'balance-exp' + EXP);
+// LIFE_EXP sets how weight is counted in the score: 1 counts living weight as it is; 0.75 counts it by appetite,
+// which is the share of the habitat's food the species turns into life. Results for other settings go to their own folder.
 const specOf = (g) => ({ len: SHAPE[g.shape][0], wid: SHAPE[g.shape][1], scale: g.scale, eyes: g.eyes, eyeSize: g.bigEyes ? 1 : 0.5, move: g.move, shell: g.shell, spikes: g.spikes, weapon: g.sting ? 'stinger' : undefined, camo: g.camo, sideLine: g.sideLine, falseEyes: g.falseEyes, organs: INSIDE[g.inside] });
 const price = (g) => cost(specOf(g)) + (g.nose ? 2 : 0) + (g.herd ? 1 : 0) + (g.threat === 'hide' ? 1 : 0) + (g.laying === 'always' ? 0 : 1);
 const keyOf = (g) => Object.keys(GENES).map((k) => g[k]).join('|');
@@ -38,13 +40,15 @@ function express(g) {
   ins.push(...graze);
   const breedIf = { always: null, 'not crowded': (c, w) => near(w, c, w.creatures.filter((o) => o.kind === c.kind), 70) < 5, 'not when food is thin': (c, w) => near(w, c, w.plants, 50) >= 3 }[g.laying];
   const eggs = g.eggs === 'many small' ? { breedAt: 0.6, eggCost: 0.25, eggGap: 120 } : { breedAt: 0.8, eggCost: 0.45, eggGap: 300 };
-  return { ...b, moods: SCARED, nose: g.nose ? 60 : undefined, ...eggs, cap: CAP, breedIf, instincts: ins };
+  const sp = specOf(g), mass = Math.pow(sp.len * sp.wid * sp.scale * sp.scale, 1.5);
+  return { ...b, mass, moods: SCARED, nose: g.nose ? 60 : undefined, ...eggs, cap: CAP, breedIf, instincts: ins };
 }
 
 // One trial: six of the design in a habitat with three hunters that never tire, and that are replaced if they die,
 // so that a design cannot pass the test by removing the hunters. Food is kept short, so the habitat
 // carries only ten to fifteen plain grazers and a design is limited by what it can find, eat and keep alive.
-// The score is the design's average numbers over the second half of the run, divided by twelve; 0 is dying out.
+// The score is total life: the living weight of the species, added up over the whole run. It is scaled so that
+// twelve plain animals alive from start to finish score 1, and a species that dies out early keeps what it had.
 // With `versus`, six of a second design share the same food, and both are scored.
 function trial(g, habitat, seed, o = {}) {
   const w = makeBiome(habitat, seed), hb = BIOMES[habitat].water ? { ...hunterBody, move: 'fins' } : hunterBody, brain = express(g);
@@ -52,11 +56,12 @@ function trial(g, habitat, seed, o = {}) {
   const supply = (0.03 + 0.1 * BIOMES[habitat].regrow) / BIOMES[habitat].regrow;
   const other = o.versus ? express(o.versus) : null; for (let i = 0; i < 6; i++) { w.add('mine', brain); if (other) w.add('rival', other); }
   const cast = o.noHunters ? [] : [H(hb, HUNT.chaser), H({ ...hb, scale: 1.9 }, HUNT.chaser), H({ ...hb, eyes: 'none', sideLine: true }, HUNT.feeler, { feel: 45 })], hs = cast.map((b) => w.add('hunter', b));
-  let sum = 0, n = 0, hunterBeats = 0, rsum = 0, slain = 0;
+  let sum = 0, n = 0, hunterBeats = 0, rsum = 0, slain = 0, heads = 0;
+  const weight = (kind) => w.creatures.reduce((a, c) => a + (c.alive && c.kind === kind ? Math.pow(c.brain.mass ?? 1, EXP) : 0), 0);
   live(w, BEATS, { grow: (w) => { if (w.rnd() < supply) w.grow(w);
     if (w.t % 50 === 0 && !o.hungryHunters) hs.forEach((c, i) => { if (!c.alive) { slain++; hs[i] = w.add('hunter', cast[i]); } });
-    if (w.t % 100 === 0) { hunterBeats += count(w, 'hunter'); if (w.t > BEATS / 2) { sum += count(w, 'mine'); rsum += count(w, 'rival'); n++; } } } });
-  return { score: sum / n / SHARE, rival: rsum / n / SHARE, hunters: hunterBeats / (BEATS / 100) / 3, kills: w.log.kills.length - slain, slain };
+    if (w.t % 100 === 0) { hunterBeats += count(w, 'hunter'); sum += weight('mine'); rsum += weight('rival'); heads += count(w, 'mine'); n++; } } });
+  return { score: sum / n / SHARE / Math.pow(PLAIN_MASS, EXP), rival: rsum / n / SHARE / Math.pow(PLAIN_MASS, EXP), heads: heads / n, hunters: hunterBeats / (BEATS / 100) / 3, kills: w.log.kills.length - slain, slain };
 }
 const memo = new Map();
 function score(g, habitat, seeds) { const k = `${habitat}#${seeds.join(',')}#${keyOf(g)}`; if (!memo.has(k)) memo.set(k, mean(seeds.map((s) => trial(g, habitat, s).score))); return memo.get(k); }
@@ -100,7 +105,7 @@ function check() {
 function report() {
   const res = load(), have = HABITATS.filter((h) => res[h]); if (!have.length) return console.log('No search results yet. Run: node design/checks/balancelab.js search <habitat>');
   const fresh = [101, 102, 103, 104, 105];
-  console.log(`\nBALANCE REPORT  (budget ${BUDGET}; each design lives in a habitat with scarce food and three hunters; score = its average numbers divided by twelve)`);
+  console.log(`\nBALANCE REPORT  (budget ${BUDGET}; each design lives in a habitat with scarce food and three hunters; score = total life, where 1 is twelve plain animals alive throughout)`);
   console.log('\n1. The best design the search found in each habitat');
   for (const h of have) console.log(`  ${h.padEnd(9)} ${res[h].top[0].s.toFixed(2)} (plain design ${res[h].plain.toFixed(2)}; ${res[h].tried} designs tried)  ${label(res[h].top[0].g)}`);
   console.log('\n2. Each winner in every habitat, on maps it has not seen  (rows: winner of; columns: tested in)');

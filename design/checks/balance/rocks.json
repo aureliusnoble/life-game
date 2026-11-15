@@ -1,82 +1,59 @@
 {
  "habitat": "rocks",
- "tried": 101,
+ "tried": 105,
  "top": [
   {
    "g": {
-    "scale": 0.7,
+    "scale": 1.25,
     "shape": "long",
-    "eyes": "side",
-    "bigEyes": true,
-    "move": "legs",
+    "eyes": "none",
+    "bigEyes": false,
+    "move": "paddles",
     "shell": "back",
     "spikes": "none",
     "sting": false,
     "camo": false,
     "sideLine": false,
     "falseEyes": false,
-    "inside": "storer",
-    "nose": false,
-    "threat": "run",
+    "inside": "even",
+    "nose": true,
+    "threat": "ignore",
     "herd": false,
     "laying": "always",
     "eggs": "many small"
    },
-   "s": 1.293,
-   "price": 9.5
+   "s": 1.087,
+   "price": 12.7
   },
   {
    "g": {
-    "scale": 0.7,
-    "shape": "mid",
-    "eyes": "side",
-    "bigEyes": true,
-    "move": "legs",
+    "scale": 1.25,
+    "shape": "long",
+    "eyes": "none",
+    "bigEyes": false,
+    "move": "paddles",
     "shell": "back",
     "spikes": "none",
     "sting": false,
     "camo": false,
     "sideLine": false,
     "falseEyes": false,
-    "inside": "storer",
+    "inside": "even",
     "nose": true,
-    "threat": "run",
+    "threat": "ignore",
     "herd": false,
-    "laying": "not crowded",
+    "laying": "always",
     "eggs": "few large"
    },
-   "s": 1.291,
-   "price": 12.5
+   "s": 1.017,
+   "price": 12.7
   },
   {
    "g": {
-    "scale": 0.7,
-    "shape": "mid",
-    "eyes": "side",
-    "bigEyes": true,
-    "move": "cilia",
-    "shell": "back",
-    "spikes": "none",
-    "sting": false,
-    "camo": false,
-    "sideLine": false,
-    "falseEyes": true,
-    "inside": "storer",
-    "nose": true,
-    "threat": "run",
-    "herd": false,
-    "laying": "not crowded",
-    "eggs": "few large"
-   },
-   "s": 1.273,
-   "price": 12.5
-  },
-  {
-   "g": {
-    "scale": 0.7,
-    "shape": "mid",
-    "eyes": "side",
-    "bigEyes": true,
+    "scale": 1.25,
+    "shape": "long",
+    "eyes": "none",
+    "bigEyes": false,
     "move": "cilia",
     "shell": "back",
     "spikes": "none",
@@ -84,39 +61,62 @@
     "camo": false,
     "sideLine": false,
     "falseEyes": false,
-    "inside": "storer",
+    "inside": "even",
     "nose": true,
-    "threat": "run",
-    "herd": false,
-    "laying": "not crowded",
+    "threat": "freeze",
+    "herd": true,
+    "laying": "not when food is thin",
     "eggs": "few large"
    },
-   "s": 1.273,
-   "price": 11.5
+   "s": 0.978,
+   "price": 12.7
   },
   {
    "g": {
-    "scale": 0.7,
+    "scale": 1.25,
     "shape": "long",
-    "eyes": "side",
-    "bigEyes": true,
-    "move": "legs",
+    "eyes": "none",
+    "bigEyes": false,
+    "move": "cilia",
     "shell": "back",
     "spikes": "none",
     "sting": false,
     "camo": false,
     "sideLine": false,
     "falseEyes": false,
-    "inside": "storer",
+    "inside": "even",
     "nose": true,
-    "threat": "run",
+    "threat": "hide",
     "herd": false,
-    "laying": "always",
-    "eggs": "many small"
+    "laying": "not when food is thin",
+    "eggs": "few large"
    },
-   "s": 1.266,
-   "price": 11.5
+   "s": 0.978,
+   "price": 12.7
+  },
+  {
+   "g": {
+    "scale": 1.25,
+    "shape": "long",
+    "eyes": "none",
+    "bigEyes": false,
+    "move": "cilia",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "even",
+    "nose": true,
+    "threat": "freeze",
+    "herd": false,
+    "laying": "not when food is thin",
+    "eggs": "few large"
+   },
+   "s": 0.978,
+   "price": 11.7
   }
  ],
- "plain": 0.17
+ "plain": 0.379
 }
