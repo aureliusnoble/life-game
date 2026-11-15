@@ -259,3 +259,34 @@ Decided on 15 November:
 The depth study is `design/mockups/paper-study.html`: one creature on a bank beside a pond, seen from above. It is worked on in rounds, each reviewed, until it is good. Its findings then become the rules for everything else: how a sheet is drawn, how a creature is built from parts, how a place is composed. The three earlier studies stay as records of what was tried; they are not the standard.
 
 Screens, area 13, wait until this is done.
+
+## 16. The depth study so far
+
+`design/mockups/paper-study.html` has been through five passes. Four were judged by a fresh independent reviewer each time, from screenshots only.
+
+| Review | Plain creature | Many-part creature | Environment | Paper illusion |
+|---|---|---|---|---|
+| 1 | 4 | | 4.5 | |
+| 2 | 4.5 | | 5 | |
+| 3 | 5 | 4 | 5.5 | 4.5 |
+| 4 | 5 | 4 | 6 | 5 |
+
+Scores are out of ten against a beautiful shipped game. Each reviewer came to it cold, so the scores are not a strict series. The fifth pass has not been reviewed.
+
+**What the passes settled, as rules:**
+
+- **One light.** A window to the upper left. Every piece has a height. It gets a tight dark shadow where it touches and a short one thrown by its height, tinted blue-green on grass and water and brown on sand.
+- **Flat sheets.** No gradients and nothing translucent. Form comes from how sheets are stacked, from a lit cut edge and a shaded one, and from holes cut through to the sheet beneath.
+- **Paper stocks.** Each stock is a small relief lit from the same side: coarse sugar paper for ground, smooth card for creatures, kraft for sand, none for water.
+- **Cut by hand.** Outlines wander and wobble, with the odd straight snip.
+- **A creature is one spine,** mirrored about it. The order of layers is fixed: tail, limbs, body, things on the back, head, things on the head, face. Each layer up is a little lighter.
+- **Each kind of part has its own shape and its own socket.** Ears are round-ended with an inner layer. Horns are crescents. Thorns are folded triangles in one row. Feelers are tapered strips from the brow. Repeated parts shrink toward the tail.
+- **Three papers and one bright one** for each creature.
+- **The body has to show.** Thin and round, a patch, plates and a shell are all read on the body. A head as wide as the body hid them, so the head is about four fifths of the body's width.
+- **The eyes are the darkest marks,** matte, with one dot of light fixed to the window.
+- **Low plants are under a creature and tall ones over it.**
+
+**Range tests,** all from the same kit, on the same page: eight very different creatures, one creature in eight states, four other biomes and four events. The creatures and the places came out distinct. The states read once the body was made visible. None of these has been reviewed or polished.
+
+**What is still short of the bar,** by the reviewers and by eye: the props (stones, toadstools, the log, grass) are weaker than the water and the leaves; the many-part creature's parts still look set on in places; and no reviewer has yet said the picture reads as photographed paper.
+
