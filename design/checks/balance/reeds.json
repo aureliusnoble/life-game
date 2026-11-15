@@ -1,0 +1,122 @@
+{
+ "habitat": "reeds",
+ "tried": 111,
+ "top": [
+  {
+   "g": {
+    "scale": 0.7,
+    "shape": "round",
+    "eyes": "forward",
+    "bigEyes": true,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "back",
+    "sting": false,
+    "camo": false,
+    "sideLine": true,
+    "falseEyes": false,
+    "inside": "storer",
+    "nose": false,
+    "threat": "freeze",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.847,
+   "price": 10.5
+  },
+  {
+   "g": {
+    "scale": 0.7,
+    "shape": "mid",
+    "eyes": "forward",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "back",
+    "sting": false,
+    "camo": false,
+    "sideLine": true,
+    "falseEyes": false,
+    "inside": "storer",
+    "nose": false,
+    "threat": "run",
+    "herd": false,
+    "laying": "not crowded",
+    "eggs": "many small"
+   },
+   "s": 1.751,
+   "price": 10.5
+  },
+  {
+   "g": {
+    "scale": 0.7,
+    "shape": "mid",
+    "eyes": "forward",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "back",
+    "sting": false,
+    "camo": false,
+    "sideLine": true,
+    "falseEyes": false,
+    "inside": "storer",
+    "nose": false,
+    "threat": "freeze",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.744,
+   "price": 9.5
+  },
+  {
+   "g": {
+    "scale": 0.7,
+    "shape": "mid",
+    "eyes": "forward",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "back",
+    "sting": false,
+    "camo": false,
+    "sideLine": true,
+    "falseEyes": false,
+    "inside": "storer",
+    "nose": false,
+    "threat": "freeze",
+    "herd": true,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.742,
+   "price": 10.5
+  },
+  {
+   "g": {
+    "scale": 0.7,
+    "shape": "mid",
+    "eyes": "forward",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "back",
+    "sting": false,
+    "camo": false,
+    "sideLine": true,
+    "falseEyes": true,
+    "inside": "storer",
+    "nose": false,
+    "threat": "freeze",
+    "herd": true,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.742,
+   "price": 11.5
+  }
+ ],
+ "plain": 0.841
+}

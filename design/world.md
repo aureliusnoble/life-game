@@ -244,7 +244,7 @@ These ran on single patches of six habitats. They still hold for those habitats;
 
 A patch carries about as many grazers as it has well-supplied foods needing different equipment. A biome made of four or five habitats should carry the sum of their casts, plus hunters and scavengers; that is untested.
 
-**Builds.** Ten builds in six habitats, with hunters: the ground rules move builds a long way (a small build went from 0.4 survivors of 6 on open grass to 5.9 on mud), but shelled and giant builds still came top in five of six. That waits on the body rework.
+**Builds.** The first test of ten hand-picked builds in six habitats was flawed: its hunters starved about a quarter of the way through each run. The balance lab (`design/plan.md`, section 3) replaced it. It searched about a hundred designs in each habitat and found that the ground rules do change the winner's limbs, senses and armour, but that the smallest size and fat storage win in every habitat, and one design is as good as the best in five of the six. Only water forces a different body.
 
 **Ways of living through the year.** A fast breeder leads with no winter and dies out in a long one; a species that sleeps through the cold leads wherever there is a winter; eggs that wait for spring come second everywhere. Storing fat without sleeping is never best.
 
@@ -256,7 +256,7 @@ A patch carries about as many grazers as it has well-supplied foods needing diff
 | Each biome has several habitats and its own climate, foods, advantage and cost | **Written,** untested |
 | Each biome carries several species, and a different cast from its neighbours | **Partly,** at patch scale |
 | An overused patch recovers, and a species can be designed to manage its food | **Yes,** at patch scale |
-| Each biome has a different best build | **Not yet.** Waits on the body rework |
+| Each biome has a different best build | **Not yet.** In the balance lab one design is near the best on every land habitat |
 | There is a map mockup | **Yes,** redrawn at this scale |
 
 Not yet tested: anything at biome or basin scale, movement between patches and between biomes, running water, sand, scrub, caves, islands, fire, tide and wind.

@@ -85,6 +85,8 @@ Each characteristic was run against its nearest alternative. A characteristic pa
 
 Eight builds, each alone as a group of six, in four worlds with different hunters and one with little food. The figure is survivors of six.
 
+**Correction, 15 November.** In this test the hunters starved about a quarter of the way through each run, because they gained nothing from a kill. The table therefore shows how hard each build is to catch in the first part of a run, and says nothing about breeding or competing for food. The balance lab (`design/plan.md`, section 3) repeats the comparison with hunters that stay, scarce food and breeding, and finds the opposite of what the large and armoured builds suggest here: the smallest bodies do best and the largest worst.
+
 | Build | Hunters that chase | That cut ahead | That stalk | That feel movement | Little food |
 |---|---|---|---|---|---|
 | Sprinter: long, muscular | 5.7 | 5.7 | 6.0 | 5.8 | 0.6 |
@@ -104,7 +106,7 @@ No build is best everywhere. The three that hunters cannot touch are the three t
 - **Fat is the best organ wherever food is the problem,** and gut is never best. The inside is not yet a real choice.
 - **Camouflage is nearly worthless as set.** Patient hunters find a still animal eventually.
 - **Any bite back is very strong.** A hurt hunter slows and can catch nothing, so a sting protected prey without killing anything.
-- **Giants were safe only because the test hunters were all one size.** With player-made hunters this becomes a race in size, limited by food.
+- **Giants were safe only because the test hunters were all one size.** With player-made hunters this becomes a race in size, limited by food. The balance lab has since found that on scarce food large bodies do worst of all, because a plant feeds a small animal as much as a large one.
 - **Hunters pay nothing for effort in the test world.** Chasing therefore beat ambush (9.2 of 10 caught against 4.6); an ambusher's saving in energy is not counted yet.
 - **Unarmoured prey always died.** The standard hunters are too strong to be a fair baseline.
 

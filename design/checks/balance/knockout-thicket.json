@@ -1,0 +1,209 @@
+{
+ "base": 1.587,
+ "rows": [
+  {
+   "k": "scale",
+   "has": 0.7,
+   "worst": [
+    1.5,
+    -1.552
+   ],
+   "best": [
+    0.85,
+    -0.477
+   ]
+  },
+  {
+   "k": "shape",
+   "has": "round",
+   "worst": [
+    "long",
+    -0.127
+   ],
+   "best": [
+    "mid",
+    -0.033
+   ]
+  },
+  {
+   "k": "eyes",
+   "has": "none",
+   "worst": [
+    "forward",
+    -0.122
+   ],
+   "best": [
+    "stalk",
+    0.031
+   ]
+  },
+  {
+   "k": "bigEyes",
+   "has": true,
+   "worst": [
+    false,
+    0
+   ],
+   "best": [
+    false,
+    0
+   ]
+  },
+  {
+   "k": "move",
+   "has": "cilia",
+   "worst": [
+    "fins",
+    -1.413
+   ],
+   "best": [
+    "legs",
+    0.051
+   ]
+  },
+  {
+   "k": "shell",
+   "has": "none",
+   "worst": [
+    "back",
+    0.022
+   ],
+   "best": [
+    "full",
+    0.151
+   ]
+  },
+  {
+   "k": "spikes",
+   "has": "none",
+   "worst": [
+    "all",
+    -0.269
+   ],
+   "best": [
+    "back",
+    -0.074
+   ]
+  },
+  {
+   "k": "sting",
+   "has": false,
+   "worst": [
+    true,
+    0.089
+   ],
+   "best": [
+    true,
+    0.089
+   ]
+  },
+  {
+   "k": "camo",
+   "has": false,
+   "worst": [
+    true,
+    0.101
+   ],
+   "best": [
+    true,
+    0.101
+   ]
+  },
+  {
+   "k": "sideLine",
+   "has": true,
+   "worst": [
+    false,
+    -0.855
+   ],
+   "best": [
+    false,
+    -0.855
+   ]
+  },
+  {
+   "k": "falseEyes",
+   "has": true,
+   "worst": [
+    false,
+    0
+   ],
+   "best": [
+    false,
+    0
+   ]
+  },
+  {
+   "k": "inside",
+   "has": "storer",
+   "worst": [
+    "runner",
+    -0.967
+   ],
+   "best": [
+    "even",
+    -0.318
+   ]
+  },
+  {
+   "k": "nose",
+   "has": true,
+   "worst": [
+    false,
+    -1.587
+   ],
+   "best": [
+    false,
+    -1.587
+   ]
+  },
+  {
+   "k": "threat",
+   "has": "run",
+   "worst": [
+    "ignore",
+    -0.855
+   ],
+   "best": [
+    "hide",
+    0
+   ]
+  },
+  {
+   "k": "herd",
+   "has": false,
+   "worst": [
+    true,
+    0
+   ],
+   "best": [
+    true,
+    0
+   ]
+  },
+  {
+   "k": "laying",
+   "has": "always",
+   "worst": [
+    "not crowded",
+    -0.295
+   ],
+   "best": [
+    "not when food is thin",
+    -0.077
+   ]
+  },
+  {
+   "k": "eggs",
+   "has": "few large",
+   "worst": [
+    "many small",
+    -0.103
+   ],
+   "best": [
+    "many small",
+    -0.103
+   ]
+  }
+ ]
+}

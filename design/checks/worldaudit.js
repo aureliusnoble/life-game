@@ -137,5 +137,6 @@ function diversity(F = FOODS, label = 'every food plentiful enough to carry a po
   console.log('  ' + 'species living'.padEnd(18) + Object.keys(F).map((b) => String(Object.keys(pool).filter((k) => fin[k][b] >= 1).length).padStart(9)).join(''));
 }
 
+module.exports = { BIOMES, makeBiome };
 if (require.main === module) { const only = process.argv[2]; const thin = () => diversity(FOODS_THIN, 'first attempt, secondary foods scarce'); Object.defineProperty(thin, 'name', { value: 'thin' });
   for (const f of [biomes, recovery, lifeCycles, restraint, thin, diversity]) if (!only || f.name === only) f(); }

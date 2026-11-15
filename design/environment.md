@@ -74,6 +74,8 @@ A feature passes if it changes who thrives.
 
 Survivors of six, with one hunter that sees and one that feels movement.
 
+**Correction, 15 November.** In this test the hunters starved about a quarter of the way through each run, because they gained nothing from a kill. The table therefore shows how hard each build is to catch in the first part of a run, and says nothing about breeding or competing for food. The balance lab (`design/plan.md`, section 3) repeats the comparison with hunters that stay, scarce food and breeding, and finds the opposite of what the large and armoured builds suggest here: the smallest bodies do best and the largest worst.
+
 | Build | Open meadow | Day and night | Reed beds | Thicket | Mudflat | Rocks | Lean season |
 |---|---|---|---|---|---|---|---|
 | Sprinter | 5.7 | 0.6 | 3.8 | 4.0 | 5.7 | 5.3 | 0.7 |
@@ -92,7 +94,7 @@ Survivors of six, with one hunter that sees and one that feels movement.
 - **Night starves anything that finds food by sight.** With day and night alternating, most builds starved. A night niche needs food that can be smelled.
 - **There is no lasting balance between hunters and prey yet.** Hunters either ate the prey out or starved once the prey could hide. Since the world is to be filled mostly by player species, this is the largest open problem.
 - **Storing fat barely carried a species through winter;** eggs that wait did, and so did sleeping through it (`design/world.md`). Together with the body audit, this says the inside of the body needs rework.
-- **Giants still lead in four of seven places,** because the test hunters cannot take them. Until hunters come in all sizes, size is under-priced.
+- **Giants still lead in four of seven places,** because the test hunters cannot take them. Until hunters come in all sizes, size is under-priced. This rested on the flawed test described in the correction above; in the balance lab large bodies do worst.
 - **Grazing never ran the food down,** so the loop between food, grazers and richness is untested.
 
 These figures were re-run after a counting error was fixed: eggs waiting to hatch did not count toward a species' ceiling, which flattered the species whose eggs wait.

@@ -200,5 +200,5 @@ function builds() {
     console.log('  ' + `${name} (${cost(spec).toFixed(0)})`.padEnd(18) + cells.join('')); }
 }
 
-module.exports = { build, hunter, prey, flee, graze, SCARED, HUNT, hunterBody };
+module.exports = { build, cost, hunter, prey, flee, graze, SCARED, HUNT, hunterBody };
 if (require.main === module) { const only = process.argv[2]; for (const f of [eyes, shape, size, shell, spikes, amphibious, organs, camouflage, silent, tongue, falseEyes, stinger, radial, builds]) if (!only || f.name === only) f(); }
