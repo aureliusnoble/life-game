@@ -1,175 +1,236 @@
-# World: six biomes on one connected map
+# World: a river basin of eight biomes
 
-Draft 2, November 2026. Design area 1 in `design/plan.md`. It builds on the layers and findings in `design/environment.md`.
+Draft 3, November 2026. Design area 1 in `design/plan.md`. It replaces draft 2, whose six "biomes" were each a single feature and far too small.
 
-Anything marked **tested** was run in `design/checks/worldaudit.js`, a stand-in world. Its numbers show direction, not balance. The tests ran one biome at a time; nothing here has been run as a connected map.
+Anything marked **tested** was run in `design/checks/worldaudit.js`, a stand-in world. Its numbers show direction, not balance. The tests ran one patch of one habitat at a time; nothing has been run at the scale described here.
 
-## 1. Decided
+## 1. Why draft 2 was too small
 
-- One connected map. Biomes sit side by side and creatures spread wherever they can live.
-- Six biomes, fixed: Rocks, Thicket, Meadow, Reed bed, Pond and Mudflat.
-- Preset species fill the places players leave empty.
-- **A day is about one real hour. A season is about two real days.**
-- **Boom and bust stays.** A species that breeds without restraint can eat its biome bare and die out early. Managing its resources is part of designing it.
-- Each biome must be large enough, carry several different species, and have its own resources, advantages and disadvantages.
+Draft 2's whole map was about 27 phone screens. With 20 species of a few dozen each, plus presets, that is over a thousand creatures, and by arithmetic:
 
-## 2. The map
+- every creature would have three or four others in view at all times;
+- a creature could walk the whole map in about six minutes;
+- a territory, a herd's range or a pack's chase would each cover most of a biome.
 
-The map is a small watershed seen from above, and the six biomes follow the water downhill.
+Nothing could be alone, hold ground, or travel. The behaviours the game is about need room.
 
-| Order | Biome | Borders |
+## 2. Scale
+
+What each behaviour needs, in phone screens at play zoom:
+
+| Behaviour | Room it needs |
+|---|---|
+| Seeing | A creature sees about a fifth of a screen |
+| A chase | One to three screens |
+| A territory, for a pair or a pack | Two to three screens across |
+| A herd's daily range | Four to six screens across |
+| Nesting in one place and feeding in another | A few screens apart, a few minutes each way |
+| A trail between a nest and food | Two to four screens long |
+| Migrating between biomes | Far enough to take a real part of a day |
+| Being out of sight of every other species | Empty stretches between the busy places |
+
+**Proposed size:**
+
+| | Draft 2 | Now |
 |---|---|---|
-| 1 | Rocks | Thicket, Meadow |
-| 2 | Thicket | Rocks, Meadow |
-| 3 | Meadow | Rocks, Thicket, Reed bed |
-| 4 | Reed bed | Meadow, Pond, Mudflat |
-| 5 | Pond | Reed bed, Mudflat |
-| 6 | Mudflat | Reed bed, Pond |
+| One biome | About 2 screens across | About 10 screens across |
+| The whole map | About 6 by 4.5 screens | About 26 screens across and 20 tall |
+| Walking across a biome | 2 to 3 minutes | About 10 minutes, a sixth of a game day |
+| Walking across the map | About 6 minutes | About half a game day |
+| Territories that fit in a biome | One | Ten or more |
+| Other creatures in view, on average | 3 to 4 | One, about a third of the time; far more at busy places |
 
-A **brook** rises in the Rocks, runs through the Thicket and the Meadow and empties into the Pond. It is a feature, not a biome: its current carries drifting food, scent and floating eggs downstream, it is a road for swimmers, and it is a barrier to small walkers.
+**Population.** 20 player species, or presets in their place, plus a standing cast of presets: 25 to 30 species of 30 to 80 members, so 1,500 to 3,000 creatures. That is no more than draft 2 assumed. The world is about twenty times larger in area with the same number of animals in it.
 
-**Borders are places in their own right.** The thicket edge is where hunters wait for grazers leaving the meadow; the shore is where land and water bodies meet; the waterline on the mudflat moves every few hours.
+**Why it will not feel empty.** Food, water and cover are in patches, so animals gather at them and the stretches between are for travelling. A hunter wandering at random would still meet some creature about once a minute by arithmetic, but a particular prey species only every half hour or so, which means hunters have to know where their prey lives. That is what makes trails, scent and remembered places worth having.
 
-**On a phone,** three views: the whole map with each species' range as a wash of colour; one biome; and following one creature. A mockup of the map is in `design/mockups/world-map.html`.
+All of this is arithmetic and proposal. Whether a small server carries a map this size is unmeasured; the cost should follow the number of creatures, not the area, if food is stored as patches and not as single plants.
 
-**Size, as a proposal.** Each biome is about two phone screens wide and two tall at play zoom, and the whole map about six screens wide and four and a half tall. A middling creature crosses a biome in two or three minutes, so a species can nest in one biome and feed in the next within a single day. The aim is four to six species and several hundred creatures in each biome, which is three to five thousand on the map. Whether a small server carries that is unmeasured.
+## 3. Decided
 
-## 3. The six biomes
+- One connected map, and creatures spread wherever they can live.
+- Biomes are regions, each with several features, not single features. There are several ponds and several brooks.
+- There are eight biomes, each about ten phone screens across, in a basin about 26 screens across and 20 tall.
+- Animals gather at water, food and cover, and the ground between is emptier.
+- Preset species fill the places players leave empty.
+- A day is about one real hour; a season about two real days.
+- Boom and bust stays: managing a species' resources is part of designing it.
 
-Each biome has three foods that are reached in different ways, one clear advantage and one clear cost.
+Draft 2 fixed the number of biomes at six. This draft has eight, because you asked for more environments, and you accepted it on 15 November.
 
-### Rocks
+## 4. The basin
+
+The map is one river basin seen from above, from the high ground in the north to the sea in the south.
+
+| Biome | Where | Borders |
+|---|---|---|
+| Highlands | North | Woodland, Heath, Grassland |
+| Woodland | North-east | Highlands, Grassland, Lakeland |
+| Heath | West | Highlands, Grassland, Dunes |
+| Grassland | Centre | All but the Tidal flats |
+| Lakeland | East | Woodland, Grassland, Marsh |
+| Marsh | South-centre | Grassland, Lakeland, Tidal flats, Dunes |
+| Dunes | South-west | Heath, Grassland, Marsh, Tidal flats |
+| Tidal flats | South, along the sea | Marsh, Dunes |
+
+**Water is a network.** Three brooks rise in the Highlands and the Woodland. They join into two rivers that cross the Grassland; one fills the lakes and seeps on through the Marsh, the other runs down the edge of the Heath, and both fan out across the Tidal flats to the sea. Running water carries drift, scent and floating eggs downstream; it is a road for swimmers and a barrier to small walkers.
+
+**On a phone,** three levels: the basin, with each species' range as a wash of colour; one biome, with its features; and play zoom, following creatures. A mockup of the basin is in `design/mockups/world-map.html`.
+
+## 5. Habitats
+
+A biome is a mix of habitats under one climate. The same habitat can turn up in more than one biome, and its rule is the same wherever it is.
+
+| Habitat | Its rule | Status |
+|---|---|---|
+| Open grass | Fast ground; nowhere to hide; tall grass hides small bodies until grazed | Tested |
+| Thicket | Slows big bodies; dim; hides what is inside | Tested |
+| Rock and crevice | Hard ground; gaps only small bodies fit; high ground sees farther | Tested |
+| Reed stand | Hides what is inside; shallow water underfoot; slows big bodies | Tested |
+| Still water | Needs fins or paddles; light shallows, dark deeps | Tested |
+| Mud | Heavy and armoured bodies bog down; buried food | Tested |
+| Running water | A current to swim with or against; carries scent and drift | Proposed |
+| Sand | Slows legs; easy to dig; wind wipes scent and tracks | Proposed |
+| Scrub | Thin cover; little food; burns | Proposed |
+| Cave | No light at all; even temperature all year | Proposed |
+| Island | Any habitat, cut off by water | Proposed |
+
+## 6. The eight biomes
+
+### Highlands
 
 | | |
 |---|---|
-| Ground | Hard and fast. Crevices that only small bodies fit. High ground sees farther |
-| Foods | Lichen, scraped from the rock; seeds blown in; weed in a few pools |
-| Advantage | The safest place to rest and nest |
-| Cost | The least food on the map; cold nights |
-| Its own cycle | The daily swing from hot to cold |
-| When overused | Lichen takes longer to return than any other food. The crevices are untouched |
-| Suits | Small bodies; baskers; species that nest here and feed elsewhere; colonies |
+| Habitats | Crags and crevices; scree slopes; small cold pools; caves; springs where the brooks begin |
+| Climate and cycle | Coldest, with the longest winter and snow on the tops. Hot days and freezing nights |
+| Foods | Lichen; seeds blown up from below; weed in the pools; fungus in the caves |
+| Advantage | The safest places to rest and nest, and the longest views |
+| Cost | The least food on the map |
+| Suits | Small bodies; baskers; colonies that nest here and feed lower down; cave dwellers that need no eyes |
 
-### Thicket
+### Woodland
 
 | | |
 |---|---|
-| Ground | A tangle that slows big bodies. Dim even by day. Leaf litter underfoot |
-| Foods | Fruit in bursts, one bush at a time; fungus on litter and on the dead; seeds |
+| Habitats | Dense stands; glades of open grass; fallen logs; forest brooks; a gorge |
+| Climate and cycle | Mild and sheltered. Always dim. Fruiting moves from stand to stand; autumn leaf fall feeds fungus |
+| Foods | Fruit in bursts; fungus; seeds and nuts; small prey in the litter |
 | Advantage | Rich food, out of reach of big hunters |
-| Cost | Eyes work poorly; the food moves about |
-| Its own cycle | Fruiting moves from bush to bush; autumn leaf fall feeds the fungus |
-| When overused | A stripped bush misses its next fruiting. Trampling opens a glade, which closes again |
-| Suits | Small and middling bodies; noses; hoarders; wanderers that call others to a find; pairs that hold a territory |
+| Cost | Eyes work poorly, and the food moves about |
+| Suits | Noses; hoarders; wanderers that call others to a find; pairs that hold a territory |
 
-### Meadow
+### Heath
 
 | | |
 |---|---|
-| Ground | Open and fast. Grass grows tall in summer and hides small bodies, until grazing cuts it short |
-| Foods | Grass, anywhere; flowers, by day only; seed in late summer |
+| Habitats | Dry scrub; bare sandy patches; banks soft enough to burrow in; a few water holes |
+| Climate and cycle | Dry, with hot summers. Late-summer fires burn patches of scrub, and the burnt ground flushes with new growth |
+| Foods | Seeds; shoots on burnt ground; insects; whatever gathers at the water holes |
+| Advantage | Few competitors, and a rush of food after a fire |
+| Cost | Little water and thin cover |
+| Suits | Burrowers; species that follow the fires; ambushers at water holes; lives that need little |
+
+### Grassland
+
+| | |
+|---|---|
+| Habitats | Open plain; tussock that hides small bodies; flower fields; copses; pools that fill in spring; river crossings |
+| Climate and cycle | The strongest seasons: lush summers and dead winters |
+| Foods | Grass; flowers by day; seed in late summer |
 | Advantage | The most food, and room to run |
-| Cost | Nowhere to hide; the hardest winters |
-| Its own cycle | The strongest seasons on the map |
-| When overused | Bare patches regrow from the roots. Heavy grazing strips the cover small animals depend on |
-| Suits | Speed and long sight; herds; packs; eggs that wait for spring |
+| Cost | Little cover, and the hardest winters |
+| Suits | Speed and long sight; herds; packs; eggs that wait for spring; species that leave for the winter |
 
-### Reed bed
+### Lakeland
 
 | | |
 |---|---|
-| Ground | Stems hide whatever is inside. Shallow water underfoot. Big bodies are slowed |
-| Foods | Seed heads in season; weed between the stems; buried food in the mud below |
-| Advantage | Cover for hiding and for nests |
-| Cost | Nothing can see far; the cover is gone in winter |
-| Its own cycle | Reeds grow through summer and die back in winter; a spring flood |
-| When overused | Trampling and crowded nesting flatten the reeds, which regrow the next summer |
-| Suits | Hiders and stalkers; hidden nests; solitary and paired lives |
+| Habitats | Several ponds of different sizes; one deep lake; islands; channels between the waters; lily shallows; reed fringes |
+| Climate and cycle | Mild. Water rises after rain and blooms follow. Pond edges freeze in winter; the lake's deep does not |
+| Foods | Weed; drift where streams enter; litter on the bottom, found by smell; small prey |
+| Advantage | Water to escape into, and a deep with no winter |
+| Cost | Needs fins or paddles to use fully; each pond is small enough to be eaten out |
+| Suits | Fins; shoals; big hunters of the deep; species that move from pond to pond; young in water and adults on land |
 
-### Pond
-
-| | |
-|---|---|
-| Ground | Water. The shallows are light and warm; the middle is deep, dark and cold |
-| Foods | Weed in the shallows; drift at the brook mouth, strained from the water; litter on the bottom, found by smell |
-| Advantage | Out of reach of land hunters; the deep has no winter |
-| Cost | Needs fins or paddles; the deep is dark |
-| Its own cycle | Blooms after rain; the edges freeze in winter |
-| When overused | With the weed grazed out the water clouds and sight shortens, until the weed returns |
-| Suits | Fins; shoals; big hunters of the deep; filter feeders; species whose young live in water and adults on land |
-
-### Mudflat
+### Marsh
 
 | | |
 |---|---|
-| Ground | Soft, so heavy and armoured bodies bog down. Floods and dries every few hours |
-| Foods | Buried food found by smell and touch; weed and carrion stranded by each flood; seeds washed down |
-| Advantage | Restocked by every flood, and heavy hunters cannot cross it |
-| Cost | No cover at all; under water part of the day |
-| Its own cycle | The flood rhythm; baked hard in summer, under water in winter |
-| When overused | Every flood restocks it, so it recovers fastest of all |
-| Suits | Light bodies and wide feet; flocks that follow the waterline; species that keep time; wanderers from elsewhere |
+| Habitats | Reed stands; lanes of open water; floating mats; mud banks; drowned trees |
+| Climate and cycle | Floods in spring. Reeds grow through summer and die back in winter, leaving no cover |
+| Foods | Seed heads; weed; buried food in the mud; other species' eggs |
+| Advantage | The best cover on the map, for hiding and for nests |
+| Cost | Nothing can see far, and the cover is gone in winter |
+| Suits | Hiders and stalkers; hidden nests; solitary and paired lives; waders |
 
-## 4. Time and cycles
+### Dunes
+
+| | |
+|---|---|
+| Habitats | Loose sand ridges; damp hollows with plants; grass tufts; the driftline; blown-out bowls |
+| Climate and cycle | Windy. Scent marks and tracks vanish within the hour. Hot by day, cold at night |
+| Foods | Seeds; plants in the hollows; whatever the sea leaves on the driftline |
+| Advantage | Nothing can track you, and digging is easy |
+| Cost | Legs are slow on sand; food is thin and far apart |
+| Suits | Burrowers; wide feet; lone wanderers; species that cannot afford to be followed |
+
+### Tidal flats
+
+| | |
+|---|---|
+| Habitats | Mud; branching channels; sandbars; salt pans; pools left by the tide |
+| Climate and cycle | The tide covers and uncovers them several times a day |
+| Foods | Buried food found by smell and touch; whatever each tide strands; weed in the pools |
+| Advantage | Restocked by every tide, and heavy hunters cannot cross the mud |
+| Cost | No cover at all, and under water part of the day |
+| Suits | Light bodies; flocks that follow the waterline; species that keep time; visitors from other biomes |
+
+## 7. Time
 
 | Cycle | Where | Length |
 |---|---|---|
-| Day and night | Everywhere; weakest in the Thicket and the deep Pond, which are always dim | About one real hour |
-| Season | Everywhere; strongest in the Meadow, weakest in the deep Pond | About two real days |
-| Flood | Mudflat, and the Reed bed in spring | A few game days (proposed) |
-| Fruiting | Thicket | Irregular, bush by bush |
-| Rain | Everywhere: raises the brook and the pond, washes out scent, sets off blooms | Occasional |
-| Hot and cold | Rocks | Daily |
+| Day and night | Everywhere; the Woodland floor, caves and lake deeps are always dim | About one real hour |
+| Season | Everywhere; strongest in the Grassland and Highlands, weakest in caves and the lake deep | About two real days |
+| Tide | Tidal flats | Several times a game day |
+| Flood | Marsh in spring; Lakeland after rain | Days |
+| Fruiting | Woodland | Irregular, stand by stand |
+| Fire | Heath | Late summer, patch by patch |
+| Wind | Dunes | Always |
+| Rain | Everywhere: raises rivers and ponds, washes out scent, sets off blooms | Occasional |
 
-With four seasons of two days each, a year is about eight real days. A species that lasts 3 to 7 days therefore lives through two to four seasons, not a whole year, and which ones depends on when it is released. A species released in spring can ignore winter; one released in autumn has to be built for it. If you meant a whole year to pass in two days, this section changes.
+With four seasons of two days each, a year is about eight real days. A species that lasts 3 to 7 days lives through two to four seasons, and which ones depends on when it is released.
 
-At one real hour a day, a player who checks in for fifteen minutes sees about a quarter of a day pass.
+## 8. Use and recovery
 
-## 5. Use and recovery
+One rule covers every habitat.
 
-One rule covers every biome.
+- **Every food has a root stock that cannot be eaten.**
+- **Food regrows fastest when about half of it is standing,** so moderate use yields the most.
+- **Overuse leaves the ground worn for a while,** and worn ground plays by different rules: short grass gives no cover, a grazed-out pond is cloudy, flattened reeds hide nothing.
+- **Worn and burnt ground is a niche of its own.**
 
-- **Every food has a root stock that cannot be eaten:** grass roots, bush stems, reed roots, lichen in cracks, weed beds, the mud itself.
-- **Food regrows fastest when about half of it is standing,** so moderate use yields the most and heavy use slows its own supply.
-- **Overuse leaves the ground worn for a while,** and a worn biome plays by different rules: short grass gives no cover, a grazed-out pond is cloudy, flattened reeds hide nothing, a stripped bush skips a fruiting.
-- **The worn state is a niche of its own,** for whatever does well on bare ground or in cloudy water.
+At this scale overuse is local. A species can eat out one pond or one glade and move to the next, so how it moves between patches matters as much as how fast it breeds.
 
-**Tested: the biome comes back.**
+**Tested, one patch at a time:**
 
-| Food rule | Food fell to | Food back to 70% | Grazers died out |
-|---|---|---|---|
-| No root stock | 0 of 80 | Never, in 6 runs | 6 of 6 runs |
-| Root stock | 0 of 80 | Every run, in about 1,130 beats | 5 of 6 runs |
-| Root stock, and worn ground rests first | 0 of 80 | Every run, in about 2,780 beats | 6 of 6 runs |
+| Food rule | Food back to 70% | Grazers died out |
+|---|---|---|
+| No root stock | Never, in 6 runs | 6 of 6 runs |
+| Root stock | Every run, in about 1,130 beats | 5 of 6 runs |
 
-**Tested: a species can be designed to manage its food.** The same grazers on the same food, with three rules for when to lay.
+| Rule for laying | Grazers at the end | Died out |
+|---|---|---|
+| Whenever well fed | 1 | 5 of 6 runs |
+| Not when crowded | 9 | 3 of 6 runs |
+| Not when food is thin | 19 | 1 of 6 runs |
 
-| Rule for laying | Peak numbers | Grazers at the end | Died out |
-|---|---|---|---|
-| Whenever well fed | 52 | 1 | 5 of 6 runs |
-| Not when crowded | 43 | 9 | 3 of 6 runs |
-| Not when food is thin | 46 | 19 | 1 of 6 runs |
+## 9. What the patch tests say
 
-Holding back when food is thin is something the behaviour vocabulary can already say: "lay, not when" a mood that is raised by seeing no food.
+These ran on single patches of six habitats. They still hold for those habitats; they say nothing yet about whole biomes.
 
-## 6. Niches
+**Who can live where.** Nine grazing species from one pool, in a patch of each habitat with its own foods, left to breed.
 
-| Biome | Body | Life through the year | Social form |
-|---|---|---|---|
-| Rocks | Small; sun-loving | Breeds here, feeds elsewhere | Colonies at safe sites |
-| Thicket | Small to middling; led by the nose | Hoards fruit for winter | Pairs with territories; small families |
-| Meadow | Fast; far-sighted | Eggs that wait for spring; or leaves for the winter | Herds and packs |
-| Reed bed | Hidden; quiet | Nests in summer cover, leaves when the reeds die back | Solitary or paired |
-| Pond | Finned | Steady breeding in the deep; young in the shallows | Shoals; lone hunters |
-| Mudflat | Light; wide-footed | Comes and goes with the water | Flocks |
-
-## 7. Audit
-
-### Who can live where
-
-Nine grazing species from one pool were put into every biome, each biome with its own three foods, and left to breed with no hunters. Numbers at the end; a dash means it died out.
-
-| Species | Rocks | Thicket | Meadow | Reeds | Pond | Mudflat |
+| Species | Rock | Thicket | Open grass | Reed stand | Still water | Mud |
 |---|---|---|---|---|---|---|
 | Grazer (grass) | - | - | 14.0 | - | - | - |
 | Sipper (flowers) | - | - | 4.3 | - | - | - |
@@ -179,62 +240,34 @@ Nine grazing species from one pool were put into every biome, each biome with it
 | Swimmer (weed) | - | - | - | - | 13.0 | - |
 | Filterer (drift) | - | - | - | - | 8.3 | - |
 | Scraper (lichen) | 10.7 | - | - | - | - | - |
-| Eats most things | - | 0.7 | - | - | - | - |
 | **Species living there** | 1 | 1 | 3 | 2 | 3 | 1 |
 
-- **Every biome ends up with a different cast,** and eight of the nine species found a home somewhere.
-- **A biome carries about as many grazing species as it has well-supplied foods that need different equipment.** In a first attempt the second and third foods were too scarce and the biomes carried 0, 1, 1, 2, 2 and 1 species.
-- **Three biomes still carry only one.** In the Thicket, seed-eaters that hunt by sight starved in the dim light; a seed-eater with a nose would be a second species there. The Rocks and the Mudflat need their second and third foods to be worth a specialist's while.
-- **This counted grazers only.** Hunters and scavengers would add to each cast, and have not been tested.
+A patch carries about as many grazers as it has well-supplied foods needing different equipment. A biome made of four or five habitats should carry the sum of their casts, plus hunters and scavengers; that is untested.
 
-### Ten builds in six biomes
+**Builds.** Ten builds in six habitats, with hunters: the ground rules move builds a long way (a small build went from 0.4 survivors of 6 on open grass to 5.9 on mud), but shelled and giant builds still came top in five of six. That waits on the body rework.
 
-Six of one build in each biome, with a middling hunter, a big hunter and a hunter that feels movement. Survivors of six.
+**Ways of living through the year.** A fast breeder leads with no winter and dies out in a long one; a species that sleeps through the cold leads wherever there is a winter; eggs that wait for spring come second everywhere. Storing fat without sleeping is never best.
 
-| Build | Rocks | Thicket | Meadow | Reeds | Pond | Mudflat |
-|---|---|---|---|---|---|---|
-| Sprinter | 3.1 | 1.3 | 5.1 | 3.0 | 0.5 | 6.0 |
-| Tank | 3.9 | 2.6 | 5.8 | 4.0 | 2.3 | 3.0 |
-| Giant | 4.3 | 2.1 | 4.1 | 4.3 | 0.0 | 3.0 |
-| Ghost | 2.1 | 2.5 | 2.6 | 3.0 | 2.3 | 2.9 |
-| Lookout | 1.8 | 1.0 | 2.3 | 3.3 | 0.1 | 5.8 |
-| Stinger | 2.1 | 1.3 | 3.0 | 3.1 | 0.4 | 5.9 |
-| Tiptoe | 0.8 | 0.9 | 1.6 | 3.0 | 1.4 | 2.0 |
-| Mite | 1.8 | 1.1 | 0.4 | 2.4 | 0.1 | 5.9 |
-| Swimmer | 0.3 | 0.4 | 0.6 | 0.5 | 0.4 | 0.6 |
-| Wader | 0.5 | 2.0 | 0.6 | 3.3 | 0.5 | 4.1 |
-| **Best** | Giant | Tank | Tank | Giant | Tank | Sprinter |
-
-- **The ground rules move builds a long way.** The mite goes from 0.4 in the Meadow to 5.9 on the Mudflat; the giant from 4.3 on the Rocks to 0 in the Pond.
-- **But only three builds are ever best, and two of them win five biomes.** Shells and size are still too strong, as the body audit found.
-
-### Ways of living through the year
-
-Four species competing for one food, in three climates. Adults at the end.
-
-| Climate | Fast breeder | Fat storer | Sleeps through the cold | Eggs that wait |
-|---|---|---|---|---|
-| No winter | 25.0 | 4.6 | 16.0 | 20.8, plus 4.2 eggs |
-| Short winter | 10.2 | 2.6 | 22.0 | 7.6, plus 2.8 eggs |
-| Long winter | Died out | 0.2 | 21.8 | 9.0, plus 11.8 eggs |
-
-The fast breeder leads where there is no winter and dies out where winter is long. The sleeper leads wherever there is a winter. Eggs that wait come second everywhere and never die out. Storing fat without sleeping is never the best.
-
-## 8. Where this area stands
+## 10. Where this area stands
 
 | Done when | State |
 |---|---|
-| Each biome has a different best build | **Not yet.** Three winners across six biomes. Depends on the body rework |
-| Each biome carries several species, and a different cast from its neighbours | **Partly.** Different casts, yes; three biomes carry three or two grazers, three carry one |
-| An overused biome recovers | **Yes,** one biome at a time |
-| A species can be designed to manage its food | **Yes** |
-| There is a map mockup | **Yes,** first pass |
+| The map is large enough for territories, herds, packs and migration | **Accepted as a proposal,** by arithmetic only |
+| Each biome has several habitats and its own climate, foods, advantage and cost | **Written,** untested |
+| Each biome carries several species, and a different cast from its neighbours | **Partly,** at patch scale |
+| An overused patch recovers, and a species can be designed to manage its food | **Yes,** at patch scale |
+| Each biome has a different best build | **Not yet.** Waits on the body rework |
+| There is a map mockup | **Yes,** redrawn at this scale |
 
-Not yet tested at all: the connected map, borders, the brook, each biome's own cycle, worn states, movement between biomes, hunters and scavengers within a biome's cast, and the social forms in section 6.
+Not yet tested: anything at biome or basin scale, movement between patches and between biomes, running water, sand, scrub, caves, islands, fire, tide and wind.
 
-## 9. Next
+## 11. Answered
 
-1. Give the Rocks, the Thicket and the Mudflat second and third foods that carry their own species, and add hunters and scavengers to the cast test.
-2. Run the six biomes as one connected map, with movement across borders and the brook.
-3. Carry the shell and size fixes from the body area back into the build table.
-4. Test each biome's own cycle: fruiting, flood, reed die-back, tall grass, cloudy water.
+You accepted this draft on 15 November: eight biomes, about ten screens across each, with emptier ground between the busy places. The sizes remain a proposal until something has been run at this scale.
+
+## 12. Next
+
+1. A stand-in world at biome scale, with patches of several habitats, to test movement between patches, territories and a herd's range.
+2. Add hunters and scavengers to the cast test.
+3. Give running water, sand, scrub, caves, fire, tide and wind their mechanics and run each.
+4. Carry the shell and size fixes from the body area back into the build test.
