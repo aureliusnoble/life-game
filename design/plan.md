@@ -101,7 +101,9 @@ Limits of the lab today:
 - **It searches grazers only,** against three fixed hunters, with four behaviour choices out of a vocabulary of about a hundred words.
 - **It runs the six habitat patches,** not the eight biomes, and about a hundred designs a habitat is a thin search.
 
-Next for the lab: the root-stock food rule; hunter designs searched against the grazer winners and back again; many more behaviour choices; long runs of a mixed world for the "lasting" test; then the fixes to size, the inside, sting and camouflage, each re-run through it.
+Two faults in the stand-in were found on 15 November while testing size (`design/body.md`, section 10): a plant was one meal for a body of any size, and the lab capped a species at 30 animals. Both have switches in the lab (`LEFTOVERS=1`, `CAP=90`), and neither is yet the default, so the runs above were made with the faults in.
+
+Next for the lab: make those two fixes the default and re-run the search with the size rules from the body design; the root-stock food rule; hunter designs searched against the grazer winners and back again; many more behaviour choices; long runs of a mixed world for the "lasting" test; then the fixes to size, the inside, sting and camouflage, each re-run through it.
 
 ## 4. Design areas, in order
 

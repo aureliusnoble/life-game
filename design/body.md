@@ -162,15 +162,32 @@ The score is a species' living weight added up over the time it lasts. A swarm o
 | What size changes | Small | Large | Where it decides things | Status |
 |---|---|---|---|---|
 | Running cost | Burns more food for each unit of weight | Carries more weight on the same food | Steady, lean places favour large | In the stand-in |
-| Tempo | Grows up, lays and hatches sooner, so many generations | Slow to breed and slow to replace losses | After a disaster, a bloom or a fire, small fills the gap first | LAB_TEMPO |
+| Tempo | Grows up, lays and hatches sooner, so many generations | Slow to breed and slow to replace losses | After a disaster, a bloom or a fire, small fills the gap first | Tested below |
 | Reserves | Starves soon without food | Sits out a famine or a winter on its stores | Long winters and failed seasons favour large | In the stand-in |
-| Who hunts it | Not worth a big hunter's chase, but anything middling can eat it | Few things can take it, but each loss is a large share of the species | Big hunters about favours small; many small hunters favours large | LAB_CHASE |
-| Numbers | Many heads: some survive any disaster; more eyes and more scouts | Few heads: one bad day can end the species | Disaster-prone places, and food that is scattered | LAB_PULSE |
+| Who hunts it | Not worth a big hunter's chase, but anything middling can eat it | Few things can take it, but each loss is a large share of the species | Big hunters about favours small; many small hunters favours large | Tested below |
+| Numbers | Many heads: some survive any disaster; more eyes and more scouts | Few heads: one bad day can end the species | Disaster-prone places, and food that is scattered | Tested below |
 | Hiding and fitting | Hidden by tall grass; fits crevices, burrows and thicket; carried by mud, lily pads and floating mats | Seen from afar, shut out of tight places, bogs down | Marsh, Woodland, Highlands, Tidal flats | Partly in the stand-in |
 | Moving | Quick off the mark and turns on the spot; tires soon; swept along by currents | Slow to start and to turn; fast over distance; wades rivers | Chases in clutter favour small; open ground and crossings favour large | Turning is in the stand-in; the rest is proposed |
+| Eating | Takes a small bite and leaves the rest of the plant, so a swarm wastes nothing | Finishes a plant in one bite and strips a patch quickly | Scattered scraps suit small; large needs big patches | Tested below |
 | Food | Needs rich food such as seeds, fruit, flowers and prey, and can live on scattered scraps | Can live on poor, bulky food such as grass, reeds and weed, given a large gut | Bulk in the Grassland and Marsh favours large; scraps in the Woodland and Heath favour small | Proposed |
 | Pushing | Gives way at a food patch to anything bigger; can mob, with many small bites | Pushes smaller animals off food and nests | Any shared patch | Proposed |
 | Warmth | Chills quickly, so cold nights slow it unless it huddles or burrows | Holds its heat, and overheats when it sprints in a hot place | Highland nights; Heath and Dune days | Proposed |
 | Young | Many small eggs, cheap to lose | A few large young that start strong | Egg thieves and bad years | Egg size exists, but changed nothing in the lab |
 
 What a player should feel: a swarm is a boom-and-recover design that thrives on upheaval and thin pickings, and a large species is a steady keeper that thrives where little changes and food is plain but plentiful. Neither should be right in every biome or every season.
+
+### What the lab shows
+
+Four sizes of the same plain grazer with a large gut, scored by total weight over time. Three of the rules above were switched on: an animal eats what it has room for and leaves the rest of the plant; small bodies grow up, lay and hatch faster, and large ones slower; and a hunter ignores prey under two-fifths of its own size. The figures are ranges across the meadow, reeds and mudflat, on four maps each. Differences under about 0.15 are noise.
+
+| Situation | Small | Plain | Large | Largest |
+|---|---|---|---|---|
+| Steady habitat, hunters of mixed sizes | 1.3 to 1.5 | 1.6 to 1.7 | 2.0 to 2.4 | 2.0 to 2.8 |
+| Steady habitat, large hunters only | 1.3 to 1.5 | 1.6 to 1.8 | 1.8 to 2.0 | 0.7 to 2.2 |
+| Large hunters only, and a disaster four times a run that kills four in five | 1.1 to 1.3 | 1.1 to 1.3 | 0.8 to 1.4 | 0.4 to 1.3 |
+
+- **Large wins where things are steady, and small catches up where they are not.** With large hunters and frequent disasters, small and plain come out on top in the meadow and level with large elsewhere.
+- **The swarm is the steadiest design.** It scores between 1.1 and 1.5 in every situation, where the largest swings from 0.4 to 2.8.
+- **Before these rules, small scored about 0.5 everywhere, and two of the reasons were faults in the stand-in.** A plant was one meal for any body, so a small animal wasted most of each plant it bit. And the lab capped a species at 30 animals, where a swarm on the same food reaches about 50.
+- **This is not enough yet.** Nothing here makes small the best choice in a steady place. The rows on food, hiding, pushing and warmth are what would give it places of its own, and they are untested.
+- **These are four fixed designs, not a search.** The lab's full search has not been re-run with these rules.

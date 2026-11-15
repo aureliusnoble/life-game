@@ -123,7 +123,9 @@ class World {
               if (within(tg.brain.shell) && !c.brain.crack) this.log.blocked = (this.log.blocked ?? 0) + 1;
               else if ((tg.hp -= c.brain.dmg ?? 1) <= 0) { tg.alive = false; this.log.kills.push({ t: this.t, by: c.tag, who: tg.tag }); if (c.brain.killGain) { c.energy = Math.min(c.brain.store ?? 1, c.energy + c.brain.killGain); c.meals++; } } } }
           else if (c.brain.diet !== 'meat' || this.meat.includes(tg)) { const arr = this.plants.includes(tg) ? this.plants : this.meat; const i = arr.indexOf(tg); const eff = arr === this.plants && c.brain.diet && typeof c.brain.diet === 'object' ? c.brain.diet[tg.type ?? 'plant'] ?? 0 : 1;
-            if (i >= 0 && eff > 0) { arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + (c.brain.mealGain ?? 0.3) * eff); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } }
+            // With `leftovers` on, an animal takes only what it has room for and leaves the rest of the plant; otherwise a plant is one meal for any body.
+            if (i >= 0 && eff > 0) { const gain = (c.brain.mealGain ?? 0.3) * eff, left = tg.left ?? 1, take = this.leftovers ? Math.max(0, Math.min(left, ((c.brain.store ?? 1) - c.energy) / gain)) : left;
+              if (take > 0) { if (take < left - 0.02) tg.left = left - take; else arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + gain * take); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } } }
         else if (act === 'cling' && n.target && !c.riding) { c.riding = n.target; n.target.riders++; } }
       if (c.riding) { const h = c.riding; if (!h.alive) { c.riding = null; h.riders = 0; } else { c.x = h.x - h.hx * 5; c.y = h.y - h.hy * 5; c.vx = h.vx; c.vy = h.vy; c.spd = h.spd; c.pace = 'creep'; continue; } }
       // movement: strength gives direction and effort, pace gives speed, stamina limits sprinting

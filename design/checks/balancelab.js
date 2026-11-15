@@ -19,7 +19,8 @@ const GENES = {
 const PLAIN = { scale: 1, shape: 'mid', eyes: 'side', bigEyes: false, move: 'legs', shell: 'none', spikes: 'none', sting: false, camo: false, sideLine: false, falseEyes: false, inside: 'even', nose: false, threat: 'run', herd: false, laying: 'always', eggs: 'many small' };
 const SHAPE = { round: [1.0, 1.1], mid: [1.2, 0.9], long: [1.8, 0.7] };
 const INSIDE = { even: {}, runner: { muscle: 0.45, lungs: 0.35, gut: 0.1, fat: 0.1 }, storer: { fat: 0.55, muscle: 0.15, gut: 0.15, lungs: 0.15 }, digester: { gut: 0.55, fat: 0.15, muscle: 0.15, lungs: 0.15 } };
-const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), UPKEEP_EXP = +(process.env.UPKEEP_EXP ?? 0.75), GEN_EXP = +(process.env.GEN_EXP ?? 0),
+const BUDGET = 13, CAP = +(process.env.CAP ?? 30),   // CAP is the lab's own ceiling on a species' numbers, there to bound running time
+   SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), UPKEEP_EXP = +(process.env.UPKEEP_EXP ?? 0.75), GEN_EXP = +(process.env.GEN_EXP ?? 0),
   MIN_PREY = +(process.env.MIN_PREY ?? 0), PULSE = +(process.env.PULSE ?? 0),
   TAG = process.env.LAB_TAG ?? (EXP === 1 ? '' : 'exp' + EXP), OUT = path.join(__dirname, TAG ? 'balance-' + TAG : 'balance');
 // MIN_PREY makes hunters ignore prey smaller than that share of their own size, as not worth the chase. PULSE, in beats,
@@ -62,7 +63,9 @@ function trial(g, habitat, seed, o = {}) {
   const H = (spec, ins, extra = {}) => { const b = { ...build(spec), ...extra, minPrey: MIN_PREY, instincts: ins }; if (!o.hungryHunters) b.upkeep = 0; return b; };
   const supply = (0.03 + 0.1 * BIOMES[habitat].regrow) / BIOMES[habitat].regrow;
   const other = o.versus ? express(o.versus) : null; for (let i = 0; i < 6; i++) { w.add('mine', brain); if (other) w.add('rival', other); }
-  const cast = o.noHunters ? [] : [H(hb, HUNT.chaser), H({ ...hb, scale: 1.9 }, HUNT.chaser), H({ ...hb, eyes: 'none', sideLine: true }, HUNT.feeler, { feel: 45 })], hs = cast.map((b) => w.add('hunter', b));
+  w.leftovers = process.env.LEFTOVERS === '1';   // LEFTOVERS=1: an animal eats what it has room for and leaves the rest of the plant
+  const big = H({ ...hb, scale: 1.9 }, HUNT.chaser);   // CAST=big makes all three hunters large ones
+  const cast = o.noHunters ? [] : process.env.CAST === 'big' ? [big, big, big] : [H(hb, HUNT.chaser), big, H({ ...hb, eyes: 'none', sideLine: true }, HUNT.feeler, { feel: 45 })], hs = cast.map((b) => w.add('hunter', b));
   let sum = 0, n = 0, hunterBeats = 0, rsum = 0, slain = 0, heads = 0;
   const weight = (kind) => w.creatures.reduce((a, c) => a + (c.alive && c.kind === kind ? Math.pow(c.brain.mass ?? 1, EXP) : 0), 0);
   live(w, BEATS, { grow: (w) => { if (w.rnd() < supply) w.grow(w);
