@@ -134,6 +134,15 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 | 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
 | 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
 
+**How the interface gets from mockups to release quality.** The mockups made so far are concept tests. Each answers whether an idea works at all, and none of them is an interface design. The first one, the behaviour editor, was judged on 15 November to work as a concept and to be nowhere near a finished interface. The interface itself is designed in stages, and each stage is reviewed before the next begins.
+
+1. **Concepts.** Rough and interactive, one question each. This is where the mockups are now.
+2. **Flows.** Every screen and the paths between them as plain wireframes at phone size, with real content, before any styling.
+3. **A style system.** The paper rulebook: type, colour, spacing, shapes, shadows, motion and sound, and every component drawn in every state it can be in.
+4. **Key screens at full quality,** a few at a time, in several versions set side by side.
+5. **Tested on real phones** by two or three friends who have not seen it, then revised.
+6. **Only then built** as the game's own components.
+
 **Scoped for area 8: unlocks that widen play.** Ideas to design, not decisions.
 
 - **Kits by way of life.** Parts and words come in small sets that suggest a style, such as a stalker's set, a swarm's set or a water set, so that an unlock is an invitation to try something.
