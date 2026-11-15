@@ -19,6 +19,9 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
+| Fading | The same for every species of the same age, whatever state the species is in. It keeps rising until it is almost impossible to push against. A better design lasts longer, and there is room for a very successful species to last well beyond a beginner's few days |
+| Generations | Many in a species' life, set by size: about 25 for a small species, 10 for a plain one, and six or more even for a large one |
+| Breeding | Chosen per species: alone, in pairs, or one breeder with helpers. Young forms with their own body are in the first version |
 | Dominance | A species' dominance is expected to be cyclical and to depend on which other species are around. The aim is a world that keeps turning over, not one where every design does equally well at every moment |
 | Unlocks | Unlocks should push players to explore different ways of playing, not only reward more of the same |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
@@ -172,7 +175,8 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
-| Life cycles | `design/life-cycles.md` (draft 1) | Generations, stages, ways of breeding, life-history choices and the named line, as a proposal with four questions open |
+| Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
+| Social organisation | `design/social.md` (draft 1) | Building blocks for societies, about 35 societies and what each is built from, and six additions to the vocabulary. On paper; three questions open |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |

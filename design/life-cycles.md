@@ -1,6 +1,6 @@
 # Life cycles: generations, stages and ways of living through the year
 
-Draft 1, November 2026. Design area 2 in `design/plan.md`. A proposal. The numbers are starting points; balance is settled at the end of the design process, not here.
+Draft 2, November 2026. Design area 2 in `design/plan.md`. A proposal. The numbers are starting points; balance is settled at the end of the design process, not here.
 
 ## 1. What this area has to give the game
 
@@ -27,9 +27,11 @@ Size sets the tempo of a life (`design/body.md`, section 10): small lives fast, 
 
 | Body | Egg to adult | Lifespan, if nothing kills it | Generations in a five-day species life | What you see on a daily visit |
 |---|---|---|---|---|
-| Small | About 4 game days | About 16 | Around 20 | Whole generations have come and gone since yesterday |
-| Plain | About 14 | About 48 | Around 6 | Yesterday's young are laying today |
-| Large | About 30 | About 80 | 3 or so | The same adults, a day older, with one brood growing |
+| Small | About 3 game days | About 12 | Around 25 | Several generations have come and gone since yesterday |
+| Plain | About 8 | About 30 | Around 10 | Two generations on from yesterday |
+| Large | About 14 | About 50 | 6 or more | Yesterday's young are grown and laying |
+
+Decided: even a large species should go through six or more generations.
 
 - **Every individual dies of age.** A species that stops breeding is gone within one lifespan.
 - **Lifespan follows size, with one design choice on top:** lay once and die, or lay again and again (section 6).
@@ -49,19 +51,19 @@ Elders are new. They give the oldest animals something to be for, and they are w
 
 ## 5. How a species breeds
 
-One choice for the whole species.
+Decided: the way of breeding is chosen per species.
 
 | Way | How it works | What it gives | What it costs |
 |---|---|---|---|
 | Alone | Any adult can lay | Simple and reliable; one survivor can restart the species | One body and one set of habits for all |
 | In pairs | Two sexes, which must meet | A second body and second set of habits: one sex can be built to guard, fight or show off while the other carries the eggs. Courtship, rivalry and choosing a mate become possible | Mates have to find each other, and a species scattered thin can fail to |
-| One breeder, many helpers | Area 3, social organisation | Castes | The breeder is a single point of failure |
+| One breeder, many helpers | See `design/social.md` | Castes | The breeder is a single point of failure |
 
 What two sexes are worth, beyond being expressive, is an open balance question. It is noted here and left for the end.
 
 ## 6. Life-history choices
 
-Each is made with instincts and a few species settings, not a separate system.
+Each is made with instincts and a few species settings, not a separate system. Strategies for mothers, fathers and helpers are taken further in `design/social.md`, section 6.
 
 | Choice | Options | The trade |
 |---|---|---|
@@ -71,7 +73,7 @@ Each is made with instincts and a few species settings, not a separate system.
 | Care | None; guard the eggs; feed the young; carry them | Care raises survival and ties a parent down |
 | Where | Scattered; in a nest; hidden; in a shared nest | A nest can be guarded and found again; it can also be found by others |
 | Waiting | Eggs that wait for spring; adults that sleep through winter; neither | Waiting skips the bad season and skips its opportunities too |
-| Growing up | Young like small adults; or a young form with its own body, such as fins first and legs later | A young form opens a second habitat and costs budget |
+| Growing up | Young like small adults; or a young form with its own body, such as fins first and legs later. Decided: young forms are in the first version | A young form opens a second habitat and costs budget |
 
 ## 7. Ways of living through the year
 
@@ -91,7 +93,13 @@ The stand-in world has run the first two and a fast breeder (`design/world.md`, 
 
 ## 8. Fading and the end of a species
 
-Fading is the pressure that rises with a species' age and ends it within three to seven days (`design/world-and-loop.md`). What it acts on is open. This area suggests it acts through the life cycle: as fading rises, fewer eggs hatch and lives shorten. A species would then dwindle generation by generation and end when its last member dies of age, which is the ending you described. Area 7 settles it.
+Decided on 15 November:
+
+- **Fading is the same for every species of the same age.** It does not look at how a species is doing.
+- **It keeps rising,** so pushing against it gets harder all the time and in the end is almost impossible.
+- **A better design lasts longer.** A beginner's species may last a few days; there has to be room for a really successful one to last a good deal longer.
+
+Still open, for area 7: what fading acts on. It should weigh on everything a species does, in equal measure, so that no way of life escapes it. Acting through the life cycle as well, with fewer eggs hatching and lives shortening, would make a species dwindle generation by generation until its last member dies of age.
 
 ## 9. The named line
 
@@ -117,13 +125,13 @@ Most exist already. To check against `design/neural-blocks.md` in area 6:
 - **Acts:** lay, guard, feed young, carry young, sleep.
 - **New here:** "old" as a stage, and feeding young.
 
-## 12. Questions for you
+## 12. Answered
 
-1. **Generation lengths.** Small about 20 generations in a species' life, plain about 6, large about 3. Is that the range you had in mind?
-2. **Breeding as a choice.** Alone, in pairs, or one breeder with helpers, chosen per species. Or should every species have two sexes?
-3. **Young forms.** A young body that differs from the adult's, such as fins first and legs later. In the first version, or later?
-4. **Lay once and die.** Worth having as an option?
+1. **Generations:** more than first proposed. Even a large species sees six or more.
+2. **Breeding** is chosen per species.
+3. **Young forms** are in the first version.
+4. **Lay once and die** is in, along with a wide range of strategies for mothers and fathers (`design/social.md`).
 
 ## 13. Next
 
-Area 3, social organisation: loners, pairs, herds, packs, and colonies with castes.
+Area 3, social organisation, is drafted in `design/social.md`.
