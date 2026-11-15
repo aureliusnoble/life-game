@@ -1,0 +1,288 @@
+<title>Watch It Think</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a phone-width column holding the tank and the instinct rows; notes beside it on a wide screen. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --card: #ffffff; --line: #d2dcd7; --accent: #b8355b;
+    /* The phone is a game screen with one look of its own: cut paper. */
+    --paper: #fbf5e6; --paper2: #f3ead2; --slip: #fffdf6; --p-ink: #2b2a26; --p-muted: #7a7466; --p-line: #e0d5b8; --p-shadow: rgba(60, 48, 20, 0.22);
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-block: 28px 120px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  header { display: flex; flex-direction: column; gap: 8px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.2; margin: 0; }
+  p { margin: 0; } .lede { max-width: 64ch; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 26px; align-items: start; }
+  @media (min-width: 900px) { .stage { grid-template-columns: 420px minmax(0, 1fr); } }
+  .notes { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .notes section { display: flex; flex-direction: column; gap: 6px; }
+  .notes ol, .notes ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+
+  .phone { background: var(--paper); color: var(--p-ink); border-radius: 26px; box-shadow: 0 10px 30px var(--p-shadow); min-width: 0; max-width: 420px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; }
+  .phone button { font: 500 14px var(--body); color: var(--p-ink); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .phone button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .top { padding: 14px 14px 0; display: flex; flex-direction: column; gap: 10px; }
+  .sp { display: flex; align-items: baseline; gap: 8px; } .sp b { font-family: var(--display); font-size: 21px; } .sp span { font-family: var(--mono); font-size: 11.5px; color: var(--p-muted); }
+  .tabs { display: flex; gap: 6px; align-items: flex-end; }
+  .tab { border: 0; background: var(--paper2); padding: 9px 16px 8px; border-radius: 14px 14px 0 0; min-height: 40px; color: var(--p-muted); }
+  .tab[aria-selected="true"] { background: var(--slip); color: var(--p-ink); font-weight: 600; box-shadow: 0 -2px 6px var(--p-shadow); }
+  .tab[disabled] { opacity: 0.55; cursor: default; }
+  .tankwrap { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 3; background: var(--slip); padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 6px 10px -6px var(--p-shadow); }
+  canvas { width: 100%; aspect-ratio: 38 / 23; display: block; border-radius: 16px; touch-action: manipulation; cursor: pointer; max-width: 100%; background: #bfdc86; }
+  .tankbtns { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tankbtns button { flex: 1 1 auto; min-height: 40px; border: 1.5px solid var(--p-line); background: var(--paper); border-radius: 999px; padding: 6px 10px; }
+  .tankbtns button[aria-pressed="true"] { background: var(--p-ink); color: var(--paper); border-color: var(--p-ink); }
+  .mind { display: flex; align-items: center; gap: 10px; min-height: 30px; font-size: 13px; color: var(--p-muted); flex-wrap: wrap; }
+  .mind b { color: var(--p-ink); font-weight: 600; }
+  .gauge { display: inline-flex; align-items: center; gap: 6px; } .gauge i { display: block; width: 54px; height: 10px; border-radius: 99px; background: var(--paper2); overflow: hidden; } .gauge i span { display: block; height: 100%; width: 0; border-radius: 99px; background: #e0a43a; } .gauge.sc i span { background: #d2574b; }
+  .rows { list-style: none; margin: 0; padding: 12px 12px 4px; display: flex; flex-direction: column; gap: 9px; background: var(--slip); }
+  .row { position: relative; background: var(--paper); border-radius: 14px; padding: 9px 34px 8px 16px; box-shadow: 0 2px 5px var(--p-shadow); display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+  .row::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 7px; background: var(--c); }
+  .row .glow { position: absolute; inset: 0; background: var(--c); opacity: 0; transform-origin: left; transform: scaleX(0); transition: transform 0.18s linear, opacity 0.18s linear; pointer-events: none; }
+  .row.off { box-shadow: none; background: var(--paper2); } .row.off .phrase, .row.off .conds { opacity: 0.55; }
+  .phrase, .conds { position: relative; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+  .chip { border: 1.5px solid var(--p-line); background: var(--slip); border-radius: 10px; padding: 5px 9px; min-height: 34px; }
+  .chip.act { font-weight: 600; border-color: var(--p-ink); } .chip.set { font-size: 12.5px; color: var(--p-muted); border-style: dashed; padding-inline: 8px; }
+  .arrow { font-family: var(--mono); color: var(--p-muted); }
+  .why { position: relative; font-family: var(--mono); font-size: 11px; color: var(--p-muted); min-height: 14px; }
+  .x { position: absolute; top: 4px; right: 2px; border: 0; background: transparent; width: 32px; height: 32px; color: var(--p-muted); font-size: 18px; line-height: 1; }
+  .foot { background: var(--slip); padding: 6px 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-radius: 0 0 26px 26px; }
+  .foot button { min-height: 42px; border: 1.5px dashed var(--p-ink); background: transparent; border-radius: 14px; padding: 8px 14px; }
+  .foot button[disabled] { opacity: 0.4; cursor: default; } .budget { font-family: var(--mono); font-size: 12px; color: var(--p-muted); }
+  .scrim { position: fixed; inset: 0; background: rgba(20, 24, 20, 0.35); z-index: 20; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 21; margin: 0 auto; max-width: 420px; background: var(--slip); color: var(--p-ink); border-radius: 22px 22px 0 0; box-shadow: 0 -8px 26px var(--p-shadow); padding: 14px max(14px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(14px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 10px; }
+  .sheet h3 { margin: 0; font-family: var(--display); font-size: 18px; } .sheet p { font-size: 13px; color: var(--p-muted); }
+  .opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .opts button { font: 500 14.5px var(--body); color: var(--p-ink); min-height: 46px; border: 1.5px solid var(--p-line); background: var(--paper); border-radius: 13px; padding: 8px 10px; text-align: left; cursor: pointer; }
+  .opts button[aria-pressed="true"] { border-color: var(--p-ink); background: var(--paper2); font-weight: 600; }
+  .opts button.danger { color: #a13a2f; }
+  @media (prefers-reduced-motion: reduce) { .row .glow { transition: none; } }
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="kicker">Interface mockup · behaviour editor · first pass</p>
+    <h1>Watch it think</h1>
+    <p class="lede">The behaviour editor as it might sit on a phone: a live test tank on top, and under it the instincts as rows of paper slips. Tap a creature and its rows light up with what it is feeling the pull of right now. Tap any slip to change it and the creatures change at once.</p>
+  </header>
+
+  <div class="stage">
+    <section class="phone" aria-label="Phone mockup of the behaviour editor">
+      <div class="top">
+        <div class="sp"><b>Mossbacks</b><span>day 2 · generation 3</span></div>
+        <div class="tabs" role="tablist" aria-label="Forms">
+          <button class="tab" role="tab" data-page="grown" aria-selected="true" type="button">Grown</button>
+          <button class="tab" role="tab" data-page="young" aria-selected="false" type="button">Young</button>
+          <button class="tab" type="button" disabled title="A third form unlocks later">+ form</button>
+        </div>
+      </div>
+      <div class="tankwrap">
+        <canvas id="tank" role="img" aria-label="Test tank with six creatures"></canvas>
+        <div class="tankbtns">
+          <button type="button" id="food">Drop food</button>
+          <button type="button" id="hunter">Send a hunter</button>
+          <button type="button" id="night" aria-pressed="false">Night</button>
+          <button type="button" id="pause" aria-pressed="false">Pause</button>
+        </div>
+        <div class="mind" id="mind" aria-live="off"></div>
+      </div>
+      <ol class="rows" id="rows"></ol>
+      <div class="foot"><button type="button" id="add">+ New instinct</button><span class="budget" id="budget"></span></div>
+    </section>
+
+    <aside class="notes">
+      <section><h2>What to try</h2><ol>
+        <li>Tap a creature. Its rows light up by how hard each instinct is pulling, in the same colours as the arrows on it.</li>
+        <li>Send a hunter and watch Scared fill. Then change "move away" to "hold still", or its strength to weak, and send another.</li>
+        <li>Turn on Night. Sight shrinks, and the dotted ring around the creature you are watching shows how far it can see.</li>
+        <li>Open the Young tab. The young have their own, shorter page.</li>
+        <li>Remove "only when hungry" from the first row and see them graze all day.</li>
+      </ol></section>
+      <section><h2>What this is testing</h2><ul>
+        <li>Whether a row that reads "notice → act" is enough as the first layer, with strength, pace and conditions as small slips beside it.</li>
+        <li>Whether blended urges can be shown at all. Every game the research found settles conflicts by order; this one adds them up, so a creature can be pulled three ways at once.</li>
+        <li>Whether a form per tab is clear.</li>
+      </ul></section>
+      <section><h2>What is not real</h2><ul>
+        <li>The tank runs a toy with about a dozen words, not the game's rules.</li>
+        <li>The creatures and the tank are placeholders for the Paper lagoon look.</li>
+        <li>There is one mood, already made. Making and naming moods is its own screen.</li>
+      </ul></section>
+    </aside>
+  </div>
+</main>
+
+<script>
+(() => {
+  const TAU = Math.PI * 2, W = 380, H = 230;
+  const cv = document.getElementById('tank'), ctx = cv.getContext('2d');
+  const THING = ['plant', 'bigger creature', 'my kind'], FEEL = ['hungry', 'Scared', 'dark'];
+  const REACH = [['see', 'anywhere in view'], ['near', 'a few body lengths'], ['touch', 'in contact'], ['feel', 'a feeling of its own'], ['always', 'all the time']];
+  const ACTS = [['approach', 'go to it'], ['move away', 'leave it behind'], ['stay near', 'close in only when far'], ['keep apart', 'back off only when close'], ['wander', 'drift about'], ['hold still', 'stop moving'], ['bite', 'eat what it touches'], ['raise Scared', 'fill the mood'], ['calm Scared', 'drain the mood']];
+  const MOVING = new Set(['approach', 'move away', 'stay near', 'keep apart', 'wander']);
+  const STR = { weak: 0.4, normal: 0.75, strong: 1.25 }, PACE = { creeping: 0.35, walking: 0.62, sprinting: 1 };
+  const COLORS = ['#e07a5f', '#3d8fb0', '#8a6fb8', '#d9a62e', '#4f9a66', '#c95f8f', '#6b7fa8', '#b0763a'];
+  let uid = 1;
+  const row = (reach, what, act, str = 'normal', pace = 'walking', conds = []) => ({ id: uid++, reach, what, act, str, pace, conds });
+  const brain = {
+    grown: [row('see', 'plant', 'approach', 'normal', 'walking', [['only when', 'hungry']]), row('touch', 'plant', 'bite'), row('see', 'bigger creature', 'raise Scared', 'strong'),
+      row('see', 'bigger creature', 'move away', 'strong', 'sprinting'), row('see', 'my kind', 'stay near', 'weak', 'walking', [['not when', 'Scared']]), row('always', '', 'wander', 'weak', 'walking')],
+    young: [row('see', 'my kind', 'stay near', 'strong', 'walking'), row('touch', 'plant', 'bite'), row('see', 'bigger creature', 'move away', 'strong', 'sprinting'), row('always', '', 'wander', 'weak', 'creeping')],
+  };
+  const ALLOW = 8;
+  let page = 'grown', sel = null, night = false, paused = false, caught = 0, tick = 0;
+
+  // ---------- the toy world ----------
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const plants = [], things = [], eggs = [];
+  const spawn = (form, x = rnd(30, W - 30), y = rnd(30, H - 30)) => { const a = rnd(0, TAU); things.push({ id: uid++, kind: 'mine', form, size: form === 'young' ? 0.62 : 1, x, y, hx: Math.cos(a), hy: Math.sin(a), wa: a, energy: rnd(0.35, 0.8), scared: 0, eat: 0, think: null }); };
+  for (let i = 0; i < 4; i++) spawn('grown'); for (let i = 0; i < 2; i++) spawn('young');
+  for (let i = 0; i < 9; i++) plants.push({ x: rnd(16, W - 16), y: rnd(16, H - 16) });
+  const mine = () => things.filter((t) => t.kind === 'mine');
+
+  function notice(c, r) {
+    if (r.reach === 'always') return { s: 1 };
+    if (r.reach === 'feel') return { s: r.what === 'hungry' ? (c.energy < 0.5 ? 1 - c.energy : 0) : r.what === 'Scared' ? (c.scared > 0.5 ? c.scared : 0) : night ? 1 : 0 };
+    const sight = (night ? 46 : 120) * (c.form === 'young' ? 0.8 : 1), reach = r.reach === 'see' ? sight : r.reach === 'near' ? Math.min(sight, 48) : 11 * c.size + 9;
+    const list = r.what === 'plant' ? plants : r.what === 'bigger creature' ? things.filter((t) => t.kind === 'hunter') : things.filter((t) => t.kind === 'mine' && t !== c);
+    let best = null, bd = 1e9; for (const o of list) { const d = Math.hypot(o.x - c.x, o.y - c.y); if (d < bd) { bd = d; best = o; } }
+    if (!best || bd > reach) return { s: 0 };
+    return { s: r.reach === 'see' ? Math.max(0.2, 1 - bd / sight) : 1, dx: (best.x - c.x) / (bd || 1), dy: (best.y - c.y) / (bd || 1), d: bd, target: best };
+  }
+  const holds = (c, f) => (f === 'hungry' ? c.energy < 0.5 : f === 'Scared' ? c.scared > 0.5 : night);
+  function think(c) {
+    const rows = brain[c.form], out = []; let sx = 0, sy = 0, damp = 0, raised = false, top = 0, pace = 'walking';
+    for (const r of rows) { const t = { s: 0, why: '' }; out.push(t);
+      const blocked = r.conds.find(([k, f]) => (k === 'only when') !== holds(c, f)); if (blocked) { t.why = 'off: ' + (blocked[0] === 'only when' ? 'not ' : '') + blocked[1]; t.off = true; continue; }
+      const n = notice(c, r); if (n.s <= 0) { t.why = r.reach === 'feel' ? 'not ' + r.what : 'nothing in reach'; continue; }
+      const w = STR[r.str] * n.s; let vx = 0, vy = 0;
+      if (r.act === 'approach' && n.target) { vx = n.dx * w; vy = n.dy * w; }
+      else if (r.act === 'move away' && n.target) { vx = -n.dx * w; vy = -n.dy * w; }
+      else if (r.act === 'stay near' && n.target) { if (n.d > 40) { vx = n.dx * w; vy = n.dy * w; } else t.why = 'close enough'; }
+      else if (r.act === 'keep apart' && n.target) { if (n.d < 56) { vx = -n.dx * w; vy = -n.dy * w; } else t.why = 'far enough'; }
+      else if (r.act === 'wander') { vx = Math.cos(c.wa) * w; vy = Math.sin(c.wa) * w; }
+      else if (r.act === 'hold still') { damp += w; t.s = Math.min(1, w); }
+      else if (r.act === 'bite') { if (n.target && r.what === 'plant' && n.d < 11 * c.size + 9 && c.energy < 0.97) { plants.splice(plants.indexOf(n.target), 1); c.energy = Math.min(1, c.energy + 0.4); c.eat = 26; t.s = 1; } else t.why = r.what === 'plant' ? 'full' : 'nothing to eat'; }
+      else if (r.act === 'raise Scared') { c.scared = Math.min(1, c.scared + 0.05 * w); raised = true; t.s = Math.min(1, w); }
+      else if (r.act === 'calm Scared') { c.scared = Math.max(0, c.scared - 0.03 * w); t.s = Math.min(1, w); }
+      else t.why = 'needs something to aim at';
+      const m = Math.hypot(vx, vy); if (m > 0) { sx += vx; sy += vy; t.s = Math.min(1, m); t.vx = vx; t.vy = vy; if (m > top) { top = m; pace = r.pace; } }
+    }
+    if (!raised) c.scared = Math.max(0, c.scared - 0.0035);
+    return { out, sx, sy, damp, pace };
+  }
+  function step() {
+    tick++;
+    if (plants.length < 7 && Math.random() < 0.012) plants.push({ x: rnd(16, W - 16), y: rnd(16, H - 16) });
+    for (let i = eggs.length - 1; i >= 0; i--) if (--eggs[i].t <= 0) { const e = eggs.splice(i, 1)[0]; spawn(e.form, e.x, e.y); }
+    for (const c of things) {
+      if (c.kind === 'hunter') { c.life--; let best = null, bd = night ? 60 : 135; for (const o of mine()) { const d = Math.hypot(o.x - c.x, o.y - c.y); if (d < bd) { bd = d; best = o; } }
+        let tx, ty; if (best && c.life > 0) { tx = best.x - c.x; ty = best.y - c.y; } else { c.wa += rnd(-0.08, 0.08); tx = Math.cos(c.wa); ty = Math.sin(c.wa); if (c.life <= 0) { tx = c.x < W / 2 ? -1 : 1; ty = 0; } }
+        const m = Math.hypot(tx, ty) || 1, sp = best && c.life > 0 ? 1.12 : 0.5; c.hx += (tx / m - c.hx) * 0.08; c.hy += (ty / m - c.hy) * 0.08; c.x += c.hx * sp; c.y += c.hy * sp;
+        if (c.life > 0) { c.x = Math.max(18, Math.min(W - 18, c.x)); c.y = Math.max(18, Math.min(H - 18, c.y)); }
+        if (best && bd < 17) { things.splice(things.indexOf(best), 1); eggs.push({ x: rnd(30, W - 30), y: rnd(30, H - 30), form: best.form, t: 260 }); caught++; if (sel === best.id) sel = null; }
+        continue; }
+      c.wa += rnd(-0.12, 0.12); c.energy = Math.max(0.05, c.energy - 0.00055); if (c.eat > 0) c.eat--;
+      const t = think(c); c.think = t; const m = Math.hypot(t.sx, t.sy);
+      if (m > 0.02) { c.hx += (t.sx / m - c.hx) * 0.14; c.hy += (t.sy / m - c.hy) * 0.14; }
+      const sp = 1.55 * (c.form === 'young' ? 0.85 : 1) * PACE[t.pace] * Math.min(1, m) * Math.max(0, 1 - t.damp) * (c.eat > 0 ? 0.15 : 1);
+      c.sp = sp; c.x += c.hx * sp; c.y += c.hy * sp;
+      if (c.x < 12 || c.x > W - 12) { c.wa = Math.PI - c.wa; c.x = Math.max(12, Math.min(W - 12, c.x)); } if (c.y < 12 || c.y > H - 12) { c.wa = -c.wa; c.y = Math.max(12, Math.min(H - 12, c.y)); }
+    }
+    for (let i = things.length - 1; i >= 0; i--) if (things[i].kind === 'hunter' && things[i].life <= 0 && (things[i].x < -30 || things[i].x > W + 30)) things.splice(i, 1);
+  }
+
+  // ---------- drawing the tank ----------
+  const shadow = (on) => { ctx.shadowColor = on ? 'rgba(40,40,20,0.28)' : 'transparent'; ctx.shadowBlur = on ? 5 * K : 0; ctx.shadowOffsetY = on ? 2.5 * K : 0; };
+  let K = 1;
+  function draw() {
+    K = cv.width / W; ctx.setTransform(K, 0, 0, K, 0, 0); ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#bfdc86'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#cbe393'; ctx.beginPath(); ctx.ellipse(110, 70, 150, 80, -0.3, 0, TAU); ctx.fill();
+    ctx.save(); ctx.beginPath(); ctx.ellipse(318, 196, 78, 46, -0.25, 0, TAU); ctx.fillStyle = '#93d6e2'; ctx.fill(); ctx.clip(); ctx.shadowColor = 'rgba(10,30,45,0.5)'; ctx.shadowBlur = 9 * K; ctx.shadowOffsetY = 4 * K; ctx.lineWidth = 12; ctx.strokeStyle = '#5b8f5b'; ctx.beginPath(); ctx.ellipse(318, 196, 86, 54, -0.25, 0, TAU); ctx.stroke(); ctx.restore();
+    ctx.lineCap = 'round';
+    for (const p of plants) { ctx.save(); shadow(true); ctx.strokeStyle = '#4f9a58'; ctx.lineWidth = 3.2; ctx.beginPath(); ctx.moveTo(p.x - 5, p.y - 7); ctx.quadraticCurveTo(p.x - 1, p.y - 2, p.x, p.y + 3); ctx.quadraticCurveTo(p.x + 1, p.y - 2, p.x + 5, p.y - 7); ctx.stroke(); ctx.restore(); }
+    for (const e of eggs) { ctx.save(); shadow(true); ctx.fillStyle = '#fffaf0'; ctx.beginPath(); ctx.ellipse(e.x, e.y, 5, 6.5, 0, 0, TAU); ctx.fill(); ctx.restore(); }
+    const watched = things.find((t) => t.id === sel);
+    for (const c of things) { const r = (c.kind === 'hunter' ? 19 : 11 * c.size), a = Math.atan2(c.hy, c.hx), bob = c.eat > 0 ? 0.82 : 1;
+      ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(a); shadow(true);
+      ctx.fillStyle = c.kind === 'hunter' ? '#7d6a94' : c.form === 'young' ? '#f6b08f' : '#ef8a68'; ctx.beginPath(); ctx.ellipse(0, 0, r * 1.08 * bob, r * 0.94, 0, 0, TAU); ctx.fill(); shadow(false);
+      if (c.kind === 'hunter') { ctx.fillStyle = '#fff'; ctx.beginPath(); for (let i = -2; i <= 2; i++) { ctx.moveTo(r * 0.82, i * 4 - 2); ctx.lineTo(r * 1.12, i * 4); ctx.lineTo(r * 0.82, i * 4 + 2); } ctx.fill(); }
+      const wide = c.kind === 'mine' && c.scared > 0.5; for (const s of [-1, 1]) { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(r * 0.42, s * r * 0.4, r * (wide ? 0.3 : 0.24), 0, TAU); ctx.fill(); ctx.fillStyle = '#2b2a26'; ctx.beginPath(); ctx.arc(r * 0.5, s * r * 0.4, r * 0.12, 0, TAU); ctx.fill(); }
+      ctx.restore();
+      if (c.kind === 'mine' && c.scared > 0.5) { ctx.save(); shadow(true); ctx.fillStyle = '#fffdf6'; ctx.beginPath(); ctx.arc(c.x + r, c.y - r - 7, 7.5, 0, TAU); ctx.fill(); shadow(false); ctx.fillStyle = '#d2574b'; ctx.font = '700 11px "Bricolage Grotesque", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('!', c.x + r, c.y - r - 6.5); ctx.restore(); }
+    }
+    if (night) { ctx.fillStyle = 'rgba(22,32,66,0.5)'; ctx.fillRect(0, 0, W, H); }
+    if (watched) { const c = watched, r = 11 * c.size, sight = (night ? 46 : 120) * (c.form === 'young' ? 0.8 : 1);
+      ctx.save(); ctx.setLineDash([2, 6]); ctx.lineWidth = 1.6; ctx.strokeStyle = night ? 'rgba(255,255,255,0.75)' : 'rgba(43,42,38,0.35)'; ctx.beginPath(); ctx.arc(c.x, c.y, sight, 0, TAU); ctx.stroke();
+      ctx.setLineDash([4, 4]); ctx.lineWidth = 2.2; ctx.strokeStyle = night ? '#fff' : '#2b2a26'; ctx.beginPath(); ctx.arc(c.x, c.y, r + 6, 0, TAU); ctx.stroke(); ctx.restore();
+      if (c.think) brain[c.form].forEach((row, i) => { const t = c.think.out[i]; if (!t || !t.vx && !t.vy) return; const m = Math.hypot(t.vx, t.vy), L = 16 + 30 * Math.min(1, m), ux = t.vx / m, uy = t.vy / m, x0 = c.x + ux * (r + 4), y0 = c.y + uy * (r + 4), x1 = x0 + ux * L, y1 = y0 + uy * L;
+        ctx.save(); ctx.lineWidth = 6.5; ctx.strokeStyle = 'rgba(255,253,246,0.9)'; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke(); ctx.lineWidth = 3.6; ctx.strokeStyle = COLORS[i % COLORS.length]; ctx.fillStyle = COLORS[i % COLORS.length]; ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x1 + ux * 7, y1 + uy * 7); ctx.lineTo(x1 - uy * 5, y1 + ux * 5); ctx.lineTo(x1 + uy * 5, y1 - ux * 5); ctx.closePath(); ctx.fill(); ctx.restore(); }); }
+    if (!watched) { ctx.save(); ctx.font = '600 13px Inter, system-ui, sans-serif'; ctx.textAlign = 'center'; const t = 'Tap a creature to watch it think'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(255,253,246,0.85)'; ctx.strokeText(t, W / 2, H - 12); ctx.fillStyle = '#2b2a26'; ctx.fillText(t, W / 2, H - 12); ctx.restore(); }
+  }
+
+  // ---------- the rows ----------
+  const rowsEl = document.getElementById('rows'), mindEl = document.getElementById('mind'); let refs = [];
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  function chip(text, cls, title, pick) { const b = el('button', 'chip ' + (cls || ''), text); b.type = 'button'; b.setAttribute('aria-label', title + ': ' + text); b.addEventListener('click', pick); return b; }
+  function render() {
+    rowsEl.textContent = ''; refs = [];
+    brain[page].forEach((r, i) => { const li = el('li', 'row'); li.style.setProperty('--c', COLORS[i % COLORS.length]); const glow = el('div', 'glow'); li.append(glow);
+      const ph = el('div', 'phrase');
+      ph.append(chip(r.reach, '', 'Notice by', () => sheet('Notice by', 'How it comes to know about it.', REACH, r.reach, (v) => { r.reach = v; r.what = v === 'always' ? '' : v === 'feel' ? (FEEL.includes(r.what) ? r.what : 'hungry') : (THING.includes(r.what) ? r.what : 'plant'); })));
+      if (r.reach !== 'always') ph.append(chip(r.reach === 'feel' ? r.what : 'a ' + r.what, '', 'What', () => sheet('What', r.reach === 'feel' ? 'A feeling of its own.' : 'The nearest one counts.', (r.reach === 'feel' ? FEEL : THING).map((x) => [x, '']), r.what, (v) => { r.what = v; })));
+      ph.append(el('span', 'arrow', '→'));
+      ph.append(chip(r.act, 'act', 'Act', () => sheet('Do what', 'One small act. Instincts add up.', ACTS, r.act, (v) => { r.act = v; })));
+      li.append(ph);
+      const cd = el('div', 'conds');   // the second line holds the small slips: strength, pace and conditions
+      cd.append(chip(r.str, 'set', 'Strength', () => sheet('How strongly', 'A strong instinct outpulls a weak one.', Object.keys(STR).map((x) => [x, '']), r.str, (v) => { r.str = v; })));
+      if (MOVING.has(r.act)) cd.append(chip(r.pace, 'set', 'Pace', () => sheet('At what pace', 'The strongest pull sets the pace.', Object.keys(PACE).map((x) => [x, '']), r.pace, (v) => { r.pace = v; })));
+      r.conds.forEach((c, k) => cd.append(chip(c[0] + ' ' + c[1], 'set', 'Condition', () => sheet('Condition', 'Switches this instinct on or off.', [...['only when', 'not when'].flatMap((t) => FEEL.map((f) => [t + ' ' + f, ''])), ['Remove this condition', '', 'danger']], c[0] + ' ' + c[1], (v) => { if (v.startsWith('Remove')) r.conds.splice(k, 1); else { const t = v.startsWith('only') ? 'only when' : 'not when'; r.conds[k] = [t, v.slice(t.length + 1)]; } }))));
+      if (r.conds.length < 2) cd.append(chip('+ when', 'set', 'Add a condition', () => sheet('Add a condition', 'Up to two for each instinct.', ['only when', 'not when'].flatMap((t) => FEEL.map((f) => [t + ' ' + f, ''])), '', (v) => { const t = v.startsWith('only') ? 'only when' : 'not when'; r.conds.push([t, v.slice(t.length + 1)]); })));
+      li.append(cd); const why = el('div', 'why'); li.append(why);
+      const x = el('button', 'x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove this instinct'); x.addEventListener('click', () => { brain[page].splice(i, 1); render(); }); li.append(x);
+      rowsEl.append(li); refs.push({ li, glow, why }); });
+    const used = brain[page].length; document.getElementById('budget').textContent = `${used} of ${ALLOW} instincts on this page`; document.getElementById('add').disabled = used >= ALLOW;
+    for (const t of document.querySelectorAll('.tab[data-page]')) t.setAttribute('aria-selected', String(t.dataset.page === page));
+  }
+  function light() {
+    const c = things.find((t) => t.id === sel);
+    if (!c) { mindEl.textContent = caught ? `Caught so far: ${caught}. New ones hatch from eggs.` : 'Six of them: four grown, two young.'; for (const r of refs) { r.glow.style.opacity = 0; r.glow.style.transform = 'scaleX(0)'; r.why.textContent = ''; r.li.classList.remove('off'); } return; }
+    mindEl.innerHTML = `<b>A ${c.form} one</b><span class="gauge">hungry <i><span style="width:${Math.round((1 - c.energy) * 100)}%"></span></i></span><span class="gauge sc">Scared <i><span style="width:${Math.round(c.scared * 100)}%"></span></i></span>`;
+    if (c.form !== page || !c.think) return;
+    refs.forEach((r, i) => { const t = c.think.out[i]; if (!t) return; r.glow.style.opacity = t.s > 0 ? 0.16 + 0.3 * t.s : 0; r.glow.style.transform = `scaleX(${t.s > 0 ? 0.12 + 0.88 * t.s : 0})`; r.why.textContent = t.s > 0 ? 'pulling' + (t.s > 0.75 ? ' hard' : '') : t.why; r.li.classList.toggle('off', !!t.off); });
+  }
+
+  // ---------- the bottom sheet ----------
+  let open = null;
+  function sheet(title, hint, options, current, pick) { close(); const scrim = el('div', 'scrim'), sh = el('div', 'sheet'); sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-label', title);
+    sh.append(el('h3', '', title), el('p', '', hint)); const grid = el('div', 'opts');
+    for (const [v, note, cls] of options) { const b = el('button', cls || '', note ? `${v} · ${note}` : v); b.type = 'button'; b.setAttribute('aria-pressed', String(v === current)); b.addEventListener('click', () => { pick(v); close(); render(); }); grid.append(b); }
+    sh.append(grid); scrim.addEventListener('click', close); document.body.append(scrim, sh); open = [scrim, sh]; const first = grid.querySelector('[aria-pressed="true"]') || grid.querySelector('button'); if (first) first.focus({ preventScroll: true }); }
+  function close() { if (open) { open.forEach((e) => e.remove()); open = null; } }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  // ---------- controls ----------
+  for (const t of document.querySelectorAll('.tab[data-page]')) t.addEventListener('click', () => { page = t.dataset.page; render(); light(); });
+  document.getElementById('add').addEventListener('click', () => { brain[page].push(row('see', 'plant', 'approach')); render(); refs[refs.length - 1].li.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+  document.getElementById('food').addEventListener('click', () => { const x = rnd(60, W - 60), y = rnd(50, H - 50); for (let i = 0; i < 5; i++) plants.push({ x: x + rnd(-34, 34), y: y + rnd(-28, 28) }); });
+  document.getElementById('hunter').addEventListener('click', () => { if (things.some((t) => t.kind === 'hunter' && t.life > 0)) return; const left = Math.random() < 0.5; things.push({ id: uid++, kind: 'hunter', x: left ? -20 : W + 20, y: rnd(40, H - 40), hx: left ? 1 : -1, hy: 0, wa: 0, life: 620 }); });
+  const toggle = (id, set) => { const b = document.getElementById(id); b.addEventListener('click', () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); set(on); }); };
+  toggle('night', (on) => { night = on; }); toggle('pause', (on) => { paused = on; });
+  cv.addEventListener('pointerdown', (e) => { const b = cv.getBoundingClientRect(), x = ((e.clientX - b.left) / b.width) * W, y = ((e.clientY - b.top) / b.height) * H; let best = null, bd = 30;
+    for (const c of mine()) { const d = Math.hypot(c.x - x, c.y - y); if (d < bd) { bd = d; best = c; } } sel = best ? best.id : null; if (best && best.form !== page) { page = best.form; render(); } light(); draw(); });
+  function fit() { const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.round((cv.clientWidth || 380) * dpr); cv.width = w; cv.height = Math.round(w * H / W); draw(); }
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fit, 120); });
+  function frame() { if (!paused) step(); draw(); if (tick % 5 === 0 || paused) light(); requestAnimationFrame(frame); }
+  render(); fit(); light(); requestAnimationFrame(frame);
+})();
+</script>

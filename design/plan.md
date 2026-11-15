@@ -158,7 +158,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 
 | Mockup | Covers | Areas |
 |---|---|---|
-| Behaviour editor with "watch it think" | Building instincts, moods and signals, and seeing which urges are pulling. The core of the game, and the one piece the research found no precedent for | 6, 10 |
+| Behaviour editor with "watch it think" | Building instincts, moods and signals, and seeing which urges are pulling. The core of the game, and the one piece the research found no precedent for. First pass made: `design/mockups/watch-it-think.html` | 6, 10 |
 | Body designer | Parts, placement and the budget | 5 |
 | Home screen and daily visit | The founder, the recap, pet play | 8, 9 |
 | Creature inspector | What a creature is doing and why | 10 |
