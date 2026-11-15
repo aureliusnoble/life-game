@@ -25,6 +25,7 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Forms | A species is made of forms: each sex, life stage and caste has its own body and its own page of instincts under the same combined allowance. Forms share only signals, life-cycle settings and an optional common page |
 | Unkind behaviour | All of it is allowed |
 | Attaching | Creatures can attach to each other and come off again, with defences against it. Bodies joined for good into one animal are out |
+| Presets | Twenty preset species, with no advantages, no fading and no score. Each living player species takes the place of one. They are respawned if they die out, need not be equally successful, and together should form a fluctuating but stable ecosystem |
 | Dominance | A species' dominance is expected to be cyclical and to depend on which other species are around. The aim is a world that keeps turning over, not one where every design does equally well at every moment |
 | Unlocks | Unlocks should push players to explore different ways of playing, not only reward more of the same |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
@@ -187,6 +188,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
+| Preset species | `design/presets.md` (draft 1) | Twenty presets, one stepping aside for each living player species, with no advantages and no fading. A cast of twelve foragers, five hunters and three others is proposed. In the stand-in, hunters and their prey do not last together by any means tried; only respawning keeps hunters present |
 | Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
 | Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline. Two direction checks run: a sentinel by signal cuts losses and costs meals; hostile homes space themselves out but do not protect the food. Four checks wait on forms and on the body rework |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
@@ -209,7 +211,7 @@ The order from draft 1 stands, with the designers first:
 
 | Risk | Where it is dealt with |
 |---|---|
-| Hunters and prey cannot both persist | Area 4 |
+| Hunters and prey cannot both persist, so a player's hunter species may be unable to last | Area 4 found no fix in the stand-in. To be tested first when the real simulation exists; respawning covers presets only |
 | One build wins everywhere | Areas 1, 4 and 5 |
 | Friends cannot build behaviours on a phone | Area 8 mockups, then building step 3 |
 | A rich world is too much for a small server or a phone | Area 1 sets the size; measured in building step 2 |
