@@ -379,3 +379,64 @@ The reviewer agreed with the owner: the eight varied creatures were one teardrop
 - Any body can walk, feed, drink, sleep and startle, because each act asks only for the posture and for how far the nose is from the middle.
 
 Parts of the game's body design not yet drawn in the kit: eyes on stalks, a skirt of cilia, suckers and hooks, a pouch, a sting, a beak, a tongue, bristles and slime. Each is one more entry.
+
+### Set 5: assets, and how to make a new one
+
+The reviewer found four faults that recurred: three kinds of shadow, side views in a world seen from above, one cream shared by stones, toadstools, daisies and sand, and things too small to see. Grass, reeds, toadstools, the log, the stump, stones, fallen leaves, daisies and the butterfly were redrawn, and the study now has a sheet of twelve assets.
+
+**The rules for any asset:**
+
+1. **Plan view only.** Never a side or an end cap. How tall a thing is shows only in how far its shadow falls.
+2. **A few flat pieces.** Two to five for a prop, up to nine for a landmark. Nothing narrower than 2 units, where a unit is 1/360 of the screen's width.
+3. **Four heights, and the shadow each throws:**
+
+   | Level | What | Shadow |
+   |---|---|---|
+   | Lying flat | Fallen leaves, lily pads, petals | 1 unit |
+   | Low | Grass, flowers, toadstool caps, pebbles | 2.5 units |
+   | A body | Stones, logs, creatures | 5 units |
+   | Tall | Reeds, stumps, boulders | 9 units |
+   | Overhead | Leaves on a bough, anything flying | 16 to 28 units, away from the thing |
+
+4. **One shadow.** One direction and one tone. Its edge softens with height, by a quarter of its length. The shadows of a layer are gathered into one shape before the ground is darkened, so two that overlap are no darker than one.
+5. **Edges.** A cut edge facing the light is a little lighter than its sheet, and the opposite edge a little darker. Never white, and never all the way round.
+6. **Cuts.** Plants are cut in arcs, stone in six to nine unequal straight cuts. No perfect circles, regular polygons or copies set inside each other. Torn edges are for foam, snow, moss and mud.
+7. **Folds and scores.** One fold to a piece, lighter on the half toward the light. A score is a dark line beside a light one; five to a piece at most.
+8. **Colour.** Three papers and one accent. An asset is at least 15% lighter or darker than the ground it lies on. Only creatures, flowers and toadstool caps are saturated.
+9. **Size.** Nothing under 10 units. Landmarks are 40 to 70.
+10. **Kinds.** Three outlines of each, not three sizes of one.
+11. **Where it goes.** In odd clusters, one large with small ones trailing, against an edge, and across boundaries: a stone across the foam, a pad across a line between depths. Never sprinkled evenly.
+12. **What creatures do with it.** They walk over what is flat or low, go round a body, and pass under what is tall or overhead.
+13. **How it moves.** Thin pieces only, hinged at a root or a fold, a few degrees, driven by the one wind. Nothing fades or blurs.
+
+**A recipe for a new asset:**
+
+1. Look at the thing from directly above, and say what it is in one sentence.
+2. Name the one feature that identifies it when it is 12 units across.
+3. Cut its outline as one piece and look at it as a solid shape at phone size. If it cannot be named, cut it again.
+4. Give each part one of the four heights.
+5. Choose three papers against its ground, and an accent.
+6. Stack the pieces, lighter upward; add one fold and a few scores.
+7. Edges and shadow follow from rules 3 to 5.
+8. Make three outlines. Write where it goes and how it moves.
+9. Put it beside a creature in a scene.
+
+The rock pool on the asset sheet was made this way, to test the recipe.
+
+**Two departures from the reviewer,** each to settle a disagreement between reviews: shadows soften a little with height instead of being hard at every level, which keeps one rule for props, creatures and the tree; and the butterfly is 20 units across, not 14, because the world review asked for nothing small.
+
+## 18. Made to be added to
+
+The owner asked that these systems be flexible enough for the content the game has and the content it may gain. Each is now a table or a row, not a drawing:
+
+| System | A new one is | What it gets for nothing |
+|---|---|---|
+| A creature | A row of choices: shape, parts, skin, pattern, papers | Every state and bearing, every act, lightness steps, eyes placed by ratio |
+| A part: limb, tail, head, thing on the head, skin, thing worn | One entry in its table, drawn at a socket | Every body can use it |
+| A state or a bearing | A row of numbers for the shared posture, a pace and a rhythm | Every body can wear it |
+| An act | Targets for the posture over time, and what the world does in answer | Every body can do it |
+| An asset | The recipe in section 17: pieces, a height, three outlines, a rule of placement | The right shadow and edges, the wind |
+| A place | A ground, one form of its own, and its clusters | The composition rules, the light |
+| Weather or a time of day | A change to the ground, the light's angle, length, colour and strength, a layer in the air, a reaction | Every place and every creature under it |
+
+Limits that are known: the kit draws bodies along one spine, or round with no front; a body in two joined parts, or with limbs that are the body, would need a third plan. States that need a new channel, not a new row, would need the posture extended for every body at once.
