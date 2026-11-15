@@ -56,7 +56,7 @@ About fifteen minutes, with nothing required. The order is a suggestion the scre
 | 3. Tend | The named one, close | Stroke it, feed it. Later, talk to it through a fixed set of things to say, and learn what is troubling the species |
 | 4. Watch | The species going about its day | Follow one. Tap any creature for what it is doing and why, then "watch it think" |
 | 5. Nudge | The keeper's tools | Drop one of the species' own scents or calls; stir one of its moods; hold a finger down as a beacon |
-| 6. Change | Three mutations, offered at random: small changes to the body, the instincts or the way of breeding | Pick one, or none. It applies to the newly hatched |
+| 6. Change | Three mutations, offered at random: small changes to the body, the instincts or the way of breeding | Try any of them in the tank. Pick one, or none. It applies to the newly hatched |
 | 7. Unlocked | Anything earned since the last visit, one at a time, each with its tank puzzle | Try it, or leave it for later |
 | 8. Friends | Rankings by total life, and one notable thing from a friend's species | Visit theirs. The design of any species that has ended can be opened |
 | 9. Ahead | One line: "Winter begins tomorrow", "About three days left at this rate" | Leave |

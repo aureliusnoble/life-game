@@ -1,6 +1,6 @@
 # Playing with friends
 
-Draft 1, November 2026. Design area 11 in `design/plan.md`. Section 1 is decided. The rest is a proposal on paper, and nothing here has been tried with a group.
+Draft 2, November 2026. Design area 11 in `design/plan.md`. Sections 1 and 11 are decided. The rest is a proposal on paper, and nothing here has been tried with a group.
 
 ## 1. Decided
 
@@ -54,7 +54,7 @@ A player's relationship with a friend is whatever their two species do to each o
 - **There is no alliance feature.** A pact between two players is a pair of instincts: a shared display both species respect, or each simply leaving the other alone. Nothing enforces it, and signals can lie. A broken pact is a story.
 - **Countering is slow on purpose.** A living species changes by one mutation a day from three drawn at random, so it cannot be rebuilt against a rival overnight. A full answer is a new release, which retires the old species. Rivalries play out over days.
 - **What a player knows about a rival's living species** is what can be seen: its body, what it does, its line, its tally and its place in the web. What it thinks is private until it ends (`design/feedback.md`, section 11). Working it out by watching is part of the game.
-- **A keeper's nudge reaches only the keeper's own species.** This is a proposal. Signals are public, so a dropped scent or call could be read by other species, and a player's hand would become a weapon that costs nothing. Proposed: other species do not notice a keeper-made signal.
+- **A keeper's nudge reaches only the keeper's own species** (decided). Signals are public, so a dropped scent or call could otherwise be read by other species, and a player's hand would become a weapon that costs nothing. Other species do not notice a keeper-made signal.
 
 ## 5. Seeing each other's work
 
@@ -133,12 +133,14 @@ One shared record of the world, open to everyone.
 - **Shared ownership of a species.**
 - **Bets and predictions.**
 
-## 11. Questions
+## 11. Answered
 
-1. **The year as the season of the board,** with titles that change hands. Proposed: yes.
-2. **Nudges and other players' species.** Proposed: a keeper's nudge is noticed only by the keeper's own species.
-3. **Visiting a friend's named one:** a stroke and a treat, remembered as an event. Proposed: yes.
-4. **Taking an ended design as a starting point:** free, marked "after" its source, and releasable only with the taker's own unlocks. Proposed: yes.
+Decided on 15 November:
+
+1. **The world year is the season of the board,** with titles that change hands.
+2. **A keeper's nudge is noticed only by the keeper's own species.**
+3. **A visitor can stroke a friend's named one and offer it a treat,** and the visit is remembered as an event.
+4. **An ended design can be taken as a starting point** by anyone. It is marked "after" its source, and can be released only with the taker's own unlocks.
 
 ## 12. Next
 

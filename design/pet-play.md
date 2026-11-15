@@ -78,6 +78,7 @@ The keeper's tools from `design/world-and-loop.md`: drop one of the species' own
 
 - **They work through the species' instincts,** like everything else. A species that was not built to follow a scent will not follow one.
 - **They are not rationed.** A player can use them as often as they like while they are there.
+- **Only the keeper's own species notices them** (decided on 15 November, in `design/friends.md`). A dropped scent or call cannot be read by another player's species.
 - **They are short-lived.** A dropped scent fades and a stirred mood settles, so a nudge helps for a moment and cannot stand in for a design. How long each lasts is for the balance pass.
 
 ## 6. Talking

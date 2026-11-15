@@ -1,6 +1,6 @@
 # Feedback: seeing what happened
 
-Draft 1, November 2026. Design area 10 in `design/plan.md`. Section 1 is decided. The rest is a proposal on paper, and nothing here has been tried on a person.
+Draft 2, November 2026. Design area 10 in `design/plan.md`. Sections 1 and 13 are decided. The rest is a proposal on paper, and nothing here has been tried on a person.
 
 ## 1. Decided
 
@@ -193,12 +193,14 @@ What the check found:
 - **The tank is not the world.** A change that helps in the tank can fail among other species.
 - **This is a check that an instrument exists for each step.** Whether a person can read the instruments is a different question, and it is what the concept test is for.
 
-## 13. Questions
+## 13. Answered
 
-1. **Recorded moments.** Keeping a few seconds of the headline event and of each name-bearer's death lets the recap show the thing itself. It is more to build and to store. Proposed: yes, for those two only.
-2. **Trying mutations in the tank before choosing.** It makes the daily choice an informed one. It also makes it slower. Proposed: yes.
-3. **How much of a friend's living species is open.** Proposed as in section 11: what can be seen in the world, with its line, tally and web; nothing of what it thinks.
-4. **Energy.** A view of what came in and where it went is the deepest of the instruments and the most like a spreadsheet. Proposed: in, and revealed late.
+Decided on 15 November:
+
+1. **Recorded moments** are kept for the day's headline and for each name-bearer's death, and for nothing else.
+2. **Each of the day's three mutations can be tried in the tank** before one is picked.
+3. **A friend's living species shows its outside:** what can be seen in the world, with its line, its tally and its web. Nothing of what it thinks is shown until it ends.
+4. **Energy is in,** and revealed late.
 
 ## 14. Next
 
