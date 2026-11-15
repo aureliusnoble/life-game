@@ -269,3 +269,46 @@ A test of breadth. Each line is a distinct way to live, and the preset cast in `
 ## 14. Next
 
 Step 6: lifespan, the fading curve and what it acts on.
+
+## 15. What the look asks of the body designer
+
+Added 15 November 2026. The owner asked that the body designer let a player be as expressive as the creature kit in `design/mockups/paper-study.html`, which draws sixteen very different creatures. An independent reviewer compared those sixteen with the seven steps in section 3 (`design/reviews/round2-creature-designs.md`). Nothing in this section is decided.
+
+**The finding.** As written, the designer can make four of the sixteen. Six more it can make in the rules but not in looks. Six it cannot make at all.
+
+| | Creatures | What is missing |
+|---|---|---|
+| Can be made | Shelled, Two forms, Puffle, Swarm | Nothing |
+| The rules allow it, the looks do not | Plain, Plated, Hunter, Swimmer, Hopper, Bolster | A head and its size and shape; a tail; a shell drawn as bands; fronds; legs that fold; cheeks; young that ride, which is the pouch |
+| Cannot be made | Long, Ribbon, Stilt, Lugg, Bloom, Flit | Segments; a curve of the spine; moving without limbs; an eye set on top; a thing worn; arms and a face on a body with no front; wings |
+
+**The largest gap is that the designer has no head.** Its shape is one outline, and nearly every drawing in the kit depends on a separate head and how large it is.
+
+**Additions that change only the look.** These cost nothing in balance, and together they are most of the difference:
+
+1. **A head:** its size and shape, or none.
+2. **A tail:** its length and its tip.
+3. **How the body is cut:** one piece, a number of rounds, or with holes.
+4. **A curve of the spine, and a resting pose.**
+5. **A face:** the style and number of eyes, lids, and a mouth; and parts allowed on top of the body, not only on its outline.
+6. **A style for each covering:** a shell as a dome or as bands; bristles as a fringe or a ruff; gills as fronds.
+7. **How many arms,** for the plan with no front.
+
+**Additions that would have to mean something in the rules.** Each needs a decision:
+
+| Addition | The cheapest meaning | What it touches |
+|---|---|---|
+| Wings | A new mover: short bursts over land, the twin of the tail fin in water | Section 9; no flight over water or cover unless decided |
+| Moving without limbs | A body-wave mover; or count a frill as a fin | Section 9 |
+| Arms | The skirt of cilia, drawn as arms; or a grip, if they hold | Sections 6 and 9 |
+| A thing worn | How camouflage for one kind of ground is drawn; or found things become objects in the world | Sections 3 and 6 |
+| A club of a tail | A weapon at the rear, like a sting that wounds | Section 7 |
+| Segments | Already deferred in section 13: "a body made of repeating segments" | Section 13 |
+
+**Two rules the kit already keeps, which the designer should keep too:** the player picks hues and the kit sets the steps of lightness between touching parts; and eyes are placed by ratio and pulled inside the outline, whatever the head.
+
+**Questions for the owner:**
+
+1. Should the seven look-only choices go into the designer as a step of their own, after Shape?
+2. Which of the six in the second table should mean something, and which should be left out of the first version?
+3. Should segments come back from the deferred list, since two of the most liked creatures depend on them?
