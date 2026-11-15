@@ -63,7 +63,8 @@
 
     <aside class="notes">
       <section><h2>What to try</h2><ol>
-        <li>Stroke it. It meets you as a stranger: a shy one flinches and backs off at first, and settles as you keep it gentle.</li>
+        <li>Put a finger down near it. A shy one backs away from a finger that moves, and creeps up to one held still. A bold one comes straight over.</li>
+        <li>Stroke it. A shy one flinches and settles only as you keep it gentle. A bold one enjoys it at once.</li>
         <li>Give it a treat. A shy one waits until your finger is away. After three it is full and turns the next one down.</li>
         <li>Call it. Whether it comes depends on its character and how far it trusts you.</li>
         <li>Talk to it. There are five a day. When they are gone it has said what it has to say: it settles down, and still answers a stroke.</li>
@@ -89,37 +90,48 @@
   const cv = document.getElementById('c'), ctx = cv.getContext('2d'); let K = 1;
   const NUM = ['Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth'], ROMAN = ['IV', 'V', 'VI', 'VII', 'VIII'];
   const P = { x: 180, y: GY, tx: 180, face: 1, sx: 1, sy: 1, vsx: 0, vsy: 0, hop: 0, vhop: 0, trust: 0.12, bold: 0.2, full: 0.2, look: [0, 0], blink: 0, nextBlink: 90, joy: 0, startle: 0, chew: 0, yawn: 0, settled: false, shake: 0, lean: 0, point: 0, gen: 0, wantTreat: null, walkT: 0 };
-  let ptr = { x: -99, y: -99, down: false, lx: 0, ly: 0, still: 0 }, treats = [], bits = [], bubble = null, ring = 0, flash = 0, talks = 5, hinted = false, t = 0, memory = 0;
+  let ptr = { x: -99, y: -99, down: false, lx: 0, ly: 0, calm: 0, away: 999 }, treats = [], bits = [], bubble = null, ring = 0, flash = 0, talks = 5, hinted = false, t = 0, memory = 0;
   const near = () => Math.hypot(ptr.x - P.x, ptr.y - (P.y - 40 * S)) < 62 * S;
   const emote = (ch, col = '#d2574b') => bits.push({ x: P.x + (Math.random() - 0.5) * 30, y: P.y - 92 * S, vy: -0.7, life: 70, ch, col });
   const say = (text, ch) => { bubble = { text, ch, life: 190 }; };
   const impulse = (ax, ay) => { P.vsx += ax; P.vsy += ay; };
 
+  const clamp = (x) => Math.max(50, Math.min(W - 50, x));
   function step() {
-    t++; ptr.still = ptr.down ? 0 : ptr.still + 1;
-    // springs: squash and stretch, and the little hop
+    t++; const shy = P.bold < 0.5, present = ptr.x > 0, moved = present ? Math.hypot(ptr.x - ptr.lx, ptr.y - ptr.ly) : 0;
+    ptr.calm = present && moved < 0.8 ? ptr.calm + 1 : 0; ptr.away = present ? 0 : ptr.away + 1;
+    // springs: squash and stretch settle back to rest; the hop only exists while it is off the ground
     P.vsx += (1 - P.sx) * 0.18; P.vsx *= 0.78; P.sx += P.vsx; P.vsy += (1 - P.sy) * 0.18; P.vsy *= 0.78; P.sy += P.vsy;
-    P.vhop -= 0.9; P.hop = Math.max(0, P.hop + P.vhop); if (P.hop === 0 && P.vhop < -2) { impulse(0.1, -0.12); P.vhop = 0; }
+    if (P.hop > 0 || P.vhop > 0) { P.vhop -= 0.9; P.hop += P.vhop; if (P.hop <= 0) { P.hop = 0; if (P.vhop < -2) impulse(0.08, -0.1); P.vhop = 0; } }
     for (const k of ['joy', 'startle', 'chew', 'yawn', 'shake', 'point']) if (P[k] > 0) P[k]--;
     if (--P.nextBlink < 0) { P.blink = 7; P.nextBlink = 80 + Math.random() * 160; } if (P.blink > 0) P.blink--;
     // where it looks: the finger if it is about, otherwise wherever it is going
-    const gx = ptr.x > 0 ? ptr.x - P.x : P.face * 40, gy = ptr.x > 0 ? ptr.y - (P.y - 46 * S) : 0, gm = Math.hypot(gx, gy) || 1;
+    const gx = present ? ptr.x - P.x : P.face * 40, gy = present ? ptr.y - (P.y - 46 * S) : 0, gm = Math.hypot(gx, gy) || 1;
     P.look[0] += (gx / gm * Math.min(1, gm / 60) - P.look[0]) * 0.15; P.look[1] += (gy / gm * Math.min(1, gm / 60) - P.look[1]) * 0.15;
-    // being stroked
-    if (ptr.down && near()) { const moved = Math.hypot(ptr.x - ptr.lx, ptr.y - ptr.ly); hinted = true;
-      if (P.trust < 0.3 && P.startle === 0 && moved > 0.5) { P.startle = 46; P.vhop = 7; P.tx = Math.max(60, Math.min(300, P.x + (P.x < ptr.x ? -70 : 70) * (1.2 - P.bold))); P.trust += 0.05 + 0.05 * P.bold; emote('!'); if (P.settled) P.settled = false; }
-      else if (P.startle === 0 && moved > 0.3) { P.trust = Math.min(1, P.trust + 0.004 + 0.004 * P.bold); P.lean += ((ptr.x - P.x) / 60 - P.lean) * 0.1; impulse(0.006, -0.01); if (P.trust > 0.45) { P.joy = 30; if (t % 26 === 0) emote(Math.random() < 0.5 ? '♥' : '♪'); } } }
-    else P.lean *= 0.9;
+    const d = present ? Math.abs(ptr.x - P.x) : 999, side = P.x < ptr.x ? -1 : 1, busy = P.settled || P.wantTreat || P.chew > 0 || P.startle > 0;
+    P.backing = false; P.creep = false;
+    if (ptr.down && near()) { hinted = true;                       // being stroked
+      if (shy && P.trust < 0.35 && P.startle === 0 && moved > 0.5) { P.startle = 50; P.vhop = 7; P.tx = clamp(P.x + side * 92); P.trust += 0.045; emote('!'); P.settled = false; }
+      else if (P.startle === 0 && moved > 0.3) { P.trust = Math.min(1, P.trust + (shy ? 0.004 : 0.012)); P.lean += ((ptr.x - P.x) / 60 - P.lean) * 0.1; impulse(0.004, -0.007); P.tx = P.x;
+        if (!shy || P.trust > 0.4) { P.joy = 30; if (t % 24 === 0) emote(Math.random() < 0.5 ? '♥' : '♪'); } } }
+    else { P.lean *= 0.9;
+      if (present && !busy) {
+        if (shy && P.trust < 0.5) {
+          if (d < 118 && ptr.calm < 50) { P.tx = clamp(P.x + side * 40); P.backing = true; if (t % 70 === 0) emote('…', '#6b7fa8'); }   // a shy one backs away from a moving finger
+          else if (ptr.calm > 80 && d > 64) { P.tx = clamp(ptr.x + side * 60); P.creep = true; if (ptr.calm % 50 === 0) P.trust = Math.min(1, P.trust + 0.035); } }   // and creeps up to one held still
+        else if (d > 68) { P.tx = clamp(ptr.x + side * 58); if (t % 110 === 0) emote('?', '#4f9a58'); } } }                          // a bold or trusting one comes to the finger
     ptr.lx = ptr.x; ptr.ly = ptr.y;
     // treats: a bold or trusting one goes straight to it; a shy stranger waits for the finger to go
     if (!P.wantTreat && treats.length && P.chew === 0 && !P.settled) { const tr = treats[0];
       if (P.full >= 1) { if (!tr.refused) { tr.refused = true; P.shake = 40; P.face = tr.x > P.x ? -1 : 1; } }
-      else if (P.trust > 0.3 || P.bold > 0.6 || ptr.still > 70) P.wantTreat = tr; }
-    if (P.wantTreat) { P.tx = P.wantTreat.x - P.face * 26 * S; if (Math.abs(P.x - P.tx) < 5) { P.chew = 54; P.full = Math.min(1.01, P.full + 0.34); P.trust = Math.min(1, P.trust + 0.05); treats.splice(treats.indexOf(P.wantTreat), 1); P.wantTreat = null; P.joy = 60; emote('♪', '#4f9a58'); } }
+      else if (!shy || P.trust > 0.45 || ptr.away > 70) { P.wantTreat = tr; tr.side = P.x < tr.x ? 1 : -1; } }
+    if (P.wantTreat) { const tr = P.wantTreat; P.tx = clamp(tr.x - tr.side * 30 * S); if (Math.abs(P.x - P.tx) < 4) { P.face = tr.side; P.chew = 54; P.full = Math.min(1.01, P.full + 0.34); P.trust = Math.min(1, P.trust + 0.05); treats.splice(treats.indexOf(tr), 1); P.wantTreat = null; P.joy = 60; emote('♪', '#4f9a58'); } }
+    // left alone, a bold one roams and a shy one mostly stays put
+    if (!present && !busy && Math.abs(P.tx - P.x) < 2 && t % (shy ? 420 : 140) === 0) P.tx = clamp(P.x + (Math.random() - 0.5) * (shy ? 60 : 240));
     // walking
-    const dx = P.tx - P.x; if (Math.abs(dx) > 2 && !P.settled) { P.face = dx > 0 ? 1 : -1; P.x += Math.sign(dx) * Math.min(Math.abs(dx), P.startle ? 3.2 : 1.5); P.walkT += 0.3; if (P.hop === 0 && t % 14 === 0) P.vhop = 3.2; }
+    const dx = P.tx - P.x; if (Math.abs(dx) > 2 && !P.settled) { P.face = P.backing ? -side : dx > 0 ? 1 : -1; const sp = P.startle ? 3.4 : P.creep ? 0.5 : shy ? 1.2 : 2.1; P.x += Math.sign(dx) * Math.min(Math.abs(dx), sp); P.walkT += P.creep ? 0.12 : 0.3;
+      if (!P.creep && !P.backing && P.hop === 0 && P.vhop === 0 && t % (shy ? 20 : 11) === 0) P.vhop = shy ? 2.4 : 4.4; }
     if (P.settled && t % 150 === 0) emote('z', '#6b7fa8');
-    if (!P.settled && P.full < 0.25 && t % 240 === 0) impulse(-0.03, 0.03);
     for (const b of bits) { b.y += b.vy; b.life--; } bits = bits.filter((b) => b.life > 0);
     if (bubble && --bubble.life <= 0) bubble = null; if (ring > 0) ring--; if (flash > 0) flash--;
     P.full = Math.max(0, P.full - 0.00012);
@@ -137,7 +149,7 @@
     for (const [x, y, c] of [[70, 300, '#fff'], [258, 352, '#f7b9cc'], [130, 356, '#fbdc6a']]) { for (let i = 0; i < 5; i++) ell(x + Math.cos(i / 5 * TAU) * 4, y + Math.sin(i / 5 * TAU) * 4, 3, 3, c); ell(x, y, 2.2, 2.2, '#e9a23a'); }
   }
   function creature() {
-    const lie = P.settled ? 1 : 0, bob = P.hop, sx = P.sx * (1 + lie * 0.12), sy = P.sy * (1 - lie * 0.28) * (P.chew > 0 ? 1 - 0.05 * Math.abs(Math.sin(P.chew * 0.5)) : 1);
+    const lie = P.settled ? 1 : 0, bob = P.hop, timid = P.bold < 0.5 && P.trust < 0.5 && ptr.x > 0 ? 0.93 : 1, sx = P.sx * (1 + lie * 0.12), sy = P.sy * timid * (1 - lie * 0.28) * (P.chew > 0 ? 1 - 0.05 * Math.abs(Math.sin(P.chew * 0.5)) : 1);
     const wob = P.shake > 0 ? Math.sin(P.shake * 0.9) * 5 : 0, x = P.x + wob, y = P.y - bob, f = P.face;
     ell(P.x, P.y + 4, (44 - bob * 0.6) * S, (9 - bob * 0.12) * S, 'rgba(60,70,30,0.22)');
     ctx.save(); ctx.translate(x, y); ctx.rotate(P.lean * 0.12 + (P.startle > 30 ? -f * 0.08 : 0)); ctx.scale(sx * S, sy * S);
@@ -192,7 +204,7 @@
   $('heir').addEventListener('click', () => { P.gen = (P.gen + 1) % NUM.length; $('name').textContent = 'Pip the ' + NUM[P.gen]; $('age').textContent = 'young adult · a stranger to you'; Object.assign(P, { trust: 0.1 + 0.2 * P.bold, full: 0.3, settled: false, x: 40, tx: 150 + Math.random() * 60, joy: 0 }); talks = 5; pips(); treats = []; $('talk').firstChild.textContent = 'Talk'; hinted = false; });
   const at = (e) => { const b = cv.getBoundingClientRect(); ptr.x = ((e.clientX - b.left) / b.width) * W; ptr.y = ((e.clientY - b.top) / b.height) * H; };
   cv.addEventListener('pointerdown', (e) => { at(e); ptr.down = true; ptr.lx = ptr.x; ptr.ly = ptr.y; cv.setPointerCapture(e.pointerId); if (near() && P.settled) { P.blink = 0; emote('♪', '#6b7fa8'); } });
-  cv.addEventListener('pointermove', at); cv.addEventListener('pointerup', () => { ptr.down = false; }); cv.addEventListener('pointerleave', () => { if (!ptr.down) ptr.x = -99; }); cv.addEventListener('pointercancel', () => { ptr.down = false; ptr.x = -99; });
+  cv.addEventListener('pointermove', at); cv.addEventListener('pointerup', (e) => { ptr.down = false; if (e.pointerType !== 'mouse') ptr.x = -99; }); cv.addEventListener('pointerleave', () => { if (!ptr.down) ptr.x = -99; }); cv.addEventListener('pointercancel', () => { ptr.down = false; ptr.x = -99; });
   function fit() { const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.round((cv.clientWidth || 360) * dpr); cv.width = w; cv.height = Math.round(w * H / W); }
   let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fit, 120); });
   function frame() { step(); draw(); requestAnimationFrame(frame); }
