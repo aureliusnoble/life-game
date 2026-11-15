@@ -290,3 +290,47 @@ Scores are out of ten against a beautiful shipped game. Each reviewer came to it
 
 **What is still short of the bar,** by the reviewers and by eye: the props (stones, toadstools, the log, grass) are weaker than the water and the leaves; the many-part creature's parts still look set on in places; and no reviewer has yet said the picture reads as photographed paper.
 
+
+## 17. Five focused reviews, and what each changed
+
+After the fifth pass, five independent reviewers each took one subject: how the creature moves, the world, states, creature designs, and single assets. Their reports are kept in `design/reviews/`. The study was then revised one subject at a time. This section records what each revision settled, as rules to carry into the real game.
+
+### Set 1: how a creature moves
+
+The reviewer scored the motion 3 out of 10: nothing changed the outline, and paws slid.
+
+- **A paw on the ground stays on the ground.** A step is a stance and a swing; how often it steps follows how fast it goes.
+- **Paper does not stretch.** Height is shown by size and by how far the shadow falls.
+- **The eyes lead, then the head, then the body.** Ears and tail follow late on springs and overshoot.
+- **An act changes the outline, and the world answers it.** A startle is a flinch, a hop away and a landing. A bitten flower tips and springs back. Each lap at the water sends out a ring.
+- **Sleep is staged:** lids, ears, a settle, head round, tail wrapped, hind paws tucked, then front.
+- **A heavy many-part body moves slower,** with legs that bend at hip and knee and a tail whose joints follow one after another.
+- Poses can be held at twelve a second for a cut-out feel. Whether that is better is to be judged in motion.
+
+### Set 2: the world
+
+The reviewer scored composition 4.5, light 4.5, world motion 3, biome identity 3.5 and events 3.
+
+**How a screen is composed:**
+
+- At most three terraces and one cut-down. Each step up is lighter and warmer. A step throws a short firm shadow and a wide faint one.
+- About sixty per cent of the screen is quiet paper, in one piece, where creatures walk.
+- Things are gathered in three clusters and no more, each where two things meet: an edge and water, the foot of a step, where a path crosses an edge. Nothing stands alone or is evenly scattered.
+- One line, a path or a shore, leads from a screen edge to the focal feature, which sits on a third. Water leaves by one edge at most.
+- Shade comes only from something on the screen and has its shape. There is one mass of it.
+- The creature is the most saturated shape. The scene reads in three values: deep water and tree for the darks, grass for the middle, sand and path for the lights.
+- Nothing is smaller than about 12 pixels on a phone, and no line thinner than 1.5.
+
+**How the world moves:**
+
+- One wind for everything. A slow rocking crosses the picture, and every ten seconds or so a gust leans grass, reeds and leaves downwind as it passes.
+- One hero mover, the creature, and one secondary, here a butterfly that settles on a flower when nothing is near.
+- Small events at long intervals: glints on water, a fish that rises, a petal on a gust, the shadow of a cloud about once a minute.
+- The world answers the creature: grass bends away from it and springs back.
+- The view drifts a little after the creature, and what is high overhead slides further than the ground.
+
+**Places and events:**
+
+- Each place has one form that is its own: folded stone with scree in the highlands; roots, banked leaves and coins of sun in woodland; crescent dunes with a dark slip face; one braided channel through cracked mud in the marsh.
+- Weather and time are built in a fixed order: what happens to the ground, then the light (its angle, length, colour and strength), then a layer in the air with its own shadow, then what the creature does. A tint alone is never enough.
+- The whole scene's look is set by a few controls: the colour of every sheet, the pale rim on lit edges, and the colour, length and strength of shadows. Rain, winter and night are made with those.
