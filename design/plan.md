@@ -141,9 +141,9 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 **How the interface gets from mockups to release quality.** The mockups made so far are concept tests. Each answers whether an idea works at all, and none of them is an interface design. The first one, the behaviour editor, was judged on 15 November to work as a concept and to be nowhere near a finished interface. The interface itself is designed in stages, and each stage is reviewed before the next begins.
 
 1. **Concepts.** Rough and interactive, one question each. This is where the mockups are now.
-2. **Flows.** Every screen and the paths between them as plain wireframes at phone size, with real content, before any styling.
+2. **Flows.** Every screen and the paths between them as plain wireframes at phone size, with real content, before any styling. The wireframes settle what each screen is for and what it says. They are not layouts to be dressed.
 3. **A style system.** The paper rulebook: type, colour, spacing, shapes, shadows, motion and sound, and every component drawn in every state it can be in.
-4. **Key screens at full quality,** a few at a time, in several versions set side by side.
+4. **Key screens at full quality,** a few at a time, in several versions set side by side. This stage starts again from what each moment should feel like and do, with careful and deliberate thought about the design. It does not lean on the wireframes for layout.
 5. **Tested on real phones** by two or three friends who have not seen it, then revised.
 6. **Only then built** as the game's own components.
 
@@ -212,6 +212,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
 | Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline. Two direction checks run: a sentinel by signal cuts losses and costs meals; hostile homes space themselves out but do not protect the food. Four checks wait on forms and on the body rework |
 | Lifespan and score | `design/lifespan.md` (draft 2) | Decided: two days of grace and a ramp slower than doubling; release whenever the player chooses, retiring the old species; what a player keeps, including a chronicle. A steady climb is proposed for the ramp. Fading acts on the cost of living and on hatching alike |
+| Pet play | `design/pet-play.md` (draft 1) | The named one and its character, the line and what an heir receives, tending, nudging and talking. On paper, with four questions open |
 | Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits; a classification of events. Its four questions are answered. The first hour and the daily visit are wireframed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
