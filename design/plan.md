@@ -12,7 +12,9 @@ Draft 2, November 2026. Replaces the "one pond" first version of draft 1.
 | Overlap | No. A player has one species alive at a time |
 | Scope | Do the whole design now, as completely as possible, before building. This is the moment to find out which systems are not rich enough |
 | The world | Much richer than one pond: several biomes, each with its own cycles, that respond to how species use them, recover after being overexploited, and offer niches for different bodies, life cycles and social organisation |
-| Pet play | There must be Tamagotchi-like interaction with the species |
+| Pet play | There must be Tamagotchi-like interaction with the species. It centres on one special individual: each species has a named founder that its player looks after closely, and whose fate matters more than the rest |
+| World shape | One connected map. Biomes sit side by side, creatures spread wherever they can live, and the borders between biomes are places in their own right |
+| World size | About six biomes, fixed |
 | Working arrangement | Reviewed changes into the main branch |
 
 ## 2. How the design process runs

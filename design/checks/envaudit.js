@@ -129,4 +129,5 @@ function places() {
     console.log('  ' + name.padEnd(12) + cells.join('')); }
 }
 
+module.exports = { live, scatter, count, toCover };
 if (require.main === module) { const only = process.argv[2]; for (const f of [foods, refuges, dayNight, reeds, seasons, crevices, places]) if (!only || f.name === only) f(); }
