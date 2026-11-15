@@ -192,7 +192,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
 | Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline. Two direction checks run: a sentinel by signal cuts losses and costs meals; hostile homes space themselves out but do not protect the food. Four checks wait on forms and on the body rework |
 | Lifespan and score | `design/lifespan.md` (draft 2) | Decided: two days of grace and a ramp slower than doubling; release whenever the player chooses, retiring the old species; what a player keeps, including a chronicle. A steady climb is proposed for the ramp. Fading acts on the cost of living and on hatching alike |
-| Daily loop | `design/world-and-loop.md` | Keeper actions proposed |
+| Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits. On paper, with four questions open. Wireframes are next |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 
