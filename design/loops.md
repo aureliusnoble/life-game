@@ -127,4 +127,4 @@ Decided on 15 November:
 
 ## 9. Next
 
-Wireframes of the first hour and the daily visit at phone size, with real words on them and no styling, for you to step through.
+The first hour and the daily visit are wireframed in `design/mockups/loop-wireframes.html`. Next: the design session and the end as wireframes, then pet play and the named line in full.
