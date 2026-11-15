@@ -173,7 +173,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 
 | Area | Document | State |
 |---|---|---|
-| Behaviour | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited; ten verbs and most functions untested |
+| Behaviour | `design/neural-blocks.md` (draft 5) | Vocabulary written, with everything decided in the life-cycle and social designs folded in and the world's words worked out in full. Draft 4's verbs were audited; ten verbs, most functions and all of draft 5's additions are untested |
 | Bodies | `design/body.md` (draft 1) | Parts audited; size, the inside, sting, camouflage and spikes need rework. Its table of whole builds is superseded by the balance lab |
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |

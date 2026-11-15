@@ -1,6 +1,6 @@
 # Neural editor: instincts, moods and signals
 
-Draft 4, November 2026. Earlier drafts are in git history.
+Draft 5, November 2026. Earlier drafts are in git history.
 
 Anything marked **tested** was run in `design/checks/moodsim.js` or `design/checks/verbaudit.js`, small stand-in worlds that implement the rules below. It is not the game, and its numbers show direction, not balance. Everything else is on paper.
 
@@ -16,6 +16,16 @@ Anything marked **tested** was run in `design/checks/moodsim.js` or `design/chec
 - Four more recipes tested, and an atlas of about a hundred behaviours.
 
 **What changed in draft 4.** Every act was audited against its nearest neighbour (section 14). Two verbs were cut, "near" and "far" were redefined, one pair of state words was replaced, and the body rules the verbs depend on are now written down.
+
+**What changed in draft 5.** Everything decided since draft 4 in the life-cycle and social designs is folded in, and the words for the world are worked out in full. None of the additions has been run.
+
+- A species is made of **forms**, each with its own body and its own page of instincts (section 9).
+- **The world** has its own vocabulary: ground and features, time, weather, water, fire, where I am, and directions (section 3).
+- Among my own kind a creature can tell **homes** apart and compare **size and age**.
+- New acts and wider ones: roll, shed, lay on a carrier, grab from a carrier, tend a plant or a store, cling to the world, and a sting that tires.
+- An act can be aimed at **the one another creature is facing**, and a display can point at a **remembered place**.
+- One new mood function, **For life**.
+- **Species settings** for breeding are listed in section 9.
 
 ## 1. The idea
 
@@ -48,6 +58,8 @@ see · the weakest · smaller creature · going away → head off (strong, sprin
 
 Each slot offers a short list, and most instincts leave most slots at their default. The lists are what unlock over time.
 
+A species has one page of instincts and moods for each of its forms, and can have a common page that forms share (section 9).
+
 ### The rules
 
 1. Thinking happens in beats. Every beat, each instinct whose conditions hold makes its contribution.
@@ -57,7 +69,8 @@ Each slot offers a short list, and most instincts leave most slots at their defa
 5. A mood is on above its kick-in point, with a small margin so it does not flicker.
 6. "Only when" and "not when" switch an instinct on or off. "More when" and "less when" scale it with how strong the feeling is.
 7. What a creature is doing limits what it can notice (section 6).
-8. There are no loops, sequences or free-form numbers. Settings come in three to five named steps.
+8. An act is aimed at the thing noticed. It can instead be aimed at **the one that thing is facing**, which is how a creature joins a friend's fight or attacks what its leader attacks.
+9. There are no loops, sequences or free-form numbers. Settings come in three to five named steps.
 
 ## 3. Senses: what a creature can notice
 
@@ -115,22 +128,76 @@ When several things match, the nearest is used unless one of these is chosen.
 | weakest | The most hurt | Mid |
 | lone | The one farthest from others of its own kind | Mid |
 | my [mood] one | The creature a Bond mood is about | Late |
+| the oldest, the youngest | By age, among my kind | Late |
 
 ### What
 
 | Kind | Options | When |
 |---|---|---|
 | Food | plant, meat, egg | Start to Mid |
-| My kind | any; male, female; young, adult; family, stranger | Start; refinements Early to Late |
+| My kind | any; male, female; young, adult, old; family, stranger; of my home, of another home; bigger, smaller, older or younger than me; a named form | Start; refinements Early to Late |
 | Other creatures | bigger, smaller, about my size | Start |
 | A species I have met | Picked from the species this lineage has encountered | Mid |
 | A kind I learned about | See Learn in section 7 | Late |
-| Things to carry | food, egg, young, building material, the dead | Mid |
+| Things to carry | food, seed, egg, young, building material, the dead, a smaller creature | Mid |
 | Signals | a call, a scent mark (mine, my kind's, a stranger's), a display | Early |
-| Places | cover, open ground, an edge (of cover, water or a marked area) | Early |
-| Gradients | brighter, darker; warmer, cooler; deeper, shallower; upstream, downstream | Mid |
+| A rider | Something clinging to me: where it holds, and whether it is my kind | Mid |
+| Places | Ground, shelter, lines and made things: see The world, below | Early to Late |
+| Directions | brighter, warmer, uphill, upstream, upwind and the rest: see The world, below | Mid to Late |
 | A remembered place | my [mood] place | Late |
 | My keeper | The player's touch-and-hold beacon | Start |
+
+### The world
+
+A creature can notice the ground it is on, what is around it, the time, the weather and the state of the water, and it can feel which way things change. Seasonal lives, migration and each biome's own cycle are built from these. Every word needs a sense that can detect it.
+
+**Ground and features.** Things to notice, like any other "what".
+
+| Kind | Words | Sense |
+|---|---|---|
+| Ground | open grass, tall grass, thicket, scrub, rock, scree, sand, mud, bare ground, snow and ice | Eyes; touch for what is underfoot |
+| Water | still water, shallows, deep water, running water, a pool left by tide or flood | Eyes; smell from farther off |
+| Shelter | cover of any kind, a crevice, a cave, a hollow, a burrow, shade | Eyes |
+| Made things | a nest, a wall, a larder, a trail of marks | Eyes; smell for marks |
+| Lines | an edge of cover, the water's edge, a river bank, the tide line, a wall | Eyes; touch |
+| High and open | high ground, open ground, an island, a crossing | Eyes |
+| Changed ground | burnt ground, new growth, grazed ground, flooded ground, frozen water | Eyes |
+| Plenty | a bloom, a stand in fruit, fallen seed, food left by the tide, a carcass | Eyes; smell |
+
+**Time, weather and water.** These are feelings, so they are what conditions test: "only in autumn", "not when the tide is in".
+
+| Kind | Words | Sense |
+|---|---|---|
+| Time of day | day, night, dawn, dusk | Any |
+| Season | spring, summer, autumn, winter | Any |
+| Weather | raining, windy, hot, freezing, snow lying | Skin |
+| Water | tide in, tide out, tide rising, tide falling, flood, low water | Eyes on the water, or skin when in it |
+| Fire | fire near, smoke | Eyes; nose |
+
+**Where I am.** Also feelings.
+
+| Words | Sense |
+|---|---|
+| in water, out of my depth, in a current, being swept along, sinking | Skin |
+| wet, dry, hot, cold | Skin |
+| covered, exposed, in shade, in sun, underground, high up | Any |
+| on any ground word: "on mud", "on burnt ground" | Touch |
+
+**Moments in the world.** Rain just started; rain just stopped; the tide just turned; the water just rose; the first frost; a fire just started; day just broke; night just fell; the season just turned; food just arrived.
+
+**Directions.** A direction is noticed like a scent: it points the way things increase. Approach climbs it, move away goes down it, and go along keeps it level, so "go along deeper" follows the tide line and "go along uphill" follows a contour.
+
+| Direction | Sense | What it is for |
+|---|---|---|
+| brighter, darker | Eyes | Finding cover or sun; retreats by day or night |
+| warmer, cooler | Skin; heat pits | Basking, shade, wintering low |
+| uphill, downhill | Any | Refuges; following water down |
+| upstream, downstream | Side line or skin, in running water | River journeys; breeding at the head of a brook |
+| deeper, shallower | Skin, in water | Following the tide; keeping to one depth |
+| wetter, drier | Skin; nose | Finding water in dry country |
+| upwind, downwind | Nose; whiskers | Approaching unsmelled; tracking a scent to its source |
+| north, south, east, west | A compass organ, which is a new body part | Long journeys with no landmark |
+| toward my [mood] place | Memory | Home, larder, birthplace |
 
 ### What it is doing
 
@@ -141,7 +208,7 @@ A creature seen clearly can also be noticed by its state. This is how one creatu
 | still | Not moving |
 | coming at me, going away | Its motion relative to me |
 | facing me, facing away | Whether I am inside its arc of view |
-| eating, resting, fighting, carrying | What it is busy with |
+| eating, resting, fighting, carrying, clinging | What it is busy with |
 | hurt | Visibly wounded |
 | calling, showing [display] | Signalling |
 
@@ -151,11 +218,11 @@ Feelings have no direction. They are what conditions test, and they can also sta
 
 | Kind | Options |
 |---|---|
-| Body | hungry, hurt, tired, cold, warm, carrying, covered, clung to |
+| Body | hungry, hurt, tired, cold, warm, carrying, covered, clung to, clinging |
 | Breeding | fertile, gravid |
-| Surroundings | dark, light, crowded |
+| Surroundings | dark, light, crowded; and the feelings listed under The world |
 | Company | alone, outnumbering, outnumbered |
-| Traits | male, female; young, adult, old |
+| Traits | male, female; young, adult, old; the form it is |
 | State of mind | idle (nothing but wandering is firing), torn (its pulls nearly cancel), stuck (trying to move and getting nowhere) |
 | Moods | Any mood the player has made |
 | Constants | always, sometimes |
@@ -171,6 +238,7 @@ A moment is something that just happened. It lasts a beat or two, so to act on i
 | To me | just hatched, just ate, just bitten, just fed, just tended, just grabbed, startled (something appeared close by) |
 | By me | just bit, just killed, just mated, just laid |
 | Losing track | just lost sight of it |
+| The world | See The world, above |
 | Moods | [mood] just started, [mood] just ended |
 | Keeper | keeper's touch, keeper's treat |
 
@@ -200,15 +268,21 @@ Any moving instinct can also carry a **pace**: creeping (slow and hard to hear o
 |---|---|---|
 | bite | Eat or wound what it is touching; the target decides which | Start |
 | rest | Recover; lower energy use | Start |
-| lay | Lay an egg here | Start |
+| lay | Lay an egg here, or on what it is touching or carrying | Start; on a carrier, Late |
 | mate | With the one it is touching, if both want to | Early |
-| grab, drop | Pick up and carry food, an egg, a young one, material or a smaller creature | Mid |
+| grab, drop | Pick up and carry food, a seed, an egg, a young one, material or a smaller creature. Grab can also take from a creature that is carrying. A dropped seed can sprout | Mid |
 | give | Hand over what it carries, or share food it has eaten | Mid |
-| tend | Care for what it is touching: an egg hatches sooner, a young one grows faster, another creature is cleaned and calmed | Mid |
-| cling, let go | Hold on to what it is touching and be carried along | Mid |
+| tend | Care for what it is touching: an egg hatches sooner, a young one grows faster, another creature is cleaned of riders and calmed, a plant grows faster, stored food keeps and ripens | Mid |
+| cling, let go | Hold on to what it is touching and be carried along, or hold on to a rock or a stem. How well it holds depends on its grip and the other's skin | Mid |
 | hide | Withdraw, if the body has a shell or burrow | Mid |
+| roll | Turn over. Riders on the back are thrown or crushed; the creature is belly up for a moment | Mid |
+| shed | Drop the tail or the patch of skin being held, leaving an attacker holding it | Late |
 
 Body parts add their own: sting, spit, shock, spray (a cloud that works as cover), glow, shed a tail. Some parts add **poses** that change how others perceive the creature: puff up (seen as bigger), play dead, crouch (harder to see while still).
+
+A sting can be built to wound or to tire. A tired victim cannot sprint and can be carried off alive.
+
+While it is clinging, a creature can bite, sting, tend, give, lay, signal or let go. It cannot steer. A small, slow bite from a clinging creature feeds it without wounding the carrier badly, and a clinging creature can wound a carrier of any size.
 
 ### Changing the world
 
@@ -246,7 +320,7 @@ Body parts add their own: sting, spit, shock, spray (a cloud that works as cover
 
 - **Eat and attack as separate verbs.** One verb, bite, and the target decides.
 - **Flee, chase, stalk, follow, guard, patrol, search.** Each is a movement act with a pace or a second instinct: flee is move away sprinting; stalk is approach creeping while the target is facing away; patrol is go along the edge of my own marks.
-- **Get behind.** Cut in the audit: circling while the target faces me, then approaching when it faces away, did the same job.
+- **Get behind.** Cut in the audit: circling while the target faces me, then approaching when it faces away, did the same job. It may return if travelling close behind another is ever made to save effort.
 - **Watch.** Cut in the audit: stopping to look farther changed almost nothing. A creature that is not eating or resting already has its full senses.
 - **Push, block, dodge.** Bodies already get in each other's way, so these come from approach, head off and circle.
 - **Copy.** Covered by noticing what another creature is doing.
@@ -318,6 +392,7 @@ Each is one switch on a mood, and each is an unlock.
 | Learn | Experience fills in kinds: one that hurt me, one that hurt my kind, one I have eaten, one that made me ill, one that fed or tended me, a familiar one | Enemies and allies formed by what happened; returning favours; knowing neighbours from strangers | On paper |
 | Takes over | While on, silences instincts not tied to this mood | Panic, frenzy, single-mindedness | On paper |
 | Habit | Marks one instinct, not a mood: it strengthens when soon followed by eating, mating or being tended, and weakens when followed by pain | Individuals that differ by experience; creatures a keeper can train | On paper |
+| For life | Once on, the mood never fades, and the creature grows into another form over a few days | Queens that are made, sex change, soldiers on demand, founders with their own bodies | On paper |
 
 Imprinting is a pattern, not a function: a Bond mood raised only when young that lingers until calmed.
 
@@ -332,16 +407,37 @@ Imprinting is a pattern, not a function: a Bond mood raised only when young that
 - **Signals are public.** There is a small shared set of sounds, scents and displays, and any species with the right sense can notice any of them. A player names what a sound means for their own species; nothing stops another species reacting to it, or making it.
 - **Signals can be graded.** A call made by a strong instinct, or one scaled with "more when Scared", is louder.
 - **Signals can lie.** A species can make another's mating call, lay a nest scent where there is no nest, or show a display it does not mean.
-- **Telling who made it.** Marks can be told apart as mine, my kind's or a stranger's. Calls and displays cannot at first; "from my kind" is a later refinement that a mimic body part can defeat.
-- **Pointing.** Facing something while showing a display gives watchers a direction: "see my kind showing → go the same way" sends them where it points.
+- **Telling who made it.** Marks can be told apart as mine, my home's, another home's of my kind, or a stranger's. Every creature carries the scent of the home where it hatched, and takes on the scent of a home that tends or feeds it for long enough. Calls and displays cannot be told apart at first; "from my kind" is a later refinement that a mimic body part can defeat.
+- **Pointing.** Facing something while showing a display gives watchers a direction: "see my kind showing → go the same way" sends them where it points. A creature can also face a remembered place while showing, which tells others where food is without leading them there.
 - **Treaties.** Because displays are public, two players can agree a convention, such as "mine will not bite anything showing blue". Nothing enforces it.
 
-## 9. Body, sex, age and caste
+## 9. Forms and species settings
 
-- **The body sets the vocabulary.** A brain can only use the senses and acts its parts provide.
-- **Sex.** A species is cloning or two-sexed. Every individual runs the same brain; "only when female" makes the sexes behave differently. Parts can be grown by one sex only.
-- **Age.** "Only when young" and "only when adult" do the same for life stages, and parts can be tied to a stage, so young and adults can have different bodies.
-- **Caste.** A Born with mood divides a species into kinds of individual, and parts can be tied to it.
+### Forms
+
+A species is made of forms. A form is one kind of individual: a sex, a life stage or a caste. Each form has its own body and its own page of instincts and moods, and a first species has one form. The reasoning is in `design/social.md`, section 9.
+
+- **The body sets the vocabulary.** A form can only use the senses and acts its parts provide.
+- **Shared by the species:** being one kind, the home scent, the named sounds, scents and displays, the settings below, and an optional common page of instincts that a form can take or leave.
+- **Separate for each form:** the body, the instincts and moods, and the cost. Each form is its own design under the same combined allowance.
+- **Becoming a form.** By sex; by stage, as young grow up and adults grow old; at laying, by brood mix; or later, when a For life mood comes on.
+- **Roles without a new body:** "only when young", a signal that others defer to, or a count of who is doing what.
+
+### Species settings
+
+These are set once for the species and are not instincts. They are worked out in `design/life-cycles.md` and `design/social.md`.
+
+| Setting | Options |
+|---|---|
+| Way of breeding | Alone; in pairs; one breeder with helpers; both sexes in one; splitting |
+| Brood mix | The share of eggs that become each sex and each form, with up to two rules, such as "more founders in autumn" or "unfathered eggs become males" |
+| Mating | Each time, or once and lay for life |
+| What breeding costs the parent | Nothing; the mother dies after laying; the father dies after mating |
+| Eggs | Many small or a few large; laid or kept inside until they hatch; hatch at once or wait for a season, or for several |
+| Lay once or again and again | Once, with everything; or repeatedly |
+| Sleep | Adults sleep through a season, or do not |
+
+When to breed, where, how much care to give and who leaves home are instincts.
 
 ## 10. How relationships between species arise
 
@@ -680,6 +776,34 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 | A flock that follows the player | Tame: raised only when young by see my keeper, lingers until calmed; only when Tame: see my keeper → stay near | Early |
 | Trained individuals | Habit on chosen instincts, with keeper's touch as the reward | Habit |
 
+### Seasons, journeys and societies, new in draft 5
+
+None of these has been run. "Needs" names the newest piece each relies on.
+
+| Behaviour | Built from | Needs |
+|---|---|---|
+| Breeding on the spring flood | the water just rose → raise Ready (lingers a while); only when Ready and gravid → lay | The world |
+| Following the tide out | only when the tide is falling: deeper → go along, creeping; see food left by the tide → approach; only when the tide is rising: shallower → approach | The world |
+| Wintering low | only in autumn: downhill → approach; only in spring: uphill → approach | The world |
+| Breeding at the head of a brook | only when gravid: upstream → approach (strong); on shallows, no upstream → lay | The world |
+| Hunting from downwind | smell smaller creature → approach, creeping; see it facing me → hold still. A hunter led by scent alone always arrives from downwind | Early |
+| A long journey with no landmark | only in autumn: south → approach; only in spring: north → approach | A compass organ |
+| A colony that lasts one year | Brood mix: more founders in autumn. Founders: only in winter → rest at my Home place; in spring → dig, lay | Forms |
+| One sentinel at a time | see no my kind showing "Watch" → show "Watch", hold still; showing "Watch", see bigger creature → call "Alarm"; hear "Alarm" → move away, sprinting | Mid |
+| A queen's mark | Breeder: always → mark "Queen" at my Home place. Workers: lay, not when smell "Queen" | Homes |
+| A queen replaced | Heir: For life, raised slowly by smell no "Queen", until calmed by smell "Queen"; once on, the worker grows into the breeder form | For life |
+| Soldiers after an attack | Young: smell my home's "Alarm" mark → raise Soldier (For life, kicks in high) | For life |
+| Border wars | see my kind of another home → approach, bite; more when near my Home place | Homes |
+| Raiders | smell another home's "Nest" → approach; touch egg → grab; carrying egg → approach my Home place, drop. The eggs hatch with the raiders' scent | Homes |
+| Joining a friend's fight | Ally: Bond. See my Ally one fighting → approach the one it is facing, bite | The one it is facing |
+| Telling where food is | Found: Place, raised by just ate. At my Home place, only when Found → face my Found place, show "Found"; see my kind showing "Found" → go the same way | Pointing at a place |
+| A garden | carrying seed → approach my Garden place, drop; touch plant, at my Garden place → tend; see stranger, at my Garden place → approach, bite | Seeds that sprout |
+| A larder that ripens | carrying food → approach my Larder place, drop; touch stored food → tend | Tended stores |
+| A parasite | see bigger creature facing away → approach, creeping; touch → cling; clinging, hungry → bite; clinging, not hungry → let go | Riders |
+| Throwing off a rider | feel clung to → roll; clung to, see my kind → show "Clean me"; see my kind showing "Clean me" → approach, tend | Riders |
+| A larder of living prey | touch smaller creature → sting, to tire; touch tired creature → grab; carrying → approach my Nest place, drop; at my Nest place, see tired creature → lay | A sting that tires |
+| Young that eat their host | touch bigger creature facing away → lay on it. Young: just hatched → cling; clinging → bite | Lay on a carrier |
+
 ## 13. What the vocabulary still cannot say
 
 - **Comparing two things noticed.** "Is the food nearer than the threat?" can only be approximated by blending.
@@ -691,6 +815,8 @@ Short forms. None has been run unless marked. "Needs" names the latest piece req
 - **Messages with content** beyond a name, a loudness and, through pointing, a direction.
 - **Teaching a skill** as opposed to passing on what to fear or favour.
 - **Appearance.** Warning colours, camouflage and mimicry of looks remain deferred.
+- **Signals that are learned,** such as a call that differs from home to home. Scent does differ by home.
+- **Acting inside another body, or on another creature's moods directly.** A creature can deceive, ride on and feed on another, and can tire it with a sting.
 
 **What the world must provide** for parts of this vocabulary to mean anything: cover that blocks sight; darkness; warmth and cold; water depth or current; carcasses, eggs and young as things that can be carried; building material; heavy things that need several carriers; and eggs and young that do better when tended.
 
@@ -790,6 +916,7 @@ The vocabulary is now about seven reaches, five quantities, six ways of choosing
 
 ## 17. The designer on a phone
 
+- **A tab for each form,** and one for the common page. A first species has a single tab.
 - **Mood board.** Moods appear as large bubbles, plus an "always" group for instincts with no condition. The game draws arrows between moods that raise or calm each other; the player never routes anything.
 - **Mood card.** Tapping a mood opens its settings, what raises and calms it, and the instincts that run only when it is on.
 - **Instinct row.** A notice phrase, an arrow, an act, and condition chips. Tapping a slot opens a sheet showing only what this body can sense or do and what is unlocked. Order has no effect.
@@ -803,7 +930,7 @@ The vocabulary is now about seven reaches, five quantities, six ways of choosing
 
 ## 18. Budget and unlocks
 
-One fixed budget covers body and brain, and it never grows.
+One fixed budget covers body and brain for each form, and it never grows.
 
 - Body parts cost points, and the senses and acts they bring come with them.
 - Each mood, instinct and function costs points. Moods also cost energy to run.
@@ -813,8 +940,8 @@ One fixed budget covers body and brain, and it never grows.
 |---|---|
 | Start | touch, see; a, no; plants, sizes, own kind, my keeper; approach, move away, wander, bite, rest, lay; hungry, dark; only when, not when; two moods |
 | Early | hear, smell, near; sexes and mating; calls and marks; stay near, keep apart; cover; young and adult; degree words; "until calmed" |
-| Mid | far, feel; a few, many, a crowd, my group; biggest, smallest, weakest, lone; what it is doing; moments; idle, torn, stuck; more when, less when; go along, go the same way, head off, circle, face, hold still; pace; grab, give, tend, cling; show, poses, wipe; gradients; species I have met |
-| Late | The mood functions, one at a time; family and stranger; dig, build; ping; more sounds, scents and displays |
+| Mid | far, feel; a few, many, a crowd, my group; biggest, smallest, weakest, lone; what it is doing; moments; idle, torn, stuck; more when, less when; go along, go the same way, head off, circle, face, hold still; pace; grab, give, tend, cling; show, poses, wipe; gradients; species I have met; ground, shelter and lines; time of day and season; weather; where I am; the simpler directions; a rider, roll |
+| Late | The mood functions, one at a time; family and stranger; dig, build; ping; more sounds, scents and displays; a second form, and more after it; homes; older and younger; the one it is facing; water and fire words; upwind, compass headings; lay on a carrier, shed; pointing at a place |
 
 ## 19. Risks
 
@@ -825,6 +952,7 @@ One fixed budget covers body and brain, and it never grows.
 
 ## 20. Next
 
+0. **Six direction checks on the social blocks** (`design/social.md`, section 13), which need the stand-in world extended with displays that can be heard, giving, home scent and forms.
 1. A phone prototype of the designer and test tank with the Start and Early vocabulary, tried on two or three friends.
 2. Run the atlas through the stand-in world, starting with the pieces nothing has exercised yet: moments, what-it-is-doing, attention, and the Catching, Count, Born with and Learn functions.
 3. **Finish the verb audit.** Give rest, hide, grab, give, tend and the poses a mechanic in the stand-in world and run each against its neighbour (section 14).
