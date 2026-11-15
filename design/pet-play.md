@@ -115,4 +115,4 @@ Decided on 15 November:
 
 ## 9. Next
 
-A concept test of tending is in `design/mockups/tending.html`. Then feedback and friends.
+A concept test of tending is in `design/mockups/tending.html`. Feedback is in `design/feedback.md` and friends in `design/friends.md`.

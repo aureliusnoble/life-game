@@ -192,10 +192,11 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Body designer | Parts, placement and the budget | 5 |
 | Home screen and daily visit | The founder, the recap, pet play. Wireframes made: `design/mockups/loop-wireframes.html` | 8, 9 |
 | Creature inspector | What a creature is doing and why | 10 |
+| The recap and its instruments | Reading what happened from a record. Concept test made: `design/mockups/since-yesterday.html` | 10 |
 | World views | Basin, biome and close-up; where each species lives; where the openings are | 1, 10 |
 | Death and history | The shape of a species' life, what ended it, what carries over. Wireframes made, in `design/mockups/loop-wireframes.html` | 7, 10 |
 | First hour | The guided first build, with callouts. Wireframes made, in the same file | 8, 13 |
-| Friends and records | Seeing and comparing each other's species | 11 |
+| Friends and records | Seeing and comparing each other's species. Concept test made: `design/mockups/basin-ages.html` | 11 |
 | Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style sheet | 12 |
 | Click-through | Every screen joined up, tried by someone who has not seen it | 13 |
 
@@ -213,6 +214,8 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline. Two direction checks run: a sentinel by signal cuts losses and costs meals; hostile homes space themselves out but do not protect the food. Four checks wait on forms and on the body rework |
 | Lifespan and score | `design/lifespan.md` (draft 2) | Decided: two days of grace and a ramp slower than doubling; release whenever the player chooses, retiring the old species; what a player keeps, including a chronicle. A steady climb is proposed for the ramp. Fading acts on the cost of living and on hatching alike |
 | Pet play | `design/pet-play.md` (draft 2) | The named one and its character, the line and what an heir receives, tending, nudging and talking. Its questions are answered: nudges unlimited, only the line named, an heir that is young and meets its keeper as a stranger. A concept test of tending is in `design/mockups/tending.html` |
+| Feedback | `design/feedback.md` (draft 1) | Five steps from an outcome to a change, what the simulation records, eleven instruments used the same way everywhere, the recap, and what is shown of other players' species. A paper check of twenty outcomes added two records. Four questions open. A concept test is in `design/mockups/since-yesterday.html` |
+| Playing with friends | `design/friends.md` (draft 1) | Relationships between two species, measured and named; alliances as instincts; what is open of a living and an ended species; a board for each world year and for all time; titles and firsts; the basin's shared history; postcards; joining and leaving. Four questions open. A concept test is in `design/mockups/basin-ages.html` |
 | Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits; a classification of events. Its four questions are answered. The first hour and the daily visit are wireframed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |

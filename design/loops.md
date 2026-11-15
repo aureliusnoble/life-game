@@ -127,4 +127,4 @@ Decided on 15 November:
 
 ## 9. Next
 
-All four loops are wireframed in `design/mockups/loop-wireframes.html`: 26 screens. Next: pet play and the named line in full, then feedback and friends.
+All four loops are wireframed in `design/mockups/loop-wireframes.html`: 26 screens. Pet play is in `design/pet-play.md`, feedback in `design/feedback.md` and friends in `design/friends.md`.
