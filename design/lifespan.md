@@ -1,20 +1,23 @@
 # Lifespan: fading, the end of a species, and the score
 
-Draft 1, November 2026. Design area 7 in `design/plan.md`. Section 1 is decided. The rest is a proposal, with one direction check run in `design/checks/balancelab.js`; its numbers show direction only.
+Draft 2, November 2026. Design area 7 in `design/plan.md`. Section 1 is decided. The rest is a proposal, with one direction check run in `design/checks/balancelab.js`; its numbers show direction only.
 
 ## 1. Decided
 
 - **The score is total life:** a species' living weight added up over every hour it lasts. Weight is counted as it is. A hunter's weight counts for more than a grazer's. Longest-lived and highest peak are kept as records beside it.
 - **Fading is the same for every species of the same age,** whatever state the species is in.
-- **It keeps rising,** so pushing against it gets harder all the time and in the end is almost impossible.
-- **A better design lasts longer.** A beginner's species may last a few days, and there is room for a really successful one to last a good deal longer.
+- **Two days of grace, then a ramp that is slower than doubling.** Few species are expected to get past seven or eight days, and a truly exceptional one lasting twenty is acceptable.
+- **A better design lasts longer.**
 - **Presets do not fade** and are not scored.
-- **One species at a time,** with no drift. Daily edits can be strong and still cannot escape the curve.
+- **A player can release a new species whenever they choose.** If they have one already, releasing the new one retires the old.
+- **Retiring means its eggs stop hatching and its living members die of old age.** Nothing is removed by hand. Presets step aside the same way.
+- **No drift.** Daily edits can be strong and still cannot escape the curve.
 - **A species is extinct when its last member dies.**
+- **At the end a player keeps** the design, anything it unlocked, its records, the named line's history, and a chronicle of the species' major events.
 
 ## 2. What fading is
 
-One number for each species, set by its age and nothing else. It is 1 from release through a grace period, and then doubles at a fixed interval.
+One number for each species, set by its age and nothing else. It is 1 from release through two days of grace, and then climbs.
 
 **What it weighs on.** Everything a species does, in equal measure:
 
@@ -27,27 +30,25 @@ Two channels, not one, so that no way of life escapes. A species with food to sp
 
 ## 3. The curve
 
-How long a species lasts follows from how much handicap its design can absorb, which I'll call its slack:
+How long a species lasts follows from how much handicap its design can absorb, which I'll call its slack. The check in section 4 says designs absorb two to five times.
 
-> lifespan = grace + doubling time × the number of doublings its slack covers
-
-Each doubling a species survives needs a design twice as good. That is what makes pushing against it harder and harder, and it never becomes a wall.
-
-The earlier proposal was a doubling every day, which assumed designs could absorb handicaps of eight to over a hundred times. The check below says they absorb two to five times. With a daily doubling everything would be gone a day or two after its grace.
-
-**Proposed: a day of grace, then a doubling about every two days.**
+**Proposed: after two days of grace, fading rises by the same step every two days.** It is 1 on day two, 2 on day four, 3 on day six, and so on. That is a steady climb, not a doubling.
 
 | A design that can absorb | Lasts about |
 |---|---|
-| Twice the handicap: a beginner's first species | 3 days |
-| Four times: a sound design | 5 days |
-| Eight times: a very good one | 7 days |
-| Sixteen times | 9 days |
-| Thirty-two times: exceptional | 11 days |
+| One and a half times the handicap: a beginner's first species | 3 days |
+| Twice | 4 days |
+| Three times: a sound design | 6 days |
+| Four times: a very good one | 8 days |
+| Five times: the best the lab has found | 10 days |
+| Ten times: truly exceptional | 20 days |
 
-An edit that makes a species half as efficient again buys a little over a day. Edits matter, and the curve still wins.
+- **This matches the range you gave:** most players at seven or eight days at best, and twenty possible.
+- **It still gets harder.** The budget never grows, so there is a ceiling on how good a design can be, and the climb passes it. Under a steady climb the last days are won by design, where under a doubling nothing would have reached them.
+- **A doubling every three days was the alternative.** It gives five, eight and eleven days for the same designs, and would need a design sixty-four times as good to reach twenty, which nothing could be.
+- **Edits buy more late than early.** A change that makes a species a tenth better buys about half a day at day six and a full day at day twelve. Whether two edits a day can keep a species ahead of the climb for long is for the balance pass to check.
 
-These figures are arithmetic on top of a stand-in. The doubling time and the grace are for the balance pass.
+These figures are arithmetic on top of a stand-in. The step and the grace are for the balance pass.
 
 ## 4. Direction check: does a better design last longer?
 
@@ -67,11 +68,12 @@ Four designs of rising quality in the meadow with three hunters, under fading th
 
 ## 5. Seasons, and when a species is released
 
-A year is about eight real days and a species lasts three to eleven, so most species meet one winter and few meet two.
+A year is about eight real days, so most species meet one winter, and a long-lived one meets two or three.
 
-- **The first winter is the natural ending.** A species released in spring meets winter on about its sixth day, with fading already high. Whether it sees the next spring is the drama of a long-lived species.
-- **Release timing matters.** A species released in autumn meets its winter young and strong, and then has three easy seasons while fading climbs.
-- **Proposal:** a player can hold a finished design and release it when they choose. The designer shows the season ahead, and records note the season of release, so that a spring species and an autumn one are compared knowingly.
+- **The first winter is the natural test.** A species released in spring meets winter on about its sixth day, with fading already at 3. Whether it sees the next spring is the drama of a long-lived species.
+- **Release timing matters.** A species released in autumn meets its winter young and strong.
+- **Decided: a player releases when they choose.** They can hold a finished design for a better season. The designer shows the season ahead, and records note the season of release.
+- **Releasing a new species retires the current one.** Its eggs stop hatching and its members live out their lives, so for a while the player has an old species dwindling and a new one beginning. The old one goes on scoring until its last member dies.
 
 ## 6. What the player sees
 
@@ -83,13 +85,19 @@ A year is about eight real days and a species lasts three to eleven, so most spe
 
 ## 7. The end
 
-A species ends when its last member dies. Then:
+A species ends when its last member dies, whether it was worn down by fading or retired by its player. Then:
 
 - **The death view** shows the shape of its whole life, the score, where it stood among friends' species, and what finally ended it.
 - **What stays in the world:** remains, burrows, walls, worn ground, and any forest its forgotten seed planted.
-- **What the player keeps:** the design, to open again and change; anything it unlocked; its records; and the named line, kept as a list of every name-bearer and how each one died.
-- **A preset returns** to the place the species took.
-- **The next species** can be released at once or held for a better season.
+- **What the player keeps:**
+  - the design, to open again and change;
+  - anything it unlocked;
+  - its records;
+  - the named line, as a list of every name-bearer and how each one died;
+  - a chronicle of its major events: the first winter survived, a disaster and the recovery, a new home founded, a rival's arrival, its peak, the day the name passed on.
+- **A preset returns** to the place the species took, unless the player has released another.
+
+The chronicle is the species memory that the conversation idea in `design/plan.md` reads from: a record of game events, written only by the simulation.
 
 ## 8. Score and records
 
@@ -98,11 +106,13 @@ A species ends when its last member dies. Then:
 - **Records beside it,** each a different way to be remembered: longest-lived, highest peak, most generations, widest spread across biomes, longest named line, most homes, largest single animal.
 - **Presets are not scored,** and appear in the rankings only as a line to beat.
 
-## 9. Questions for you
+## 9. Answered
 
-1. **A slower curve.** A day of grace and then a doubling about every two days, in place of every day. It gives beginners about three days and leaves room for eleven. Does that range suit?
-2. **Holding a design for a better season.** Allow it, as proposed, or should a new species always be released when it is made?
-3. **What a player keeps at the end:** the design, unlocks, records and the named line's history. Anything to add or take away?
+Decided on 15 November:
+
+1. **The curve:** two days of grace, then a ramp slower than doubling, with twenty days possible for the exceptional. The steady climb in section 3 is my proposal for that ramp.
+2. **Release:** whenever the player chooses. It retires the current species, whose eggs stop hatching and whose members die of old age.
+3. **What a player keeps:** as proposed, with a chronicle of major events added.
 
 ## 10. Next
 

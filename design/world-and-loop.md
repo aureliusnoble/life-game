@@ -5,7 +5,7 @@ November 2026. Decisions from discussion, plus proposals for how to carry them o
 ## Decided
 
 - **The world is populated mostly by player species.** There is no background cast of specialist enemies or parasites. Preset species we make fill the places that players leave empty.
-- **One species at a time.** A player may not release a successor while the old species is still alive.
+- **A new species whenever the player chooses.** Releasing one retires the current species: its eggs stop hatching and its living members die of old age. (Changed on 15 November; see `design/lifespan.md`.)
 - **The world is many biomes, not one pond.** Each has its own cycles, responds to how species use it, and recovers after being overexploited. See `design/plan.md`.
 - **Lifespan pressure depends on a species' age, not on how dominant it is.** It grows roughly exponentially with time.
 - **Designs do not drift.** A species changes only through its owner's edits.
