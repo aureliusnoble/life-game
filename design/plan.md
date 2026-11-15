@@ -163,7 +163,24 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 - **Two memories, kept apart.** Species memory is the record of game events and states: what happened to the line and its kind, written only by the simulation. Conversation memory is what the player and the creature have said to each other. The model can read both and add only to the second.
 - **Where memories live:** on the server, with the species. How much is kept, what is forgotten and what an heir receives are still to design.
 - **How it would run:** a small model on the game's own server is not practical. A server at this price has no graphics card, and a model small enough to run on its processor would be slow, would compete with the simulation, and would write poorly. A cheap hosted model with a daily limit for each player is practical: each reply is short and built from a few facts. The provider, the price and the speed are to be checked when it is designed.
-- **It must be optional:** when the limit is reached or the service is down, the creature falls back to written lines, and nothing in the game depends on it.
+- **It must be optional:** nothing in the game depends on it.
+- **A few talks a day for each player** (decided). Proposed: five, shown as pips beside the Talk button, refilled overnight.
+- **Running out is shown in the game's own language, never as a limit or a credit** (decided). Proposed: the named one has said what it has to say for today. It still answers a stroke or food with sounds and poses, the Talk button shows it settling down, and it turns back to its own life. The same thing happens if the service is down. Its place in the simulation is untouched, because the model cannot change the game.
+- **Every call is the same bounded size,** so the cost has a ceiling: the standing instructions, the species' personality sheet, the last twenty or so events from the species memory, the named line's memories, its state now, and the last few exchanges. About 2,500 tokens in and a reply of a sentence or two, allowed up to 300 tokens out, with the model's extra reasoning turned off.
+
+**The most it can cost.** Twenty players, each using all five talks every day, is 100 calls a day. With one more call a day for each player to shorten their conversation memory, and a personality sheet for each new species, that is about 125 calls a day, or 3,750 a month.
+
+| Model | Price for each million tokens, in and out | Each call | A month at the maximum |
+|---|---|---|---|
+| Claude Haiku 5.5 | $0.10 and $0.50 | $0.0004 | About $1.50 |
+| Gemini 2.5 Flash | $0.30 and $2.50 | $0.0015 | About $5.60 |
+| Gemini 3.8 Flash | $0.75 and $3.75 until the end of 2026, then $1.50 and $7.50 | $0.003, then $0.006 | About $11, then $22.50 |
+| Claude Sonnet 5.5, for comparison | $2 and $10 | $0.008 | About $30 |
+
+- **Sources:** Claude prices are Anthropic's list as of 3 November 2026. Gemini prices are from a search summary of Google's pricing page on 15 November, not from the page itself.
+- **Twenty talks a day each,** four times the proposal, would be about $5 a month on the cheapest model.
+- **Two guards on the bill:** the server counts talks for each player and refuses the call past the limit, and the provider account carries a monthly spending limit, so that a fault cannot run it up.
+- **Not measured:** how quickly a reply comes back, and whether the smallest model writes well enough in a creature's voice. Both need a trial before this is built.
 
 ## 5. Mockups still to make
 
