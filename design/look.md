@@ -349,3 +349,33 @@ The reviewer scored the states 3.5 out of 10: only asleep could be named with it
 - **States are rows of numbers, not drawings.** A new state is a new row, and any body that has the posture can wear it.
 
 Not yet done: the same states on the other bodies, which waits for set 4, where every body is built on the same posture.
+
+### Set 4: creature designs, and one kit for all of them
+
+The reviewer agreed with the owner: the eight varied creatures were one teardrop with the same head, face and stub legs, varied only by what sat on the back. The plated one and the hunter were the weakest.
+
+**What changed.** Every creature is now a row of choices for one kit, and the choices are the ones the game's body design gives a player: a plan, a shape, a size, parts on the outline, a skin, a pattern and papers. The study has sixteen rows. The plated one became one idea, armour. The hunter became a forward stare and big paws, with no frown. Eight are new, and go where variety had not been: a round body with no head, one wider than it is long, a ribbon with no limbs, a body on stilts, one that wears a found thing, one with no front, one that sits, and a giant with its young riding.
+
+**Rules for a design that looks good:**
+
+- The head is 35 to 45% of the length and nearly as wide as the body. Eyes are a fifth to a quarter of the head's width, in the front half, set inside the outline.
+- Limbs show: they stand out from the body by an eighth to a quarter of its width, with round ends.
+- One idea for each creature. Its largest part is its signature, and gets the one bright paper.
+- A predator is made by a forward stare, a wide head and big forepaws. Frowning brows are refused.
+- Nothing that reads as a wound: marks are laid on, never cut through on the centre line.
+- A design is judged twice: about a centimetre long, and as a cut-out in one colour.
+
+**Rules the kit keeps, so that players' combinations stay good:**
+
+- The player picks hues. The kit sets the steps of lightness between touching parts, and moves a body that is too close to the ground it stands on.
+- Eyes are placed by ratio and pulled inside the outline, whatever the head.
+- The head takes at most two kinds of thing on it; the back takes one skin.
+- Young follow by rule: a larger head, eyes closer, shorter limbs, a simpler pattern.
+
+**How it is made to be added to:**
+
+- Each kind of part, a limb, a tail, a head, a thing on the head, a skin, a thing worn, is one entry in a table, drawn at a socket the body gives it. A new part is a new entry, and every body can then have it.
+- Every body answers to the same posture, so every state and bearing fits every body, including ones added later. Where a body has no ears, feelers, horns or fronds answer; where it has no tail, the last of its spine does.
+- Any body can walk, feed, drink, sleep and startle, because each act asks only for the posture and for how far the nose is from the middle.
+
+Parts of the game's body design not yet drawn in the kit: eyes on stalks, a skirt of cilia, suckers and hooks, a pouch, a sting, a beak, a tongue, bristles and slime. Each is one more entry.
