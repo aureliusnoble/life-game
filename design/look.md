@@ -334,3 +334,18 @@ The reviewer scored composition 4.5, light 4.5, world motion 3, biome identity 3
 - Each place has one form that is its own: folded stone with scree in the highlands; roots, banked leaves and coins of sun in woodland; crescent dunes with a dark slip face; one braided channel through cracked mud in the marsh.
 - Weather and time are built in a fixed order: what happens to the ground, then the light (its angle, length, colour and strength), then a layer in the air with its own shadow, then what the creature does. A tint alone is never enough.
 - The whole scene's look is set by a few controls: the colour of every sheet, the pale rim on lit edges, and the colour, length and strength of shadows. Rain, winter and night are made with those.
+
+### Set 3: how it is and how it feels
+
+The reviewer scored the states 3.5 out of 10: only asleep could be named with its caption covered, because every other state was the same outline with a different eyelid or tint.
+
+- **Posture first, face second.** Every body has the same few things that can change: the length of the spine; the width at the middle, the hips and the shoulders; where the head is and how low; how far the limbs are spread or tucked; and how high it stands, which is how far its shadow falls. Each state and each bearing is keyed there first.
+- **Each state gets one thing that changes the outline and one to see close up.** Hungry: a pinched middle, and ribs. Fed: a round middle with the belly showing at both sides. Hurt: a paw held in, and a white plaster. Cold: drawn in short with paws under, and a puff of breath. Hot: spread flat and wide, and a flicked drop. With eggs: widest at the hips, and eggs at the rim. Old: head low, and creases with a nick in one ear. Tired: head sunk and tipped, and uneven lids. Ill: a stagger, and ringed spots.
+- **Colour belongs to the player.** No state changes it except fading, where the pattern goes first and a pale torn rim appears. Cold, old and dead no longer go pale.
+- **Dead is the cut-out turned over:** plain paper, no face, limbs straight, flat on the ground with no shadow.
+- **A closed eye means sleep.** The white of an eye shows only when it is wide or looking aside, so alarm reads from far off. Slanted lids are kept for fierce. Nothing uses the mouth, and nothing uses a letter.
+- **Each also has a pace and one rhythm of its own:** a hungry one sweeps its head, a hurt one limps, a cold one shivers in bursts, a tired one nods and jerks awake, one with eggs waddles; a wary one stops to listen, a weary one stops to rest, a playful one hops.
+- **The eight bearings are postures:** wary long and low and turned half away; fierce a wedge thrust at its target; eager stretched with its head far ahead; calm a loaf; tender bent in a C around another; weary spread and sagging; playful a bow; gloomy hunched small and turned away. Weary spreads and gloomy contracts; fierce points and wary angles away.
+- **States are rows of numbers, not drawings.** A new state is a new row, and any body that has the posture can wear it.
+
+Not yet done: the same states on the other bodies, which waits for set 4, where every body is built on the same posture.
