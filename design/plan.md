@@ -17,7 +17,7 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | World size | Eight biomes in one river basin: Highlands, Woodland, Heath, Grassland, Lakeland, Marsh, Dunes and Tidal flats. Each is a region about ten phone screens across with several habitats in it; the basin is about 26 screens across and 20 tall. Animals gather at water, food and cover, with emptier ground between |
 | Time | A day is about one real hour and a season about two real days |
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
-| Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. How weight is counted is proposed in section 3. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
+| Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. Every area is tested the way section 3 describes |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
@@ -79,16 +79,18 @@ What it found:
 - **Spikes won everywhere at first, for a bad reason.** Test hunters bit spiked prey until they died, which left the habitat with no hunters for most of the run. With dead hunters replaced, spikes were in one winner of six. Hunters need a way to notice spikes and leave them alone, and a species that kills off its hunters is a question for the shared world.
 - **The earlier build tables were wrong about what wins.** Their hunters starved about a quarter of the way through each run, because they gained nothing from a kill. Those tables show how hard each build is to catch early on, and say nothing about food or breeding. Large and armoured builds looked dominant there; large builds do worst here. The affected tables in `body.md`, `environment.md` and `world.md` now carry a correction.
 
-**Second run, 15 November, scored by total life.** The same search, with the score you chose, counting weight two ways.
+**Second run, 15 November, scored by total life.** The same search, with the score you chose, counting weight two ways and then changing one body rule.
 
 | Score | Sizes that win | Inside that wins | One design is near the best in |
 |---|---|---|---|
 | Head count (first run) | The smallest only | Fat storage, in every winner | 5 of 6 habitats |
 | Total life, weight as it is | Large and largest only | A large gut, in 5 of 6 | 5 of 6 |
 | Total life, weight counted by appetite | Plain, large and largest; never small | A large gut, in every winner | 4 of 6 |
+| Total life, weight as it is, and every unit of weight costs the same to run | Plain and large; never the smallest or the largest | A large gut, in 4 of 6 | 4 of 6 |
 
 - **How the score counts weight decides which body wins.** Count heads and the smallest wins. Count weight and the largest wins, because the same food carries more weight as fewer, larger animals.
-- **Counting by appetite is the even-handed version.** It scores a species by how much of the world's food it turns into life, so size is neither rewarded nor punished by the count itself. It also gives the hunter weighting for free: meat is counted at the plants it took to grow. I propose this as what "living weight" means in the score. The lab can run either (`LIFE_EXP=0.75` or `1`).
+- **Decided: weight is counted as it is.** Counting by appetite, or by food eaten, would be even-handed on size, but it would not reward a species for being efficient, and carrying more life on the same food is part of doing well. So the body rules, not the score, have to make both a swarm of small animals and a few large ones worth playing.
+- **Why a swarm cannot win today.** In the stand-in a large body burns less food for each unit of weight, so the same food carries about 1.8 times the weight as a few of the largest animals as it does as many of the smallest. When every unit of weight costs the same to run, the largest size stops winning, and plain and large sizes share the habitats. The smallest still never wins: all three test hunters can eat it, and it breeds no faster than anything else.
 - **Three failures do not depend on the score.** One inside wins everywhere, whichever it is. Small bodies have no place once heads are not counted. One design is near the best in most habitats.
 
 Limits of the lab today:
@@ -122,12 +124,14 @@ Earlier areas constrain later ones, so the order matters. Area 7 is being taken 
 | 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
 | 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
 
-**Scoped for area 9: talking with your creature.** An idea to design, not yet a decision. The player taps a few buttons to talk to the name-bearer, and it answers in character.
+**Scoped for area 9: talking with your creature.** An idea to design. The player taps a few buttons to talk to the name-bearer, and it answers in character. Four things about it are decided: the interactions are a fixed set, the model cannot change the game, the two kinds of memory are kept apart, and memories are stored with the species.
 
 - **What it draws on:** a personality that follows from the species' design, its mood and needs now, and memories: its own, its line's, and what others of its kind have been through.
 - **What it is for:** affection, and finding out what happened in the world and what is troubling the species. The player can ask it to do things or give it things, and it may agree or refuse.
-- **Who decides:** the simulation decides whether it agrees, from its real moods and instincts. The language model only puts that into words, so talking cannot be used to cheat and the model cannot be talked into anything.
-- **Buttons, not typing:** cheaper, safer, and it suits a phone.
+- **The model cannot change the game.** The simulation decides whether the creature agrees, from its real moods and instincts, and applies any effect itself. The model only puts the outcome into words, so talking cannot be used to cheat and the model cannot be talked into anything.
+- **A fixed set of interactions, not open typing:** a short list of things to say, ask, request and give. It is cheaper and safer, and it suits a phone.
+- **Two memories, kept apart.** Species memory is the record of game events and states: what happened to the line and its kind, written only by the simulation. Conversation memory is what the player and the creature have said to each other. The model can read both and add only to the second.
+- **Where memories live:** on the server, with the species. How much is kept, what is forgotten and what an heir receives are still to design.
 - **How it would run:** a small model on the game's own server is not practical. A server at this price has no graphics card, and a model small enough to run on its processor would be slow, would compete with the simulation, and would write poorly. A cheap hosted model with a daily limit for each player is practical: each reply is short and built from a few facts. The provider, the price and the speed are to be checked when it is designed.
 - **It must be optional:** when the limit is reached or the service is down, the creature falls back to written lines, and nothing in the game depends on it.
 

@@ -19,7 +19,11 @@ const GENES = {
 const PLAIN = { scale: 1, shape: 'mid', eyes: 'side', bigEyes: false, move: 'legs', shell: 'none', spikes: 'none', sting: false, camo: false, sideLine: false, falseEyes: false, inside: 'even', nose: false, threat: 'run', herd: false, laying: 'always', eggs: 'many small' };
 const SHAPE = { round: [1.0, 1.1], mid: [1.2, 0.9], long: [1.8, 0.7] };
 const INSIDE = { even: {}, runner: { muscle: 0.45, lungs: 0.35, gut: 0.1, fat: 0.1 }, storer: { fat: 0.55, muscle: 0.15, gut: 0.15, lungs: 0.15 }, digester: { gut: 0.55, fat: 0.15, muscle: 0.15, lungs: 0.15 } };
-const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), OUT = path.join(__dirname, EXP === 1 ? 'balance' : 'balance-exp' + EXP);
+const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), UPKEEP_EXP = +(process.env.UPKEEP_EXP ?? 0.75), GEN_EXP = +(process.env.GEN_EXP ?? 0),
+  TAG = process.env.LAB_TAG ?? (EXP === 1 ? '' : 'exp' + EXP), OUT = path.join(__dirname, TAG ? 'balance-' + TAG : 'balance');
+// UPKEEP_EXP sets how running costs rise with weight: 0.75 means a large body burns less per unit of weight (the body
+// audit's rule), 1 means every unit of weight costs the same at any size. GEN_EXP above 0 makes small bodies grow up,
+// lay and hatch faster and large ones slower. LAB_TAG names the folder the results go to.
 // LIFE_EXP sets how weight is counted in the score: 1 counts living weight as it is; 0.75 counts it by appetite,
 // which is the share of the habitat's food the species turns into life. Results for other settings go to their own folder.
 const specOf = (g) => ({ len: SHAPE[g.shape][0], wid: SHAPE[g.shape][1], scale: g.scale, eyes: g.eyes, eyeSize: g.bigEyes ? 1 : 0.5, move: g.move, shell: g.shell, spikes: g.spikes, weapon: g.sting ? 'stinger' : undefined, camo: g.camo, sideLine: g.sideLine, falseEyes: g.falseEyes, organs: INSIDE[g.inside] });
@@ -40,8 +44,8 @@ function express(g) {
   ins.push(...graze);
   const breedIf = { always: null, 'not crowded': (c, w) => near(w, c, w.creatures.filter((o) => o.kind === c.kind), 70) < 5, 'not when food is thin': (c, w) => near(w, c, w.plants, 50) >= 3 }[g.laying];
   const eggs = g.eggs === 'many small' ? { breedAt: 0.6, eggCost: 0.25, eggGap: 120 } : { breedAt: 0.8, eggCost: 0.45, eggGap: 300 };
-  const sp = specOf(g), mass = Math.pow(sp.len * sp.wid * sp.scale * sp.scale, 1.5);
-  return { ...b, mass, moods: SCARED, nose: g.nose ? 60 : undefined, ...eggs, cap: CAP, breedIf, instincts: ins };
+  const sp = specOf(g), mass = Math.pow(sp.len * sp.wid * sp.scale * sp.scale, 1.5), rel = mass / PLAIN_MASS, pace = Math.pow(rel, GEN_EXP);
+  return { ...b, mass, upkeep: b.upkeep * Math.pow(rel, UPKEEP_EXP - 0.75), moods: SCARED, nose: g.nose ? 60 : undefined, breedAt: eggs.breedAt, eggCost: eggs.eggCost, eggGap: eggs.eggGap * pace, adultAt: 250 * pace, hatch: 150 * pace, cap: CAP, breedIf, instincts: ins };
 }
 
 // One trial: six of the design in a habitat with three hunters that never tire, and that are replaced if they die,
