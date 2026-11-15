@@ -36,6 +36,8 @@ class World {
   // The movement sense: all round, but only things that are moving, and not things that creep.
   canFeel(c, o) { if (!c.feel || o.spd < 0.05 || o.pace === 'creep' || o.brain.silent) return false; return this.off(c, o)[2] < c.feel * (o.pace === 'sprint' ? 2 : 1); }
   isA(c, o, cat) { if (o === c || !o.alive || o.pose === 'dead') return false; const kin = o.kind === c.kind, sz = o.size * (o.pose === 'puff' ? 1.6 : 1);
+    if (cat.startsWith('my kind showing ')) return kin && o.shown === cat.slice(16);
+    if (cat === 'my home') return kin && o.home === c.home; if (cat === 'other home') return kin && o.home !== c.home;
     return cat === 'my kind' ? kin : cat === 'adult' ? kin && !o.young : cat === 'bigger creature' ? !kin && sz > c.size * 1.2 : cat === 'smaller creature' ? !kin && sz < c.size * 0.8 && sz >= c.size * (c.brain.minPrey ?? 0) : cat === 'movement' || cat === 'creature' ? !kin : false; }
   state(c, o, st) { const [dx, dy, d] = this.off(c, o); const toward = -(o.vx * dx + o.vy * dy) / (d || 1);
     if ((st === 'facing me' || st === 'facing away') && o.brain.falseEyes) return st === 'facing me';
@@ -54,6 +56,10 @@ class World {
     if (verb === 'see' && what === 'cover') { let best = null, bd = 160; for (const p of this.covers) { if (p.maxSize && c.size > p.maxSize) continue; const d = Math.max(0, this.off(c, p)[2] - p.r * 0.5); if (d < bd) { bd = d; best = p; } }
       if (!best) return { s: 0 }; const [dx, dy, d0] = this.off(c, best); return { s: 1, dx: dx / (d0 || 1), dy: dy / (d0 || 1), d: bd, target: best }; }
     if (verb === 'see' && what === 'land') { if (!this.inWater(c)) return { s: 0 }; const [dx, dy, d] = this.off(this.pond, c); return { s: 1, dx: dx / (d || 1), dy: dy / (d || 1), d: this.pond.r - d }; }
+    if (verb === 'hear') { let best = null, bd = c.brain.hearing ?? 110; for (const o of this.creatures) if (o !== c && o.alive && o.called === what) { const d = this.off(c, o)[2]; if (d < bd) { bd = d; best = o; } }
+      if (!best) return { s: 0 }; const [dx, dy, d0] = this.off(c, best); return { s: 1, dx: dx / (d0 || 1), dy: dy / (d0 || 1), d: d0, target: best }; }
+    if (verb === 'see' && what === 'home') { if (!c.homeAt) return { s: 0 }; const [dx, dy, d0] = this.off(c, c.homeAt); return { s: 1, dx: dx / (d0 || 1), dy: dy / (d0 || 1), d: d0, target: c.homeAt }; }
+    let none = false; if (what.startsWith('no ')) { none = true; what = what.slice(3); }
     let st = null, sel = null; for (const s of STATES) if (what.endsWith(' ' + s)) { st = s; what = what.slice(0, -s.length - 1); }
     if (what.startsWith('weakest ')) { sel = 'weakest'; what = what.slice(8); }
     const reach = (o) => verb === 'touch' ? this.off(c, o)[2] < (c.brain.reach ?? TOUCH) : verb === 'near' ? this.canSee(c, o) && this.off(c, o)[2] < NEAR : verb === 'far' ? this.canSee(c, o) && this.off(c, o)[2] >= NEAR : verb === 'feel' ? this.canFeel(c, o) : this.canSee(c, o);
@@ -62,6 +68,7 @@ class World {
     if (what === 'meat') list = this.meat.filter((o) => reach(o));
     else if (what === 'plant' || (this.foods && this.foods.includes(what))) list = this.plants.filter((o) => (what === 'plant' ? eats(o) : o.type === what) && (verb === 'touch' || !o.buried) && reach(o));
     else list = this.creatures.filter((o) => this.isA(c, o, what) && reach(o) && (!st || this.state(c, o, st)));
+    if (none) return { s: list.length ? 0 : 1 };
     if (!list.length) return { s: 0 };
     const key = (o) => sel === 'weakest' ? o.hp / o.hpMax * 1000 + this.off(c, o)[2] : this.off(c, o)[2];
     const best = list.reduce((a, b) => (key(b) < key(a) ? b : a)); const [dx, dy, d0] = this.off(c, best), d = d0 || 1e-6;
@@ -69,9 +76,11 @@ class World {
   }
   inWater(c) { return !!this.pond && this.off(this.pond, c)[2] < this.pond.r; }
   coverOf(o) { for (const p of this.covers) if (this.off(p, o)[2] < p.r) return p; return null; }
-  holds(c, f) { return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 * (c.brain.store ?? 1) : f === 'in water' ? this.inWater(c) : f === 'covered' ? !!this.coverOf(c) : f === 'dark' ? this.light < 0.5 : f === 'tired' ? c.tired : false; }
+  holds(c, f) { if (/^(see|near|far|touch|hear) /.test(f)) return this.notice(c, f).s > 0; if (f.startsWith('showing ')) return c.shown === f.slice(8) || c.show === f.slice(8); if (f === 'clinging') return !!c.riding;
+    return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 * (c.brain.store ?? 1) : f === 'in water' ? this.inWater(c) : f === 'covered' ? !!this.coverOf(c) : f === 'dark' ? this.light < 0.5 : f === 'tired' ? c.tired : false; }
   step() {
     const plans = [];
+    for (const c of this.creatures) { c.shown = c.show; c.show = null; c.called = c.call; c.call = null; }   // displays and calls made last beat are noticed this beat
     for (const c of this.creatures) {
       if (!c.alive) continue; c.watching = !!c.watchNext; c.watchNext = false; c.pose = null;
       let px = 0, py = 0, still = 0, bestW = 0, pace = 'normal', face = null; const urge = {}, up = {}, down = {};
@@ -126,6 +135,9 @@ class World {
             // With `leftovers` on, an animal takes only what it has room for and leaves the rest of the plant; otherwise a plant is one meal for any body.
             if (i >= 0 && eff > 0) { const gain = (c.brain.mealGain ?? 0.3) * eff, left = tg.left ?? 1, take = this.leftovers ? Math.max(0, Math.min(left, ((c.brain.store ?? 1) - c.energy) / gain)) : left;
               if (take > 0) { if (take < left - 0.02) tg.left = left - take; else arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + gain * take); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } } }
+        else if (act.startsWith('show ')) c.show = act.slice(5);
+        else if (act.startsWith('call ')) c.call = act.slice(5);
+        else if (act === 'give' && n.target && n.target.alive) { const st = c.brain.store ?? 1, g = Math.min(0.15 * st, c.energy - 0.4 * st); if (g > 0) { c.energy -= g; n.target.energy = Math.min(n.target.brain.store ?? 1, n.target.energy + g); } }
         else if (act === 'cling' && n.target && !c.riding) { c.riding = n.target; n.target.riders++; } }
       if (c.riding) { const h = c.riding; if (!h.alive) { c.riding = null; h.riders = 0; } else { c.x = h.x - h.hx * 5; c.y = h.y - h.hy * 5; c.vx = h.vx; c.vy = h.vy; c.spd = h.spd; c.pace = 'creep'; continue; } }
       // movement: strength gives direction and effort, pace gives speed, stamina limits sprinting

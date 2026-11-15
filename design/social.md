@@ -1,6 +1,6 @@
 # Social organisation: building blocks for many kinds of society
 
-Draft 4, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
+Draft 5, November 2026. Design area 3 in `design/plan.md`. A proposal on paper, except for the two direction checks in section 13. Balance is left to the end.
 
 ## 1. The aim
 
@@ -213,7 +213,7 @@ Once a species has more than one home, how its homes treat each other is a desig
 
 | Stance toward other homes of my kind | What follows |
 |---|---|
-| Enemies | Homes space themselves out and each guards its food, which limits overgrazing. Lives are spent on border fights |
+| Enemies | Homes space themselves out, and lives are spent on border fights. Whether this protects the food is unshown: in the stand-in it did not (section 13) |
 | Avoid | Spacing without the fighting, and no help in a crisis |
 | Friends | Homes sit close and share. The species can become very dense in one place, and can eat it bare |
 | Mother and daughters | Friendly to homes founded from mine, hostile to the rest: needs a scent that founders carry with them |
@@ -416,14 +416,52 @@ Decided: bodies joined for good into one animal are out. Creatures that attach t
 - **The named line in a colony** is the breeder's line.
 - **Events:** a new home founded, a queen replaced, a border fight, a raid.
 
-## 13. To check in the stand-in, for direction only
+## 13. Direction checks
 
-1. A sentinel by signal: does the group eat more and lose fewer?
-2. A queen mark that stops others laying: does it keep a home from eating its ground bare?
-3. A guard caste and a forager caste against the same number of all-rounders.
-4. Homes that are enemies against homes that are friends: spacing, and what happens to the food.
-5. A pack against prey no lone hunter can take.
-6. Riders against a carrier: does each grip fail against the right skin, and does each defence work?
+Run in `design/checks/socialaudit.js`, a stand-in world extended on 15 November with displays that can be seen, calls that can be heard, acting on absence, and homes. The numbers show direction only. Two of the six checks could be run properly; the other four need mechanics the stand-in does not have yet.
+
+### A sentinel by signal: it works, and it costs
+
+Eight short-sighted grazers with long meals, during which they see nothing, against two hunters that are faster than they are. Lost grazers are replaced. Twenty runs; the losses are good to about one either way.
+
+| Design | Lost, open ground | Meals each | Lost, with burrows | Meals each |
+|---|---|---|---|---|
+| Each for itself | 11.7 | 57.9 | 27.5 | 58.6 |
+| Anyone who sees a hunter calls | 11.5 | 51.6 | 24.1 | 49.9 |
+| Calls, and a sentinel by signal | 7.2 | 39.0 | 17.9 | 31.2 |
+
+- **A sentinel cut losses by about a third, and meals by a third or more.** That is a real trade, which is what the design wants.
+- **Calls alone did little.** Hearing an alarm is not much use to an animal that then looks up and still cannot see the hunter.
+- **The role was held, but not by one.** Someone was on watch over 90% of the time, and exactly one only 20% of the time. A role held by signal only works among those who can see each other, and these could not see far. A tighter group, or a call in place of a display, should do better.
+- **The first version of this test was broken:** its hunters caught nothing at all, and every design lost nothing. It now checks first that losses fall to zero when there are no hunters and are well above zero when there are.
+
+### Two homes: enemies space themselves out, and nothing else changed
+
+Six breeding grazers at each of two homes of one species, on food that can be overgrazed. Eight runs.
+
+| Homes | Stance | With the other home close by | Killed by their own kind | Numbers at the end | Food, of 80 |
+|---|---|---|---|---|---|
+| Close together | Friends | 24% of the time | 0 | 18 | 43, fell to 2 |
+| Close together | Avoid | 22% | 0 | 19 | 36, fell to 1 |
+| Close together | Enemies | 6% | 72 | 21 | 41, fell to 3 |
+| Far apart | Friends | 7% | 0 | 25 | 37, fell to 0 |
+| Far apart | Avoid | 9% | 0 | 12 | 36, fell to 1 |
+| Far apart | Enemies | 4% | 55 | 15 | 40, fell to 1 |
+
+- **Hostile homes did space themselves out,** at a cost of 55 to 72 lives a run.
+- **It did not protect the food.** Food was eaten down to almost nothing under every stance, and the differences in numbers are within the noise of eight runs. Section 7 had claimed that hostile homes limit overgrazing; that claim is withdrawn until something shows it.
+- **Avoiding did not work as written:** keeping apart from members of the other home changed how often they met hardly at all.
+
+### Not yet runnable
+
+| Check | What the stand-in lacks |
+|---|---|
+| A queen mark that stops others laying | Laying is not an instinct in the stand-in, and without workers feeding the breeder the test only measures how fast one animal can lay |
+| A guard form and a forager form against all-rounders | Forms |
+| A pack against prey no lone hunter can take | Any defence against a rider. Today one small clinger kills a large animal by itself |
+| Riders against a carrier | Grips, skins, shaking and rolling |
+
+The last two are body mechanics, and belong with the body rework in step 5. The first two come with forms.
 
 ## 14. Answered
 
