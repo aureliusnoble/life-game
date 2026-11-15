@@ -1,6 +1,6 @@
 # Social organisation: building blocks for many kinds of society
 
-Draft 3, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
+Draft 4, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
 
 ## 1. The aim
 
@@ -281,34 +281,77 @@ Three ways a designer can steer how many of each form there are. They can be com
 - **A limit on forms** per species, perhaps four or five, keeps a design readable.
 - **Templates:** a few working societies to open up and change will teach more than any description.
 
-## 10. A wider survey: what the blocks could not reach
+## 10. A wider survey, and what is possible after it
 
-This is from general knowledge of animal societies, not from new research. I went through the stranger corners of how organisms live together and asked of each whether the blocks could build it.
+This is from general knowledge of animal societies, not from new research. I went through the stranger corners of how organisms live together and asked of each whether the blocks could build it. The first version of this section listed sixteen things as out of reach. Ten of them were then decided in on 15 November, so the list below is by what is possible now, with how each is built.
 
-**Already reachable,** though not listed in section 5: partners that return favours; alliances of unrelated adults; markets between species such as cleaners and their clients; false alarms used to steal food; choosing a new home by scouts and a quorum; kidnapping young to raise as helpers; a breeder that slips into another colony and takes it over; siblings that kill each other in the nest; eggs laid as food for the young; rival male types that beat each other in a circle, so that none stays on top; and a solitary species that turns into a marching swarm when crowded.
+### Possible with the blocks we already had
 
-**Not reachable, with what it would take:**
+| What organisms do | How it is built |
+|---|---|
+| Breed only in one season | "Lay, only in spring" |
+| Breed when something happens: the first flood, a bloom, a high tide, new growth after fire | "Lay, only when" that event is noticed. Needs the world's events as things to notice (see the end of this section) |
+| Everyone breeds on the same night | A Rhythm mood hurried by the season and by seeing others ready |
+| Emerge all at once every few years | Eggs that wait a set number of seasons |
+| Return to breed where it hatched | A Place mood set at hatching |
+| Alone in summer, a herd in winter; pairs in the breeding season, flocks outside it | Social instincts that apply only in a season |
+| A colony that lasts one year: a lone founder in spring, workers through summer, new founders in autumn, and only they see the winter | Brood mix "more founders in autumn"; founders sleep through winter; the rest die of age |
+| Guarding and fencing a food patch, and harvesting it with restraint | Chase strangers from my Garden place; build walls; "bite, not when few plants are near" |
+| Weeding | "See a plant of the wrong kind in my Garden place: bite it" |
+| Fertilising | Carry remains to the garden and drop them. The dead return richness to the ground where they lie |
+| Ranching another species | Guard it, tend it, and take what it gives. The other species has to give when tended, so this needs a partner or a preset built for it |
+| Pens and funnels | Build walls that channel prey toward an ambusher, or that hold wounded prey |
+| A ball of bodies around the breeder, for warmth or defence | Many cling to one |
+| Returning favours; alliances; markets between species; false alarms to steal food; choosing a new home by scouts and a quorum; kidnapping helpers; taking over another colony; siblings that kill each other; eggs laid as food; rival male types that beat each other in a circle; a loner that turns into a marching swarm when crowded | Bonds, Learn, public signals that can lie, Count, home scent and For life |
 
-| What organisms do | Why the blocks cannot | What it would take | Add? |
-|---|---|---|---|
-| Breed by dividing in two, as flatworms and anemones do | Every way of breeding goes through an egg | A fourth way of breeding: splitting into two small adults | Yes |
-| Every individual is both sexes, and any two can mate | Pairs need two sexes | A fifth way of breeding | Yes |
-| Breed alone in summer and in pairs in autumn; or unfathered eggs become males | One way of breeding per species | A brood mix rule that depends on whether the egg was fathered | Yes |
-| Lay eggs on a living host, which the young then eat | An egg stays where it is laid | "Lay" on what it is touching or carrying | Yes |
-| Keep the eggs inside until they hatch | Eggs are always laid | A life-cycle option: a slower mother, safer eggs | Yes |
-| Bodies joined into one animal, each part a different form, as in a man-of-war | Clinging is one rider on one carrier | Chains of clinging, and food shared through the join | No: decided against. Attaching and letting go is in instead (section 11) |
-| Rafts, bridges and nests made of living bodies | Bodies are not material | Clinging bodies that others can walk on or float on | Later |
-| Farming: tending a crop, planting seed | Tending works on eggs, young and other creatures | Tending a plant speeds its growth; a dropped seed can sprout | Yes |
-| Telling others where food is without leading them there, as bees do | A display can point only at what is in view | A display that points toward a remembered Place | Yes |
-| Joining a friend's fight; attacking what the leader attacks | No way to refer to another's target | "The one it is facing" | Yes |
-| Stealing food from another's mouth | Grab takes only things lying loose | Grab from a carrier | Yes |
-| Paralysing prey to store it alive for the young | Wounds only slow | Venoms that act on a few feelings every creature has: tired, hurt, dazed | Later |
-| Flying or swimming in formation to save effort | Following costs the same as leading | Moving close behind another costs less | Later |
-| Traps: pits and snares, built alone or together | Digging only makes cover | Dug pits that slow, and built walls that hold | Later |
-| Calls that differ between homes and are learned from parents | Signals are fixed by the design | Learned signals | No: outside this level of mechanics |
-| Parasites that live inside a host or take over its behaviour | Nothing acts inside another body or on another's moods | A separate system | No |
+### Possible with the additions decided on 15 November
 
-The ones marked "Yes" are small, and each opens a family of societies. Decided on 15 November: they go into the vocabulary when area 6 revisits it.
+| What organisms do | The addition | How it is built |
+|---|---|---|
+| Breed by dividing in two | Splitting, a way of breeding | The adult becomes two small ones. No egg, no mate |
+| Every individual is both sexes | Both sexes in one, a way of breeding | Any two adults mate, and both lay |
+| Breed alone all summer, then in pairs in autumn | A brood rule that depends on whether the egg was fathered | Females lay unfathered eggs that hatch as more females. "In autumn, unfathered eggs become males and breeding females." Those mate, and their eggs wait for spring |
+| Unfathered eggs become males | The same | One brood rule |
+| Lay eggs on a living host, which the young eat | Lay on what it is touching or carrying | Touch the host, lay. The young hatch attached and feed (section 11) |
+| Keep the eggs inside until they hatch | A life-cycle option | The mother is slower and the eggs are safe |
+| Planting | A dropped seed can sprout | Carry a seed to my Garden place and drop it |
+| Tending a crop | Tending a plant speeds its growth | "Touch a plant in my Garden place: tend" |
+| Forests planted by accident | The same two | A hoarder buries seed and forgets some of it |
+| Telling others where food is without leading them there | A display can point toward a remembered Place | "Show Found, facing my Food place." Watchers go the same way |
+| Joining a friend's fight; attacking what the leader attacks | "The one it is facing" | "See my Ally one showing Threat: approach the one it is facing, show Threat" |
+| Stealing food from another's mouth | Grab from a carrier | "See a creature carrying food: approach; touch: grab" |
+| Parasites that ride and feed; cleaners; riders of every kind | Attaching and letting go | Section 11 |
+
+### Possible with three more small rules, which I recommend
+
+| What organisms do | The rule | How it is built |
+|---|---|---|
+| Paralyse prey and store it alive for the young | A sting can tire its victim instead of wounding it. Tired is a feeling every creature already has | Sting, carry it home, drop it in the nest, lay beside it |
+| Fungus gardens and honey | Stored food that is tended keeps, and ripens into richer food | Carry leaves or nectar home, drop them in the larder, tend them |
+| Dams and ponds | A wall built across running water holds it back | Build across a brook. Still water spreads behind it, with everything that lives in still water |
+
+### Later
+
+| What organisms do | What it needs |
+|---|---|
+| Rafts and bridges made of living bodies | Clinging bodies that others can walk or float on |
+| Travelling in formation to save effort | A rule that moving close behind another costs less, and "get behind" back in the vocabulary, where it would now have a reason to exist |
+| Snares and pitfalls | Dug pits that slow what falls in, and built material that holds what touches it |
+
+### Out
+
+| What organisms do | Why |
+|---|---|
+| Bodies joined for good into one animal | Decided against |
+| Calls that differ between homes and are learned from parents | Signals are fixed by the design. Scent does differ by home |
+| Living inside another body, or taking over another's behaviour directly | Nothing acts inside a body or on another creature's moods. Deceiving a host with signals, and riding and feeding on it, are both possible |
+
+### Two families of words this showed to be missing
+
+Seasonal patterns and migration both lean on a creature sensing the state of the world. These need checking against the vocabulary in area 6:
+
+- **The world's events, as things to notice:** the season, rain, flood, the tide coming in or going out, fire, burnt ground, a bloom.
+- **The world's directions, as things to head along:** with or against the current, uphill or downhill, toward warmer or colder, toward wetter or drier.
 
 ## 11. Attaching and letting go
 
