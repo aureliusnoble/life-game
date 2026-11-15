@@ -18,7 +18,9 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Time | A day is about one real hour and a season about two real days |
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
-| Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. Every area is tested the way section 3 describes |
+| Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
+| Dominance | A species' dominance is expected to be cyclical and to depend on which other species are around. The aim is a world that keeps turning over, not one where every design does equally well at every moment |
+| Unlocks | Unlocks should push players to explore different ways of playing, not only reward more of the same |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
 
@@ -27,7 +29,7 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 Each area below goes through the same four steps, and is not called done until it passes.
 
 1. **Write it down** as a design document.
-2. **Test it.** Where the stand-in world can run it, the balance tests in section 3. Where it is about people, a mockup to react to.
+2. **Test it for direction.** Where the stand-in world can run it, a check that each piece does something and that nothing is broken. Where it is about people, a mockup to react to. Tuning waits for the balance pass at the end.
 3. **Questions and answers** on the choices that are yours.
 4. **Close it** against its own checklist, and list what is still open.
 
@@ -107,7 +109,7 @@ Next for the lab: make those two fixes the default and re-run the search with th
 
 ## 4. Design areas, in order
 
-Earlier areas constrain later ones, so the order matters. Area 7 is being taken first, because every balance test depends on what the score is. Art and the mockups in section 5 run alongside from the start.
+Earlier areas constrain later ones, so the order matters. The score, which is part of area 7, was settled first because every test depends on it. Art and the mockups in section 5 run alongside. After area 13 comes a balance pass over the whole design, using the tests in section 3, and only then the build plan.
 
 | # | Area | Has to answer | Done when |
 |---|---|---|---|
@@ -118,13 +120,20 @@ Earlier areas constrain later ones, so the order matters. Area 7 is being taken 
 | 5 | **Bodies** | Fix shells, the inside and camouflage; audit the untested parts; set costs | No part is always right or always wrong |
 | 6 | **Behaviour** | Audit the untested verbs and mood functions; check it can express areas 2 and 3 | Every word has passed its audit |
 | 7 | **Lifespan and scoring** | Fading, what counts as doing well, what happens at death, the rhythm of play across weeks | Lifespans land in 3 to 7 days in simulation, and skill moves them |
-| 8 | **Player loops** | The first hour and how the game teaches itself; the daily visit; the design session; death and what follows; unlocks and puzzles; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
+| 8 | **Player loops** | The first hour and how the game teaches itself; the daily visit; the design session; death and what follows; unlocks and puzzles, and how unlocks draw players toward ways of playing they have not tried; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
 | 9 | **Pet play** | The named line: who the heir is, and which memories pass down. What a player can do with the name-bearer and with others, where, and what comes back. Whether the name-bearer can be talked to (below) | A mockup that is pleasant to poke at for five minutes |
 | 10 | **Feedback** | Recap, watching it think, the death view, the food web, records | For any outcome, the player can find out why |
 | 11 | **Playing with friends** | Relationships between species, seeing each other's work, sharing, rankings | Friends have reasons to talk about it |
 | 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; an interface that feels handmade and stays readable; sound | Mockups of each biome, of a creature in every mood, and of the interface style |
 | 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
 | 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
+
+**Scoped for area 8: unlocks that widen play.** Ideas to design, not decisions.
+
+- **Kits by way of life.** Parts and words come in small sets that suggest a style, such as a stalker's set, a swarm's set or a water set, so that an unlock is an invitation to try something.
+- **Earned by doing something new.** A first hunter, a first species to winter in the Highlands or a first colony unlocks what the next step in that direction needs. Repeating the same design unlocks nothing more.
+- **Pointed at the world's openings.** When a biome has no hunters or a food is going uneaten, the next offer leans that way.
+- **Variety, not power,** as already decided: the budget stays fixed.
 
 **Scoped for area 9: talking with your creature.** An idea to design. The player taps a few buttons to talk to the name-bearer, and it answers in character. Four things about it are decided: the interactions are a fixed set, the model cannot change the game, the two kinds of memory are kept apart, and memories are stored with the species.
 
@@ -163,6 +172,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
+| Life cycles | `design/life-cycles.md` (draft 1) | Generations, stages, ways of breeding, life-history choices and the named line, as a proposal with four questions open |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
