@@ -489,4 +489,67 @@ The owner asked that every biome get the attention the pond had, starting with t
 - **Dunes.** One dune to a screen. Wind and light come from the same side, so the slip face is always in shade. The leading line is the brink; inside its hook is a blown-out hollow gone damp, with a seep to drink at. Clusters: plants of the hollow on its upwind rim; marram on the brink; wrack, driftwood and shells in one corner. Its own things: marram, sea holly, a mat of hollow plants, a tumble-seed that rolls on each gust, wrack, three shells, a burrow. Each gust wipes the oldest prints, so a trail is always short.
 - **Marsh.** Its signature is the reed stand, cut as a terrace and standing over the creature, which walks under it and vanishes; the reeds part over it as it goes. A lane of tea-coloured water leads from the top edge to a pool three depths deep with a drowned tree in it. Clusters: a mud bank with kingcups and tussocks on the inner bend; sprays of seed and duckweed at the outer bend; the drowned tree, with a raft of straw snagged on it and a nest on the raft. Its own things: tussocks of sedge, kingcups, sprays of seed, duckweed, the drowned tree, a floating mat, a nest with eggs, a dragonfly.
 
-Highlands and woodland are still sketches. Heath, grassland, the tidal flats and the rest of the lakeland have not been drawn.
+- **Highlands.** An outcrop comes in from the top right in four slabs, each a step higher and a step paler, with walls that are lit or shaded by the way they face and strata scored in broken lines. The leading line is the foot of the rock; under it lies a cold tarn three depths deep. Clusters: a cave under a brow of rock, with a spring running to the tarn; scree in one fan from a notch, its largest pieces lowest, with the block where lichen grows thickest; a boulder left on the turf with snow in its lee. Its own things: lichen, which is the food and keeps the bites taken from it; a crevice; pale caps at the cave's lip; weed under the water; blown seed behind small stones. Now and then the shadow of something soaring crosses the ground, and the thing itself is never seen.
+- **Woodland.** A great trunk stands at a third and rises out of sight into leaves that close over it. Three roots run out from it, each folded along its ridge so one half is lit, each diving under a slit in the floor; the longest is the leading line. A brook is the cut-down; a thicket with berries closes one side; a glade is the third terrace. Clusters: the windward crook of the trunk, with a drift of leaves, toadstools and fruit under a fruiting bough; the brook, with stones, a log across it and brackets of fungus; a root's end at the glade, with a second drift, a fern and nuts. Leaves are scuffed aside by whatever walks through them. A fruit that is eaten shows its flesh in scallops and is not mended: another falls where it lay. The sun comes through in a few places and lies over root, leaf and creature alike, and moves as the boughs move.
+
+Heath, grassland and the tidal flats are designed in `design/reviews/heath-grassland-tidal-designs.md`. The rest of the lakeland beyond one screen has not been drawn.
+
+## 20. After the second round: what was fixed, and the rules that came of it
+
+### The pond
+
+- **Not rings inside rings.** Sand shows only on the side the path comes to. Elsewhere the grass stands over the water as a bank, so the pond has a near side and a far side.
+- **The path is pressed, not projected.** It is cut into each terrace in turn, a little to one side at each step, and widens where it opens onto the sand.
+- **One big shape to a cluster.** One log 134 units long comes in from the top edge with its toadstools at its end. The two flower patches no longer match: one is grass with a single daisy.
+- **The brightest marks are the flowers.** Glints are three, small, a pale blue-green and lie along the wind.
+- **The meadow has grass in it:** a fringe of short blades hangs over the lip of a terrace.
+- **Depth.** Pads throw a second shadow far below them onto the deep sheets. The tree is a little out of focus, with two gaps in it.
+
+### How things move
+
+1. **A planted paw is fixed in the world.** It is set down where its step ends and stays there while the body turns, shivers, settles or is pushed. It steps early, in eight frames, when its socket has gone more than one and a quarter steps from it, and no more than two paws do so at once. This is one routine for every limb that touches the ground.
+2. **Long legs are two bones solved from the hip to the foot,** so a foot that is planted stays planted. Six legs walk in two tripods.
+3. **A body in rounds remembers its path.** The first round is where the creature is headed and each of the rest follows the one ahead at a fixed distance, with a limit on how sharply it may bend. It keeps the bend it stopped in.
+4. **An act leaves the world changed.** A bite pulls the flower 5 units toward the mouth and takes a petal for good; petals grow back slowly. Lichen loses a scallop. Each ring from a drink is turned from the last. Leaves stay scuffed for a while.
+5. **Nothing is switched.** Ears, lids and the pricking of ears pass through springs, on the way out of an act as well as in. A state comes on over 24 frames while the last one goes.
+6. **Sleep has a way out.** Waking takes 50 frames: one deep breath, lids half open for six frames, the head up past its mark, a stretch to 1.12 of its length held for 14 frames. Any act asked for while it sleeps waits for this.
+7. **The startle travels.** A flinch of three frames, a hop of 35 units away from the finger, a landing squashed to 0.94 for three frames with the ears flopping; the grass round it flattens and the butterfly leaves.
+8. **Each state and mood owns one motion.** Weary drags its hind paws. Gloomy holds its head still and sighs every six seconds. Playful bounds, all four paws leaving and landing together. Wary stops within five frames. Cold shivers its body over paws that stay put.
+9. **The eyes lead.** The pupils slide and the white shows behind them seven frames before the head turns.
+10. **Weight.** The body rises 4% at each step and its shadow moves 2 units. The head is aimed where the body's sway will be in eight frames, so it holds still over a body that turns under it.
+11. **No two kinds of thing share a clock.** Grass rocks every 150 frames, flowers 190, ferns and sprays 210, reeds 260, leaves 330. A gust comes in over 25 frames and goes out over 110, swinging back past rest once, and it lifts ears and tails too.
+
+### Events
+
+- **Rain.** A puddle is one sheet of water with a lit lip and no dark ring; one ring to a drop.
+- **Winter.** The shadow on snow is a quieter lilac.
+- **Fire.** The glow is two torn sheets of ember behind the front, the nearer the brighter. Nothing is airbrushed.
+- **Night.** The moon lies on the water in slivers of uneven length, two of them broken.
+
+### Assets
+
+Grass has more blades, shorter and broader and the same on every side. Reed heads are slim. Toadstool spots are of different sizes and gather toward the rim. The log tapers and bends once, with a narrow band toward the light and a broad one away. Driftwood is greyer and the sand that laps over it is the ground's own paper, torn. The stump has three or four roots and its rings are arcs. One stone in three is a cobble worn round, in two sheets. Leaves are 10 to 12 units long. The butterfly has a slim body and a darker tip to each forewing.
+
+### Additions to the guide for making an asset
+
+The reviewer could not have made a nest, a burrow or snowy grass from the guide in section 17. These fill the gaps, and each is taken from something now built.
+
+1. **Numbers.** The light falls toward the lower right at about 60 degrees from the horizontal: a shadow of length 1 is 0.5 across and 0.86 down. The five heights throw shadows of 0, 1, 2.5, 5 and 9 units. Every shadow is one tone, 27% of a dark blue-green. A lit edge is 0.9 units wide and 46% toward cream; a shaded edge is 0.7 wide and 26% toward dark green. A score is two lines 0.8 wide, a dark one and a light one beside it.
+2. **Recesses.** A thing cut down into the ground is the paper below showing through a hole. The wall toward the light is in shade, 1.5 to 3 units wide by depth, and the far wall has a thin lit lip. One to three steps: a burrow or a slit is one, a brook two, a pond or a tarn three, each step a darker paper. The darkest paper is a warm near-black, `#2a2623`, used for a cave, a crevice and a burrow, never pure black. A thing standing over a recess throws its shadow into it at the recess's depth, so a pad's shadow lies far below the pad.
+3. **Masses and cover.** A stand or a thicket is a terrace, not a clump: one dark base seen only as gaps, a body, and a paler top set toward the light, with a fringe of tips along the edge that faces open ground. A body goes under it; what shows is the top parting in a notch that travels with the body and closes behind. A sward is one sheet with a fringe at its lip. A canopy is overhead, out of focus, and its shadow lies 26 to 28 units from it.
+4. **States of an asset.** The outline stays and pieces are swapped. Eaten: clean scallops from the rim, with the paper beneath showing (flesh under fruit, stone under lichen); a zigzag means hatched or broken. Wet: one step darker, with a sheet of water over low ground. Snowed on: a torn white sheet on the side away from the wind, its shadow a pale blue. Burnt: char and ash papers in place of the green, with the outline torn. Occupied: something added that belongs to the occupant, in its colours.
+5. **Traces.** A print is pressed in: a dark dab with a pale lip. A trail ages by losing its oldest pieces, never by fading as a whole; on sand a gust takes three at a time. A drag is one scored line. A scent mark is torn arcs in the species' bright paper.
+6. **A palette.** Each place has its own papers, held in one table in the study:
+
+   | Place | Ground | Second ground | Cut-down | Its accent |
+   |---|---|---|---|---|
+   | Lakeland | Meadow greens `#9dc084`, `#aecb8a`, `#c9dc9c` | Sand `#e6d6a8` | Water `#a6dad7`, `#4d9bb0`, `#235a6e` | White and blue flowers |
+   | Dunes | Sand `#d9bc84`, `#e6cd98`, `#f3e1b4` | Slip face `#b4915e` | Damp sand `#9b8a63`, seep `#5e7f7c` | Sea holly `#7c8fcb` |
+   | Marsh | Sedge `#8e9e62` | Mud `#c2af8a`; reed `#55683e`, `#7c9550`, `#a8ae62` | Tea water `#7a6b42`, `#54563c`, `#323f36` | Kingcup `#f0c232` |
+   | Highlands | Turf `#b4bd8e` | Rock `#a9a294` to `#d6d0c3`; gravel `#cfc8b4` | Tarn `#5d8a96`, `#3b6877`, `#234656` | Lichen `#d98a3a` |
+   | Woodland | Floor `#5a7552` | Glade `#7d9a62`; bark `#6a503c` | Brook `#41706f`, `#2b4d55` | Fruit `#c8463c` |
+
+   Shared papers: wood `#96693f`, `#7a5236`, `#5f3f2b`; bleached wood `#d8d4ca`; stone `#a9ada6`, `#bfc2ba`, `#d6d8d0`; bone `#efe4cc`; snow `#f8fafd` with a blue shadow.
+7. **Solid is its own property, apart from height.** A creature walks over what is flat or low, steps over a root, goes round a body such as a log or a stone, passes under what is tall or overhead, and goes into a recess with a mouth. Each asset says which.
+8. **Food may carry the accent.** A thing that is eaten may be saturated, so it can be found: fruit, a flower, lichen, a kingcup.
+9. **A worked example** is the lichen in the study: one torn outline lying flat, a second smaller piece, a few dark dabs, and bites as scallops cut from its rim.

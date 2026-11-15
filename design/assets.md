@@ -10,7 +10,7 @@ Twelve, on the asset sheet in `design/mockups/paper-study.html`: grass, reeds, f
 
 **The largest fault is of kind, not quality:** every one is a garnish of 12 to 55 units. Nothing can hide a creature, feed a herd or fill ten screens. Heath, Grassland and the Tidal flats have no study at all.
 
-**Built since this list was made,** in the dunes and marsh places and the remains: marram, a sand tail, sea holly, a mat of hollow plants, a tumble-seed, wrack, three shells, a burrow mouth; a reed stand that a body goes under, tussocks of sedge, kingcups, sprays of seed, duckweed, a drowned tree, a floating mat, a nest with eggs, a dragonfly; and bones, as the fourth stage of remains. The dunes' and the marsh's own things are now on the asset sheet too, with two general ones: eggs in every stage (a clutch in a scrape, a nest, one hatching, one emptied, one eaten), and tracks and marks (prints for four kinds of foot, a drag, a scent mark, a burrow).
+**Built since this list was made,** in the highlands and the woodland: slabs of rock with walls and strata, a tarn, a cave mouth with pale caps, a crevice, a spring, a scree fan, lichen that can be eaten, a snow drift, blown seed; a trunk, folded roots that dive under the floor, leaf drifts that are scuffed aside, a brook with a log across it and brackets of fungus, a thicket with berries, a glade, ferns, nuts, fruit on a bough and fallen fruit that can be eaten. In the dunes and marsh places and the remains: marram, a sand tail, sea holly, a mat of hollow plants, a tumble-seed, wrack, three shells, a burrow mouth; a reed stand that a body goes under, tussocks of sedge, kingcups, sprays of seed, duckweed, a drowned tree, a floating mat, a nest with eggs, a dragonfly; and bones, as the fourth stage of remains. The dunes' and the marsh's own things are now on the asset sheet too, with two general ones: eggs in every stage (a clutch in a scrape, a nest, one hatching, one emptied, one eaten), and tracks and marks (prints for four kinds of foot, a drag, a scent mark, a burrow).
 
 ## 2. Levels
 
@@ -196,9 +196,9 @@ Has: the rock pool.
 | Salt pan | F | A torn white crust with cracks | 80 |
 | Glasswort | L | Jointed tufts | 12 |
 
-## 5. What the guide needs before these can be made from it
+## 5. What the guide needed before these could be made from it
 
-The reviewer could not have made a nest, a burrow or snowy grass from the guide as written. It needs:
+The reviewer could not have made a nest, a burrow or snowy grass from the guide as written. All eight are now written, in `design/look.md` section 20, each taken from something built. It needed:
 
 1. **Recesses:** how a thing cut down into the ground is shaded, how many steps, the darkest paper.
 2. **Masses and cover:** stands and swards that fill a screen, and how a body inside one still shows.
