@@ -44,181 +44,191 @@
 <script>
 (() => {
   const W = 360, TAU = Math.PI * 2, cv = document.getElementById('c'), ctx = cv.getContext('2d'); let K = 2;
-  const LX = 0.5, LY = 0.86;                       // where a shadow falls, for each unit of height: the light is a window to the upper left
+  const LX = 0.5, LY = 0.86;                       // where a shadow falls for each unit of height: the light is a window to the upper left
   const rnd = (seed) => { let s = (seed * 9301 + 49297) % 233280 + 1; return () => { s = (s * 16807) % 2147483647; return s / 2147483647; }; };
   const hex = (h) => { const n = parseInt(h.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; }, mix = (a, b, k) => { const A = hex(a), B = hex(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * k).toString(16).padStart(2, '0')).join(''); };
-  const SH = (a) => `rgba(44,52,66,${a})`;          // shadows are a cool grey, never black
+  const SH = (a) => `rgba(30,66,58,${a})`;          // shadows are a cool dark green, never grey or black
 
-  // ---------- shapes: outlines cut by hand, with a slow wander and a finer wobble ----------
+  // ---------- shapes: outlines cut by hand: a slow wander, a finer wobble, and now and then a straight snip ----------
   const pnoise = (seed, p) => { const r = rnd(seed), v = Array.from({ length: p }, () => r() * 2 - 1); return (x) => { const i = Math.floor(x), f = x - i, a = v[((i % p) + p) % p], b = v[(((i + 1) % p) + p) % p], u = f * f * (3 - 2 * f); return a + (b - a) * u; }; };
   const blob = (cx, cy, rx, ry, seed, o = {}) => { const n = o.n || 44, f2 = o.f2 || 13, a1 = pnoise(seed, 5), a2 = pnoise(seed + 7, f2), a3 = rnd(seed + 3), w = o.wob === undefined ? 0.07 : o.wob, rot = o.rot || 0, c = Math.cos(rot), s = Math.sin(rot), pts = [];
     for (let i = 0; i < n; i++) { const a = i / n * TAU, k = 1 + w * (a1(i / n * 5) * 0.75 + a2(i / n * f2) * 0.3) + (o.rag ? (a3() - 0.5) * o.rag / rx : 0), x = Math.cos(a) * rx * k, y = Math.sin(a) * ry * k; pts.push([cx + x * c - y * s, cy + x * s + y * c]); } return pts; };
-  const closed = (pts) => (g) => { const n = pts.length; g.moveTo((pts[n - 1][0] + pts[0][0]) / 2, (pts[n - 1][1] + pts[0][1]) / 2); for (let i = 0; i < n; i++) { const p = pts[i], q = pts[(i + 1) % n]; g.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); } g.closePath(); };
+  const closed = (pts, snip = 0) => (g) => { const n = pts.length; g.moveTo((pts[n - 1][0] + pts[0][0]) / 2, (pts[n - 1][1] + pts[0][1]) / 2); for (let i = 0; i < n; i++) { const p = pts[i], q = pts[(i + 1) % n], mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2; if (snip && (i * 7 + snip) % 6 === 0) g.lineTo(mx, my); else g.quadraticCurveTo(p[0], p[1], mx, my); } g.closePath(); };
+  const poly = (pts) => (g) => { pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); };
   const sym = (half) => half.concat(half.slice().reverse().map(([x, y]) => [x, -y]));
   const leaf = (len, wd, bend = 0) => (g) => { g.moveTo(0, 0); g.bezierCurveTo(len * 0.28, -wd + bend, len * 0.72, -wd * 0.75 + bend, len, bend * 0.5); g.bezierCurveTo(len * 0.72, wd * 0.75 + bend, len * 0.28, wd + bend, 0, 0); g.closePath(); };
   const disc = (x, y, r, ry) => (g) => { g.moveTo(x + r, y); g.ellipse(x, y, r, ry || r, 0, 0, TAU); g.closePath(); };
-  const fringe = (r1, r2, n) => (g) => { for (let i = 0; i < n * 2; i++) { const a = i / (n * 2) * TAU, r = i % 2 ? r2 : r1; i ? g.lineTo(Math.cos(a) * r, Math.sin(a) * r) : g.moveTo(r, 0); } g.closePath(); };
   const petals = (n, len, wd, rot = 0) => (g) => { for (let i = 0; i < n; i++) { g.save(); g.rotate(rot + i / n * TAU); leaf(len, wd)(g); g.restore(); } };
   const local = (g, sx, sy) => { const m = g.getTransform(), det = m.a * m.d - m.b * m.c, dx = sx * K, dy = sy * K; return [(m.d * dx - m.c * dy) / det, (-m.b * dx + m.a * dy) / det]; };   // a direction on the table, in the units a turned piece is drawn in
 
-  // ---------- paper: fibre in the sheet, a lit cut edge, a shaded one, a contact shadow and a cast shadow ----------
-  const fibreTile = (() => { const c = document.createElement('canvas'); c.width = c.height = 220; const g = c.getContext('2d'), r = rnd(9); g.lineCap = 'round';
-    for (let i = 0; i < 560; i++) { const x = r() * 220, y = r() * 220, a = r() * TAU, l = 2 + r() * 8, dark = r() < 0.55; g.strokeStyle = dark ? `rgba(40,45,30,${0.05 + r() * 0.08})` : `rgba(255,255,250,${0.09 + r() * 0.14})`; g.lineWidth = 0.35 + r() * 0.45; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a) * l * 0.5 + (r() - 0.5) * 2.4, y + Math.sin(a) * l * 0.5 + (r() - 0.5) * 2.4, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
-    for (let i = 0; i < 1100; i++) { const dark = r() < 0.5; g.fillStyle = dark ? `rgba(40,45,30,${0.04 + r() * 0.09})` : `rgba(255,255,250,${0.07 + r() * 0.13})`; g.fillRect(r() * 220, r() * 220, 0.5 + r() * 0.7, 0.5 + r() * 0.7); } return c; })();
-  let fibrePat = null;
-  const fibre = (g, seed, k) => { const r = rnd(seed); g.save(); g.rotate(r() * TAU); g.translate(r() * 200, r() * 200); g.scale(0.5, 0.5); g.globalAlpha = Math.min(1, k); g.fillStyle = fibrePat || (fibrePat = g.createPattern(fibreTile, 'repeat')); g.fillRect(-2400, -2400, 4800, 4800); g.restore(); };
+  // ---------- paper. Three stocks: coarse sugar paper for the ground, smooth card for creatures, and none at all for water ----------
+  const tile = (seed, n, len, dots) => { const c = document.createElement('canvas'); c.width = c.height = 220; const g = c.getContext('2d'), r = rnd(seed); g.lineCap = 'round';
+    for (let i = 0; i < n; i++) { const x = r() * 220, y = r() * 220, a = r() * TAU, l = len * (0.3 + r()), dark = r() < 0.55; g.strokeStyle = dark ? `rgba(30,50,35,${0.06 + r() * 0.09})` : `rgba(255,255,248,${0.1 + r() * 0.16})`; g.lineWidth = 0.4 + r() * 0.5; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a) * l * 0.5 + (r() - 0.5) * 3, y + Math.sin(a) * l * 0.5 + (r() - 0.5) * 3, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
+    for (let i = 0; i < dots; i++) { const dark = r() < 0.5; g.fillStyle = dark ? `rgba(30,50,35,${0.05 + r() * 0.1})` : `rgba(255,255,248,${0.08 + r() * 0.14})`; g.fillRect(r() * 220, r() * 220, 0.5 + r() * 0.9, 0.5 + r() * 0.9); } return c; };
+  const STOCK = { coarse: [tile(9, 620, 11, 1500), 0.62, 1], card: [tile(19, 260, 5, 500), 0.42, 0.55] }, pats = {};
+  const fibre = (g, seed, kind) => { const [t, sc, al] = STOCK[kind], r = rnd(seed); g.save(); g.rotate(r() * TAU); g.translate(r() * 200, r() * 200); g.scale(sc, sc); g.globalAlpha = al; g.fillStyle = pats[kind] || (pats[kind] = g.createPattern(t, 'repeat')); g.fillRect(-3000, -3000, 6000, 6000); g.restore(); };
+  // one sheet: a soft shadow thrown by its height, a tight one where it touches, its colour, the faint curl of the paper, its fibre, and the lit and shaded sides of its cut edge
   function sheet(g, path, col, o = {}) { const h = o.h === undefined ? 1 : o.h, rule = o.eo ? 'evenodd' : 'nonzero', e = o.edge === undefined ? 0.8 : o.edge;
     g.save(); g.fillStyle = col; g.beginPath(); path(g);
-    if (h > 0) { g.shadowColor = SH(o.sa || 0.3); g.shadowBlur = (0.9 + h * 0.8) * K; g.shadowOffsetX = LX * h * K; g.shadowOffsetY = LY * h * K; g.fill(rule); g.shadowColor = SH(0.2); g.shadowBlur = 1.5 * K; g.shadowOffsetX = 0.15 * K; g.shadowOffsetY = 0.4 * K; }
+    if (h > 0) { g.shadowColor = SH(o.sa || 0.3); g.shadowBlur = (0.8 + h * 1.15) * K; g.shadowOffsetX = LX * h * K; g.shadowOffsetY = LY * h * K; g.fill(rule); g.shadowColor = SH(0.3); g.shadowBlur = 1.3 * K; g.shadowOffsetX = 0.2 * K; g.shadowOffsetY = 0.45 * K; }
     g.fill(rule); g.restore();
     g.save(); g.beginPath(); path(g); g.clip(rule);
     if (o.tone) o.tone(g);
-    if (e > 0) { const [ax, ay] = local(g, LX * e * 1.15, LY * e * 1.15); g.fillStyle = o.lip || mix(col, '#ffffff', 0.82); g.beginPath(); path(g); g.translate(ax, ay); path(g); g.translate(-ax, -ay); g.fill('evenodd');
-      g.fillStyle = mix(col, '#1f2a24', 0.2); g.beginPath(); path(g); g.translate(-ax * 0.55, -ay * 0.55); path(g); g.translate(ax * 0.55, ay * 0.55); g.fill('evenodd'); }
-    if (o.fibre) fibre(g, o.seed || 3, o.fibre);
+    if (o.curl) { const [cx, cy, r] = o.curl, [ax, ay] = local(g, LX * r, LY * r), q = g.createLinearGradient(cx - ax, cy - ay, cx + ax, cy + ay); q.addColorStop(0, 'rgba(255,250,235,0.11)'); q.addColorStop(0.5, 'rgba(255,250,235,0)'); q.addColorStop(1, 'rgba(20,45,40,0.11)'); g.fillStyle = q; g.fillRect(cx - r * 3, cy - r * 3, r * 6, r * 6); }
+    if (o.stock) fibre(g, o.seed || 3, o.stock);
+    if (e > 0) { const [ax, ay] = local(g, LX * e * 1.15, LY * e * 1.15); g.fillStyle = o.lip || mix(col, '#fffdf2', 0.62); g.beginPath(); path(g); g.translate(ax, ay); path(g); g.translate(-ax, -ay); g.fill('evenodd');
+      g.fillStyle = mix(col, '#17332b', 0.24); g.beginPath(); path(g); g.translate(-ax * 0.6, -ay * 0.6); path(g); g.translate(ax * 0.6, ay * 0.6); g.fill('evenodd'); }
     g.restore(); }
+  // a hole punched through a sheet, showing the paper underneath: shaded where the sheet above overhangs it, lit on the far wall
+  function punch(g, path, under, top, e = 0.55) { g.save(); g.beginPath(); path(g); g.clip(); g.fillStyle = under; g.fill(); const [ax, ay] = local(g, LX * e * 1.6, LY * e * 1.6);
+    g.fillStyle = SH(0.34); g.beginPath(); path(g); g.translate(ax, ay); path(g); g.translate(-ax, -ay); g.fill('evenodd'); g.fillStyle = mix(top, '#fffdf2', 0.55); g.beginPath(); path(g); g.translate(-ax * 0.45, -ay * 0.45); path(g); g.translate(ax * 0.45, ay * 0.45); g.fill('evenodd'); g.restore(); }
   const dab = (g, x, y, rx, ry, col, rot = 0) => { g.fillStyle = col; g.beginPath(); g.ellipse(x, y, rx, ry, rot, 0, TAU); g.fill(); };
 
-  // ---------- the ground: card cut into terraces, stepping down from the meadow to the sand and into the water ----------
-  const hole = (pts) => (g) => { g.rect(-60, -60, W + 120, W + 120); closed(pts)(g); };
-  const SHORE = [273, 299, 125, 109, 21, { wob: 0.09, rot: -0.2 }];
-  const TERR = [
-    [hole(blob(302, 328, 39, 30, 51, { wob: 0.13, rot: 0.5 })), '#69aabd', true, {}], [hole(blob(289, 315, 75, 61, 41, { wob: 0.11, rot: 0.2 })), '#93cbd2', true, {}], [hole(blob(280, 304, 106, 91, 31, { wob: 0.1 })), '#c1e4de', true, {}],
-    [hole(blob(SHORE[0], SHORE[1], SHORE[2] - 2.8, SHORE[3] - 2.8, SHORE[4], Object.assign({ n: 150, rag: 1.5 }, SHORE[5]))), '#fffdf6', true, { h: 0.7, edge: 0 }],      // the torn white edge of the sand, where the water meets it
-    [hole(blob(...SHORE)), '#efe3c0', true, { h: 1.6 }], [hole(blob(266, 294, 147, 129, 11, { wob: 0.09, rot: -0.3 })), '#cde2a4', true, {}],
-    [closed(blob(-40, -50, 334, 300, 61, { wob: 0.05, n: 90, f2: 29 })), '#b2cf88', false, {}], [closed(blob(-70, -80, 214, 190, 71, { wob: 0.07, n: 70, f2: 23 })), '#97bd73', false, {}]];
-  function terrain(g) { g.fillStyle = '#4c93aa'; g.fillRect(0, 0, W, W); g.save(); g.beginPath(); g.rect(0, 0, W, W); g.clip(); fibre(g, 2, 1); g.restore();
-    TERR.forEach(([path, col, eo, o], i) => sheet(g, path, col, Object.assign({ h: 2.3, eo, edge: 1.05, fibre: 1, seed: 40 + i, sa: 0.34 }, o))); }
+  // ---------- the ground: card cut into terraces. The pond's layers are each their own shape; the sand is wide here and narrow there ----------
+  const hole = (pts, snip) => (g) => { g.rect(-60, -60, W + 120, W + 120); closed(pts, snip)(g); };
+  const DEEP = blob(302, 322, 45, 33, 51, { wob: 0.2, rot: 0.6 }), MID = blob(285, 311, 81, 62, 41, { wob: 0.15, rot: 0.1 }), WATER = [276, 302, 112, 96, 31, { wob: 0.1 }], WET = blob(274, 300, 120, 104, 33, { wob: 0.11, f2: 17 }), SAND = blob(258, 296, 154, 124, 11, { wob: 0.13, rot: -0.35, f2: 9, n: 60 });
+  const jig = (pts, seed, d) => { const r = rnd(seed); return pts.map(([x, y]) => [x + (r() - 0.5) * d, y + (r() - 0.5) * d]); };
+  const MEADOW = jig([[-60, -60], [268, -60], [262, 6], [236, 50], [196, 74], [162, 100], [146, 138], [124, 176], [86, 198], [42, 206], [6, 226], [-60, 240]], 4, 5), HIGH = jig([[-60, -60], [120, -60], [116, -10], [88, 28], [54, 50], [32, 84], [4, 104], [-60, 114]], 6, 5);
+  function terrain(g) { g.fillStyle = '#458ba3'; g.fillRect(0, 0, W, W);
+    sheet(g, hole(DEEP), '#77bac8', { h: 3.4, eo: true, edge: 0.9, sa: 0.36, seed: 41 }); sheet(g, hole(MID), '#bde1dc', { h: 3.2, eo: true, edge: 0.9, sa: 0.34, seed: 42 });
+    sheet(g, hole(blob(WATER[0], WATER[1], WATER[2] - 2.6, WATER[3] - 2.6, WATER[4], Object.assign({ n: 150, rag: 1.6 }, WATER[5]))), '#fffdf6', { h: 0.8, eo: true, edge: 0, stock: 'coarse', seed: 43 });   // the torn white edge where the water meets the sand
+    sheet(g, hole(blob(...WATER)), '#dccb9c', { h: 1.3, eo: true, edge: 0.6, stock: 'coarse', seed: 44 }); sheet(g, hole(WET, 2), '#efe3c0', { h: 1.2, eo: true, edge: 0.8, stock: 'coarse', seed: 45 });
+    sheet(g, hole(SAND, 3), '#c9d98a', { h: 3, eo: true, edge: 1.25, stock: 'coarse', seed: 46, sa: 0.34 });
+    sheet(g, closed(MEADOW, 1), '#a9c885', { h: 3, edge: 1.25, stock: 'coarse', seed: 47, sa: 0.34 }); sheet(g, closed(HIGH, 4), '#86ae75', { h: 3, edge: 1.25, stock: 'coarse', seed: 48, sa: 0.34 }); }
+  const inPath = (g, path, x, y, rule) => { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.beginPath(); path(g); const v = g.isPointInPath(x, y, rule || 'nonzero'); g.restore(); return v; };
 
-  // ---------- small things. Thin standing things throw their shadow as far as they are tall. ----------
+  // ---------- small things. Each is folded or stacked paper, and each throws its shadow as far as it is tall ----------
   const lit = (ang) => Math.sin(ang) * -0.5 + -Math.cos(ang) * -0.86 > 0;      // is the upper half of a blade turned to the light?
-  function blade(g, x, y, len, wd, ang, col, lift, pass) { const tx = x + Math.cos(ang) * len, ty = y + Math.sin(ang) * len;
-    if (pass === 0) { const sx = tx + LX * lift, sy = ty + LY * lift, l = Math.hypot(sx - x, sy - y); g.save(); g.translate(x, y); g.rotate(Math.atan2(sy - y, sx - x)); g.fillStyle = SH(0.15); g.beginPath(); leaf(l, wd * 1.05)(g); g.fill(); g.restore(); return; }
-    g.save(); g.translate(x, y); g.rotate(ang); g.fillStyle = col; g.beginPath(); leaf(len, wd)(g); g.fill(); const up = lit(ang);        // a blade is folded down its length: one half catches the light
-    g.fillStyle = mix(col, up ? '#ffffff' : '#1f3a22', up ? 0.24 : 0.15); g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(len * 0.28, -wd, len * 0.72, -wd * 0.75, len, 0); g.closePath(); g.fill(); g.restore(); }
-  function tuft(g, x, y, s, seed, t) { const r = rnd(seed), n = 7 + Math.floor(r() * 3), base = r() * TAU, cols = ['#7fb066', '#8fbc73', '#6fa25b'], bl = [];
-    for (let i = 0; i < n; i++) bl.push([base + i / n * TAU + (r() - 0.5) * 0.5 + Math.sin(t / 70 + seed + i) * 0.05, (5.5 + r() * 6.5) * s, cols[i % 3]]);
-    bl.sort((p, q) => q[1] - p[1]); for (let pass = 0; pass < 2; pass++) for (const [a, l, c] of bl) blade(g, x, y, l, 2.3 * s, a, c, l * 0.5, pass); }
-  // a patch of short grass: one flat piece, its edge cut with pinking shears
-  function patch(g, x, y, rx, ry, seed, col) { const pts = blob(x, y, rx, ry, seed, { wob: 0.16, n: 46, rot: seed }).map(([px, py], i) => { const k = i % 2 ? 1 : 0.9; return [x + (px - x) * k, y + (py - y) * k]; });
-    sheet(g, (g) => { pts.forEach(([px, py], i) => (i ? g.lineTo(px, py) : g.moveTo(px, py))); g.closePath(); }, col, { h: 0.8, edge: 0.55, fibre: 1, seed, sa: 0.24 }); }
-  function daisy(g, x, y, s, seed, t) { const rot = seed + Math.sin(t / 90 + seed) * 0.05, lift = 6 * s; g.save(); g.translate(x, y); g.scale(s, s);
-    g.save(); g.translate(LX * lift / s, LY * lift / s); g.fillStyle = SH(0.2); g.beginPath(); petals(9, 6.4, 2.4, rot)(g); g.fill(); g.restore();
-    g.fillStyle = '#fffdf6'; g.beginPath(); petals(9, 6.4, 2.4, rot)(g); g.fill(); g.fillStyle = '#efe6d2'; g.beginPath(); petals(9, 6.4, 2.4, rot)(g); g.save(); g.translate(0.5, 0.8); petals(9, 6.4, 2.4, rot)(g); g.restore(); g.fill('evenodd');
-    g.fillStyle = '#fff6e2'; g.beginPath(); petals(7, 4.2, 1.9, rot + 0.4)(g); g.fill();
-    dab(g, 0.3, 0.5, 2.4, 2.4, '#d39c35'); dab(g, 0, 0, 2.3, 2.3, '#f3c654'); dab(g, -0.6, -0.7, 0.9, 0.9, '#f9de8f'); g.restore(); }
-  // a leaf folded down its middle: one sheet, two tones, a scored rib
-  function frond(g, x, y, len, wd, ang, col, h, seed) { g.save(); g.translate(x, y); g.rotate(ang); sheet(g, leaf(len, wd, wd * 0.12), col, { h, edge: 0.6, fibre: 0.9, seed, sa: 0.28 }); const up = lit(ang);
-    g.save(); g.beginPath(); leaf(len, wd, wd * 0.12)(g); g.clip(); g.fillStyle = up ? 'rgba(255,255,255,0.13)' : 'rgba(20,40,30,0.13)'; g.fillRect(0, -wd * 2, len, wd * 2); g.restore();
-    g.strokeStyle = mix(col, '#17301f', 0.35); g.lineWidth = 0.6; g.lineCap = 'round'; g.beginPath(); g.moveTo(len * 0.06, 0); g.quadraticCurveTo(len * 0.5, wd * 0.1, len * 0.94, wd * 0.05); g.stroke(); g.restore(); }
-  function fern(g, x, y, s, rot, seed, n = 8) { const r = rnd(seed), cols = ['#4f8558', '#5e9460', '#6ba168'], fr = []; for (let i = 0; i < n; i++) fr.push([rot + i / n * TAU + (r() - 0.5) * 0.35, (20 + r() * 12) * s, (5.4 + r() * 1.6) * s, cols[i % 3]]);
-    fr.sort((p, q) => p[1] - q[1]).forEach(([a, l, w, c], i) => frond(g, x, y, l, w, a, c, 2.2 + i * 0.25, seed + i)); }
-  function shroom(g, x, y, r, seed) { const dome = (g) => { const q = g.createRadialGradient(x - r * 0.4, y - r * 0.5, r * 0.1, x, y, r * 1.15); q.addColorStop(0, 'rgba(255,225,205,0.4)'); q.addColorStop(0.6, 'rgba(255,225,205,0)'); q.addColorStop(1, 'rgba(90,20,25,0.28)'); g.fillStyle = q; g.fillRect(x - r * 1.2, y - r * 1.2, r * 2.4, r * 2.4); };
-    sheet(g, closed(blob(x, y, r, r * 0.94, seed, { wob: 0.07, n: 20 })), '#d45d49', { h: 3 + r * 0.55, edge: 0.7, fibre: 0.9, seed, tone: dome });
-    const q = rnd(seed); for (let i = 0; i < 5; i++) { const a = i / 5 * TAU + q(), d = (0.2 + q() * 0.42) * r; sheet(g, closed(blob(x + Math.cos(a) * d - r * 0.06, y + Math.sin(a) * d - r * 0.1, r * (0.13 + q() * 0.08), r * (0.11 + q() * 0.07), seed + 9 + i, { wob: 0.22, n: 9 })), '#fff3e2', { h: 0.35, edge: 0.2, fibre: 0 }); } }
-  function pebble(g, x, y, rx, ry, rot, seed) { sheet(g, closed(blob(x, y, rx, ry, seed, { wob: 0.1, n: 18, rot })), '#d3ccbb', { h: 1.4, edge: 0.6, fibre: 0.9, seed }); sheet(g, closed(blob(x - rx * 0.08, y - ry * 0.1, rx * 0.6, ry * 0.58, seed + 1, { wob: 0.12, n: 16, rot })), '#e6dfd0', { h: 0.8, edge: 0.5, fibre: 0.9, seed: seed + 1 }); }
-  function clover(g, x, y, s, rot) { for (let i = 0; i < 3; i++) { g.save(); g.translate(x, y); g.rotate(rot + i / 3 * TAU); g.fillStyle = SH(0.15); g.beginPath(); g.save(); g.translate(...local(g, 0.4, 0.7)); leaf(6.4 * s, 3.6 * s)(g); g.restore(); g.fill(); g.fillStyle = '#79ad66'; g.beginPath(); leaf(6.4 * s, 3.6 * s)(g); g.fill(); g.strokeStyle = '#98c386'; g.lineWidth = 0.5; g.beginPath(); g.moveTo(0.8 * s, 0); g.lineTo(5.2 * s, 0); g.stroke(); g.restore(); } }
-  function reeds(g, x, y, dir, seed, t) { const r = rnd(seed), bl = []; for (let i = 0; i < 6; i++) bl.push([dir - 0.95 + i * 0.38 + (r() - 0.5) * 0.16 + Math.sin(t / 95 + i + seed) * 0.035, 20 + r() * 12, i % 2 ? '#5f9458' : '#72a564', i % 2 === 0]);
-    for (let pass = 0; pass < 2; pass++) for (const [a, l, c, cat] of bl) { blade(g, x, y, l, 2.4, a, c, l * 0.7, pass); if (!cat) continue; const tx = x + Math.cos(a) * l, ty = y + Math.sin(a) * l;
-      if (pass === 0) { g.save(); g.translate(tx + LX * l * 0.7, ty + LY * l * 0.7); g.rotate(a); dab(g, 2.5, 0, 5.6, 2.3, SH(0.16)); g.restore(); } else { g.save(); g.translate(tx, ty); g.rotate(a); dab(g, 2.5, 0, 5.6, 2.3, '#8c5c3a'); dab(g, 2, lit(a) ? -0.75 : 0.75, 4.4, 0.8, '#b48560'); g.restore(); } } }
-  function pad(g, x, y, r, rot, seed, flower) { g.save(); g.translate(x, y); g.rotate(rot); sheet(g, (g) => { g.moveTo(0, 0); g.arc(0, 0, r, 0.26, TAU - 0.26); g.closePath(); }, '#74b274', { h: 0.7, edge: 0.75, fibre: 0.9, seed });
-    for (let i = 1; i < 7; i++) { const a = 0.26 + i / 7 * (TAU - 0.52); g.strokeStyle = 'rgba(30,80,45,0.24)'; g.lineWidth = 0.5; g.beginPath(); g.moveTo(Math.cos(a) * 1.5, Math.sin(a) * 1.5); g.lineTo(Math.cos(a) * r * 0.82, Math.sin(a) * r * 0.82); g.stroke(); }
-    if (flower) { g.translate(r * 0.2, -r * 0.15); g.save(); g.translate(...local(g, 1.2, 2)); g.fillStyle = SH(0.2); g.beginPath(); petals(8, 6.6, 2.5)(g); g.fill(); g.restore(); for (const [n, l, w, c, ro] of [[8, 6.6, 2.5, '#f3a9bd', 0], [7, 4.8, 2.1, '#f9c6d3', 0.4], [5, 3.1, 1.5, '#fde0e6', 0.2]]) { g.fillStyle = c; g.beginPath(); petals(n, l, w, ro)(g); g.fill(); } dab(g, 0, 0, 1.6, 1.6, '#f3c654'); }
+  function blade(g, x, y, len, wd, ang, col, lift, pass, bend = 0) { const tx = x + Math.cos(ang) * len, ty = y + Math.sin(ang) * len;
+    if (pass === 0) { const sx = tx + LX * lift, sy = ty + LY * lift, l = Math.hypot(sx - x, sy - y); g.save(); g.translate(x, y); g.rotate(Math.atan2(sy - y, sx - x)); g.fillStyle = SH(0.17); g.beginPath(); leaf(l, wd * 1.05, bend)(g); g.fill(); g.restore(); return; }
+    g.save(); g.translate(x, y); g.rotate(ang); g.fillStyle = col; g.beginPath(); leaf(len, wd, bend)(g); g.fill(); const up = lit(ang);        // folded down its length: one half catches the light
+    g.fillStyle = mix(col, up ? '#fffdf2' : '#17332b', up ? 0.26 : 0.18); g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(len * 0.28, -wd + bend, len * 0.72, -wd * 0.75 + bend, len, bend * 0.5); g.quadraticCurveTo(len * 0.5, bend * 0.9, 0, 0); g.closePath(); g.fill(); g.restore(); }
+  // grass grows in fans that lean one way, a few curved blades each
+  function fan(g, x, y, dir, s, seed, t) { const r = rnd(seed), n = 4 + Math.floor(r() * 4), spread = 0.7 + r() * 0.5, cols = ['#7aab62', '#8cb96f', '#69995a'], bl = [];
+    for (let i = 0; i < n; i++) { const k = n > 1 ? i / (n - 1) - 0.5 : 0; bl.push([dir + k * spread * 2 + (r() - 0.5) * 0.2 + Math.sin(t / 70 + seed + i) * 0.045, (13 + r() * 9) * s * (1 - Math.abs(k) * 0.5), cols[i % 3], k * 6 * s]); }
+    bl.sort((p, q) => q[1] - p[1]); for (let pass = 0; pass < 2; pass++) for (const [a, l, c, bend] of bl) blade(g, x, y, l, 2.9 * s, a, c, l * 0.5, pass, bend); }
+  function bloom(g, x, y, s, seed, t, kind) { const rot = seed * 1.7 + Math.sin(t / 90 + seed) * 0.05, lift = (kind ? 4 : 7) * s, P1 = kind ? petals(5, 5, 2.7, rot) : petals(9, 9.4, 3.2, rot), P2 = kind ? null : petals(8, 6.4, 2.6, rot + 0.35); g.save(); g.translate(x, y); g.scale(s, s);
+    g.save(); g.translate(LX * lift / s, LY * lift / s); g.fillStyle = SH(0.22); g.beginPath(); P1(g); g.fill(); g.restore();
+    g.fillStyle = kind ? '#8ea7e6' : '#fffdf6'; g.beginPath(); P1(g); g.fill(); g.fillStyle = kind ? '#7890d4' : '#e9dfc8'; g.beginPath(); P1(g); g.save(); g.translate(0.6, 1); P1(g); g.restore(); g.fill('evenodd');
+    if (P2) { g.fillStyle = SH(0.12); g.beginPath(); g.save(); g.translate(0.5, 0.9); P2(g); g.restore(); g.fill(); g.fillStyle = '#fff6e0'; g.beginPath(); P2(g); g.fill(); }
+    const cr = kind ? 1.5 : 3; dab(g, 0.4, 0.7, cr + 0.2, cr + 0.2, SH(0.3)); dab(g, 0, 0, cr, cr, '#f1bf4b'); dab(g, -cr * 0.3, -cr * 0.35, cr * 0.45, cr * 0.45, '#f9dc8c'); g.restore(); }
+  function ovate(g, x, y, len, wd, ang, col, h, seed) { g.save(); g.translate(x, y); g.rotate(ang); sheet(g, leaf(len, wd, wd * 0.1), col, { h, edge: 0.7, stock: 'coarse', seed, sa: 0.3 }); const up = lit(ang);        // a broad leaf, creased down the middle
+    g.save(); g.beginPath(); leaf(len, wd, wd * 0.1)(g); g.clip(); g.fillStyle = up ? 'rgba(255,253,240,0.14)' : 'rgba(15,40,35,0.14)'; g.fillRect(0, -wd * 2, len, wd * 2); g.restore();
+    g.strokeStyle = mix(col, '#17332b', 0.35); g.lineWidth = 0.7; g.lineCap = 'round'; g.beginPath(); g.moveTo(len * 0.05, 0); g.quadraticCurveTo(len * 0.5, wd * 0.08, len * 0.95, wd * 0.04); g.stroke(); g.restore(); }
+  function shroom(g, x, y, r, seed) { const dome = (g) => { const q = g.createRadialGradient(x - r * 0.4, y - r * 0.5, r * 0.1, x, y, r * 1.15); q.addColorStop(0, 'rgba(255,235,215,0.38)'); q.addColorStop(0.6, 'rgba(255,235,215,0)'); q.addColorStop(1, 'rgba(70,30,20,0.26)'); g.fillStyle = q; g.fillRect(x - r * 1.2, y - r * 1.2, r * 2.4, r * 2.4); };
+    sheet(g, closed(blob(x, y, r, r * 0.94, seed, { wob: 0.07, n: 20 })), '#c98360', { h: 3 + r * 0.6, edge: 0.7, stock: 'card', seed, tone: dome });
+    const q = rnd(seed); for (let i = 0; i < 5; i++) { const a = i / 5 * TAU + q(), d = (0.2 + q() * 0.42) * r; sheet(g, closed(blob(x + Math.cos(a) * d - r * 0.06, y + Math.sin(a) * d - r * 0.1, r * (0.13 + q() * 0.08), r * (0.11 + q() * 0.07), seed + 9 + i, { wob: 0.22, n: 9 })), '#fff1dc', { h: 0.35, edge: 0.2 }); } }
+  // a stone: a few straight cuts, and a paler facet on top, set toward the light
+  function stone(g, x, y, r, seed, moss) { const q = rnd(seed), n = 6 + Math.floor(q() * 2), base = [], top = []; for (let i = 0; i < n; i++) { const a = i / n * TAU + (q() - 0.5) * 0.5 + seed, k = 0.82 + q() * 0.3; base.push([x + Math.cos(a) * r * k * 1.15, y + Math.sin(a) * r * k * 0.86]); top.push([x - r * 0.12 + Math.cos(a) * r * k * 0.7, y - r * 0.16 + Math.sin(a) * r * k * 0.52]); }
+    sheet(g, closed(base, 2), '#c9c2af', { h: 1.2 + r * 0.14, edge: 0.6, stock: 'card', seed, sa: 0.32 }); sheet(g, closed(top, 2), '#e2dccb', { h: 0.7, edge: 0.5, stock: 'card', seed: seed + 1 });
+    if (moss) sheet(g, closed(blob(x + r * 0.2, y + r * 0.02, r * 0.5, r * 0.34, seed + 2, { wob: 0.25, n: 12 })), '#86ae6a', { h: 0.4, edge: 0.3, stock: 'coarse', seed: seed + 2 }); }
+  function moss(g, x, y, rx, ry, seed, col) { sheet(g, closed(blob(x, y, rx, ry, seed, { wob: 0.34, n: 34, rot: seed, f2: 9 })), col, { h: 0.35, edge: 0, stock: 'coarse', seed, sa: 0.16 }); }
+  // reeds seen from above: a clump leaning out all round, three of them carrying a head
+  function reeds(g, x, y, seed, t) { const r = rnd(seed), bl = []; for (let i = 0; i < 9; i++) bl.push([i / 9 * TAU + (r() - 0.5) * 0.4 + Math.sin(t / 95 + i + seed) * 0.035, 11 + r() * 9, i % 2 ? '#5b9057' : '#6fa262', i % 3 === 0]);
+    for (let pass = 0; pass < 2; pass++) for (const [a, l, c, cat] of bl) { blade(g, x, y, l, 2.3, a, c, l * 1.1, pass); if (!cat) continue; const tx = x + Math.cos(a) * l, ty = y + Math.sin(a) * l;
+      if (pass === 0) { g.save(); g.translate(tx + LX * l * 1.1, ty + LY * l * 1.1); dab(g, 0, 0, 3, 2.6, SH(0.17)); g.restore(); } else { dab(g, tx + 0.4, ty + 0.6, 3, 2.6, SH(0.3)); dab(g, tx, ty, 2.8, 2.4, '#8a5a38'); dab(g, tx - 0.7, ty - 0.8, 1.2, 1, '#b48560'); } } }
+  function pad(g, x, y, r, rot, seed, flower) { g.save(); g.translate(x, y); g.rotate(rot); sheet(g, (g) => { g.moveTo(0, 0); g.arc(0, 0, r, 0.26, TAU - 0.26); g.closePath(); }, '#74b274', { h: 0.9, edge: 0.75, stock: 'card', seed, curl: [0, 0, r] });
+    for (let i = 1; i < 7; i++) { const a = 0.26 + i / 7 * (TAU - 0.52); g.strokeStyle = 'rgba(20,70,45,0.24)'; g.lineWidth = 0.5; g.beginPath(); g.moveTo(Math.cos(a) * 1.5, Math.sin(a) * 1.5); g.lineTo(Math.cos(a) * r * 0.82, Math.sin(a) * r * 0.82); g.stroke(); }
+    if (flower) { g.translate(r * 0.2, -r * 0.15); g.save(); g.translate(...local(g, 1.3, 2.2)); g.fillStyle = SH(0.24); g.beginPath(); petals(8, 7, 2.7)(g); g.fill(); g.restore(); for (const [n, l, w, c, ro] of [[8, 7, 2.7, '#f1a3b9', 0], [7, 5, 2.2, '#f8c3d1', 0.4], [5, 3.2, 1.6, '#fde0e6', 0.2]]) { g.fillStyle = c; g.beginPath(); petals(n, l, w, ro)(g); g.fill(); } dab(g, 0, 0, 1.7, 1.7, '#f1bf4b'); }
     g.restore(); }
-  function ripples(g, t) { for (const [x, y, r, a, ph] of [[262, 290, 22, 0.5, 0], [262, 290, 28, 1.2, 2], [305, 331, 16, 3.5, 4], [232, 318, 12, 5.2, 1], [318, 286, 10, 0.2, 3]]) { const aa = a + Math.sin(t / 160 + ph) * 0.25; g.save(); g.translate(x + Math.cos(aa) * r, y + Math.sin(aa) * r); g.rotate(aa + Math.PI / 2); g.fillStyle = 'rgba(255,255,250,0.85)'; g.beginPath(); leaf(9 + (ph % 3) * 3, 0.8, 1.2)(g); g.fill(); g.restore(); } }
-  function butterfly(g, t) { const a = t / 280 + 4.4, x = 214 + Math.sin(a) * 86 + Math.sin(a * 2.7) * 10, y = 92 + Math.sin(a * 1.9 + 1) * 50, hd = Math.atan2(Math.cos(a * 1.9 + 1) * 50 * 1.9, Math.cos(a) * 86), flap = Math.abs(Math.cos(t / 5)), lift = 24;
+  // ripples are thin arcs of white paper round whatever stands in the water; they come and go
+  function ripples(g, t) { g.lineCap = 'round'; for (const [x, y, r, a, ph] of [[262, 290, 21, 0.5, 0], [262, 290, 27, 2.6, 2.2], [305, 331, 15.5, 3.6, 4], [305, 331, 21, 5.4, 1.2], [222, 300, 11, 4.4, 3], [334, 262, 12, 1.4, 5]]) { const k = 0.5 + 0.5 * Math.sin(t / 110 + ph), rr = r + k * 2.5; g.strokeStyle = `rgba(255,255,250,${0.2 + 0.6 * k})`; g.lineWidth = 0.9 + k * 0.5; g.beginPath(); g.arc(x, y, rr, a, a + 0.9 + k * 0.3); g.stroke(); } }
+  function fish(g, t) { const a = t / 190, x = 303 + Math.cos(a) * 20, y = 323 + Math.sin(a) * 12, hd = a + Math.PI / 2 + Math.sin(t / 14) * 0.12; g.save(); g.beginPath(); closed(DEEP)(g); g.clip(); g.translate(x, y); g.rotate(hd); g.fillStyle = 'rgba(24,70,92,0.42)'; g.beginPath(); leaf(15, 4.2)(g); g.save(); g.translate(1, 0); g.rotate(Math.PI + Math.sin(t / 7) * 0.35); leaf(6, 3.4)(g); g.restore(); g.fill(); g.restore(); }
+  function butterfly(g, t) { const a = t / 280 + 4.4, x = 214 + Math.sin(a) * 86 + Math.sin(a * 2.7) * 10, y = 96 + Math.sin(a * 1.9 + 1) * 50, hd = Math.atan2(Math.cos(a * 1.9 + 1) * 50 * 1.9, Math.cos(a) * 86), flap = Math.abs(Math.cos(t / 5)), lift = 22;
     const wings = (g, k, sc) => { for (const s of [-1, 1]) { g.save(); g.scale(sc, sc * s * (0.25 + 0.75 * k)); g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(5, -1, 9, -8, 4.5, -10.5); g.bezierCurveTo(0, -11, -1.2, -5, 0, 0); g.bezierCurveTo(-2.5, -2.5, -8.5, -6.5, -7, -2); g.bezierCurveTo(-6.4, 0.6, -2.5, 0.6, 0, 0); g.fill(); g.restore(); } };
-    g.save(); g.translate(x + LX * lift, y + LY * lift); g.rotate(hd); g.fillStyle = SH(0.13); wings(g, flap, 1); g.restore();
-    g.save(); g.translate(x, y); g.rotate(hd); g.fillStyle = '#fbe7a0'; wings(g, flap, 1); g.fillStyle = '#f4c85a'; wings(g, flap, 0.58); dab(g, 0, 0, 4, 0.95, '#6b5847'); g.restore(); }
+    g.save(); g.translate(x + LX * lift, y + LY * lift); g.rotate(hd); g.fillStyle = SH(0.2); wings(g, flap, 1.5); g.restore();
+    g.save(); g.translate(x, y); g.rotate(hd); g.fillStyle = '#fbe7a0'; wings(g, flap, 1.6); g.fillStyle = '#f0c456'; wings(g, flap, 0.95); dab(g, 0, 0, 6, 1.4, '#6b5847'); g.restore(); }
+  function motes(g, t) { for (let i = 0; i < 5; i++) { const x = (i * 97 + t * 0.07 * (1 + (i % 3) * 0.3)) % 380 - 10, y = (i * 53 + 300 - t * 0.04 * (1 + (i % 2) * 0.5) + Math.sin(t / 60 + i) * 6) % 380 - 10, k = 0.5 + 0.5 * Math.sin(t / 40 + i * 2); dab(g, x, ((y % 380) + 380) % 380 - 10, 0.8 + k * 0.4, 0.8 + k * 0.4, `rgba(255,252,225,${0.15 + 0.3 * k})`); } }
 
-  // ---------- the tree overhead: big folded leaves on a branch high above the bank, a little out of focus ----------
-  const CANOPY = (() => { const r = rnd(77), out = []; for (let i = 0; i < 13; i++) out.push([Math.PI * 0.52 + i / 12 * Math.PI * 0.5 + (r() - 0.5) * 0.14, 52 + r() * 34, 15 + r() * 5, 12 + r() * 22, ['#3f7350', '#4e8257', '#5b8f5d'][i % 3], 100 + i]); return out.sort((p, q) => (q[1] + q[3]) - (p[1] + p[3])); })();
-  function canopy(g) { for (const [a, len, wd, d, col, seed] of CANOPY) frond(g, 372 + Math.cos(a) * d, -10 + Math.sin(a) * d, len, wd, a, col, 3.2, seed); }
+  // ---------- leaves on branches high over two corners, the same height, a little out of focus ----------
+  const BOUGH = [[372, -12, Math.PI * 0.5, 12, 77], [-12, 372, -Math.PI * 0.5, 9, 78]].map(([x, y, a0, n, seed]) => { const r = rnd(seed), out = []; for (let i = 0; i < n; i++) out.push([x, y, a0 + i / (n - 1) * Math.PI * 0.5 + (r() - 0.5) * 0.16, 50 + r() * 30, 19 + r() * 5, 10 + r() * 24, ['#4f8a5a', '#62995f', '#78aa6a'][i % 3], seed * 10 + i]); return out.sort((p, q) => (q[3] + q[5]) - (p[3] + p[5])); }).flat();
+  function boughs(g) { for (const [x, y, a, len, wd, d, col, seed] of BOUGH) ovate(g, x + Math.cos(a) * d, y + Math.sin(a) * d, len, wd, a, col, 3, seed); }
 
   // ---------- the creature: a paper toy seen from above, nose to the right ----------
-  const C = { foot: '#cf6f52', under: '#f9d0b6', body: '#e98463', head: '#ef9070', ear: '#f49d80', pale: '#f9cdb3', snout: '#fbe0cb', cream: '#fff3e2', pink: '#f2a096', ink: '#3a2a26', nose: '#a94c4c' };
-  const BODY = sym([[-42, -4], [-41, -10], [-35, -16], [-24, -20.5], [-10, -24], [3, -25], [12, -21], [16, -5]]), HEAD = sym([[-22, -6], [-20, -17.5], [-11, -27], [3, -30.5], [16, -26.5], [25, -15.5], [28, -5]]);
-  const grow = (pts, d) => pts.map(([x, y]) => { const l = Math.hypot(x + 12, y) || 1; return [x + (x + 12) / l * d, y + y / l * d]; });
-  const earPath = (len, wd) => (g) => { g.moveTo(0, -wd * 0.3); g.bezierCurveTo(len * 0.3, -wd * 1.05, len * 0.85, -wd * 0.95, len, -wd * 0.15); g.bezierCurveTo(len * 1.05, wd * 0.5, len * 0.75, wd, len * 0.35, wd * 0.8); g.bezierCurveTo(len * 0.12, wd * 0.7, 0, wd * 0.5, 0, -wd * 0.3); g.closePath(); };
+  const C = { foot: '#d67557', body: '#e98463', head: '#ef9070', earA: '#f6a587', earB: '#e58868', snout: '#fbe2cd', cream: '#fff1dc', pink: '#f2a096', ink: '#2b1d1a', nose: '#8f5a52' };
+  const BODY = sym([[-41, -5], [-39.5, -15], [-32, -23], [-20, -25.5], [-8, -23], [1, -18.5], [5, -6]]), HEAD = sym([[-17, -6], [-15.5, -18], [-7, -27], [5, -30], [16, -25.5], [22.5, -14], [24.5, -4]]);
+  const eye = (g, part, ex, ey, r, ink, blink) => { const [hx, hy] = local(g, -r * 0.28, -r * 0.36); if (blink) { g.strokeStyle = ink; g.lineWidth = 1.6; g.lineCap = 'round'; g.beginPath(); g.arc(ex + r * 0.7, ey, r, Math.PI * 0.72, Math.PI * 1.28); g.stroke(); } else { part(disc(ex, ey, r, r * 1.1), ink, { h: 0.4, edge: 0 }); dab(g, ex + hx, ey + hy, r * 0.27, r * 0.27, '#fff8ea'); } };
   function creature(g, t) {
-    const br = Math.sin(t / 72), bp = t % 290, blink = bp < 9, flick = (i) => { const p = (t + i * 140) % 330; return p < 16 ? Math.sin(p / 16 * Math.PI) * 0.2 : 0; }, wag = Math.sin(t / 30) * 0.16, turn = Math.sin(t / 230) * 0.1 + Math.sin(t / 97) * 0.03;
-    const part = (path, col, o) => sheet(g, path, col, Object.assign({ h: 0.9, edge: 0.5, fibre: 0.9, sa: 0.26 }, o));
-    g.save(); g.translate(-45, 0); g.rotate(wag); part(fringe(8.4, 6, 12), C.cream, { h: 0.8, edge: 0.4, seed: 6 }); part(disc(0.4, 0, 4.2), '#fffaf0', { h: 0.4, edge: 0.35, seed: 7 }); g.restore();
-    for (const [x, y, rx, ry, a] of [[-27, 20, 8.6, 6.2, 0.35], [5, 27, 6.6, 5.4, -0.2]]) for (const s of [-1, 1]) { g.save(); g.translate(x, s * y); g.rotate(s * a); part(disc(0, 0, rx, ry), C.foot, { h: 0.6, seed: 5 }); g.restore(); }
-    part(closed(grow(BODY, 3.2)), C.under, { h: 1, seed: 10 }); g.save(); g.translate(-12, 0); g.scale(1 + br * 0.006, 1 + br * 0.014); g.translate(12, 0); part(closed(BODY), C.body, { h: 1.5 + br * 0.3, seed: 11 });
-    for (const [x, y, r] of [[-8, 9.5, 3.7], [-21, 7, 2.9], [-32, 0, 2.3]]) for (const s of (y ? [-1, 1] : [1])) part(closed(blob(x, s * y, r, r * 0.92, 60 + x, { wob: 0.1, n: 12 })), C.pale, { h: 0.3, edge: 0.25, fibre: 0.6, seed: 14 });
+    const br = Math.sin(t * TAU / 180), blink = (t % 290) < 9, flick = (i) => { const p = (t + i * 140) % 330; return p < 16 ? Math.sin(p / 16 * Math.PI) * 0.22 : 0; }, wag = Math.sin(t / 30) * 0.2, turn = 0.16 + Math.sin(t / 230) * 0.08 + Math.sin(t / 97) * 0.03;
+    const part = (path, col, o) => sheet(g, path, col, Object.assign({ h: 0.9, edge: 0.55, stock: 'card', sa: 0.28 }, o));
+    // the scut: a cream teardrop, creased
+    g.save(); g.translate(-38, 0); g.rotate(Math.PI + wag); part((g) => { g.moveTo(0, 0); g.bezierCurveTo(3, -7, 13, -6.5, 14, 0); g.bezierCurveTo(13, 6.5, 3, 7, 0, 0); g.closePath(); }, C.cream, { h: 1, seed: 6 }); g.strokeStyle = 'rgba(150,110,80,0.35)'; g.lineWidth = 0.5; g.beginPath(); g.moveTo(3, 0); g.lineTo(11, 0); g.stroke(); g.restore();
+    // paws that break the outline, each with three cream toes: the hind pair long, the front pair set in the notch of the shoulders
+    for (const [x, y, rx, ry, a, tx] of [[-23, 26.5, 10.5, 6.2, 0.16, 1], [-1, 24.5, 8, 5.4, -0.62, 1]]) for (const s of [-1, 1]) { g.save(); g.translate(x, s * y); g.rotate(s * a); part(disc(0, 0, rx, ry), C.foot, { h: 0.7, seed: 5 }); for (const d of [-1, 0, 1]) dab(g, rx * 0.62 * tx - Math.abs(d) * 1, s * (ry * 0.2) + d * ry * 0.5, 1.5, 1.15, C.cream); g.restore(); }
+    g.save(); g.translate(-18, 0); g.scale(1 + br * 0.006, 1 + br * 0.02); g.translate(18, 0);
+    part(closed(BODY), C.body, { h: 1.7 + br * 0.3, seed: 11, curl: [-18, 0, 30] });
+    for (const [x, y, r] of [[-12, 9, 3.6], [-27, 0, 4], [-12, -9, 3.6]]) punch(g, closed(blob(x, y, r, r * 0.92, 60 + x + y, { wob: 0.1, n: 12 })), C.cream, C.body);
     g.restore();
-    g.save(); g.translate(17, 0); g.rotate(turn);
-    part(disc(27.5, 0, 7.6, 9.6), C.snout, { h: 0.8, edge: 0.4, seed: 23 });
-    part(closed(HEAD), C.head, { h: 2.4, seed: 21 });
-    part(disc(27.5, 0, 7.6, 9.6), C.snout, { h: 0.5, edge: 0.4, seed: 23 });
-    part((g) => { g.moveTo(31.2, -2.9); g.quadraticCurveTo(36.4, 0, 31.2, 2.9); g.quadraticCurveTo(29.8, 0, 31.2, -2.9); g.closePath(); }, C.nose, { h: 0.25, edge: 0.25, fibre: 0 });
-    for (const s of [-1, 1]) { g.save(); g.translate(-9, s * 15); g.rotate(s * (Math.PI - 0.62 + flick(s > 0 ? 1 : 0))); g.scale(1, s); part(earPath(22, 6.6), C.ear, { h: 1.8, seed: 31 }); g.translate(4, 0.4); part(earPath(14.5, 3.6), C.pink, { h: 0, edge: 0, fibre: 0.6, seed: 32 }); g.restore(); }
-    g.save(); g.translate(-12, 0); part(leaf(21, 4.3), C.pale, { h: 0.3, edge: 0.25, fibre: 0.6, seed: 24 }); g.restore();
-    for (const s of [-1, 1]) { const ex = 12.5, ey = s * 15.2, [hx, hy] = local(g, -1.35, -1.7);
-      if (blink) { g.strokeStyle = C.ink; g.lineWidth = 1.5; g.lineCap = 'round'; g.beginPath(); g.arc(ex + 3.4, ey, 5, Math.PI * 0.72, Math.PI * 1.28); g.stroke(); }
-      else { part(disc(ex, ey, 4.6, 5.2), C.ink, { h: 0.35, edge: 0, fibre: 0 }); dab(g, ex + hx, ey + hy, 1.5, 1.5, '#ffffff'); dab(g, ex - hx * 0.85, ey - hy * 0.85, 0.7, 0.7, 'rgba(255,255,255,0.55)'); } }
+    g.save(); g.translate(14, 0); g.rotate(turn);
+    part(closed(HEAD), C.head, { h: 2.6, seed: 21, curl: [4, 0, 30] });
+    part(disc(24, 0, 7, 9.2), C.snout, { h: 0.6, edge: 0.45, seed: 23 }); part((g) => { g.moveTo(28.6, -2.3); g.quadraticCurveTo(32.2, 0, 28.6, 2.3); g.quadraticCurveTo(27.6, 0, 28.6, -2.3); g.closePath(); }, C.nose, { h: 0.2, edge: 0 });
+    // ears: folded down a crease, one half to the light, tips out past the head, each with its own shadow
+    for (const s of [-1, 1]) { g.save(); g.translate(-8, s * 13); const ang = s * (Math.PI - 0.7 + flick(s > 0 ? 1 : 0)); g.rotate(ang); part(leaf(31, 9.6, s * 1.2), C.earB, { h: 2.2, seed: 31 });
+      const m = g.getTransform(), up = lit(Math.atan2(m.b, m.a)); g.save(); g.beginPath(); leaf(31, 9.6, s * 1.2)(g); g.clip(); g.fillStyle = up ? C.earA : mix(C.earB, '#17332b', 0.1); g.fillRect(0, -12, 32, 12 + s * 0.6); g.restore();
+      g.strokeStyle = mix(C.earB, '#5a2a22', 0.4); g.lineWidth = 0.55; g.lineCap = 'round'; g.beginPath(); g.moveTo(2, 0); g.quadraticCurveTo(15, s * 0.9, 29, s * 0.5); g.stroke(); g.restore(); }
+    for (const s of [-1, 1]) part(disc(3.5, s * 19.5, 3.2, 2.8), C.pink, { h: 0.2, edge: 0.2 });
+    for (const s of [-1, 1]) eye(g, part, 11.5, s * 16.6, 5.4, C.ink, blink);
     g.restore();
   }
 
   // ---------- the same rules with many more parts: plates, spikes, six legs, a long tail, horns and feelers ----------
   // one spine, everything mirrored about it; each layer up a little lighter; repeated parts shrink toward the tail; three papers and one bright one
-  const D = { foot: '#a8853f', under: '#f6e6b4', body: '#dcab47', plate: ['#e3b655', '#e9c166', '#eecb78'], head: '#e7bc5c', horn: '#fbf1d8', snout: '#f9eecb', pop: '#e9725c', ink: '#3a2a26', nose: '#8a5a34' };
+  const D = { foot: '#a8853f', body: '#dcab47', plate: ['#e3b655', '#e9c166', '#eecb78'], head: '#e7bc5c', horn: '#fbf1d8', snout: '#f9eecb', pop: '#e9725c', ink: '#2b1d1a', nose: '#8a5a34' };
   const BODY2 = sym([[-40, -4], [-38, -12], [-30, -18.5], [-16, -21.5], [0, -22], [10, -19], [15, -5]]), HEAD2 = sym([[-18, -5], [-16.5, -15], [-9, -23], [3, -25.5], [14, -22], [21, -13], [24, -4]]);
   function creature2(g, t) {
-    const br = Math.sin(t / 72), blink = (t % 290) < 9, wag = Math.sin(t / 34), turn = Math.sin(t / 230) * 0.1 + Math.sin(t / 97) * 0.03, step = t / 9;
-    const part = (path, col, o) => sheet(g, path, col, Object.assign({ h: 0.9, edge: 0.5, fibre: 0.9, sa: 0.26 }, o));
-    // the tail: three pieces and a leaf, each swinging a little further than the one before, each tucked under the one nearer the body
-    const chain = [[-36, 0, Math.PI + wag * 0.08]]; for (const [len] of [[13], [11], [9]]) { const [x, y, a] = chain[chain.length - 1]; chain.push([x + Math.cos(a) * len, y + Math.sin(a) * len, a + wag * 0.13]); }
+    const br = Math.sin(t * TAU / 180), blink = (t % 290) < 9, wag = Math.sin(t / 34), turn = 0.12 + Math.sin(t / 230) * 0.08 + Math.sin(t / 97) * 0.03, step = t / 9;
+    const part = (path, col, o) => sheet(g, path, col, Object.assign({ h: 0.9, edge: 0.55, stock: 'card', sa: 0.28 }, o));
+    const chain = [[-36, 0, Math.PI + wag * 0.08]]; for (const len of [13, 11, 9]) { const [x, y, a] = chain[chain.length - 1]; chain.push([x + Math.cos(a) * len, y + Math.sin(a) * len, a + wag * 0.13]); }
     { const [x, y, a] = chain[3]; g.save(); g.translate(x - Math.cos(a) * 2, y - Math.sin(a) * 2); g.rotate(a); part(leaf(13, 4.8), D.pop, { h: 0.7, seed: 41 }); g.restore(); }
     [[9, 4], [11, 5], [13, 6.2]].forEach(([len, wd], k) => { const [x, y, a] = chain[2 - k]; g.save(); g.translate(x + Math.cos(a) * len * 0.45, y + Math.sin(a) * len * 0.45); g.rotate(a); part(disc(0, 0, len * 0.62, wd), k === 2 ? D.body : mix(D.body, D.foot, 0.25 * (2 - k)), { h: 0.7, seed: 42 + k }); g.restore(); });
-    // six feet, smaller toward the tail, stepping in turn
     for (const [x, y, r, ph] of [[7, 22.5, 6.6, 0], [-9, 23.5, 6.1, 2.1], [-25, 21, 5.4, 4.2]]) for (const s of [-1, 1]) part(disc(x + Math.sin(step + ph + (s > 0 ? Math.PI : 0)) * 1.5, s * y, r, r * 0.8), D.foot, { h: 0.6, seed: 5 });
-    part(closed(grow(BODY2, 3)), D.under, { h: 1, seed: 10 }); part(closed(BODY2), D.body, { h: 1.5, seed: 11 });
-    // three plates across the back, the front one uppermost and lightest; then a row of soft spikes down the spine
-    [[-27, 10.5, 15], [-13, 12, 18], [1.5, 12.5, 19.5]].forEach(([x, rx, ry], i) => part(closed(blob(x, 0, rx, ry, 80 + i, { wob: 0.04, n: 22 })), D.plate[i], { h: 1.1 + br * 0.15, seed: 15 + i }));
+    part(closed(BODY2), D.body, { h: 1.7, seed: 11, curl: [-12, 0, 28] });
+    [[-27, 10.5, 15], [-13, 12, 18], [1.5, 12.5, 19.5]].forEach(([x, rx, ry], i) => part(closed(blob(x, 0, rx, ry, 80 + i, { wob: 0.04, n: 22 })), D.plate[i], { h: 1.2 + br * 0.15, seed: 15 + i, curl: [x, 0, ry] }));
     for (const [x, l] of [[-31, 6], [-20, 7.4], [-8.5, 8.8], [3.5, 10]]) { g.save(); g.translate(x + l * 0.4, 0); g.rotate(Math.PI); part(leaf(l, l * 0.36), D.horn, { h: 0.9, edge: 0.35, seed: 19 }); g.restore(); }
     g.save(); g.translate(16, 0); g.rotate(turn);
-    part(closed(HEAD2), D.head, { h: 2.2, seed: 21 }); part(disc(22.5, 0, 6.2, 7.8), D.snout, { h: 0.5, edge: 0.4, seed: 23 });
-    part((g) => { g.moveTo(25.6, -2.5); g.quadraticCurveTo(30, 0, 25.6, 2.5); g.quadraticCurveTo(24.4, 0, 25.6, -2.5); g.closePath(); }, D.nose, { h: 0.25, edge: 0.2, fibre: 0 });
+    part(closed(HEAD2), D.head, { h: 2.4, seed: 21, curl: [3, 0, 25] }); part(disc(22.5, 0, 6.2, 7.8), D.snout, { h: 0.5, edge: 0.4, seed: 23 });
+    part((g) => { g.moveTo(26.6, -2.1); g.quadraticCurveTo(30, 0, 26.6, 2.1); g.quadraticCurveTo(25.7, 0, 26.6, -2.1); g.closePath(); }, D.nose, { h: 0.2, edge: 0 });
     for (const s of [-1, 1]) { g.save(); g.translate(-8, s * 12.5); g.rotate(s * (Math.PI - 0.5)); part(leaf(15, 4.2, s * 0.6), D.horn, { h: 1.6, edge: 0.4, seed: 31 }); g.restore(); }
     for (const s of [-1, 1]) { const ex = 20 + Math.sin(t / 45 + s) * 1.4, ey = s * (33 + Math.cos(t / 45 + s) * 1.2), [dx, dy] = local(g, 0.7, 1.2); g.lineCap = 'round'; g.lineWidth = 1.2;
-      for (const [ox, oy, c] of [[dx, dy, SH(0.2)], [0, 0, D.foot]]) { g.strokeStyle = c; g.beginPath(); g.moveTo(-5 + ox, s * 7 + oy); g.quadraticCurveTo(1 + ox, s * 28 + oy, ex + ox, ey + oy); g.stroke(); } part(disc(ex, ey, 2.7), D.pop, { h: 0.9, edge: 0.3, fibre: 0 }); }
-    for (const s of [-1, 1]) { const ex = 9.5, ey = s * 19.6, [hx, hy] = local(g, -1.25, -1.6);
-      if (blink) { g.strokeStyle = D.ink; g.lineWidth = 1.5; g.lineCap = 'round'; g.beginPath(); g.arc(ex + 3.2, ey, 4.8, Math.PI * 0.72, Math.PI * 1.28); g.stroke(); }
-      else { part(disc(ex, ey, 4.3, 4.9), D.ink, { h: 0.35, edge: 0, fibre: 0 }); dab(g, ex + hx, ey + hy, 1.4, 1.4, '#ffffff'); dab(g, ex - hx * 0.85, ey - hy * 0.85, 0.65, 0.65, 'rgba(255,255,255,0.55)'); } }
+      for (const [ox, oy, c] of [[dx, dy, SH(0.22)], [0, 0, D.foot]]) { g.strokeStyle = c; g.beginPath(); g.moveTo(-5 + ox, s * 7 + oy); g.quadraticCurveTo(1 + ox, s * 28 + oy, ex + ox, ey + oy); g.stroke(); } part(disc(ex, ey, 2.7), D.pop, { h: 0.9, edge: 0.3 }); }
+    for (const s of [-1, 1]) eye(g, part, 9.5, s * 19.6, 4.7, D.ink, blink);
     g.restore();
   }
 
   // ---------- one picture ----------
-  const mk = () => document.createElement('canvas'), bg = mk(), off = mk(), can = mk(); let size = 0;
-  const TUFTS = [[214, 140, 1.1, 201], [252, 146, 0.8, 202], [44, 236, 1, 203], [84, 306, 1.15, 204], [130, 296, 0.8, 205], [318, 150, 1, 206], [30, 66, 0.9, 207], [196, 36, 0.85, 208], [286, 132, 0.75, 209], [58, 250, 0.7, 210]];
-  const DAISIES = [[232, 150, 1.05, 1], [247, 163, 0.8, 2], [224, 168, 0.7, 3], [100, 298, 0.9, 4], [116, 312, 0.7, 5], [300, 120, 0.8, 6]];
-  function build(px) { size = px; for (const c of [bg, off]) c.width = c.height = px; can.width = can.height = Math.round(px / 2); fibrePat = null;
+  const mk = () => document.createElement('canvas'), bg = mk(), off = mk(), can = mk(), noise = mk(); let size = 0;
+  const FANS = [[196, 172, -0.5, 1.15, 201], [182, 160, -2.2, 0.8, 202], [226, 190, 0.6, 0.9, 203], [58, 232, 2.6, 1, 204], [76, 248, 0.4, 0.75, 205], [330, 150, -0.9, 1, 206], [316, 138, -2.4, 0.7, 207], [150, 316, 0.2, 0.95, 208], [26, 70, 1.1, 0.9, 209], [214, 28, 2.2, 0.85, 210]];
+  const BLOOMS = [[212, 162, 1, 1, 0], [228, 176, 0.72, 2, 0], [198, 186, 0.7, 3, 1], [208, 194, 0.6, 4, 1], [190, 196, 0.55, 5, 1], [66, 262, 0.85, 6, 0], [48, 250, 0.6, 7, 1], [322, 166, 0.6, 8, 1], [334, 172, 0.55, 9, 1], [144, 330, 0.7, 10, 0]];
+  function build(px) { size = px; for (const c of [bg, off]) c.width = c.height = px; can.width = can.height = Math.round(px / 2); for (const k in pats) delete pats[k];
     const g = bg.getContext('2d'); g.setTransform(K, 0, 0, K, 0, 0); terrain(g);
-    patch(g, 232, 156, 30, 20, 341, '#bdd693'); patch(g, 104, 304, 32, 20, 342, '#bbd492'); patch(g, 48, 242, 22, 15, 343, '#a6c77e'); patch(g, 206, 52, 26, 17, 344, '#a4c57c'); patch(g, 310, 140, 22, 15, 345, '#bdd693');
-    for (const [x, y, s, r] of [[262, 176, 1, 1], [140, 318, 0.9, 3], [26, 204, 1, 4], [176, 40, 0.9, 5]]) clover(g, x, y, s, r);
-    pebble(g, 184, 262, 9.5, 7, 0.4, 301); pebble(g, 198, 274, 5.6, 4.2, 1.2, 302); pebble(g, 334, 206, 7.5, 5.4, 2, 303); pebble(g, 226, 356, 6, 4.6, 0.2, 304);
-    shroom(g, 214, 50, 9, 311); shroom(g, 229, 63, 5.8, 312); shroom(g, 203, 66, 4, 313);
-    fern(g, 14, 346, 1.5, 0.3, 331, 9); fern(g, 58, 352, 0.9, 1.4, 332, 7); fern(g, 6, 292, 0.8, 2.2, 333, 7);
-    const cg = can.getContext('2d'); cg.setTransform(K / 2, 0, 0, K / 2, 0, 0); cg.clearRect(0, 0, W, W); const k0 = K; K = K / 2; canopy(cg); K = k0; }
+    // a little grit punched into the sand
+    const r = rnd(8), sand = hole(SAND), wet = closed(WET); for (let i = 0; i < 260; i++) { const x = 120 + r() * 240, y = 170 + r() * 190; if (!inPath(g, sand, x * K, y * K, 'evenodd') && !inPath(g, wet, x * K, y * K)) dab(g, x, y, 0.5 + r() * 0.5, 0.5 + r() * 0.5, r() < 0.5 ? 'rgba(150,120,70,0.32)' : 'rgba(255,253,240,0.6)'); }
+    moss(g, 206, 178, 32, 22, 341, '#b7cc7e'); moss(g, 62, 246, 26, 18, 343, '#9cbc7c');
+    stone(g, 238, 203, 13, 301, true); stone(g, 255, 191, 7, 302); stone(g, 250, 218, 4.6, 303); stone(g, 180, 268, 8.5, 304); stone(g, 193, 280, 5, 305); stone(g, 340, 214, 7, 306, true); stone(g, 226, 356, 5.5, 307);
+    shroom(g, 98, 268, 8.6, 311); shroom(g, 112, 281, 5.4, 312);
+    const cg = can.getContext('2d'); cg.setTransform(K / 2, 0, 0, K / 2, 0, 0); cg.clearRect(0, 0, W, W); const k0 = K; K = K / 2; boughs(cg); K = k0;
+    // the grain of the photograph, at the size of the screen's own dots
+    noise.width = noise.height = 160; const ng = noise.getContext('2d'), im = ng.createImageData(160, 160), q = rnd(3); for (let i = 0; i < 160 * 160; i++) { const v = q(); im.data[i * 4] = im.data[i * 4 + 1] = im.data[i * 4 + 2] = v < 0.5 ? 0 : 255; im.data[i * 4 + 3] = Math.abs(v - 0.5) * 2 * 9; } ng.putImageData(im, 0, 0); }
   function draw(t) { const w = cv.clientWidth || 360; K = Math.min(3, window.devicePixelRatio || 1) * w / W; const px = Math.round(W * K); if (cv.width !== px) cv.width = cv.height = px; if (size !== px) build(px);
     const g = ctx; g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg, 0, 0); g.setTransform(K, 0, 0, K, 0, 0);
-    ripples(g, t); pad(g, 262, 290, 15.5, 0.6 + Math.sin(t / 240) * 0.06, 321, true); pad(g, 305, 331, 10, 2.4 + Math.sin(t / 300 + 1) * 0.08, 322, false);
-    // the creature is made on its own sheet, then set on the ground so that it throws one shadow
-    const og = off.getContext('2d'); og.setTransform(1, 0, 0, 1, 0, 0); og.clearRect(0, 0, px, px); og.setTransform(K, 0, 0, K, 0, 0); og.save(); og.translate(112, 142); og.rotate(0.6 + Math.sin(t / 310) * 0.03); og.scale(1.12, 1.12); (which ? creature2 : creature)(og, t); og.restore();
-    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.shadowColor = SH(0.32); g.shadowBlur = 8 * K; g.shadowOffsetX = LX * 10 * K; g.shadowOffsetY = LY * 10 * K; g.drawImage(off, 0, 0); g.shadowColor = SH(0.26); g.shadowBlur = 2.5 * K; g.shadowOffsetX = 0.5 * K; g.shadowOffsetY = 1 * K; g.drawImage(off, 0, 0); g.restore();
-    for (const [x, y, s, seed] of TUFTS) tuft(g, x, y, s, seed, t); for (const [x, y, s, seed] of DAISIES) daisy(g, x, y, s, seed, t); reeds(g, 338, 254, 0.4, 6, t); reeds(g, 178, 318, 1.2, 5, t); butterfly(g, t);
-    // the tree: first its shade, far from it because it is high, then the leaves themselves
-    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.imageSmoothingEnabled = true; g.shadowColor = SH(0.26); g.shadowBlur = 14 * K; g.shadowOffsetX = LX * 40 * K + 4000; g.shadowOffsetY = LY * 40 * K; g.drawImage(can, -4000, 0, px, px); g.restore();
-    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(can, 0, 0, px, px); g.restore();
-    // the light: a passing cloud, a little warmth from the window, and the corners falling away
-    const cx = ((t * 0.1) % 820) - 220, cl = g.createRadialGradient(cx, 150, 30, cx, 150, 210); cl.addColorStop(0, SH(0.08)); cl.addColorStop(1, SH(0)); g.fillStyle = cl; g.fillRect(0, 0, W, W);
-    const lg = g.createLinearGradient(0, 0, W, W); lg.addColorStop(0, 'rgba(255,243,208,0.1)'); lg.addColorStop(0.5, 'rgba(255,243,208,0)'); lg.addColorStop(1, 'rgba(34,46,64,0.1)'); g.fillStyle = lg; g.fillRect(0, 0, W, W);
-    const v = g.createRadialGradient(W * 0.46, W * 0.44, W * 0.36, W * 0.5, W * 0.5, W * 0.82); v.addColorStop(0, 'rgba(30,40,40,0)'); v.addColorStop(1, 'rgba(30,40,40,0.24)'); g.fillStyle = v; g.fillRect(0, 0, W, W); }
+    fish(g, t); ripples(g, t); pad(g, 262, 290, 15.5, 0.6 + Math.sin(t / 240) * 0.07, 321, true); pad(g, 305, 331, 10, 2.4 + Math.sin(t / 300 + 1) * 0.09, 322, false);
+    // the creature is made on its own sheet, then set on the ground: a soft shadow for its height and a tight one where it sits
+    const og = off.getContext('2d'); og.setTransform(1, 0, 0, 1, 0, 0); og.clearRect(0, 0, px, px); og.setTransform(K, 0, 0, K, 0, 0); og.save(); og.translate(108, 128); og.rotate(0.62 + Math.sin(t / 310) * 0.03); og.scale(1.18, 1.18); (which ? creature2 : creature)(og, t); og.restore();
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.shadowColor = SH(0.36); g.shadowBlur = 6.5 * K; g.shadowOffsetX = LX * 8 * K; g.shadowOffsetY = LY * 8 * K; g.drawImage(off, 0, 0); g.shadowColor = SH(0.4); g.shadowBlur = 2 * K; g.shadowOffsetX = 0.6 * K; g.shadowOffsetY = 1.2 * K; g.drawImage(off, 0, 0); g.restore();
+    for (const [x, y, d, s, seed] of FANS) fan(g, x, y, d, s, seed, t); for (const [x, y, s, seed, kind] of BLOOMS) bloom(g, x, y, s, seed, t, kind); reeds(g, 334, 262, 6, t); reeds(g, 222, 300, 5, t); butterfly(g, t);
+    // the boughs: first their shade, far from them because they are high and stirring a little, then the leaves
+    const sw = Math.sin(t / 130) * 1.6; g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.shadowColor = SH(0.3); g.shadowBlur = 13 * K; g.shadowOffsetX = (LX * 36 + sw) * K + 4000; g.shadowOffsetY = (LY * 36 + sw * 0.5) * K; g.drawImage(can, -4000, 0, px, px); g.restore();
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(can, 0, 0, px, px); g.restore(); motes(g, t);
+    // the light: a streak on the water, a passing cloud, warmth from the window falling away to the far corner, soft corners, and grain
+    g.save(); g.beginPath(); closed(blob(...WATER))(g); g.clip(); const gl = g.createLinearGradient(230, 250, 300, 330); gl.addColorStop(0.3, 'rgba(255,255,255,0)'); gl.addColorStop(0.5, 'rgba(255,255,255,0.1)'); gl.addColorStop(0.7, 'rgba(255,255,255,0)'); g.fillStyle = gl; g.fillRect(150, 190, 220, 180); g.restore();
+    const cx = ((t * 0.1) % 820) - 220, cl = g.createRadialGradient(cx, 150, 30, cx, 150, 210); cl.addColorStop(0, SH(0.09)); cl.addColorStop(1, SH(0)); g.fillStyle = cl; g.fillRect(0, 0, W, W);
+    const lg = g.createLinearGradient(0, 0, W, W); lg.addColorStop(0, 'rgba(255,243,196,0.16)'); lg.addColorStop(0.5, 'rgba(255,243,196,0)'); lg.addColorStop(1, 'rgba(24,56,70,0.14)'); g.fillStyle = lg; g.fillRect(0, 0, W, W);
+    const v = g.createRadialGradient(W * 0.46, W * 0.44, W * 0.36, W * 0.5, W * 0.5, W * 0.82); v.addColorStop(0, 'rgba(20,40,40,0)'); v.addColorStop(1, 'rgba(20,40,40,0.26)'); g.fillStyle = v; g.fillRect(0, 0, W, W);
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.fillStyle = g.createPattern(noise, 'repeat'); g.fillRect(0, 0, px, px); g.restore(); }
   const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; let t0 = null, frozen = null, which = 0;
   const frame = (now) => { if (frozen !== null) { draw(frozen); return; } if (t0 === null) t0 = now; draw(100 + (now - t0) * 0.06); if (!still) requestAnimationFrame(frame); };
   window.__freeze = (t) => { frozen = t; draw(t); };
-  for (const b of document.querySelectorAll('[data-which]')) b.addEventListener('click', () => { which = +b.dataset.which; for (const x of document.querySelectorAll('[data-which]')) x.setAttribute('aria-pressed', String(x === b)); if (frozen !== null || still) draw(frozen === null ? 100 : frozen); }); window.addEventListener('resize', () => draw(frozen === null ? 100 : frozen)); requestAnimationFrame(frame);
+  for (const b of document.querySelectorAll('[data-which]')) b.addEventListener('click', () => { which = +b.dataset.which; for (const x of document.querySelectorAll('[data-which]')) x.setAttribute('aria-pressed', String(x === b)); if (frozen !== null || still) draw(frozen === null ? 100 : frozen); });
+  window.addEventListener('resize', () => draw(frozen === null ? 100 : frozen)); requestAnimationFrame(frame);
 })();
 </script>
