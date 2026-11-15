@@ -136,7 +136,7 @@ When several things match, the nearest is used unless one of these is chosen.
 |---|---|---|
 | Food | plant, meat, egg | Start to Mid |
 | My kind | any; male, female; young, adult, old; family, stranger; of my home, of another home; bigger, smaller, older or younger than me; a named form | Start; refinements Early to Late |
-| Other creatures | bigger, smaller, about my size | Start |
+| Other creatures | bigger, smaller, about my size; spiked, shelled, slimy, fat | Start; what it is covered in, Mid |
 | A species I have met | Picked from the species this lineage has encountered | Mid |
 | A kind I learned about | See Learn in section 7 | Late |
 | Things to carry | food, seed, egg, young, building material, the dead, a smaller creature | Mid |

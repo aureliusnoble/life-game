@@ -110,7 +110,7 @@ Limits of the lab today:
 - **It searches grazers only,** against three fixed hunters, with four behaviour choices out of a vocabulary of about a hundred words.
 - **It runs the six habitat patches,** not the eight biomes, and about a hundred designs a habitat is a thin search.
 
-Two faults in the stand-in were found on 15 November while testing size (`design/body.md`, section 10): a plant was one meal for a body of any size, and the lab capped a species at 30 animals. Both have switches in the lab (`LEFTOVERS=1`, `CAP=90`), and neither is yet the default, so the runs above were made with the faults in.
+Two faults in the stand-in were found on 15 November while testing size (`design/body.md`, section 4): a plant was one meal for a body of any size, and the lab capped a species at 30 animals. Both have switches in the lab (`LEFTOVERS=1`, `CAP=90`), and neither is yet the default, so the runs above were made with the faults in.
 
 Next for the lab: make those two fixes the default and re-run the search with the size rules from the body design; the root-stock food rule; hunter designs searched against the grazer winners and back again; many more behaviour choices; long runs of a mixed world for the "lasting" test; then the fixes to size, the inside, sting and camouflage, each re-run through it.
 
@@ -184,7 +184,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Area | Document | State |
 |---|---|---|
 | Behaviour | `design/neural-blocks.md` (draft 5) | Vocabulary written, with everything decided in the life-cycle and social designs folded in and the world's words worked out in full. Draft 4's verbs were audited; ten verbs, most functions and all of draft 5's additions are untested |
-| Bodies | `design/body.md` (draft 1) | Parts audited; size, the inside, sting, camouflage and spikes need rework. Its table of whole builds is superseded by the balance lab |
+| Bodies | `design/body.md` (draft 2) | Reworked on paper: a body for each form, size as the tempo of a life, an inside where each organ answers a different problem, shells and spikes with real costs, camouflage matched to one ground, and grips against skins. Thirteen parts tested in draft 1; the reworks and about twenty parts are untested, and costs wait for the balance pass |
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |

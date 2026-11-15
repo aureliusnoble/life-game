@@ -23,7 +23,7 @@ A species lives through two to four seasons, and which ones depends on when it i
 
 ## 3. Generations
 
-Size sets the tempo of a life (`design/body.md`, section 10): small lives fast, large lives slow.
+Size sets the tempo of a life (`design/body.md`, section 4): small lives fast, large lives slow.
 
 | Body | Egg to adult | Lifespan, if nothing kills it | Generations in a five-day species life | What you see on a daily visit |
 |---|---|---|---|---|

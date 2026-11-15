@@ -1,8 +1,8 @@
 # Body designer: physical characteristics
 
-Draft 1, November 2026. A proposal and an audit, not final rules.
+Draft 2, November 2026. A rework after the life-cycle and social designs and the first runs of the balance lab. Draft 1 is in git history.
 
-Anything marked **tested** was run in `design/checks/bodyaudit.js`, a stand-in world. Its numbers show direction, not balance. Everything else is on paper.
+Anything marked **tested** was run in `design/checks/bodyaudit.js` or `design/checks/balancelab.js`, stand-in worlds whose numbers show direction, not balance. Everything else is on paper. Costs are left for the balance pass at the end of the design process.
 
 ## 1. Starting from Spore's creature creator
 
@@ -11,174 +11,77 @@ What it got right, from the research notes:
 - It was simple to use and still produced something its maker valued; its lead designer called this a "magic crayon".
 - The loop was do something, look at it, adjust.
 - Any combination of parts moved believably.
-- It had two limits: points to spend, and a separate cap on complexity.
 
-Where it fell short: abilities were tied to owning a part at a given level, not to shape, size, placement or number. Its own designers said the parts' effects were "unfortunately quite discrete", and in the later stages the editors were mostly cosmetic.
+Where it fell short: abilities were tied to owning a part at a given level, not to shape, size, placement or number. Its own designers said the parts' effects were "unfortunately quite discrete", and players reported that the design "didn't actually make any difference".
 
 This design goes further in seven ways:
 
 1. **Form is function.** Shape, size and placement have continuous effects. Nothing has a level.
-2. **Where a part sits matters.** Eyes, weapons and armour each cover an arc.
+2. **Where a part sits matters.** Eyes, weapons, armour and grips each cover an arc.
 3. **The inside matters.** Organs share the room inside the body.
 4. **Whole-body numbers are worked out, not bought.** Speed, turning, appetite and hit points come from the build and are shown live.
 5. **No best build.** Every part should be the wrong choice somewhere.
-6. **Looks carry meaning.** Camouflage, false eyes, displays and apparent size change how others react.
-7. **Lives, not only bodies.** Eggs, growth, sexes, castes and young forms are part of the design.
+6. **Others can see what you are.** Armour, weapons and size are visible, and other creatures can act on them.
+7. **Lives, not only bodies.** A species is made of forms, and each form is a body of its own.
 
-Colour, pattern and proportion within a plan stay free, so two species with the same parts need not look alike.
+Colour, pattern and proportion stay free, so two species with the same parts need not look alike.
 
-## 2. How a body is made
+## 2. A species is made of forms
+
+Decided in `design/social.md`, section 9. A form is one kind of individual: a sex, a life stage or a caste.
+
+- **Each form has its own body,** designed under the same combined allowance for body and brain as every other form.
+- **A first species has one form.** Young forms and two sexes are forms, and so are castes.
+- **The reason to have several** is that a body built for one job is cheaper and better at it: a guard that never forages, a forager that never fights, a breeder that is little more than an egg organ.
+- **The price** is that specialists are helpless alone.
+
+## 3. How a body is made
 
 | Step | The player chooses | What it sets |
 |---|---|---|
 | Plan | Front-and-back, or no front | Whether there is a rear to attack and a direction to face |
 | Shape | The outline: length, width, taper | Speed, turning, room for parts |
-| Size | Overall scale | Hit points, appetite, reserves, what can eat it |
-| Outside | Parts placed on the outline, each with a size handle | Senses, movement, feeding, weapons, defence, signals |
-| Inside | How the interior is split | Gut, fat, muscle, lungs; later brain and brood |
-| Skin | Colour and pattern (free); camouflage and warning colours (costed) | How it looks and how easily it is seen |
-| Life | Many small eggs or few large; sexes; castes; young form | How the species renews itself |
+| Size | Overall scale | The tempo of its whole life (section 4) |
+| Outside | Parts placed on the outline, each with a size handle | Senses, movement, feeding, weapons, grips, signals |
+| Skin | What covers each side: smooth, bristled, slimy, spiked or shelled | What can bite it, cling to it and see it |
+| Inside | How the interior is split | Gut, fat, muscle, lungs, brood |
+| Look | Colour and pattern, free; camouflage for one kind of ground, costed | How it looks and how easily it is seen |
 
-The designer shows the worked-out numbers as the player edits, next to a test tank.
+Breeding is set for the species, not the body: see `design/life-cycles.md`.
 
-## 3. What the body works out
-
-These are the stand-in's formulas. The game will tune them, but the directions are the design.
+**What the body works out,** shown live beside a test tank as the player edits:
 
 | Number | Comes from |
 |---|---|
-| Speed | Long bodies are fast and round ones slow; muscle adds; armour and fat subtract; limbs decide how much of it applies on land and in water |
-| Turning | Long and big bodies turn slowly; legs help |
-| Hit points | Grow with mass, more slowly than mass |
-| Appetite | Grows with mass, more slowly than mass, so big bodies burn less per unit of weight but more in total; muscle and armour add |
-| Reserve | Mass times how much of the inside is fat |
+| Speed | Long bodies are fast and round ones slow; muscle adds; armour, fat and a full gut subtract; limbs decide how much applies on each kind of ground |
+| Quickness | Small and short bodies start and turn fast |
+| Hit points | Grow with weight, more slowly than weight |
+| Appetite | Grows with weight, more slowly than weight; muscle and armour add |
+| Bite | What it takes in one mouthful grows with the mouth, so a small animal leaves most of a plant |
+| Reserve | Weight times how much of the inside is fat |
 | Stamina | How much of the inside is lungs |
-| Sight | Eye size, and where the eyes sit |
-| What it can bite | Anything smaller than its gape |
+| Tempo | How soon it grows up, lays and dies: sooner the smaller it is |
+| What it can bite | Anything its mouth can open around, and anything it is clinging to |
 
-## 4. Audit
+## 4. Size: fast lives and slow lives
 
-Each characteristic was run against its nearest alternative. A characteristic passes if it changes what happens and is the worse choice somewhere.
-
-| Characteristic | What only it does | Result | Verdict |
-|---|---|---|---|
-| Eyes: forward, side or on stalks | Trade reach for arc | As prey against a stalker: forward eyes caught 34 of 60, side and stalk eyes 0. As a hunter: 3.6 of 8 caught with forward eyes, 1.9 with side, 1.4 with stalks | Keep |
-| Body shape | Trades speed for turning | A long hunter caught 4.5 of 6 prey that run straight and 3.5 that swerve. A round one caught 1.4 and 3.2 | Keep |
-| Size | Trades appetite against safety | With little food, 3.7 of 6 small grazers survived, 1.4 medium and 0 big. Against hunters, all the small and medium were lost and none of the big, which were too large to take | Keep |
-| Back shell | Stops bites from behind | Lost 0.1 of 6 against 6.0 with no shell, whether hunters chased or cut ahead. A fleeing animal always shows its back | Keep; too strong |
-| Full shell | Stops bites from anywhere | No safer than a back shell (0.0 against 0.1), slower (0.59 against 0.77) and fed less | Rework or cut |
-| Shell-cracking beak | Ignores shells | Shelled grazers lost 6.0 and 5.9 of 6 | Keep, as the counter |
-| Spikes | Hurt whoever bites | Lost 2.4 of 6 against 6.0. All-round spikes did worse than back spikes (2.9) because of the weight | Keep; one kind only |
-| Legs, fins, paddles | Decide where the body is fast | Food in a pond with finned hunters: paddles lost 2.2 of 6 and ate 27 meals; legs 3.4 and 15; fins 5.9 and 9 | Keep |
-| Skirt of cilia | Slow, and cannot be felt | Against hunters that feel movement: 0.0 of 6 lost against 5.1 on legs. Against hunters that see: 5.8 against 6.0 | Keep |
-| Long tongue | Bites from a distance | A camouflaged hunter that waits caught 4.6 of 10 faster prey with a tongue and 0 with jaws | Keep |
-| Sting at the back | Strikes what is behind | Fleeing prey lost 2.1 of 6 with a sting, 5.9 with jaws at the front and 5.9 unarmed | Keep |
-| False eyes | Always seems to be facing you | A stalker caught 34 of 60 without them and 0 with. A chaser was unaffected | Keep; narrow |
-| Body with no front | Sees and bites all round, and is slow | Five small attackers lost 4.1 of their number against 0.9, and killed it in 33 of 60 fights against 60 | Keep |
-| Camouflage | Seen only from close while still | Lost 5.0 of 6 against 5.8 uncamouflaged. Only when made far stronger did it matter (2.6) | Keep; too weak as set |
-| Inside: fat | Bigger reserve, slower body | Best survival in both steady and bursty food (4.2 and 4.4 of 5) | Rebalance |
-| Inside: muscle | Faster, hungrier | Worst survival in both food worlds (2.6 and 1.9), but the muscular build was among the safest against hunters | Keep |
-| Inside: gut | More from each meal | Never the best choice (3.8 and 3.4) | Rework |
-| Inside: lungs | Longer sprints | Not tested on its own | Untested |
-
-## 5. Whole builds against whole worlds
-
-Eight builds, each alone as a group of six, in four worlds with different hunters and one with little food. The figure is survivors of six.
-
-**Correction, 15 November.** In this test the hunters starved about a quarter of the way through each run, because they gained nothing from a kill. The table therefore shows how hard each build is to catch in the first part of a run, and says nothing about breeding or competing for food. The balance lab (`design/plan.md`, section 3) repeats the comparison with hunters that stay, scarce food and breeding, and finds the opposite of what the large and armoured builds suggest here: the smallest bodies do best and the largest worst.
-
-| Build | Hunters that chase | That cut ahead | That stalk | That feel movement | Little food |
-|---|---|---|---|---|---|
-| Sprinter: long, muscular | 5.7 | 5.7 | 6.0 | 5.8 | 0.6 |
-| Tank: back shell and spikes | 5.8 | 5.8 | 5.7 | 5.9 | 1.1 |
-| Giant: half as big again | 6.0 | 6.0 | 6.0 | 6.0 | 0.5 |
-| Stinger: sting at the back | 4.0 | 4.1 | 5.9 | 4.4 | 2.2 |
-| Ghost: camouflaged, holds still | 4.0 | 4.0 | 5.1 | 5.0 | 2.2 |
-| Lookout: big eyes on stalks | 3.2 | 3.0 | 6.0 | 4.3 | 2.0 |
-| Tiptoe: cilia and a movement sense | 1.0 | 1.6 | 5.3 | 4.8 | 2.4 |
-| Mite: small | 0.8 | 1.2 | 5.8 | 3.3 | 1.6 |
-
-No build is best everywhere. The three that hunters cannot touch are the three that starve first when food is short, and the frugal builds that survive a famine are the ones hunters catch. That is the trade the body budget should force.
-
-## 6. Problems the audit found
-
-- **Shells are close to total protection.** They need a real cost, partial cover, or counters that are common. A full shell currently has no reason to exist.
-- **Fat is the best organ wherever food is the problem,** and gut is never best. The inside is not yet a real choice.
-- **Camouflage is nearly worthless as set.** Patient hunters find a still animal eventually.
-- **Any bite back is very strong.** A hurt hunter slows and can catch nothing, so a sting protected prey without killing anything.
-- **Giants were safe only because the test hunters were all one size.** With player-made hunters this becomes a race in size, limited by food. The balance lab has since found that on scarce food large bodies do worst of all, because a plant feeds a small animal as much as a large one.
-- **Hunters pay nothing for effort in the test world.** Chasing therefore beat ambush (9.2 of 10 caught against 4.6); an ambusher's saving in energy is not counted yet.
-- **Unarmoured prey always died.** The standard hunters are too strong to be a fair baseline.
-
-## 7. Not yet audited
-
-No mechanic in the stand-in world yet, so nothing shows these earn their place.
-
-| Family | Parts |
-|---|---|
-| Senses | Nose and ear ranges, eye size, heat pits, whiskers |
-| Moving | Tail fin for bursts, jet, sucker foot, anchor |
-| Feeding | Filter, sucker mouth |
-| Weapons | Horns, spit, shock, claws |
-| Defence | Poison skin, slime, a tail that drops off, ink |
-| Looks and signals | Warning colours, glow, crests, voice, scent glands |
-| Carrying and energy | Pouch, hooks for riders, sun-feeding leaf, float |
-| Inside | Lungs, brain, brood |
-| Life | Egg size and number, sexes, castes, young forms |
-| Plan | A body made of repeating segments |
-
-## 8. Builds this should allow
-
-A test of breadth: each line is a distinct way to live. The first eight were run above.
-
-- Sprinter, tank, giant, stinger, ghost, lookout, tiptoe, mite.
-- **Tongue ambusher:** camouflaged, still, strikes passing prey (tested as a hunter).
-- **Urchin:** no front, spiked, slow, grazes in the open.
-- **Shell-cracker:** a beak that makes armoured prey its speciality.
-- **Pond raider:** paddles, feeds in the water and escapes onto land.
-- **Bluffer:** false eyes and a crest that makes it look bigger.
-- **Sun-feeder:** a leaf, an anchor and no mouth; lives on light and many eggs.
-- **Rider:** small, with a sucker foot; clings to a bigger species.
-- **Carrier:** hooks or a pouch; young ride until grown.
-- **Swarm:** tiny, cheap, many eggs; wins by numbers.
-- **Night hunter:** no eyes, heat pits and a movement sense.
-- **Lantern:** a glow that lures others in the dark.
-- **Tail-dropper:** loses its tail to whoever grabs it and regrows it.
-- **Two-form species:** finned young in the water, legged adults on land.
-- **Caste species:** soldiers that grow jaws, workers that grow pouches.
-
-## 9. Next
-
-1. Fix the problems in section 6 in the stand-in world and re-run: shell cost and cover, the inside, camouflage, and what effort costs a hunter.
-2. Give the unaudited parts mechanics and run each against its neighbour.
-3. Run builds against each other, not only against fixed hunters, to see whether a mix of builds can coexist.
-
-## 10. Size: fast lives and slow lives
-
-Added 15 November. A proposal, with lab results where marked.
-
-The score is a species' living weight added up over the time it lasts. A swarm of small animals and a few large ones should both be worth playing, each in its own situations. Size should therefore set the tempo of a whole life, not just a number of hit points: **small lives fast and large lives slow.**
+The score is a species' living weight added up over the time it lasts. A swarm of small animals and a few large ones should both be worth playing, each in its own situations. Size therefore sets the tempo of a whole life: **small lives fast and large lives slow.**
 
 | What size changes | Small | Large | Where it decides things | Status |
 |---|---|---|---|---|
 | Running cost | Burns more food for each unit of weight | Carries more weight on the same food | Steady, lean places favour large | In the stand-in |
-| Tempo | Grows up, lays and hatches sooner, so many generations | Slow to breed and slow to replace losses | After a disaster, a bloom or a fire, small fills the gap first | Tested below |
+| Tempo | Grows up, lays and hatches sooner, so many generations | Slow to breed and slow to replace losses | After a disaster, a bloom or a fire, small fills the gap first | Tested |
+| Eating | Takes a small bite and leaves the rest of the plant | Finishes a plant in one bite and strips a patch quickly | Scattered scraps suit small; large needs big patches | Tested |
 | Reserves | Starves soon without food | Sits out a famine or a winter on its stores | Long winters and failed seasons favour large | In the stand-in |
-| Who hunts it | Not worth a big hunter's chase, but anything middling can eat it | Few things can take it, but each loss is a large share of the species | Big hunters about favours small; many small hunters favours large | Tested below |
-| Numbers | Many heads: some survive any disaster; more eyes and more scouts | Few heads: one bad day can end the species | Disaster-prone places, and food that is scattered | Tested below |
+| Who hunts it | Not worth a big hunter's chase, but anything middling can eat it | Few things can take it, but each loss is a large share of the species | Big hunters about favours small; many small hunters favours large | Tested |
+| Numbers | Many heads: some survive any disaster; more eyes and more scouts | Few heads: one bad day can end the species | Disaster-prone places, and food that is scattered | Tested |
 | Hiding and fitting | Hidden by tall grass; fits crevices, burrows and thicket; carried by mud, lily pads and floating mats | Seen from afar, shut out of tight places, bogs down | Marsh, Woodland, Highlands, Tidal flats | Partly in the stand-in |
 | Moving | Quick off the mark and turns on the spot; tires soon; swept along by currents | Slow to start and to turn; fast over distance; wades rivers | Chases in clutter favour small; open ground and crossings favour large | Turning is in the stand-in; the rest is proposed |
-| Eating | Takes a small bite and leaves the rest of the plant, so a swarm wastes nothing | Finishes a plant in one bite and strips a patch quickly | Scattered scraps suit small; large needs big patches | Tested below |
-| Food | Needs rich food such as seeds, fruit, flowers and prey, and can live on scattered scraps | Can live on poor, bulky food such as grass, reeds and weed, given a large gut | Bulk in the Grassland and Marsh favours large; scraps in the Woodland and Heath favour small | Proposed |
+| Food | Needs rich food such as seeds, fruit, flowers and prey | Can live on poor, bulky food such as grass, reeds and weed, given a large gut | Bulk in the Grassland and Marsh favours large; scraps in the Woodland and Heath favour small | Proposed |
 | Pushing | Gives way at a food patch to anything bigger; can mob, with many small bites | Pushes smaller animals off food and nests | Any shared patch | Proposed |
 | Warmth | Chills quickly, so cold nights slow it unless it huddles or burrows | Holds its heat, and overheats when it sprints in a hot place | Highland nights; Heath and Dune days | Proposed |
-| Young | Many small eggs, cheap to lose | A few large young that start strong | Egg thieves and bad years | Egg size exists, but changed nothing in the lab |
 
-What a player should feel: a swarm is a boom-and-recover design that thrives on upheaval and thin pickings, and a large species is a steady keeper that thrives where little changes and food is plain but plentiful. Neither should be right in every biome or every season.
-
-### What the lab shows
-
-Four sizes of the same plain grazer with a large gut, scored by total weight over time. Three of the rules above were switched on: an animal eats what it has room for and leaves the rest of the plant; small bodies grow up, lay and hatch faster, and large ones slower; and a hunter ignores prey under two-fifths of its own size. The figures are ranges across the meadow, reeds and mudflat, on four maps each. Differences under about 0.15 are noise.
+**Tested in the balance lab,** with four sizes of the same grazer scored by weight over time. Differences under about 0.15 are noise.
 
 | Situation | Small | Plain | Large | Largest |
 |---|---|---|---|---|
@@ -186,8 +89,181 @@ Four sizes of the same plain grazer with a large gut, scored by total weight ove
 | Steady habitat, large hunters only | 1.3 to 1.5 | 1.6 to 1.8 | 1.8 to 2.0 | 0.7 to 2.2 |
 | Large hunters only, and a disaster four times a run that kills four in five | 1.1 to 1.3 | 1.1 to 1.3 | 0.8 to 1.4 | 0.4 to 1.3 |
 
-- **Large wins where things are steady, and small catches up where they are not.** With large hunters and frequent disasters, small and plain come out on top in the meadow and level with large elsewhere.
-- **The swarm is the steadiest design.** It scores between 1.1 and 1.5 in every situation, where the largest swings from 0.4 to 2.8.
-- **Before these rules, small scored about 0.5 everywhere, and two of the reasons were faults in the stand-in.** A plant was one meal for any body, so a small animal wasted most of each plant it bit. And the lab capped a species at 30 animals, where a swarm on the same food reaches about 50.
-- **This is not enough yet.** Nothing here makes small the best choice in a steady place. The rows on food, hiding, pushing and warmth are what would give it places of its own, and they are untested.
-- **These are four fixed designs, not a search.** The lab's full search has not been re-run with these rules.
+- **Large wins where things are steady, and small catches up where they are not.**
+- **The swarm is the steadiest design:** 1.1 to 1.5 everywhere, where the largest swings from 0.4 to 2.8.
+- **Not enough yet.** Nothing makes small the best choice in a steady place. The rows on food, hiding, pushing and warmth are what would give it places of its own.
+
+## 5. The inside
+
+**The problem.** In every run of the balance lab one inside won everywhere: fat when the score counted heads, a large gut when it counted weight. Muscle and lungs were never chosen. The cause was that a large gut simply gave more energy from every plant, and nothing else could compete with that on scarce food.
+
+**The rework.** Each organ answers a different problem, and none of them is plain efficiency.
+
+| Organ | What it is for | Where it pays | What it costs |
+|---|---|---|---|
+| Gut | Using poor, bulky food: grass, reeds, weed, litter. A small gut can only live on rich food: seeds, fruit, flowers, meat, eggs | Wherever bulk is plentiful and rich food is not | Weight. A full gut slows the body, and a big meal takes time to digest with the head down |
+| Fat | Reserves: lasting through a winter, a famine, a journey or a sleep. Bigger eggs | Seasons, bad years, migration | Slower and sooner tired. A fat animal is a better meal, and hunters can tell |
+| Muscle | Speed off the mark, top speed, bite, carrying and digging | Chases, fights, hauling food home | Burns food even at rest |
+| Lungs | How long it can sprint, how long it can stay under water, how soon it recovers | Long chases; diving | Room that could be something else |
+| Brood | How many eggs, or how large; the breeder's egg organ | Any species that leans on numbers; queens | Room, and a slower body while carrying |
+
+The change that matters is to the gut: it no longer multiplies what every plant is worth. It decides which foods a body can live on. A large-gutted grazer and a small-gutted seed-eater then stop competing, which is also what lets species share a habitat.
+
+Untested. The lab's search is to be re-run on this in the balance pass.
+
+## 6. Skin, armour and grips
+
+Every covering sits on one side of the body or more: front, flanks, back. What covers a side decides what can bite it, what can cling to it, and what it costs.
+
+| Skin | What it does | What it costs | What gets past it |
+|---|---|---|---|
+| Smooth | Nothing; the default | Nothing | Everything; suckers hold on it |
+| Bristles or fur | Keeps warmth on cold nights | Hooks hold on it | Bites |
+| Slime | Nothing can cling | Dries out away from water and in the heat | Bites |
+| Spikes | Hurt whatever bites or clings there | Weight. Its own young cannot ride there, it cannot huddle for warmth, and its kin cannot carry it | A hunter that has learned, or can see, that it is spiked simply leaves it; a sting; an attack on an unspiked side |
+| Shell | Stops bites on that side | Weight; bogs down in mud; shut out of crevices and burrows | A shell-cracking beak; a sting or a bite on an uncovered side; being carried off whole, if small |
+
+**Shells, reworked.** The audit found a back shell close to total protection and a full shell pointless.
+
+- **A shell covers the sides it is put on.** The head and limbs are out while the animal moves, eats or looks about, so the front is always open then.
+- **Protection all round comes only from withdrawing,** which is the "hide" act. A withdrawn animal cannot move, eat or see. A full shell therefore buys safety with time, and a hunter that can wait, or crack, beats it.
+
+**Spikes, reworked.** The lab found spikes in every winning design at first, because test hunters bit spiked prey until they died.
+
+- **Spikes can be seen and learned.** "Spiked" is a thing another creature can notice, and a hunter with the Learn function avoids what hurt it. Against such hunters spikes are a deterrent, not a weapon.
+- **Their real costs are social:** no riding young, no huddle, no being carried.
+
+**Camouflage, reworked.** The audit found it nearly worthless.
+
+- **It is matched to one kind of ground,** chosen in the designer: grass, reed, sand, rock, mud or leaf litter.
+- **On that ground, still or creeping, it cannot be seen except from very close.** Anywhere else it does nothing.
+- **It never hides from a nose, heat pits or a movement sense.**
+
+**Other coverings and tricks:** false eyes, which make a stalker think it is being watched (tested); a tail or patch of skin that sheds; a cloud of ink or spray that works as cover. Warning colours and looking like another species remain deferred.
+
+**Grips.** For anything that attaches to another creature or holds on to the world (`design/social.md`, section 11). No grip holds everywhere.
+
+| Grip | Holds on | Fails on | Limit |
+|---|---|---|---|
+| Suckers | Smooth skin, shell, wet bodies, rock | Bristles and slime | Slow to attach |
+| Hooks | Bristles and rough skin, stems | Shell and slime | Easily scraped off |
+| Locking jaws | Anything soft | Shell; hurt by spikes | The mouth is busy, so it cannot bite again |
+
+## 7. Weapons and what beats them
+
+| Weapon | What it does | Its limit | What beats it |
+|---|---|---|---|
+| Jaws | Bite in the front arc. The gape sets the largest thing it can take | Must face the target | Speed, a shell, spikes |
+| Locking jaws | Bite and hold on | One target at a time | Slime, shell, spikes, rolling |
+| Long tongue | Strikes from a distance (tested) | A weak bite | Staying out of reach; a shell |
+| Sting | Placed at the front or the rear. Built to wound, or to tire | Needs time to refill | A shell on that side |
+| Shell-cracking beak | Ignores shells (tested) | Slow | Speed |
+| Horns | Push others off food; tip over a shelled animal; contests among its own kind | Weight on the head | Staying behind it |
+| Digging claws | Dig burrows and buried food; wound | Slower on open ground | |
+| Spit, shock | Untested | | |
+
+Two rules sit behind these:
+
+- **An attached creature can wound a carrier of any size.** This is what lets a pack of small hunters take large prey, and it is why the defences against riders matter.
+- **Effort has to cost a hunter.** In the stand-in, sprinting costs nothing but breath, so chasing beat ambush nine catches to five. Sprinting should burn food as well, so that waiting is a way of life.
+
+## 8. Senses
+
+| Organ | Gives | Blind to | Status |
+|---|---|---|---|
+| Eyes facing forward | Long reach in a narrow arc | Anything behind or to the side | Tested |
+| Eyes on the sides | A wide arc, shorter reach | Far things | Tested |
+| Eyes on stalks | All round, shortest reach | Far things | Tested |
+| Larger eyes | More reach | Costs more | In the stand-in |
+| Nose | Scent in the dark and through cover; tells upwind from downwind | Anything upwind of nothing; short reach | In the lab, as a food sense |
+| Ears | Calls from all directions | Silent things | In the social checks |
+| Skin and whiskers | Touch; warmth; wet and dry | Anything not close | Partly |
+| Side line | Movement nearby, unseen (tested); the current in water | Still things | Tested |
+| Heat pits | Warm bodies in the dark | Cold things; short reach | Untested |
+| Voice and ears | A ping that shows what is near | It gives its own position away | Untested |
+| Compass | North, south, east and west | Everything else | New; untested |
+
+## 9. Limbs and movers
+
+| Part | Good on | Poor on | Status |
+|---|---|---|---|
+| Legs | Land | Water | Tested |
+| Long legs | Shallows and mud; wading | Thicket and burrows | Proposed |
+| Wide feet | Sand and mud | Hard ground, slightly | Proposed |
+| Fins | Water | Land | Tested |
+| Paddles | Both, moderately | Neither well | Tested |
+| Skirt of cilia | Silence: a movement sense cannot feel it | Speed | Tested |
+| Tail fin | Short bursts in water | Stamina | Untested |
+| Sucker foot | Holding on to rock or stem against a current | Speed | Untested |
+
+## 10. Carrying, giving and signalling
+
+| Part | What it does | Status |
+|---|---|---|
+| Pouch | Carries more food or seed; carries young | Untested |
+| Brood organ | Sets how many eggs and how large; lets a breeder lay for life | Untested |
+| Gland that gives | Makes food to give without first eating it: dew, or milk for the young | Untested |
+| Voice | The range and number of calls | In the social checks |
+| Scent glands | Marks, and how long they last | Untested |
+| Glow | A display that works in the dark | Untested |
+| Crest or sac | Puffing up to look bigger | In the stand-in |
+
+## 11. What has been tested
+
+**Parts, each against its nearest alternative** (`bodyaudit.js`). A part passes if it changes what happens and is the worse choice somewhere.
+
+| Part | Result | Verdict |
+|---|---|---|
+| Eyes: forward, side or on stalks | As prey against a stalker, forward eyes were caught 34 times in 60, side and stalk eyes never. As a hunter, forward eyes caught 3.6 of 8, side 1.9, stalks 1.4 | Keep |
+| Body shape | A long hunter caught 4.5 of 6 prey that run straight and 3.5 that swerve; a round one 1.4 and 3.2 | Keep |
+| Back shell | Lost 0.1 of 6 against 6.0 with no shell | Reworked in section 6 |
+| Full shell | No safer than a back shell, slower, and fed less | Reworked in section 6 |
+| Shell-cracking beak | Shelled grazers lost 6.0 and 5.9 of 6 | Keep, as the counter |
+| Spikes | Lost 2.4 of 6 against 6.0 | Reworked in section 6 |
+| Legs, fins, paddles | Food in a pond with finned hunters: paddles lost 2.2 of 6 and ate 27 meals; legs 3.4 and 15; fins 5.9 and 9 | Keep |
+| Skirt of cilia | Against hunters that feel movement, none lost against 5.1 on legs | Keep |
+| Long tongue | A waiting hunter caught 4.6 of 10 faster prey with a tongue and none with jaws | Keep |
+| Sting at the back | Fleeing prey lost 2.1 of 6 with a sting and 5.9 without | Keep |
+| False eyes | A stalker caught 34 of 60 without them and none with | Keep; narrow |
+| Body with no front | Five small attackers lost 4.1 of their number against 0.9 | Keep |
+| Camouflage | Lost 5.0 of 6 against 5.8 without | Reworked in section 6 |
+
+**Whole designs, searched** (`balancelab.js`; `design/plan.md`, section 3).
+
+- **Size:** which size wins depends on how the score counts weight, and on the body rules in section 4.
+- **The inside:** one inside won everywhere under every score. Reworked in section 5.
+- **Never mattered in any habitat:** sting, camouflage, false eyes and egg size. The first two are reworked here; the others were tested against hunters that do not stalk.
+- **Draft 1's table of eight builds in five worlds is withdrawn.** Its hunters starved a quarter of the way through each run.
+
+## 12. Builds this should allow
+
+A test of breadth. Each line is a distinct way to live, and the preset cast in `design/presets.md` is twenty of them.
+
+- **Sprinter, tank, giant, stinger, ghost, lookout, tiptoe, mite:** the eight from draft 1.
+- **Tongue ambusher:** camouflaged for one ground, still, strikes passing prey.
+- **Urchin:** no front, spiked, slow, grazes in the open.
+- **Shell-cracker:** a beak that makes armoured prey its speciality.
+- **Bulk grazer:** large, with a large gut, living on what nothing small can use.
+- **Swarm:** tiny, quick to breed, wins by numbers and recovers from anything.
+- **Clinging pack:** small hunters with locking jaws that take prey many times their size.
+- **Rider:** hooks or suckers; lives on a larger animal.
+- **Slime body:** nothing can ride it; has to stay wet.
+- **Carrier:** a pouch; the young ride until grown.
+- **Night hunter:** no eyes, heat pits and a movement sense.
+- **Tail-dropper:** leaves its tail with whatever grabs it.
+- **Two-form species:** finned young in the water, legged adults on land.
+- **Caste species:** a guard with a sting and no gut to speak of, a forager with a pouch, a breeder that is mostly brood organ.
+- **Wintering sleeper:** fat, slow, and absent for a season.
+- **Wader:** long legs and eyes on stalks, working the tide line.
+
+## 13. Open, and not yet audited
+
+- **Untested reworks:** the inside, shells, spikes that can be seen and learned, camouflage by ground, and effort that costs a hunter food.
+- **Untested parts:** grips and the skins they fail on, heat pits, ping, compass, long legs, wide feet, tail fin, sucker foot, pouch, brood organ, a gland that gives, scent glands, glow, horns, digging claws, spit, shock, a tail that sheds, ink.
+- **Two social checks wait on this:** a pack against large prey, and riders against a carrier (`design/social.md`, section 13).
+- **Costs** are not set. They are for the balance pass.
+- **Deferred:** warning colours, looking like another species, a body made of repeating segments, and feeding on light.
+
+## 14. Next
+
+Step 6: lifespan, the fading curve and what it acts on.
