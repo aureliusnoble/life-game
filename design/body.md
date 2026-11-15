@@ -30,7 +30,9 @@ Colour, pattern and proportion stay free, so two species with the same parts nee
 
 Decided in `design/social.md`, section 9. A form is one kind of individual: a sex, a life stage or a caste.
 
-- **Each form has its own body,** designed under the same combined allowance for body and brain as every other form.
+- **Each form has its own body, as a variation on the species' base body,** designed under the same combined allowance for body and brain.
+- **Forms may not be completely divergent.** The body plan and the look are shared. Leaving a part out is free; every other difference costs extra, and the extra rises with each further difference.
+- **Changing form takes time in proportion.** Growing from a finned young form into a legged adult, or from a worker into a queen, takes longer the more the two differ, and the animal is slow and exposed meanwhile.
 - **A first species has one form.** Young forms and two sexes are forms, and so are castes.
 - **The reason to have several** is that a body built for one job is cheaper and better at it: a guard that never forages, a forager that never fights, a breeder that is little more than an egg organ.
 - **The price** is that specialists are helpless alone.

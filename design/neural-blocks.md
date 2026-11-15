@@ -419,7 +419,7 @@ A species is made of forms. A form is one kind of individual: a sex, a life stag
 
 - **The body sets the vocabulary.** A form can only use the senses and acts its parts provide.
 - **Shared by the species:** being one kind, the home scent, the named sounds, scents and displays, the settings below, and an optional common page of instincts that a form can take or leave.
-- **Separate for each form:** the body, the instincts and moods, and the cost. Each form is its own design under the same combined allowance.
+- **Separate for each form:** the body, the instincts and moods, and the cost. Each form is a variation on the species' base under the same combined allowance. Leaving something out is free; other differences cost extra, more with each one.
 - **Becoming a form.** By sex; by stage, as young grow up and adults grow old; at laying, by brood mix; or later, when a For life mood comes on.
 - **Roles without a new body:** "only when young", a signal that others defer to, or a count of who is doing what.
 

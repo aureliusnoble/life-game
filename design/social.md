@@ -251,11 +251,19 @@ A proposal that replaces "every individual runs the same brain".
 
 A form that leaves the common page can be very simple. A soldier that never forages needs no feeding instincts, and has to be fed by the others.
 
-### The budget
+### The budget, and how far forms may differ
 
-- **Each form is its own design under the same combined allowance for body and brain.** A soldier can be a large body with a three-line brain. A scout can be a small body with senses and memory. A breeder can be little more than an egg organ.
-- **That is the reason to specialise:** a simple-minded specialist is cheaper to make and run than an all-rounder that can do everything.
-- **The price** is that specialists are helpless alone, and that each form is another design to get right. Whether each extra form should also cost something outright is left for the balance pass.
+Decided on 15 November: forms must not be completely divergent, and the more a form differs from the rest of its species, the more it costs. The rules below are a proposal for how.
+
+- **One base.** A species has a base body and a common page. Every form starts as the base and is a variation on it.
+- **Always shared:** the body plan, the look (one palette and family of patterns, so a species reads as one species), the signals and the species settings.
+- **Each form fits the same combined allowance** for body and brain.
+- **Leaving something out is free.** A guard with no gut to speak of, or a male that is little more than a grip, costs less than the base.
+- **Every other difference costs extra,** on top of what the part itself costs: a part added, swapped or resized, a step of size, a change to the inside, an instinct of its own. The extra rises with each further difference, so one or two changes are cheap and a wholly different animal is not affordable.
+- **Changing takes time in proportion.** Growing from one form into another takes longer the more they differ, and the animal is slow and exposed while it changes.
+- **The reason to specialise is unchanged:** a specialist drops what it does not need and adds a little. The price is that specialists are helpless alone.
+
+The sizes of these costs are for the balance pass.
 
 ### When a form is decided, and by whom
 
@@ -468,7 +476,7 @@ The last two are body mechanics, and belong with the body rework in step 5. The 
 Decided on 15 November:
 
 - **All unkind behaviour is allowed:** killing a rival's young, eating a mate, stealing eggs, raiding one's own kind.
-- **Forms:** each caste, sex and stage is its own design under the same allowance, sharing only signals, settings and an optional common page (section 9).
+- **Forms:** each caste, sex and stage is its own design under the same allowance, as a variation on one base. Forms must not be completely divergent, and differences cost more the more of them there are (section 9).
 - **The additions marked "Yes" in section 10** go in, except bodies joined into one animal.
 - **Attaching and letting go** is in, with defences (section 11).
 
