@@ -9,6 +9,7 @@ Draft 1, November 2026. A first pass for discussion. Nothing here is committed t
 | Behaviour editor | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited. Ten verbs still untested. Not yet tried by people |
 | Bodies | `design/body.md` (draft 1) | Parts audited. Shells, the inside and camouflage need rebalancing. Many parts untested |
 | World and daily loop | `design/world-and-loop.md` | Direction decided. Fading and keeper actions are proposals, untested |
+| Environment | `design/environment.md` (draft 1) | Regions, features and cycles proposed and audited. No lasting balance between hunters and prey yet |
 | Look | `design/art-direction.md` | Soft critters and the Paper lagoon direction chosen. Needs deepening and a real asset kit |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 
@@ -20,7 +21,7 @@ One pond, one group of friends, one week.
 
 **In:**
 
-- A shared pond that runs all day on a server, with each friend's species living in it.
+- A shared pond that runs all day on a server, with each friend's species living in it. Four regions (shallows, reed bed, meadow, rocks), day and night, and one cycle of seasons.
 - A body designer with the parts that passed the audit.
 - A behaviour designer with the vocabulary that has been tested, and a test tank.
 - Fading, so a species lasts days, not for ever.
@@ -80,6 +81,7 @@ Phase 2 comes before phase 3 because the largest unknown is whether friends can 
 | The simulation is too slow for a full pond | Phase 1 measurement |
 | Fading does not produce 3 to 7 day lives | Phase 1 tuning, then phase 6 |
 | No mix of builds can coexist; one design wins | Body audit follow-up, then phase 6 |
+| Hunters and prey cannot both persist | Environment audit follow-up, during phase 1 |
 | The look does not hold up on a phone | A frame-rate test early in phase 5, or sooner |
 | The game is not worth a daily visit | Phase 4, then phase 6 |
 

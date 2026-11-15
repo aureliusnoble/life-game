@@ -18,7 +18,7 @@ function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 10139
 const I = (when, act, o = {}) => ({ when, act, str: o.str ?? 'normal', pace: o.pace ?? 'normal', dist: o.dist ?? 'mid', turn: o.turn ?? 'medium', in: o.in ?? [], notIn: o.notIn ?? [], speed: o.speed ?? 'normally' });
 
 class World {
-  constructor(size, seed, torus = false) { this.size = size; this.rnd = rng(seed); this.t = 0; this.torus = torus; this.creatures = []; this.plants = []; this.meat = []; this.marks = []; this.log = { kills: [], meals: 0 }; }
+  constructor(size, seed, torus = false) { this.size = size; this.rnd = rng(seed); this.t = 0; this.torus = torus; this.creatures = []; this.plants = []; this.meat = []; this.marks = []; this.covers = []; this.light = 1; this.log = { kills: [], meals: 0 }; }
   add(kind, brain, o = {}) {
     const a = o.heading ?? this.rnd() * Math.PI * 2;
     const c = { kind, brain, tag: o.tag ?? kind, young: !!o.young, x: o.x ?? this.rnd() * this.size, y: o.y ?? this.rnd() * this.size, hx: Math.cos(a), hy: Math.sin(a),
@@ -30,7 +30,8 @@ class World {
   }
   off(a, b) { let dx = b.x - a.x, dy = b.y - a.y; if (this.torus) { const h = this.size / 2; if (dx > h) dx -= this.size; else if (dx < -h) dx += this.size; if (dy > h) dy -= this.size; else if (dy < -h) dy += this.size; } return [dx, dy, Math.hypot(dx, dy)]; }
   // Sight: within range and inside the view arc. Eating keeps the head down; watching reaches farther.
-  canSee(c, o) { const [dx, dy, d] = this.off(c, o); let R = c.sight * (c.watching ? 1.6 : 1); if (c.headDown > 0 && !c.watching) R = Math.min(R, NEAR); if (o.brain && o.brain.camo && o.spd < 0.05) R *= o.brain.camo; if (d >= R) return false;
+  canSee(c, o) { const [dx, dy, d] = this.off(c, o); let R = c.sight * (c.watching ? 1.6 : 1) * (c.brain.nightEyes ? 1 : this.light); if (c.headDown > 0 && !c.watching) R = Math.min(R, NEAR); if (o.brain && o.brain.camo && o.spd < 0.05) R *= o.brain.camo; if (d >= R) return false;
+    if (o.brain && this.covers.length) { const pc = this.coverOf(o); if (pc && d > NEAR && !(d < 30 && this.coverOf(c) === pc)) return false; }
     if (c.arc < 6.28 && !c.watching) { const cs = (dx * c.hx + dy * c.hy) / (d || 1); if (Math.acos(Math.max(-1, Math.min(1, cs))) > c.arc / 2) return false; } return true; }
   // The movement sense: all round, but only things that are moving, and not things that creep.
   canFeel(c, o) { if (!c.feel || o.spd < 0.05 || o.pace === 'creep' || o.brain.silent) return false; return this.off(c, o)[2] < c.feel * (o.pace === 'sprint' ? 2 : 1); }
@@ -47,12 +48,16 @@ class World {
     if (verb === 'am') return { s: what === 'hungry' ? 1 - c.energy : what === 'tired' ? (c.tired ? 1 : 0) : what in c.moods ? c.moods[what] : 0 };
     if (verb === 'smell') { let w = 0, cx = 0, cy = 0; for (const m of this.marks) if (m.type === what) { const [ox, oy, d] = this.off(c, m); if (d < 40) { const k = 1 - d / 40; w += k; cx += ox * k; cy += oy * k; } }
       if (w < 0.02) return { s: 0 }; const d = Math.hypot(cx / w, cy / w) || 1; return { s: Math.min(1, w / 2), dx: cx / w / d, dy: cy / w / d, d, trail: what }; }
+    if (verb === 'see' && what === 'cover') { let best = null, bd = 160; for (const p of this.covers) { if (p.maxSize && c.size > p.maxSize) continue; const d = Math.max(0, this.off(c, p)[2] - p.r * 0.5); if (d < bd) { bd = d; best = p; } }
+      if (!best) return { s: 0 }; const [dx, dy, d0] = this.off(c, best); return { s: 1, dx: dx / (d0 || 1), dy: dy / (d0 || 1), d: bd, target: best }; }
     if (verb === 'see' && what === 'land') { if (!this.inWater(c)) return { s: 0 }; const [dx, dy, d] = this.off(this.pond, c); return { s: 1, dx: dx / (d || 1), dy: dy / (d || 1), d: this.pond.r - d }; }
     let st = null, sel = null; for (const s of STATES) if (what.endsWith(' ' + s)) { st = s; what = what.slice(0, -s.length - 1); }
     if (what.startsWith('weakest ')) { sel = 'weakest'; what = what.slice(8); }
     const reach = (o) => verb === 'touch' ? this.off(c, o)[2] < (c.brain.reach ?? TOUCH) : verb === 'near' ? this.canSee(c, o) && this.off(c, o)[2] < NEAR : verb === 'far' ? this.canSee(c, o) && this.off(c, o)[2] >= NEAR : verb === 'feel' ? this.canFeel(c, o) : this.canSee(c, o);
     let list;
-    if (what === 'plant' || what === 'meat') list = (what === 'plant' ? this.plants : this.meat).filter((o) => reach(o));
+    const eats = (o) => (c.brain.diet && typeof c.brain.diet === 'object' ? c.brain.diet[o.type ?? 'plant'] ?? 0 : 1) > 0;
+    if (what === 'meat') list = this.meat.filter((o) => reach(o));
+    else if (what === 'plant' || (this.foods && this.foods.includes(what))) list = this.plants.filter((o) => (what === 'plant' ? eats(o) : o.type === what) && reach(o));
     else list = this.creatures.filter((o) => this.isA(c, o, what) && reach(o) && (!st || this.state(c, o, st)));
     if (!list.length) return { s: 0 };
     const key = (o) => sel === 'weakest' ? o.hp / o.hpMax * 1000 + this.off(c, o)[2] : this.off(c, o)[2];
@@ -60,7 +65,8 @@ class World {
     return { s: verb === 'see' || verb === 'far' ? Math.max(0.05, 1 - d / c.sight) : 1, dx: dx / d, dy: dy / d, d: d0, target: best };
   }
   inWater(c) { return !!this.pond && this.off(this.pond, c)[2] < this.pond.r; }
-  holds(c, f) { return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 * (c.brain.store ?? 1) : f === 'in water' ? this.inWater(c) : f === 'tired' ? c.tired : false; }
+  coverOf(o) { for (const p of this.covers) if (this.off(p, o)[2] < p.r) return p; return null; }
+  holds(c, f) { return f in c.moods ? c.on[f] : f === 'hungry' ? c.energy <= 0.5 * (c.brain.store ?? 1) : f === 'in water' ? this.inWater(c) : f === 'covered' ? !!this.coverOf(c) : f === 'dark' ? this.light < 0.5 : f === 'tired' ? c.tired : false; }
   step() {
     const plans = [];
     for (const c of this.creatures) {
@@ -112,19 +118,21 @@ class World {
               const rear = cl((dx * tg.hx + dy * tg.hy) / (d || 1)), within = (arc) => !!arc && rear <= (arc * Math.PI) / 360; // 0 = attacker directly behind the target
               if (within(tg.brain.spikes) && --c.hp <= 0) { c.alive = false; this.log.kills.push({ t: this.t, by: tg.tag, who: c.tag }); }
               if (within(tg.brain.shell) && !c.brain.crack) this.log.blocked = (this.log.blocked ?? 0) + 1;
-              else if ((tg.hp -= c.brain.dmg ?? 1) <= 0) { tg.alive = false; this.log.kills.push({ t: this.t, by: c.tag, who: tg.tag }); } } }
-          else if (c.brain.diet !== 'meat' || this.meat.includes(tg)) { const arr = this.plants.includes(tg) ? this.plants : this.meat; const i = arr.indexOf(tg); if (i >= 0) { arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + (c.brain.mealGain ?? 0.3)); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } }
+              else if ((tg.hp -= c.brain.dmg ?? 1) <= 0) { tg.alive = false; this.log.kills.push({ t: this.t, by: c.tag, who: tg.tag }); if (c.brain.killGain) { c.energy = Math.min(c.brain.store ?? 1, c.energy + c.brain.killGain); c.meals++; } } } }
+          else if (c.brain.diet !== 'meat' || this.meat.includes(tg)) { const arr = this.plants.includes(tg) ? this.plants : this.meat; const i = arr.indexOf(tg); const eff = arr === this.plants && c.brain.diet && typeof c.brain.diet === 'object' ? c.brain.diet[tg.type ?? 'plant'] ?? 0 : 1;
+            if (i >= 0 && eff > 0) { arr.splice(i, 1); c.energy = Math.min(c.brain.store ?? 1, c.energy + (c.brain.mealGain ?? 0.3) * eff); c.headDown = this.headDownBeats ?? 8; c.meals++; this.log.meals++; } } }
         else if (act === 'cling' && n.target && !c.riding) { c.riding = n.target; n.target.riders++; } }
       if (c.riding) { const h = c.riding; if (!h.alive) { c.riding = null; h.riders = 0; } else { c.x = h.x - h.hx * 5; c.y = h.y - h.hy * 5; c.vx = h.vx; c.vy = h.vy; c.spd = h.spd; c.pace = 'creep'; continue; } }
       // movement: strength gives direction and effort, pace gives speed, stamina limits sprinting
       let m = Math.hypot(px, py), dx = m ? px / m : c.hx, dy = m ? py / m : c.hy; let effort = Math.min(1, m) * (1 - still);
       let p = pace; if ((c.tired || c.brain.noSprint) && p === 'sprint') p = 'normal';
-      let speed = c.top * effort * PACE[p] * (c.tired ? 0.7 : 1) * (c.hp < c.hpMax ? 0.6 : 1) * (1 - 0.12 * c.riders) * (this.inWater(c) ? c.brain.water ?? 1 : c.brain.land ?? 1);
+      let speed = c.top * effort * PACE[p] * (c.tired ? 0.7 : 1) * (c.hp < c.hpMax ? 0.6 : 1) * (1 - 0.12 * c.riders) * (this.inWater(c) ? c.brain.water ?? 1 : c.brain.land ?? 1) * (this.drag ? this.drag(c) : 1);
       if (effort < 0.02 && face) { dx = face[0]; dy = face[1]; }
       if (c.brain.turn) { const cur = Math.atan2(c.hy, c.hx), want = Math.atan2(dy, dx); let diff = ((want - cur + Math.PI * 3) % (Math.PI * 2)) - Math.PI; diff = Math.max(-c.brain.turn, Math.min(c.brain.turn, diff)); c.hx = Math.cos(cur + diff); c.hy = Math.sin(cur + diff); dx = c.hx; dy = c.hy; }
       else if (effort > 0.02 || face) { c.hx = dx; c.hy = dy; }
       c.vx = dx * speed; c.vy = dy * speed; c.spd = speed; c.pace = p;
       if (this.torus) { c.x = (c.x + c.vx + this.size) % this.size; c.y = (c.y + c.vy + this.size) % this.size; } else { c.x = Math.max(0, Math.min(this.size, c.x + c.vx)); c.y = Math.max(0, Math.min(this.size, c.y + c.vy)); }
+      for (const pc of this.covers) if (pc.maxSize && c.size > pc.maxSize) { const [ox, oy, od] = this.off(pc, c); if (od < pc.r) { c.x = pc.x + (ox / (od || 1)) * pc.r; c.y = pc.y + (oy / (od || 1)) * pc.r; } }
       if (p === 'sprint' && speed > 0.3) c.stamina -= 0.01 / (c.brain.stam ?? 1); else c.stamina = Math.min(1, c.stamina + (speed < 0.05 ? 0.006 : 0.002));
       if (c.stamina <= 0) c.tired = true; else if (c.stamina > 0.3) c.tired = false;
       c.energy = Math.max(0, c.energy - 0.0012 * (c.brain.upkeep ?? 1));
