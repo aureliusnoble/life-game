@@ -440,3 +440,42 @@ The owner asked that these systems be flexible enough for the content the game h
 | Weather or a time of day | A change to the ground, the light's angle, length, colour and strength, a layer in the air, a reaction | Every place and every creature under it |
 
 Limits that are known: the kit draws bodies along one spine, or round with no front; a body in two joined parts, or with limbs that are the body, would need a third plan. States that need a new channel, not a new row, would need the posture extended for every body at once.
+
+## 19. The second round of reviews, and what it changed
+
+Six independent reviewers judged the revised study. Their reports are in `design/reviews/`: `round2-animation.md`, `round2-world.md`, `round2-states.md`, `round2-creature-designs.md`, `round2-assets.md` and `dunes-marsh-dead-eggs.md`. Scores against a beautiful shipped game, where 5 is a competent prototype:
+
+| Subject | First round | Second round |
+|---|---|---|
+| How the creature moves | 3 | 4 to 7 by act: sleep 7, startle 6.5, walk 5, nibble 4.5, other bodies 4 |
+| The world: composition, light, motion | 4.5, 4.5, 3 | 6.5, 6, 6 |
+| Other biomes; events | 3.5; 3 | 4.5; 6.5 |
+| States | 3.5 | 5.5 close up, 3.5 at 30 pixels |
+| Creature designs | Six of eight under 7 | Eleven of sixteen at 7 or more for appeal; five below the bar |
+| Assets | 3 to 7.5 | 4 to 7.5, mean 6 |
+
+No subject reached 8. The reviewers named a ceiling: shapes drawn in code top out near 8 for the look of real paper, and going past it needs scanned paper and photographed edges.
+
+### States, after the second review
+
+The owner asked for clearer hot, cold and ill, and for remains that show feeding. The reviewer found that six states still kept the ordinary outline when small, and that hot, cold and ill kept their meaning in specks of one or two pixels.
+
+- **A piece beside the creature, in a colour of its own.** Cold is blue-white and in front: a cloud of breath from its leading end, and marks of shivering at its sides. Hot is orange and above: ribbons of heat rising off its back, with sweat only close up. Ill is purple and yellow: three ringed spots and hollow rings rising. Each piece is a light paper on a darker one, so it shows on any body and any ground; each grows when the creature is small; and what rises, rises up the screen whichever way the creature faces. No pattern may use rings.
+- **Tired and hungry never have a piece beside them.** Tired is a slow nod. Hungry is a sweep of the head.
+- **The three sprawls are told apart by the limbs:** hot has them straight out sideways, weary trailing behind, fierce out ahead of its head.
+- **Fed** bulges a quarter wider in the middle with its belly well past its sides. **Hungry** is notched in at both flanks; ribs are for close up. **Old** has two notches cut from its outline and a crook in its spine. **The plaster** sits on a dark mount and is never drawn too small to see.
+- **A blink is a lid, not sleep's curve.**
+
+### Remains
+
+A dead creature was a pale blank, which lost its colours, vanished on sand and showed nothing of feeding.
+
+- **A creature is a stack of skin, flesh and bone, and death takes it apart from the top.** Skin is its own sheets turned face down: its own colour, duller, a little out of register, with no marks and no face, so it is still known whose it was. Flesh is rose with a pale rind and bone is ivory, the same for every species. Rose showing means food is left.
+- **Five stages:** fresh; opened, with one scalloped bite; part eaten; bones on a darker patch of ground; and gone back into the ground, with flowers.
+- **Bone comes from a body's own parts:** beads of spine, ribs in pairs, one strip to each limb, the head's outline with holes for eyes. A shell, plates and spikes stay whole.
+- **Where the line is:** no red, no liquid, no organs, no flies, no face on anything being eaten. Bites are clean scallops. It ends in flowers.
+- **A zigzag edge means hatched and a scallop means bitten,** on eggs as on bodies.
+
+### Eggs
+
+Carrying eggs no longer changes the species' outline. The clutch sits in a dark seat on a soft back, or behind a hard, small or leggy body, or one to a segment on a long one. An egg is pale, tinted with its parent's colour and speckled in its parent's bright paper, so a clutch says whose it is. Clutches on the ground, nests, hatching and eaten eggs are still to be drawn.
