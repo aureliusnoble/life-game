@@ -322,33 +322,33 @@ This is from general knowledge of animal societies, not from new research. I wen
 | Stealing food from another's mouth | Grab from a carrier | "See a creature carrying food: approach; touch: grab" |
 | Parasites that ride and feed; cleaners; riders of every kind | Attaching and letting go | Section 11 |
 
-### Possible with three more small rules, which I recommend
+### Two more small rules, decided on 15 November
 
 | What organisms do | The rule | How it is built |
 |---|---|---|
 | Paralyse prey and store it alive for the young | A sting can tire its victim instead of wounding it. Tired is a feeling every creature already has | Sting, carry it home, drop it in the nest, lay beside it |
 | Fungus gardens and honey | Stored food that is tended keeps, and ripens into richer food | Carry leaves or nectar home, drop them in the larder, tend them |
-| Dams and ponds | A wall built across running water holds it back | Build across a brook. Still water spreads behind it, with everything that lives in still water |
 
-### Later
+### Perhaps later
 
 | What organisms do | What it needs |
 |---|---|
-| Rafts and bridges made of living bodies | Clinging bodies that others can walk or float on |
 | Travelling in formation to save effort | A rule that moving close behind another costs less, and "get behind" back in the vocabulary, where it would now have a reason to exist |
-| Snares and pitfalls | Dug pits that slow what falls in, and built material that holds what touches it |
 
 ### Out
 
 | What organisms do | Why |
 |---|---|
 | Bodies joined for good into one animal | Decided against |
+| Dams and ponds | Decided against |
+| Rafts and bridges made of living bodies | Set aside |
+| Snares and pitfalls | Set aside. Pens and funnels built from walls remain possible |
 | Calls that differ between homes and are learned from parents | Signals are fixed by the design. Scent does differ by home |
 | Living inside another body, or taking over another's behaviour directly | Nothing acts inside a body or on another creature's moods. Deceiving a host with signals, and riding and feeding on it, are both possible |
 
 ### Two families of words this showed to be missing
 
-Seasonal patterns and migration both lean on a creature sensing the state of the world. These need checking against the vocabulary in area 6:
+Seasonal patterns and migration both lean on a creature sensing the state of the world. Decided on 15 November: both families go into the vocabulary, and they should be reasonably extensive. Area 6 works them out in full, starting from:
 
 - **The world's events, as things to notice:** the season, rain, flood, the tide coming in or going out, fire, burnt ground, a bloom.
 - **The world's directions, as things to head along:** with or against the current, uphill or downhill, toward warmer or colder, toward wetter or drier.
