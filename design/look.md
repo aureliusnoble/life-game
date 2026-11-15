@@ -1,6 +1,6 @@
 # Look, sound and feel
 
-Draft 2, November 2026. Design area 12 in `design/plan.md`. It builds on `design/art-direction.md`. Sections 1, 3 and 14 are decided. The rest is a proposal, and none of it is final art.
+Draft 3, November 2026. Design area 12 in `design/plan.md`. It builds on `design/art-direction.md`. Sections 1, 3 and 14 are decided. The rest is a proposal, and none of it is final art.
 
 ## 1. Decided
 
@@ -242,18 +242,20 @@ How many creatures a mid-range phone can draw at each distance has not been meas
 
 These are drawn in code and stand in for drawn art. They test the rules, and they are not the art.
 
-## 14. Answered, and one still open
+## 14. Answered
 
 Decided on 15 November:
 
 1. **Bearings.** A mood wears one of eight bearings, picked by the player when the mood is made.
 2. **Voices.** A species' named calls are real sounds picked from a set.
 3. **Deaths are quiet:** a fall and a pale cut-out, with nothing gory.
-
-Still open:
-
-4. **The interface's material:** scrapbook, field guide, paper theatre, or a mix.
+4. **The interface's material is the scrapbook:** torn slips, tape, pencil and rubber stamps.
+5. **The view is from above,** confirmed after seeing both views.
+6. **The world and the creatures are not yet good enough.** The studies in section 13 lack small details, a handmade feel and a calm picture to look at, and they do not show how a creature with many parts would be drawn.
+7. **Depth before breadth.** One small thing is worked on until it looks like a beautifully crafted game, and only then is it extended or turned into a design language. Each round is judged by an independent reviewer looking at screenshots, with no knowledge of what its maker thinks of it.
 
 ## 15. Next
 
-The three studies are made. They were checked to run on a phone-width screen without errors; whether each pose reads, whether the places are beautiful and which material to take are for a person to judge. Then screens, which is area 13.
+The depth study is `design/mockups/paper-study.html`: one creature on a bank beside a pond, seen from above. It is worked on in rounds, each reviewed, until it is good. Its findings then become the rules for everything else: how a sheet is drawn, how a creature is built from parts, how a place is composed. The three earlier studies stay as records of what was tried; they are not the standard.
+
+Screens, area 13, wait until this is done.
