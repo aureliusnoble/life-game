@@ -479,3 +479,14 @@ A dead creature was a pale blank, which lost its colours, vanished on sand and s
 ### Eggs
 
 Carrying eggs no longer changes the species' outline. The clutch sits in a dark seat on a soft back, or behind a hard, small or leggy body, or one to a segment on a long one. An egg is pale, tinted with its parent's colour and speckled in its parent's bright paper, so a clutch says whose it is. Clutches on the ground, nests, hatching and eaten eggs are still to be drawn.
+
+### Places, after the review of dunes and marsh
+
+The owner asked that every biome get the attention the pond had, starting with the dunes and the marsh. The reviewer scored each 3 out of 10 as sketches and designed a whole screen for each. Both are now built as places in the study, chosen from a menu, with a creature that walks, feeds, drinks and sleeps in them.
+
+- **A place is a row:** its wind, its ground, what lives under a creature and what stands over it, and where a creature goes. A new biome is a new row.
+- **Each is composed by the pond's rules:** at most three terraces and one cut-down, one line that leads to the focal feature, three clusters where two things meet, and about half the screen left quiet.
+- **Dunes.** One dune to a screen. Wind and light come from the same side, so the slip face is always in shade. The leading line is the brink; inside its hook is a blown-out hollow gone damp, with a seep to drink at. Clusters: plants of the hollow on its upwind rim; marram on the brink; wrack, driftwood and shells in one corner. Its own things: marram, sea holly, a mat of hollow plants, a tumble-seed that rolls on each gust, wrack, three shells, a burrow. Each gust wipes the oldest prints, so a trail is always short.
+- **Marsh.** Its signature is the reed stand, cut as a terrace and standing over the creature, which walks under it and vanishes; the reeds part over it as it goes. A lane of tea-coloured water leads from the top edge to a pool three depths deep with a drowned tree in it. Clusters: a mud bank with kingcups and tussocks on the inner bend; sprays of seed and duckweed at the outer bend; the drowned tree, with a raft of straw snagged on it and a nest on the raft. Its own things: tussocks of sedge, kingcups, sprays of seed, duckweed, the drowned tree, a floating mat, a nest with eggs, a dragonfly.
+
+Highlands and woodland are still sketches. Heath, grassland, the tidal flats and the rest of the lakeland have not been drawn.

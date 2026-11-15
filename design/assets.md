@@ -10,6 +10,8 @@ Twelve, on the asset sheet in `design/mockups/paper-study.html`: grass, reeds, f
 
 **The largest fault is of kind, not quality:** every one is a garnish of 12 to 55 units. Nothing can hide a creature, feed a herd or fill ten screens. Heath, Grassland and the Tidal flats have no study at all.
 
+**Built since this list was made,** in the dunes and marsh places and the remains: marram, a sand tail, sea holly, a mat of hollow plants, a tumble-seed, wrack, three shells, a burrow mouth; a reed stand that a body goes under, tussocks of sedge, kingcups, sprays of seed, duckweed, a drowned tree, a floating mat, a nest with eggs, a dragonfly; and bones, as the fourth stage of remains. They are in the places, not yet on the asset sheet.
+
 ## 2. Levels
 
 A unit is 1/360 of the screen's width.
