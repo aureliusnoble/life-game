@@ -152,7 +152,7 @@ class World {
       for (const pc of this.covers) if (pc.maxSize && c.size > pc.maxSize) { const [ox, oy, od] = this.off(pc, c); if (od < pc.r) { c.x = pc.x + (ox / (od || 1)) * pc.r; c.y = pc.y + (oy / (od || 1)) * pc.r; } }
       if (p === 'sprint' && speed > 0.3) c.stamina -= 0.01 / (c.brain.stam ?? 1); else c.stamina = Math.min(1, c.stamina + (speed < 0.05 ? 0.006 : 0.002));
       if (c.stamina <= 0) c.tired = true; else if (c.stamina > 0.3) c.tired = false;
-      c.energy = Math.max(0, c.energy - 0.0012 * (c.brain.upkeep ?? 1));
+      c.energy = Math.max(0, c.energy - 0.0012 * (c.brain.upkeep ?? 1) * (this.fade ? this.fade(c) : 1));   // `fade` is the lifespan pressure, when a test sets one
       if (this.starve && c.energy <= 0) { c.alive = false; this.log.starved = (this.log.starved ?? 0) + 1; }
     }
     this.t++;

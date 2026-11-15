@@ -15,6 +15,8 @@ November 2026. Decisions from discussion, plus proposals for how to carry them o
 
 ## Lifespan pressure: proposal
 
+Superseded by `design/lifespan.md`, which keeps the idea and slows the curve after a test.
+
 Call it **fading**. Each species has one fading value that starts at release and, after a short grace period, roughly doubles every day. It is the same for every species of the same age.
 
 - **What it acts on.** Proposed: the energy cost of living goes up and the share of eggs that hatch goes down. Both hit a struggling design sooner than a thriving one, so skill still decides how long a species lasts.

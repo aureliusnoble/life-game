@@ -191,7 +191,8 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Preset species | `design/presets.md` (draft 1) | Twenty presets, one stepping aside for each living player species, with no advantages and no fading. The cast is accepted: ten foragers and farmers, seven hunters, two scavengers and one that lives off the others, chosen to show as wide a range of viable designs as possible, each spawned in one biome and free to spread, and none depending on a particular other species. In the stand-in, hunters and their prey do not last together by any means tried; only respawning keeps hunters present |
 | Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
 | Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline. Two direction checks run: a sentinel by signal cuts losses and costs meals; hostile homes space themselves out but do not protect the food. Four checks wait on forms and on the body rework |
-| Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
+| Lifespan and score | `design/lifespan.md` (draft 1) | Fading acts on the cost of living and on hatching alike; a slower curve is proposed after a test showed designs absorb two to five times the handicap, not a hundred; the end of a species and what a player keeps; records. Three questions open |
+| Daily loop | `design/world-and-loop.md` | Keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 

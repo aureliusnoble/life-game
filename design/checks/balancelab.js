@@ -153,9 +153,31 @@ function knockout(habitat) {
   for (const r of rows) console.log(`  ${r.k.padEnd(10)} has ${String(r.has).padEnd(22)} worst swap: ${String(r.worst.v).padEnd(22)} ${(r.worst.d >= 0 ? '+' : '') + r.worst.d.toFixed(2)}   best swap: ${String(r.best.v).padEnd(22)} ${(r.best.d >= 0 ? '+' : '') + r.best.d.toFixed(2)}`);
 }
 
+// ---------- fading: does a better design last longer, and how much longer? ----------
+// Fading is 1 until a grace period ends and then doubles at a fixed interval. It is the same for every design.
+// `acts` says what it weighs on: the cost of living, the share of eggs that hatch, or both.
+function fading() {
+  const GRACE = 1500, DOUBLE = 600, MAX = 10500, F = (t) => (t < GRACE ? 1 : Math.pow(2, (t - GRACE) / DOUBLE)), res = load();
+  const designs = { 'a poor design (all muscle and lungs inside)': { ...PLAIN, inside: 'runner' }, 'the plain design': PLAIN, 'a good design (plain, with a large gut)': { ...PLAIN, inside: 'digester' } };
+  if (res.meadow) designs['the best the search found'] = res.meadow.top[0].g;
+  const run = (g, seed, acts) => { const w = makeBiome('meadow', seed), brain = express(g), supply = (0.03 + 0.1 * BIOMES.meadow.regrow) / BIOMES.meadow.regrow; w.leftovers = true;
+    const H = (spec, ins, extra = {}) => ({ ...build(spec), ...extra, upkeep: 0, instincts: ins }), cast = [H(hunterBody, HUNT.chaser), H({ ...hunterBody, scale: 1.9 }, HUNT.chaser), H({ ...hunterBody, eyes: 'none', sideLine: true }, HUNT.feeler, { feel: 45 })], hs = cast.map((b) => w.add('hunter', b));
+    for (let i = 0; i < 6; i++) w.add('mine', brain); let end = null, life = 0;
+    if (acts !== 'hatching') w.fade = (c) => (c.kind === 'mine' ? F(w.t) : 1); if (acts !== 'cost of living') w.hatchFail = (e) => e.kind === 'mine' && w.rnd() > 1 / F(w.t);
+    live(w, MAX, { grow: (w) => { if (end !== null) return; if (w.rnd() < supply) w.grow(w); if (w.t % 50 === 0) hs.forEach((c, i) => { if (!c.alive) hs[i] = w.add('hunter', cast[i]); });
+      if (w.t % 50 === 0) { const n = w.creatures.reduce((a, c) => a + (c.alive && c.kind === 'mine' ? c.brain.mass : 0), 0); life += n; if (count(w, 'mine') + w.eggCount('mine') === 0) { end = w.t; w.t = MAX; } } } });
+    return { doublings: ((end ?? MAX) - GRACE) / DOUBLE, life: life / 1000, out: end === null }; };
+  console.log(`\nFADING  (meadow, three hunters; fading doubles every ${DOUBLE} beats after ${GRACE}; 5 runs)  how many doublings each design lasts`);
+  console.log('  ' + 'design'.padEnd(46) + ['cost of living', 'hatching', 'both'].map((x) => x.padStart(18)).join('') + '   total life, with both');
+  for (const [name, g] of Object.entries(designs)) { const cells = []; let life = 0;
+    for (const acts of ['cost of living', 'hatching', 'both']) { const r = [1, 2, 3, 4, 5].map((s) => run(g, s, acts)); cells.push((mean(r.map((x) => x.doublings)).toFixed(1) + (r.some((x) => x.out) ? '+' : '')).padStart(18)); if (acts === 'both') life = mean(r.map((x) => x.life)); }
+    console.log('  ' + name.padEnd(46) + cells.join('') + life.toFixed(1).padStart(12)); }
+}
+
 module.exports = { GENES, PLAIN, price, express, trial, score, search, label };
 if (require.main === module) { const [cmd, arg] = process.argv.slice(2);
   if (cmd === 'check') check();
   else if (cmd === 'search') { const t0 = Date.now(), r = search(arg); save(arg, r); console.log(`${arg}: best ${r.top[0].s} (plain ${r.plain}) after ${r.tried} designs in ${((Date.now() - t0) / 1000).toFixed(0)} s: ${label(r.top[0].g)}`); }
   else if (cmd === 'knockout') knockout(arg);
+  else if (cmd === 'fading') fading();
   else report(); }
