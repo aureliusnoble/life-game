@@ -115,4 +115,4 @@ Decided on 15 November:
 
 ## 9. Next
 
-A concept mockup of tending, to see whether it is pleasant to poke at for five minutes, and then feedback and friends.
+A concept test of tending is in `design/mockups/tending.html`. Then feedback and friends.
