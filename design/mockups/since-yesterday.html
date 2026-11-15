@@ -1,0 +1,275 @@
+<title>Since Yesterday</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a phone-width column holding the recap's instruments one under another; notes beside it on a wide screen. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b;
+    --paper: #fbf5e6; --slip: #fffdf6; --p-ink: #2b2a26; --p-muted: #7a7466; --p-line: #e0d5b8; --p-shadow: rgba(60, 48, 20, 0.22);
+    --mine: #ef8a68; --mine-d: #c9553a; --rival: #4f7fb8; --hunter: #6a3d6e; --big: #b8975f;
+    --hunted: #6a3d6e; --starved: #d19324; --cold: #4d86c9; --old: #9a9484;
+    --eat: #5aa35f; --flee: #d0457a; --rest: #7c8fc4; --wander: #d9b95f;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; } h2 { font-family: var(--display); font-size: 19px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 26px; align-items: start; } @media (min-width: 880px) { .stage { grid-template-columns: 400px minmax(0, 1fr); } }
+  .col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .notes { display: flex; flex-direction: column; gap: 18px; min-width: 0; } .notes section { display: flex; flex-direction: column; gap: 6px; } .notes ul, .notes ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+  .set { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; } .set button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px; min-height: 40px; cursor: pointer; } .set button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); } .set button:focus-visible, .phone button:focus-visible, .phone input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .phone { background: var(--paper); color: var(--p-ink); border-radius: 26px; box-shadow: 0 10px 30px var(--p-shadow); width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; display: flex; flex-direction: column; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 16px 10px; } .top b { font-family: var(--display); font-size: 21px; } .top span { font-family: var(--mono); font-size: 11.5px; color: var(--p-muted); text-align: right; }
+  canvas { width: 100%; display: block; max-width: 100%; } #map { aspect-ratio: 360 / 250; background: #cfe6a0; } #line { aspect-ratio: 360 / 96; background: var(--slip); }
+  .scrub { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--slip); border-bottom: 1px solid var(--p-line); }
+  .scrub input { flex: 1; min-width: 0; accent-color: var(--mine-d); height: 30px; } .scrub span { font-family: var(--mono); font-size: 12px; color: var(--p-muted); min-width: 42px; text-align: right; font-variant-numeric: tabular-nums; }
+  .phone button { font: 600 13.5px var(--body); color: var(--p-ink); min-height: 40px; border: 1.5px solid var(--p-line); background: var(--paper); border-radius: 12px; cursor: pointer; padding: 6px 12px; -webkit-tap-highlight-color: transparent; }
+  .key { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 14px 8px; background: var(--slip); font-size: 11.5px; color: var(--p-muted); } .key span { display: inline-flex; align-items: center; gap: 5px; } .key i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; } .key i.dash { background: repeating-linear-gradient(90deg, #b9a98a 0 3px, transparent 3px 6px); } .key b { margin-left: auto; color: var(--p-ink); font: 600 12px var(--mono); }
+  .panel { padding: 12px 14px; border-top: 1px solid var(--p-line); display: flex; flex-direction: column; gap: 8px; }
+  .ph { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; } .ph b { font-family: var(--display); font-size: 17px; } .ph span { font: 11.5px var(--mono); color: var(--p-muted); }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; } .chips button { min-height: 34px; padding: 4px 10px; border-radius: 999px; font-weight: 500; font-size: 13px; } .chips button[aria-pressed="true"] { background: var(--p-ink); color: var(--paper); border-color: var(--p-ink); }
+  .row { display: grid; grid-template-columns: 92px minmax(0, 1fr) 30px; gap: 8px; align-items: start; font-size: 13.5px; } .row .lab small { display: block; color: var(--p-muted); font-size: 11.5px; line-height: 1.3; } .row b { text-align: right; font: 600 13px var(--mono); }
+  .dots { display: flex; flex-wrap: wrap; gap: 2px; padding-top: 5px; } .dots i { width: 7px; height: 7px; border-radius: 50%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 11.5px; color: var(--p-muted); } .legend span { display: inline-flex; align-items: center; gap: 5px; } .legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; } .legend i.sq { border-radius: 2px; }
+  .bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; } .bar.thin { height: 8px; border-radius: 4px; opacity: 0.6; } .bar i { display: block; } .barlab { font: 11px var(--mono); color: var(--p-muted); }
+  .none { color: var(--p-muted); font-size: 13.5px; }
+  .facts { font-size: 13.5px; display: flex; flex-direction: column; gap: 3px; } .facts span { color: var(--p-muted); }
+  .guess { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; } .guess button { text-align: left; font-weight: 500; padding: 8px 10px; line-height: 1.25; } .guess button.right { background: #dcefd0; border-color: #6aa55a; } .guess button.wrong { background: #f6dcd6; border-color: #cf7a66; } .guess button[disabled] { cursor: default; }
+  #answer { font-size: 13.5px; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Concept test · feedback</p>
+    <h1>Since yesterday</h1>
+    <p class="lede">A test of one question: can you tell what happened to a species by looking, with almost no words? Five days in a toy world, each with one thing changed. The page does not say which. Look, turn things over, and guess.</p>
+  </header>
+
+  <div class="stage">
+    <div class="col">
+      <div class="set" role="group" aria-label="Which day" id="days"></div>
+      <section class="phone" aria-label="Phone mockup of the recap">
+        <div class="top"><b>Since yesterday</b><span id="head"></span></div>
+        <canvas id="map" role="img" aria-label="The pool and the creatures round it, run through the day"></canvas>
+        <div class="scrub"><button type="button" id="play">Play</button><input type="range" id="time" min="0" max="719" value="719" aria-label="Time of day"><span id="clock">18:00</span></div>
+        <canvas id="line" role="img" aria-label="The species' living weight through the day"></canvas>
+        <div class="key" id="key"></div>
+        <div class="panel">
+          <div class="ph"><b id="died">Died</b><span id="diedY"></span></div>
+          <div class="chips" role="group" aria-label="Turn the tally" id="cuts"></div>
+          <div id="tally" style="display:flex;flex-direction:column;gap:6px"></div>
+          <div class="legend" id="causeKey"></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><b>Their day</b><span>share of their time</span></div>
+          <div class="bar" id="dayBar"></div>
+          <div class="bar thin" id="dayBarY"></div><span class="barlab">yesterday</span>
+          <div class="legend" id="dayKey"></div>
+        </div>
+        <div class="panel"><div class="facts" id="facts"></div></div>
+        <div class="panel" id="guessPanel">
+          <div class="ph"><b>What happened?</b></div>
+          <div class="guess" id="guess"></div>
+          <p id="answer" aria-live="polite"></p>
+        </div>
+      </section>
+    </div>
+
+    <div class="notes">
+      <section>
+        <h2>What to try</h2>
+        <ol>
+          <li>Press Play and watch a day go by. Crosses are left where creatures died, coloured by what killed them.</li>
+          <li>Turn the tally: the same deaths, counted by what they were doing, where, when, and which of them.</li>
+          <li>Compare their day with yesterday's, the thin bar under it.</li>
+          <li>Look at the line. The coral area is the score. The dashed line is yesterday.</li>
+          <li>Guess, then see what was changed.</li>
+        </ol>
+      </section>
+      <section>
+        <h2>What this is testing</h2>
+        <ul>
+          <li>The game records facts and never says why. Each instrument here shows only what was recorded.</li>
+          <li>Yesterday is drawn behind today, so that a number has something to be compared with.</li>
+          <li>One count of deaths can be cut several ways. Which cut is useful differs from day to day.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What is real and what is not</h2>
+        <ul>
+          <li>A small simulation written for this page runs each day: about thirty grazers at one pool, a hunter, two big harmless grazers. Everything on the phone is read back from its record. It is not the game's simulation.</li>
+          <li>One day here stands in for the time away. In the game a player is away for about twenty-four of the world's days.</li>
+          <li>It is a test of the idea. The layout, the look and the wording are not designs.</li>
+          <li>Left out on purpose: the pointer that lights the place to look, watching a creature think, and the web of who eats whom.</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  // ---------- a toy day, recorded. Everything the page shows is read back from this record. ----------
+  const STORIES = {
+    quiet: {},
+    caught: { flee: 0.3, hunters: 3 },
+    bare: { layAt: 0.62, eggCost: 0.22, regrow: 0.0022, brood: 150 },
+    rival: { rivals: 22 },
+    cold: { coat: 0.25 },
+    afraid: { fear: 'bigger', flee: 1.7, galumphs: 4 },
+  };
+  const W = 360, H = 250, T = 1440, POOL = { x: 100, y: 126, rx: 52, ry: 36 }, WOOD = 292, ACTS = ['eating', 'fleeing', 'resting', 'wandering', 'laying'];
+  const hourOf = (t) => (18 + t / 60) % 24;
+  const phase = (t) => { const h = hourOf(t); return h >= 18 && h < 20 ? 'dusk' : h >= 20 || h < 6 ? 'night' : h < 8 ? 'dawn' : 'day'; };
+  const dark = (t) => ({ dusk: 0.4, night: 1, dawn: 0.4, day: 0 })[phase(t)];
+  const whereIs = (x, y) => x > WOOD ? 'in the wood' : ((x - POOL.x) / (POOL.rx + 36)) ** 2 + ((y - POOL.y) / (POOL.ry + 36)) ** 2 < 1 ? 'by the pool' : 'in the open';
+  function night(story, seed) {
+    let s = seed >>> 0; const rnd = () => { s = (s + 0x6D2B79F5) | 0; let z = Math.imul(s ^ (s >>> 15), 1 | s); z = (z + Math.imul(z ^ (z >>> 7), 61 | z)) ^ z; return ((z ^ (z >>> 14)) >>> 0) / 4294967296; };
+    const P = Object.assign({ flee: 1, fear: 'hunter', layAt: 1.0, eggCost: 0.4, brood: 1200, regrow: 0.004, coat: 1, hunters: 1, rivals: 0, galumphs: 2, start: 26 }, STORIES[story]);
+    const KIND = { m: { speed: 1.0, sight: 62, mass: 1 }, r: { speed: 1.5, sight: 120, mass: 1 }, h: { speed: 1.45, sight: 100, mass: 3 }, g: { speed: 0.4, sight: 0, mass: 6 } };
+    const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y), clamp01 = (v) => Math.max(0, Math.min(1, v));
+    const place = (c) => { c.x = Math.max(6, Math.min(W - 6, c.x)); c.y = Math.max(6, Math.min(H - 6, c.y));
+      const ex = (c.x - POOL.x) / POOL.rx, ey = (c.y - POOL.y) / POOL.ry; if (ex * ex + ey * ey < 1) { const a = Math.atan2(ey, ex); c.x = POOL.x + Math.cos(a) * (POOL.rx + 1); c.y = POOL.y + Math.sin(a) * (POOL.ry + 1); } };
+    const go = (c, x, y, sp) => { const dx = x - c.x, dy = y - c.y, d = Math.hypot(dx, dy) || 1; c.x += dx / d * Math.min(sp, d); c.y += dy / d * Math.min(sp, d); place(c); };
+    const roam = (c, sp) => { if (!c.wx || rnd() < 0.01 || Math.hypot(c.wx - c.x, c.wy - c.y) < 8) { c.wx = 20 + rnd() * (W - 40); c.wy = 16 + rnd() * (H - 32); } go(c, c.wx, c.wy, sp); };
+    // plants: thick on the pool's bank, thinner in the open, a few in the wood
+    const plants = []; for (let i = 0; i < 64; i++) { const p = { food: 0.5 + rnd() * 0.5 };
+      if (i < 36) { const a = rnd() * 6.283, k = 1.18 + rnd() * 0.5; p.x = POOL.x + Math.cos(a) * POOL.rx * k; p.y = POOL.y + Math.sin(a) * POOL.ry * k; } else if (i < 56) { p.x = 175 + rnd() * 110; p.y = 14 + rnd() * (H - 28); } else { p.x = WOOD + 8 + rnd() * 52; p.y = 14 + rnd() * (H - 28); }
+      p.x = Math.max(8, Math.min(W - 8, p.x)); p.y = Math.max(8, Math.min(H - 8, p.y)); plants.push(p); }
+    const grazer = (k, x, y, age) => ({ k, x, y, e: 0.55 + rnd() * 0.4, age, life: 2700 + rnd() * 800, cool: rnd() * (k === 'm' ? P.brood : 250), chill: 0, saw: -999, since: 0, scare: 0, bite: 0, act: 'wandering', coat: (rnd() - 0.5) * 0.5 });
+    let cr = [], eggs = []; for (let i = 0; i < P.start; i++) { const a = rnd() * 6.283, k = 1.3 + rnd() * 1.1; const c = grazer('m', POOL.x + Math.cos(a) * POOL.rx * k, POOL.y + Math.sin(a) * POOL.ry * k, rnd() * 2300); place(c); cr.push(c); }
+    for (let i = 0; i < P.hunters; i++) cr.push({ k: 'h', x: WOOD + 20 + rnd() * 30, y: 30 + rnd() * (H - 60), sated: 60 + i * 90, chase: 0 });
+    for (let i = 0; i < P.galumphs; i++) cr.push({ k: 'g', x: 40 + rnd() * 150, y: 30 + rnd() * (H - 60), bite: 0 });
+    const R = { story, frames: [], weight: { m: [], r: [], h: [], g: [] }, deaths: [], acts: Object.fromEntries(ACTS.map((a) => [a, 0])), lost: { r: 0, m: 0, g: 0 }, laid: 0, hatched: 0, pins: [], start: P.start, plants };
+    let peak = 0, w0 = 0; const once = {}; const pin = (key, t, x, y, text) => { if (!once[key]) { once[key] = 1; R.pins.push({ t, x, y, text, key }); } };
+    const die = (c, cause, t, by) => { c.dead = true; if (c.k === 'm') { R.deaths.push({ t, cause, x: c.x, y: c.y, act: c.act, where: whereIs(c.x, c.y), phase: phase(t), young: c.age < 240, saw: t - c.saw < 5 && t - c.since > 12, by });
+      if (cause === 'hunted' && R.deaths.filter((d) => d.cause === 'hunted').length === 5) pin('hunted', t, c.x, c.y, 'Being hunted'); } };
+    const graze = (c, t) => { const K = KIND[c.k], mine = c.k === 'm', young = c.age < 240, sp = K.speed * (young ? 0.8 : 1); c.age++; if (c.cool > 0) c.cool--; if (c.bite > 0) c.bite--;
+      let thr = null, td = 1e9; for (const o of cr) if (!o.dead && (o.k === 'h' || (mine && P.fear === 'bigger' && o.k === 'g'))) { const d = dist(c, o); if (d < td) { td = d; thr = o; } }
+      const sight = K.sight * (1 - 0.45 * dark(t)) * (c.act === 'resting' ? 0.3 : 1); if (td < sight) { if (t - c.saw > 20) c.since = t; c.saw = t; }
+      if (c.tgt && c.tgt.food < 0.3) c.tgt = null;
+      if (!c.tgt) { let bd = K.sight; for (const p of plants) if (p.food >= 0.3) { const d = dist(c, p); if (d < bd) { bd = d; c.tgt = p; } } }
+      const hunger = clamp01(1.15 - c.e), fl = td < sight ? (mine ? P.flee : 1) * 1.6 * (1 - td / sight) : 0; c.scare = Math.max(fl, c.scare * 0.92);
+      const pull = { wandering: 0.15, eating: c.tgt ? hunger : 0, fleeing: c.scare > 0.05 && thr ? c.scare : 0, resting: mine ? dark(t) * 0.45 * (c.e > 0.4 ? 1 : 0.2) : 0, laying: c.e > P.layAt && !young && c.cool <= 0 ? 0.9 : 0 };
+      let act = 'wandering'; for (const a of ACTS) if (pull[a] > pull[act]) act = a; c.act = act; let cost = 0.0011;
+      if (act === 'eating') { if (dist(c, c.tgt) < 6) { if (c.bite <= 0) { const p = c.tgt; p.food = Math.max(0, p.food - 0.34); c.e = Math.min(1.3, c.e + 0.22); c.bite = 12;
+            if (p.food < 0.3) for (const o of cr) if (o !== c && !o.dead && o.k === 'm' && o.tgt === p && o.act === 'eating' && dist(o, p) < 16) { R.lost[c.k]++; o.tgt = null; } } } else { go(c, c.tgt.x, c.tgt.y, sp); cost += 0.0005; } }
+      else if (act === 'fleeing') { go(c, c.x + (c.x - thr.x), c.y + (c.y - thr.y), sp * 1.5); cost += 0.0015; }
+      else if (act === 'resting') cost *= 0.6;
+      else if (act === 'laying') { eggs.push({ k: c.k, x: c.x, y: c.y, at: t + 120 }); c.e -= mine ? P.eggCost : 0.4; c.cool = mine ? P.brood : 250; if (mine) R.laid++; }
+      else { roam(c, hunger > 0.5 ? sp : sp * 0.5); cost += hunger > 0.5 ? 0.0005 : 0.0002; }
+      c.e -= cost; if (mine) { R.acts[act]++; const cold = dark(t) * Math.max(0, 1 - P.coat - c.coat);
+        c.chill = cold > 0 ? c.chill + cold * (c.x > WOOD ? 0.12 : 1) * (young ? 1.7 : 1) * 0.0019 : Math.max(0, c.chill - 0.004); }
+      if (c.chill >= 1) die(c, 'cold', t); else if (c.e <= 0) die(c, 'starved', t); else if (c.age > c.life) die(c, 'old age', t); };
+    const hunt = (h, t) => { h.empty = (h.empty || 0) + 1; if (h.sated > 0) { h.sated--; roam(h, 0.3); return; }
+      let prey = null, bd = KIND.h.sight; for (const o of cr) if (!o.dead && (o.k === 'm' || o.k === 'r')) { const d = dist(h, o); if (d < bd) { bd = d; prey = o; } }
+      if (!prey) { roam(h, 0.7); h.chase = 0; return; } go(h, prey.x, prey.y, KIND.h.speed); h.chase++;
+      if (bd < 7) { die(prey, 'hunted', t, 'h'); h.sated = 300; h.chase = 0; h.empty = 0; } else if (h.chase > 110) { h.sated = 50; h.chase = 0; } };
+    const amble = (g) => { if (!g.wx || rnd() < 0.004 || Math.hypot(g.wx - g.x, g.wy - g.y) < 10) { const a = rnd() * 6.283, k = 1.4 + rnd() * 1.3; g.wx = POOL.x + Math.cos(a) * POOL.rx * k; g.wy = POOL.y + Math.sin(a) * POOL.ry * k; } go(g, g.wx, g.wy, KIND.g.speed);
+      if (g.bite-- <= 0) for (const p of plants) if (p.food > 0.4 && dist(g, p) < 10) { p.food -= 0.15; g.bite = 50; break; } };
+    for (let t = 0; t < T; t++) {
+      if (P.rivals && t === 200) for (let i = 0; i < P.rivals; i++) { const c = grazer('r', 8 + rnd() * 20, 20 + rnd() * (H - 40), 300 + rnd() * 900); c.e = 0.8; cr.push(c); }
+      for (const p of plants) p.food = Math.min(1, p.food + P.regrow * (1 - p.food) * (p.food < 0.05 ? 0.35 : 1));
+      for (const c of cr) { if (c.dead) continue; if (c.k === 'h') hunt(c, t); else if (c.k === 'g') amble(c); else graze(c, t); }
+      cr = cr.filter((c) => !c.dead);
+      eggs = eggs.filter((e) => { if (t < e.at) return true; const c = grazer(e.k, e.x, e.y, 0); c.e = 0.5; cr.push(c); if (e.k === 'm') R.hatched++; return false; });
+      if (t % 2 === 0) { const w = { m: 0, r: 0, h: 0, g: 0 }; let n = 0, cx = 0, cy = 0, met = null;
+        for (const c of cr) { w[c.k] += KIND[c.k].mass * (c.age !== undefined && c.age < 240 ? 0.4 : 1); if (c.k === 'm') { n++; cx += c.x; cy += c.y; } }
+        if (P.rivals && !once.rival) for (const c of cr) if (c.k === 'r') for (const o of cr) if (o.k === 'm' && dist(c, o) < 50) met = o;
+        for (const k in w) R.weight[k].push(w[k]); if (t === 0) w0 = w.m; peak = Math.max(peak, w.m); cx /= n || 1; cy /= n || 1;
+        if (met) pin('rival', t, met.x, met.y, 'A newcomer on its food'); if (w.m > 2 * w0) pin('doubled', t, cx, cy, 'Doubled'); if (w.m < peak / 2) pin('half', t, cx, cy, 'Fell by half'); if (n <= 5) pin('few', t, cx, cy, 'Down to the last few');
+        R.frames.push({ cr: cr.map((c) => [c.k, Math.round(c.x), Math.round(c.y), c.k === 'm' || c.k === 'r' ? (c.age < 240 ? 1 : 0) : 0, c.act === 'fleeing' ? 1 : c.act === 'resting' ? 2 : 0]), pl: plants.map((p) => Math.round(p.food * 9)), eg: eggs.filter((e) => e.k === 'm').map((e) => [Math.round(e.x), Math.round(e.y)]) }); }
+    }
+    const order = ['few', 'half', 'doubled', 'rival', 'hunted']; R.headline = order.map((k) => R.pins.find((p) => p.key === k)).find(Boolean) || null;
+    R.life = R.weight.m.reduce((a, b) => a + b, 0) / 30;   // living weight added up, in weight-hours
+    return R;
+  }
+  // ---------- the page ----------
+  const DAYS = [{ id: 'quiet', label: 'Yesterday', seed: 7 }, { id: 'cold', label: 'Day 1', seed: 8 }, { id: 'caught', label: 'Day 2', seed: 8 }, { id: 'afraid', label: 'Day 3', seed: 7 }, { id: 'bare', label: 'Day 4', seed: 7 }, { id: 'rival', label: 'Day 5', seed: 7 }];
+  const CHOICES = [['caught', 'Hunters caught them'], ['bare', 'They ate the place bare'], ['rival', 'A newcomer took the food'], ['cold', 'The cold killed them'], ['afraid', 'They ran from something harmless']];
+  const CAUSE = { hunted: '#6a3d6e', starved: '#d19324', cold: '#4d86c9', 'old age': '#9a9484' }, ACTCOL = { eating: '#5aa35f', fleeing: '#d0457a', resting: '#7c8fc4', wandering: '#d9b95f' }, SHOWN = ['eating', 'fleeing', 'resting', 'wandering'];
+  const COL = { m: '#ef8a68', r: '#4f7fb8', h: '#6a3d6e', g: '#b8975f' }, NAME = { m: 'yours', r: 'newcomers', h: 'hunters', g: 'big grazers' };
+  const $ = (id) => document.getElementById(id), cache = {}, get = (d) => cache[d.id] || (cache[d.id] = night(d.id, d.seed));
+  const BASE = get(DAYS[0]); let day = DAYS[1], R = get(day), idx = 719, playing = false, cut = 'cause', picked = {};
+  const share = (X) => { const tot = SHOWN.reduce((a, k) => a + X.acts[k], 0) || 1; return Object.fromEntries(SHOWN.map((k) => [k, X.acts[k] / tot])); };
+  const pct = (v) => Math.round(v * 100) + '%', count = (X, c) => X.deaths.filter((d) => d.cause === c).length;
+  const TELL = {
+    cold: (X) => `Their coat was made thin. The tally shows ${count(X, 'cold')} dead of cold: at night, while resting, by the pool. The wood would have sheltered them, and nothing in them sends them there.`,
+    caught: (X) => { const h = X.deaths.filter((d) => d.cause === 'hunted'); return `Two more hunters came, and the urge to flee was made weak. The tally shows ${h.length} hunted. Turned to what they were doing, most were eating or resting, and ${h.filter((d) => d.saw).length} of them had seen the hunter coming.`; },
+    afraid: (X) => `They were set to flee from anything bigger, and the big grazers are harmless. Few were hunted. Their day shows it: ${pct(share(X).fleeing)} of their time spent fleeing, against ${pct(share(BASE).fleeing)} yesterday, and ${count(X, 'starved')} starved beside food.`,
+    bare: (X) => `They were set to lay as soon as they could. The line climbs and falls, the plants on the map go brown, and the tally shows ${count(X, 'starved')} starved, most of them by day.`,
+    rival: (X) => `A faster grazer arrived that feeds through the night. Few of yours died. The line stops climbing while the newcomers' line rises, and ${X.lost.r} meals were lost to them.`,
+  };
+  // canvases
+  const map = $('map'), line = $('line'), mg = map.getContext('2d'), lg = line.getContext('2d'); let ms = 1, ls = 1;
+  const fit = () => { const dpr = Math.min(2, window.devicePixelRatio || 1); for (const [c, w, h] of [[map, W, H], [line, 360, 96]]) { const cw = c.clientWidth || 360; c.width = Math.round(cw * dpr); c.height = Math.round(cw * h / w * dpr); } ms = map.width / W; ls = line.width / 360; draw(); };
+  const TREES = (() => { let s = 5; const r = () => (s = (s * 16807) % 2147483647) / 2147483647; return Array.from({ length: 26 }, () => ({ x: WOOD + 6 + r() * 62, y: r() * H, r: 7 + r() * 7 })); })();
+  const disc = (g, x, y, rx, ry, fill, stroke) => { g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, 6.283); g.fillStyle = fill; g.fill(); if (stroke) { g.strokeStyle = stroke; g.lineWidth = 1; g.stroke(); } };
+  function body(g, [k, x, y, young, st]) {
+    if (k === 'g') { disc(g, x, y, 10, 8, '#c9ab78', '#8f744a'); disc(g, x - 3.5, y - 2, 1, 1, '#3b2f1c'); disc(g, x + 3.5, y - 2, 1, 1, '#3b2f1c'); }
+    else if (k === 'h') { g.fillStyle = '#6a3d6e'; g.beginPath(); g.moveTo(x - 6, y - 2); g.lineTo(x - 4, y - 10); g.lineTo(x - 1, y - 4); g.moveTo(x + 6, y - 2); g.lineTo(x + 4, y - 10); g.lineTo(x + 1, y - 4); g.fill(); disc(g, x, y, 6.4, 6, '#6a3d6e', '#3f2143'); disc(g, x - 2.2, y - 1, 1.1, 1.1, '#fff'); disc(g, x + 2.2, y - 1, 1.1, 1.1, '#fff'); }
+    else { const r = young ? 3 : 4.5, rest = st === 2; disc(g, x, y + (rest ? 1 : 0), r * (rest ? 1.2 : 1), r * (rest ? 0.68 : 1), COL[k], k === 'm' ? '#b9553a' : '#2f558a'); if (!rest) { disc(g, x - r * 0.38, y - r * 0.2, 0.8, 0.8, '#2b2a26'); disc(g, x + r * 0.38, y - r * 0.2, 0.8, 0.8, '#2b2a26'); } }
+  }
+  function drawMap() { const g = mg, fr = R.frames[idx], t = idx * 2; g.setTransform(ms, 0, 0, ms, 0, 0); g.fillStyle = '#cfe6a0'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#b4d894'; g.fillRect(WOOD, 0, W - WOOD, H); for (const tr of TREES) disc(g, tr.x, tr.y, tr.r, tr.r, '#86bb78');
+    disc(g, POOL.x, POOL.y, POOL.rx + 5, POOL.ry + 5, '#e6f0c4'); disc(g, POOL.x, POOL.y, POOL.rx, POOL.ry, '#8fd0d8'); disc(g, POOL.x - 12, POOL.y - 8, POOL.rx * 0.45, POOL.ry * 0.3, '#aadfe4');
+    R.plants.forEach((p, j) => { const f = fr.pl[j]; if (f <= 1) disc(g, p.x, p.y, 1.7, 1.7, '#b9a06c'); else { disc(g, p.x, p.y, 1.8 + f * 0.33, 1.8 + f * 0.33, '#4f9a58'); disc(g, p.x - 1, p.y - 1, 0.7 + f * 0.15, 0.7 + f * 0.15, '#78bd72'); } });
+    g.lineCap = 'round'; for (const d of R.deaths) if (d.t <= t) { for (const [w, c] of [[3.4, '#fffdf6'], [1.6, CAUSE[d.cause]]]) { g.strokeStyle = c; g.lineWidth = w; g.beginPath(); g.moveTo(d.x - 2.6, d.y - 2.6); g.lineTo(d.x + 2.6, d.y + 2.6); g.moveTo(d.x + 2.6, d.y - 2.6); g.lineTo(d.x - 2.6, d.y + 2.6); g.stroke(); } }
+    for (const e of fr.eg) disc(g, e[0], e[1], 1.9, 2.5, '#fffaf0', '#b9a06c');
+    const ord = { g: 0, r: 1, m: 2, h: 3 }; for (const c of fr.cr.slice().sort((a, b) => ord[a[0]] - ord[b[0]])) body(g, c);
+    const dk = dark(t); if (dk) { g.fillStyle = `rgba(24,32,78,${0.36 * dk})`; g.fillRect(0, 0, W, H); }
+    g.font = '600 10.5px Inter, system-ui, sans-serif'; g.textBaseline = 'middle';
+    for (const p of R.pins) if (p.t <= t) { const x = Math.max(10, Math.min(W - 10, p.x)), y = Math.max(22, Math.min(H - 8, p.y)); g.strokeStyle = '#2b2a26'; g.lineWidth = 1.4; g.beginPath(); g.moveTo(x, y); g.lineTo(x, y - 12); g.stroke(); disc(g, x, y - 14, 4, 4, '#fffdf6', '#2b2a26');
+      if (p === R.headline || t - p.t < 200) { const tw = g.measureText(p.text).width + 12, bx = Math.max(4, Math.min(W - tw - 4, x + 7)); g.fillStyle = '#fffdf6'; g.strokeStyle = '#2b2a26'; g.lineWidth = 1; g.beginPath(); g.roundRect(bx, y - 23, tw, 17, 5); g.fill(); g.stroke(); g.fillStyle = '#2b2a26'; g.fillText(p.text, bx + 6, y - 14); } } }
+  function drawLine() { const g = lg, LW = 360, LH = 96, x0 = 26, x1 = LW - 10, y0 = 8, y1 = LH - 20, n = R.frames.length; g.setTransform(ls, 0, 0, ls, 0, 0); g.clearRect(0, 0, LW, LH);
+    const top = Math.max(...R.weight.m, ...R.weight.r, ...R.weight.h, ...R.weight.g, ...BASE.weight.m), max = Math.ceil(top / 20) * 20, X = (j) => x0 + (x1 - x0) * j / (n - 1), Y = (v) => y1 - (y1 - y0) * v / max;
+    g.fillStyle = 'rgba(40,50,110,0.09)'; g.fillRect(X(60), y0, X(360) - X(60), y1 - y0);
+    g.font = '9.5px "JetBrains Mono", ui-monospace, monospace'; g.fillStyle = '#7a7466'; g.textBaseline = 'middle'; g.textAlign = 'right'; g.strokeStyle = '#e0d5b8'; g.lineWidth = 1;
+    for (const v of [0, max / 2, max]) { g.beginPath(); g.moveTo(x0, Y(v)); g.lineTo(x1, Y(v)); g.stroke(); g.fillText(String(v), x0 - 5, Y(v)); }
+    g.textAlign = 'center'; g.textBaseline = 'top'; [['18:00', 0], ['00:00', 180], ['06:00', 360], ['12:00', 540], ['18:00', n - 1]].forEach(([s, j], q) => { g.textAlign = q === 0 ? 'left' : q === 4 ? 'right' : 'center'; g.fillText(s, X(j), y1 + 6); });
+    const path = (arr, to) => { g.beginPath(); for (let j = 0; j <= to; j++) j ? g.lineTo(X(j), Y(arr[j])) : g.moveTo(X(j), Y(arr[j])); };
+    g.setLineDash([3, 3]); g.strokeStyle = '#b9a98a'; g.lineWidth = 1.4; path(BASE.weight.m, n - 1); g.stroke(); g.setLineDash([]);
+    for (const k of OTHERS()) { g.strokeStyle = COL[k]; g.lineWidth = 1.4; g.globalAlpha = 0.3; path(R.weight[k], n - 1); g.stroke(); g.globalAlpha = 1; path(R.weight[k], idx); g.stroke(); }
+    path(R.weight.m, idx); g.lineTo(X(idx), Y(0)); g.lineTo(X(0), Y(0)); g.closePath(); g.fillStyle = 'rgba(239,138,104,0.3)'; g.fill();
+    g.strokeStyle = '#c9553a'; g.lineWidth = 2.2; g.globalAlpha = 0.25; path(R.weight.m, n - 1); g.stroke(); g.globalAlpha = 1; path(R.weight.m, idx); g.stroke();
+    for (const p of R.pins) { const j = Math.floor(p.t / 2); if (j <= idx) disc(g, X(j), Y(R.weight.m[j]), 3.2, 3.2, '#fffdf6', '#2b2a26'); }
+    g.strokeStyle = '#2b2a26'; g.lineWidth = 1; g.beginPath(); g.moveTo(X(idx), y0); g.lineTo(X(idx), y1); g.stroke(); }
+  function draw() { drawMap(); drawLine(); const h = hourOf(idx * 2), hh = Math.floor(h), mm = Math.floor((h - hh) * 60); $('clock').textContent = String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0'); $('time').value = idx;
+    let life = 0; for (let j = 0; j <= idx; j++) life += R.weight.m[j]; $('lifeNow').textContent = 'Total life ' + Math.round(life / 30); }
+  // the panels under the map: these describe the whole day
+  const CUTS = { cause: ['Cause', (d) => d.cause], doing: ['Doing', (d) => d.act], where: ['Where', (d) => d.where], when: ['When', (d) => d.phase], which: ['Which', (d) => (d.young ? 'the young' : 'the grown')] };
+  function drawTally() { const f = CUTS[cut][1], m = new Map(), order = Object.keys(CAUSE); for (const d of R.deaths) { const k = f(d); if (!m.has(k)) m.set(k, []); m.get(k).push(d); }
+    $('died').textContent = 'Died: ' + R.deaths.length; $('diedY').textContent = day.id === 'quiet' ? '' : 'yesterday ' + BASE.deaths.length;
+    $('tally').innerHTML = [...m.entries()].sort((a, b) => b[1].length - a[1].length).map(([k, ds]) => { ds.sort((a, b) => order.indexOf(a.cause) - order.indexOf(b.cause));
+      const note = cut === 'cause' && k === 'hunted' ? `<small>${ds.filter((d) => d.saw).length} of ${ds.length} had seen it</small>` : '';
+      return `<div class="row"><span class="lab">${k}${note}</span><span class="dots">${ds.map((d) => `<i style="background:${CAUSE[d.cause]}"></i>`).join('')}</span><b>${ds.length}</b></div>`; }).join('') || '<p class="none">None died.</p>';
+    for (const b of $('cuts').children) b.setAttribute('aria-pressed', String(b.dataset.cut === cut)); }
+  function drawDay() { const a = share(R), b = share(BASE), seg = (s) => SHOWN.map((k) => `<i style="width:${(s[k] * 100).toFixed(1)}%;background:${ACTCOL[k]}"></i>`).join('');
+    $('dayBar').innerHTML = seg(a); $('dayBarY').innerHTML = seg(b); $('dayKey').innerHTML = SHOWN.map((k) => `<span><i class="sq" style="background:${ACTCOL[k]}"></i>${k} ${pct(a[k])}</span>`).join('');
+    const lost = R.lost.r + R.lost.m, y = day.id === 'quiet' ? '' : ` <span>· yesterday ${BASE.hatched}</span>`, yl = day.id === 'quiet' ? '' : ` <span>· yesterday ${BASE.lost.m}</span>`;
+    const w = R.weight.m; $('facts').innerHTML = `<div>Living weight: ${Math.round(w[0])} at the start, ${Math.round(w[w.length - 1])} at the end</div><div>Hatched: ${R.hatched}${y}</div><div>Meals lost to another mouth: ${lost}${yl}</div>` + (R.lost.r ? `<div><span>of those, to newcomers: </span>${R.lost.r}</div>` : ''); }
+  // other species are drawn on the line only when their weight changed through the day
+  const OTHERS = () => ['g', 'h', 'r'].filter((k) => Math.max(...R.weight[k]) > Math.min(...R.weight[k]));
+  function drawKey() { const ks = ['m'].concat(OTHERS().reverse());
+    $('key').innerHTML = ks.map((k) => `<span><i style="background:${COL[k]}"></i>${NAME[k]}</span>`).join('') + '<span><i class="dash"></i>yesterday</span><b id="lifeNow"></b>'; }
+  function drawGuess() { const quiet = day.id === 'quiet', done = picked[day.id]; $('guess').hidden = quiet;
+    $('guess').innerHTML = CHOICES.map(([id, text]) => `<button type="button" data-id="${id}"${done ? ' disabled' : ''} class="${done && id === day.id ? 'right' : done === id ? 'wrong' : ''}">${text}</button>`).join('');
+    $('answer').textContent = quiet ? 'Nothing was changed on this day. It is here as the day before, to set the others against.' : done ? (done === day.id ? 'Yes. ' : 'Not that one. ') + TELL[day.id](R) : ''; }
+  function show() { R = get(day); idx = 719; playing = false; $('play').textContent = 'Play'; $('head').textContent = R.headline ? R.headline.text : '';
+    for (const b of $('days').children) b.setAttribute('aria-pressed', String(b.dataset.id === day.id)); drawKey(); drawTally(); drawDay(); drawGuess(); draw(); }
+  $('days').innerHTML = DAYS.map((d) => `<button type="button" data-id="${d.id}">${d.label}</button>`).join('');
+  $('cuts').innerHTML = Object.entries(CUTS).map(([k, v]) => `<button type="button" data-cut="${k}">${v[0]}</button>`).join('');
+  $('causeKey').innerHTML = Object.entries(CAUSE).map(([k, c]) => `<span><i style="background:${c}"></i>${k}</span>`).join('');
+  $('days').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { day = DAYS.find((d) => d.id === b.dataset.id); show(); } });
+  $('cuts').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { cut = b.dataset.cut; drawTally(); } });
+  $('guess').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && !picked[day.id]) { picked[day.id] = b.dataset.id; drawGuess(); } });
+  $('time').addEventListener('input', (e) => { idx = +e.target.value; playing = false; $('play').textContent = 'Play'; draw(); });
+  let last = 0, acc = 0; const tick = (now) => { if (playing) { acc += Math.min(50, now - last) * 0.06; const step = Math.floor(acc); if (step) { acc -= step; idx = Math.min(719, idx + step); draw(); if (idx >= 719) { playing = false; $('play').textContent = 'Play'; } } } last = now; requestAnimationFrame(tick); };
+  $('play').addEventListener('click', () => { playing = !playing; if (playing && idx >= 719) idx = 0; acc = 0; $('play').textContent = playing ? 'Pause' : 'Play'; });
+  window.addEventListener('resize', fit); show(); fit(); requestAnimationFrame(tick);
+})();
+</script>
