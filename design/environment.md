@@ -101,18 +101,9 @@ Two artefacts were removed along the way: a permanent night, which only measured
 
 Water depth and current, warmth, water level, weather, burrows, lily pads, the richness loop, landmarks, and more than one pond.
 
-## 8. For the first version
+## 8. Scope
 
-One pond with four regions, each with its own food and its own ground rule:
-
-| Region | Food | Ground rule |
-|---|---|---|
-| Shallows | Pond weed | Fins and paddles fast; legs slow |
-| Reed bed | Seeds | Hides what is inside; slows big bodies |
-| Meadow | Grass | Open and fast |
-| Rocks | Little | Crevices that only small bodies fit |
-
-With day and night, and one cycle of seasons. Deep water, the brook, mud, weather and water level come later.
+This draft was written for one pond. The decision since is for a much richer world: several biomes, each with its own cycles, that respond to how species use them, recover after being overexploited, and offer niches for different bodies, life cycles and social organisation. That design is the first area in `design/plan.md`, and it starts from the layers, regions and findings here.
 
 ## 9. Next
 

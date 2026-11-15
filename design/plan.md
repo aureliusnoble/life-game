@@ -1,95 +1,79 @@
-# Plan: from spec to a first playable version
+# Plan: full design first, then build
 
-Draft 1, November 2026. A first pass for discussion. Nothing here is committed to until the decisions in section 7 are made.
+Draft 2, November 2026. Replaces the "one pond" first version of draft 1.
 
-## 1. Where the spec stands
+## 1. Decisions made
+
+| Question | Decision |
+|---|---|
+| Hosting | A small fixed-price server at roughly €6 to €10 a month is fine |
+| The group | 5 to 20 friends. Empty places in the ecosystem are filled by preset species we make |
+| Order of building | The designers come before the shared world |
+| Overlap | No. A player has one species alive at a time |
+| Scope | Do the whole design now, as completely as possible, before building. This is the moment to find out which systems are not rich enough |
+| The world | Much richer than one pond: several biomes, each with its own cycles, that respond to how species use them, recover after being overexploited, and offer niches for different bodies, life cycles and social organisation |
+| Pet play | There must be Tamagotchi-like interaction with the species |
+| Working arrangement | Reviewed changes into the main branch |
+
+## 2. How the design process runs
+
+Each area below goes through the same four steps, and is not called done until it passes.
+
+1. **Write it down** as a design document.
+2. **Test it for richness.** Where the stand-in world can run it, an audit: does each piece change what happens, and is each the wrong choice somewhere? Where it is about people, a mockup to react to.
+3. **Questions and answers** on the choices that are yours.
+4. **Close it** against its own checklist, and list what is still open.
+
+## 3. Design areas, in order
+
+Earlier areas constrain later ones, so the order matters. Art runs alongside from the start.
+
+| # | Area | Has to answer | Done when |
+|---|---|---|---|
+| 1 | **World** | Which biomes; what each one's ground, food and cycles are; how biomes respond to use and recover; how they connect; how a player sees it on a phone | Each biome has a different best build; an overexploited biome recovers; there is a map mockup |
+| 2 | **Life cycles** | Eggs, growth, young forms, sexes, lifespans, death and what the dead become | At least four ways of living through a year each win somewhere |
+| 3 | **Social organisation** | Loners, pairs, herds, packs, colonies with castes, territories | Each form can be built from the vocabulary and each pays in some biome |
+| 4 | **Ecosystem balance** | Hunters and prey that persist together; the cast of preset species; how many player builds can coexist | A mixed world runs for a long time without collapsing to one species |
+| 5 | **Bodies** | Fix shells, the inside and camouflage; audit the untested parts; set costs | No part is always right or always wrong |
+| 6 | **Behaviour** | Audit the untested verbs and mood functions; check it can express areas 2 and 3 | Every word has passed its audit |
+| 7 | **Lifespan and scoring** | Fading, what counts as doing well, what happens at death, the rhythm of play across weeks | Lifespans land in 3 to 7 days in simulation, and skill moves them |
+| 8 | **Player loops** | The first hour; the daily visit; the design session; death and what follows; unlocks and puzzles; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
+| 9 | **Pet play** | What a player can do with individuals, where, and what comes back | A mockup that is pleasant to poke at for five minutes |
+| 10 | **Feedback** | Recap, watching it think, the death view, the food web, records | For any outcome, the player can find out why |
+| 11 | **Playing with friends** | Relationships between species, seeing each other's work, sharing, rankings | Friends have reasons to talk about it |
+| 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; interface style; sound | Mockups of each biome and of a creature in every mood |
+| 13 | **Screens** | Every screen and the paths between them | A click-through mockup of the whole game |
+| 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
+
+## 4. What exists already
 
 | Area | Document | State |
 |---|---|---|
-| Behaviour editor | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited. Ten verbs still untested. Not yet tried by people |
-| Bodies | `design/body.md` (draft 1) | Parts audited. Shells, the inside and camouflage need rebalancing. Many parts untested |
-| World and daily loop | `design/world-and-loop.md` | Direction decided. Fading and keeper actions are proposals, untested |
-| Environment | `design/environment.md` (draft 1) | Regions, features and cycles proposed and audited. No lasting balance between hunters and prey yet |
-| Look | `design/art-direction.md` | Soft critters and the Paper lagoon direction chosen. Needs deepening and a real asset kit |
+| Behaviour | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited; ten verbs and most functions untested |
+| Bodies | `design/body.md` (draft 1) | Parts audited; shells, the inside and camouflage need rework |
+| World | `design/environment.md` (draft 1) | Layers, regions and cycles proposed and partly audited, for one pond only |
+| Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
+| Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 
-Three things are missing from the spec entirely: the life cycle (eggs, growth, death), the unlock order with its puzzles, and the recap.
+## 5. Building, once the design is closed
 
-## 2. What the first playable version is
+The order from draft 1 stands, with the designers first:
 
-One pond, one group of friends, one week.
+1. Foundations.
+2. The simulation, with the audits as its tests.
+3. The designers and a test tank on a phone, tried with friends.
+4. The shared world.
+5. The daily loop and pet play.
+6. Look, sound and feel in production form.
+7. A first season with the group.
 
-**In:**
+## 6. Risks carried into the design
 
-- A shared pond that runs all day on a server, with each friend's species living in it. Four regions (shallows, reed bed, meadow, rocks), day and night, and one cycle of seasons.
-- A body designer with the parts that passed the audit.
-- A behaviour designer with the vocabulary that has been tested, and a test tank.
-- Fading, so a species lasts days, not for ever.
-- A plain daily recap, a couple of newborn edits a day, and two keeper actions: dropping a scent and the touch-and-hold beacon.
-- Death, with a view of what the species was doing when it failed.
-- The Paper lagoon look, on a phone, in a browser.
-- Invite-only sign-in.
-
-**Out, for later:** most mood functions, appearance-based senses, building, castes and young forms, generated narration, native apps, more than one pond.
-
-## 3. How it is built
-
-As recommended by the research, and still to be measured:
-
-- **One language throughout:** TypeScript.
-- **A simulation package** with no knowledge of screens or networks, giving the same result from the same starting point every time. It replaces the stand-in scripts, and the audits become its tests.
-- **A client** that draws with PixiJS and uses ordinary web interface for the designers, installable to a phone's home screen.
-- **A server** that is one process with a small database file, on a fixed-price machine.
-- **Workbench pages** for parts, scenes and brains, which grow into the in-game designers.
-
-## 4. Phases
-
-Each phase ends with something that can be checked.
-
-| Phase | Builds | Done when |
-|---|---|---|
-| 0. Foundations | Repository layout, tests, automatic checks on every change, a deploy path | A change can go from this branch to a running page with its tests passing |
-| 1. Simulation | The real simulation: world, bodies and their worked-out numbers, senses, instincts, moods, signals, energy, eggs and growth, fading | The recipe, verb and body audits run as its tests; it replays identically; it is fast enough for the target population on the target machine |
-| 2. Designers | Body designer, behaviour designer and test tank on a phone, with no server | Two or three friends each build a working species in one sitting, and the tested recipes can be built comfortably |
-| 3. Shared world | The server, saving and restoring, sign-in, releasing a species, watching the pond live | Several phones watch the same pond for a day without it drifting or stopping |
-| 4. Daily loop | Fading in the live world, recap, newborn edits, keeper actions, death view, a first unlock ladder with puzzles | A species lives and dies over several days and its owner can say why |
-| 5. Look and feel | Paper lagoon in production form, an asset kit, bodies that show acts and moods, portraits, sound | A friend who has not seen it before calls it cute without being asked |
-| 6. First season | A one-week trial with the whole group | Lifespans fall in the 3 to 7 day range, and people come back daily |
-
-Phase 2 comes before phase 3 because the largest unknown is whether friends can use the designers at all. If they cannot, the vocabulary changes before a world is built around it.
-
-**Design work alongside the build:**
-
-- Fix the balance problems in `design/body.md` section 6.
-- Audit the untested verbs and parts.
-- Write the life cycle, the unlock order and the recap.
-- Deepen Paper lagoon: more parts, a way of showing every act and mood, a composed pond.
-- Tune fading in the simulation once phase 1 exists.
-
-## 5. How the work is done
-
-- Every piece of simulation work comes with a test that passes or fails; the audits are the first of these.
-- Checks run automatically on every change, and the same checks gate what is deployed.
-- The simulation, sign-in and saved-data changes get a second review with fresh eyes.
-- What only a person can judge stays with a person: whether it is fun, whether it is cute, and whether it feels right on a real phone.
-
-## 6. Main risks, and what retires each
-
-| Risk | Retired by |
+| Risk | Where it is dealt with |
 |---|---|
-| Friends cannot build behaviours on a phone | Phase 2 |
-| The simulation is too slow for a full pond | Phase 1 measurement |
-| Fading does not produce 3 to 7 day lives | Phase 1 tuning, then phase 6 |
-| No mix of builds can coexist; one design wins | Body audit follow-up, then phase 6 |
-| Hunters and prey cannot both persist | Environment audit follow-up, during phase 1 |
-| The look does not hold up on a phone | A frame-rate test early in phase 5, or sooner |
-| The game is not worth a daily visit | Phase 4, then phase 6 |
-
-## 7. Decisions needed first
-
-1. **Hosting.** Is a small fixed-price server at roughly €6 to €10 a month acceptable?
-2. **The group.** About how many friends, and what mix of iPhone and Android?
-3. **Order.** Designers before the shared world, as proposed here?
-4. **Overlap.** May a player release a successor while the old species still lives?
-5. **Scope of the first version.** Is anything in section 2 misplaced, in or out?
-6. **Working arrangement.** Keep building on this branch, or move to reviewed changes into the main one?
+| Hunters and prey cannot both persist | Area 4 |
+| One build wins everywhere | Areas 1, 4 and 5 |
+| Friends cannot build behaviours on a phone | Area 8 mockups, then building step 3 |
+| A rich world is too much for a small server or a phone | Area 1 sets the size; measured in building step 2 |
+| The design grows without end | Each area has a "done when", and area 14 does not start until the others are closed |

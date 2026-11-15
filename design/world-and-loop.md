@@ -4,7 +4,9 @@ November 2026. Decisions from discussion, plus proposals for how to carry them o
 
 ## Decided
 
-- **The world is populated mostly by player species.** There is no background cast of specialist enemies or parasites.
+- **The world is populated mostly by player species.** There is no background cast of specialist enemies or parasites. Preset species we make fill the places that players leave empty.
+- **One species at a time.** A player may not release a successor while the old species is still alive.
+- **The world is many biomes, not one pond.** Each has its own cycles, responds to how species use it, and recovers after being overexploited. See `design/plan.md`.
 - **Lifespan pressure depends on a species' age, not on how dominant it is.** It grows roughly exponentially with time.
 - **Designs do not drift.** A species changes only through its owner's edits.
 - **Daily edits can be strong,** a couple of upgrades a day applied to newborns, but never strong enough to escape the curve.
@@ -20,7 +22,7 @@ Call it **fading**. Each species has one fading value that starts at release and
 - **Why strong edits cannot escape it.** By the same arithmetic, an edit that makes the species 50% more efficient buys about 14 hours. Edits matter, and the curve still wins.
 - **What the player sees.** A vigour meter on the species and a forecast ("about two days left at this rate").
 
-Open: the doubling time and grace period; exactly which costs fading touches; whether a player may release a successor while the old species is still alive (suggested: yes); how many species a small group needs alive at once for the world to feel full.
+Open: the doubling time and grace period; exactly which costs fading touches; how many preset species a small group needs for the world to feel full.
 
 This is arithmetic, not a tested result. It needs a run in the simulation.
 
