@@ -1,6 +1,6 @@
 # Preset species: the standing cast
 
-Draft 2, November 2026. Design area 4 in `design/plan.md`. The rules in section 1 are decided. The cast in section 3 is a proposal on paper. Section 4 reports a direction check run in `design/checks/castaudit.js`; its numbers show direction only.
+Draft 3, November 2026. Design area 4 in `design/plan.md`. The rules in section 1 are decided. The cast in section 3 is a proposal on paper. Section 4 reports a direction check run in `design/checks/castaudit.js`; its numbers show direction only.
 
 ## 1. Decided
 
@@ -11,6 +11,10 @@ Draft 2, November 2026. Design area 4 in `design/plan.md`. The rules in section 
 - **No advantages.** Presets are built in the same designer, under the same allowance, from the same vocabulary.
 - **Not tied to a biome.** Each is spawned in one biome and spreads wherever it can live.
 - **As diverse a set of viable designs as possible.** The twenty are a tour of what can be built, with as many hunters and scavengers among them as that calls for.
+- **No preset depends on a particular other species being around.** Any of them may be switched off, so each has to make its living from the world and from whatever happens to be there.
+- **One species that lives off the others is enough.**
+- **At least one scavenger is an omnivore that scouts widely for the dead,** whatever they died of, and **at least one hunter is partly an omnivore.**
+- **The preset that steps aside** for a player's species is the one most like it.
 - **No fading, and no score.** The pressure that ends every player species does not apply to them.
 
 ## 2. How the rules work
@@ -19,75 +23,77 @@ Proposals, to be settled with you.
 
 | Rule | Proposal |
 |---|---|
-| Which preset steps aside for a player's species | The one most like it in food, size and way of life, so that the food web keeps its shape. A pack hunter replaces the preset pack hunter; something with no counterpart replaces whichever preset is doing worst |
+| Which preset steps aside for a player's species | Decided: the one most like it in food, size and way of life, so that the food web keeps its shape. A pack hunter replaces the preset pack hunter; something with no counterpart replaces whichever preset is doing worst |
 | How it steps aside | It stops laying and is not respawned. Its living members finish their lives. Nothing vanishes |
 | When it comes back | When that player's species is extinct, a founding group arrives in the biome it is spawned in |
 | Respawn after dying out | After a wait of about half a season, a founding group arrives in the biome it is spawned in, and only if its food is there |
 | What "reasonably persistent" means | In a world with no players, each preset is present at least four-fifths of the time. This is a target for the balance pass |
-| What else presets are for | Players can open any preset in the designer to see how it is built, and copy it as a starting point. A few are built to be partners: one gives food when tended, one cleans riders off others |
+| What else presets are for | Players can open any preset in the designer to see how it is built, and copy it as a starting point |
 
 ## 3. The cast
 
-The twenty are chosen to show as wide a range of designs as possible: sizes, limbs, senses, armour, weapons, ways of breeding, societies, and ways of living off other species. Each is spawned in one biome and goes where it can. None has been built or run yet, so "viable" is a target for the balance pass, and the names are placeholders.
+The twenty are chosen to show as wide a range of designs as possible: sizes, limbs, senses, armour, weapons, ways of breeding, societies, and ways of making a living. Each is spawned in one biome and goes where it can. None has been built or run yet, so "viable" is a target for the balance pass. The names are meant to be cute and not too literal, and can still change.
 
 ### Foragers and farmers
 
 | Name | Spawned in | What it is | What it shows |
 |---|---|---|---|
-| Pebblings | Highlands | Tiny lichen-scrapers nesting in crevices | A colony: one queen, workers, and guards with a sting. A queen mark, and a worker that turns queen when she dies |
-| Lumbers | Grassland | Large, slow grazers | A herd led by its elders, who remember the winter route. Young kept inside until born. They roll to throw off riders |
-| Cinderlings | Heath | Small, spiked seed-eaters that burrow | Fast and many: the swarm way of life. They follow fires and boom on the new growth |
-| Shimmers | Lakeland | Finned weed-grazers | A shoal. Every one is both sexes, and all spawn on the same night |
-| Stashers | Woodland | Seed and nut eaters that carry well | A pair for life with a marked territory and a larder that ripens. Seed they forget sprouts |
-| Dewbacks | Grassland | Small flower-sippers with false eyes | One brood and die, with eggs that wait for spring. They give sweet dew to whatever tends them |
-| Tidelings | Tidal flats | Light, long-legged probers of the mud, with eyes on stalks | A flock that follows the tide line. One sentinel at a time, by call. Males display on a sandbar and females choose |
-| Mudpups | Marsh | Litter-feeders that find food by smell | A young form with fins and an adult form with legs. Adults guard a shared nursery pool |
-| Budders | Lakeland | Slow, eyeless, slime-skinned drift-feeders | Breeding by splitting in two. Slime that riders cannot hold |
-| Tenders | Woodland | Plain-sized gardeners | Farming: they plant seed, tend the crop and guard it. They herd Dewbacks for their dew, and point each other to food |
+| Nubbins | Highlands | Tiny lichen-scrapers nesting in crevices | A colony: one queen, workers, and guards with a sting. A queen mark, and a worker that turns queen when she dies |
+| Lollops | Grassland | Large, slow grazers | A herd led by its elders, who remember the winter route. Young kept inside until born. They roll to throw off anything that clings |
+| Frizzles | Heath | Small, spiked seed-eaters that burrow | Fast and many: the swarm way of life. They follow fires and boom on the new growth |
+| Glimps | Lakeland | Finned weed-grazers | A shoal. Every one is both sexes, and all spawn on the same night |
+| Scrumps | Woodland | Seed and nut eaters that carry well | A pair for life with a marked territory and a larder that ripens. Seed they forget sprouts |
+| Sippets | Grassland | Small flower-sippers with false eyes | One brood and die, with eggs that wait for spring. They give sweet dew to anything that tends them, which nothing in the cast does |
+| Pipkins | Tidal flats | Light, long-legged probers of the mud, with eyes on stalks | A flock that follows the tide line. One sentinel at a time, by call. Males display on a sandbar and females choose |
+| Splodges | Marsh | Litter-feeders that find food by smell | A young form with fins and an adult form with legs. Adults guard a shared nursery pool |
+| Blibs | Lakeland | Slow, eyeless, slime-skinned drift-feeders | Breeding by splitting in two. Slime that nothing can cling to |
+| Hobbins | Woodland | Plain-sized gardeners | Farming: they plant seed, tend the crop, guard it and harvest it with restraint. Several friendly homes that share their gardens, and point each other to food |
 
 ### Hunters
 
 | Name | Spawned in | What it is | What it shows |
 |---|---|---|---|
-| Harriers | Grassland | Fast, plain-sized chasers | A pack: one breeding pair and their grown young as helpers. Some chase and some cut ahead, and all go for the weakest |
-| Lurks | Marsh | Large, camouflaged, with a long tongue | Ambush. Each holds a stretch of bank, keeps still until prey is close, and sleeps in the mud through winter |
-| Gulpers | Lakeland | Large, finned, sensing movement in the dark | A hunter of the deep. Females are large; males are tiny and cling to a female for life |
-| Prowlers | Woodland | Small night hunters with heat pits and a sting | Hunting by scent from downwind. The sting tires its prey, which is carried home alive for the young |
-| Swarmers | Heath | Tiny, with locking jaws | A nomad army with no fixed home. Many cling to large prey and bring it down. They raid other colonies for eggs, and their own colonies fight each other |
-| Longstriders | Highlands | The largest body, with a beak that cracks shells | Very few, very wide-ranging, slow to breed. They take the largest prey and eat carrion |
+| Yips | Grassland | Fast, plain-sized chasers | A pack: one breeding pair and their grown young as helpers. Some chase and some cut ahead, and all go for the weakest |
+| Gawps | Marsh | Large, camouflaged, with a long tongue | Ambush. Each holds a stretch of bank and keeps still until prey is close |
+| Glumps | Lakeland | Large, finned, sensing movement in the dark | A hunter of the deep. Females are large; males are tiny and cling to a female for life |
+| Snickets | Woodland | Small night hunters with heat pits and a sting | Hunting by scent from downwind. The sting tires its prey, which is carried home alive for the young |
+| Fidgets | Heath | Tiny, with locking jaws | A nomad army with no fixed home. Many cling to large prey and bring it down. They raid other colonies for eggs, and their own colonies fight each other |
+| Galumphs | Highlands | The largest body, with a beak that cracks shells | Very few, very wide-ranging, slow to breed. They take the largest prey |
+| Grumbles | Heath | Large loners with a good nose and digging claws | A hunter that is partly an omnivore: small prey when it can catch them, buried food, fruit in season, and other animals' larders. A mother's young follow her and learn her places. They sleep through winter |
 
 ### Scavengers
 
 | Name | Spawned in | What it is | What it shows |
 |---|---|---|---|
-| Pickers | Grassland | Small, led by the nose | Following another species: they trail the hunters and eat what is left. They also clean riders off any animal that asks |
-| Bruisers | Dunes | Large and fully shelled | Living on what the sea leaves, and on kills taken from the hunters that made them. One male holds a harem on a stretch of shore |
+| Mooches | Dunes | Small, light on their feet, led by the nose | An omnivore that scouts widely for the dead, whatever they died of, and calls others to a find. Seeds and fruit when there is nothing else |
+| Clonks | Dunes | Large and fully shelled | Living on what the sea leaves, and taking food from whatever is carrying it. One male holds a harem on a stretch of shore |
 
 ### Living off the others
 
 | Name | Spawned in | What it is | What it shows |
 |---|---|---|---|
-| Nabbers | Marsh | Small, quiet, with a tail they can shed | They lay in other species' nests, and the chick begs with its host's own display. Adults steal eggs |
-| Hitchers | Grassland | Tiny, with hooks | Riders: they cling to large animals, feed a little, and lay on them |
+| Fibs | Marsh | Small, quiet, with a tail they can shed | They lay in other species' nests, and the chick begs with its host's own display. Adults steal eggs, and feed themselves when there are none |
 
 ### What the cast covers
 
 | Part of the design | Shown by |
 |---|---|
-| Sizes | Tiny (Pebblings, Swarmers, Hitchers) to the largest (Longstriders) |
-| Limbs and bodies | Legs, fins, a young form that changes, burrowers, long-legged waders, an eyeless slow body |
+| Sizes | Tiny (Nubbins, Fidgets) to the largest (Galumphs) |
+| Limbs and bodies | Legs, fins, a young form that changes, burrowers, diggers, long-legged waders, an eyeless slow body |
 | Senses | Side and forward eyes, eyes on stalks, nose, heat pits, movement sense, no eyes at all |
 | Armour and skin | Spikes, a full shell, slime, camouflage, false eyes, a tail that sheds |
-| Weapons and grips | Jaws, a tongue, a sting that wounds, a sting that tires, a shell-cracking beak, locking jaws, hooks |
+| Weapons and grips | Jaws, a tongue, a sting that wounds, a sting that tires, a shell-cracking beak, locking jaws |
+| What they eat | Single foods, several foods, meat only, meat and plants, the dead |
 | Ways of breeding | Pairs, one breeder, both sexes in one, splitting, one brood and die, young kept inside, a young form, a male that clings for life |
 | Getting through the year | Waiting eggs, sleeping, a winter journey, a larder, living in the deep where there is no winter |
-| Societies | Colony with forms, herd with elders, swarm, shoal, pack with helpers, pair with territory, harem, display ground, shared nursery, nomad army, loners |
+| Societies | Colony with forms, herd with elders, swarm, shoal, pack with helpers, pair with territory, harem, display ground, shared nursery, nomad army, friendly homes, mother and young, loners |
 | Roles | By birth, by signal, by need |
-| Hunting | Chasing as a pack, ambush, cruising the deep, tracking by scent, swarming and clinging, ranging alone |
+| Hunting | Chasing as a pack, ambush, cruising the deep, tracking by scent, swarming and clinging, ranging alone, hunting as one food among several |
 | Defences | Running, crevices, burrows, spikes, shell, slime, false eyes, shedding, rolling, a sentinel, numbers |
-| Living off others | Following, scavenging, stealing kills, stealing eggs, nest parasitism, riding, cleaning, herding, farming |
+| Living off others | Scavenging, taking food from a carrier, stealing eggs, raiding colonies, nest parasitism |
+| Changing the land | Farming, forests planted by forgotten seed |
 
-Not shown by any preset, and so left for players to find: sex change, soldiers raised on demand, a nursery raided for helpers, a father that is eaten, and one colony spread across many friendly nests.
+Not shown by any preset, and so left for players to find: riders that feed on a host, cleaners, herding another species, sex change, soldiers raised on demand, a nursery raided for helpers, and a father that is eaten.
 
 ## 4. Can hunters and their prey last together?
 
@@ -137,11 +143,13 @@ This is the part of "fluctuating but stable" that has never worked in the stand-
 | Hunters and prey last together | **No.** Not in one patch, and not with four times the room. Only arrivals kept hunters present |
 | A mixed world of the whole cast runs for a long time without collapsing | **Not tested.** The stand-in cannot run twenty species |
 
-## 6. Questions for you
+## 6. Answered
 
-1. **Which preset steps aside.** I've proposed the one most like the player's species, so the food web keeps its shape. The alternative is a fixed preset for each player. Which do you want?
-2. **The cast.** Ten foragers and farmers, six hunters, two scavengers and two that live off the others. Is anything missing that you want shown, or anything here you would swap out?
-3. **Names.** Placeholders. Keep, or do you have a style in mind?
+Decided on 15 November:
+
+- **The preset most like a player's species steps aside for it.**
+- **The cast is accepted,** with these changes: the gardeners no longer depend on another species; one species lives off the others, not two; one scavenger is an omnivore that scouts widely for the dead; and one hunter is partly an omnivore.
+- **Names** are to be cute and not too literal. The current set is a second attempt.
 
 ## 7. Next
 
