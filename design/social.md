@@ -1,6 +1,6 @@
 # Social organisation: building blocks for many kinds of society
 
-Draft 1, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
+Draft 2, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
 
 ## 1. The aim
 
@@ -81,7 +81,7 @@ Five ways for members of one species to do different jobs. They can be mixed.
 
 One addition makes roles that are taken up later in life possible:
 
-- **For life (new mood function).** Once on, the mood never fades, and it can carry body parts that grow in over a few days. A worker can become a queen when the old one dies. The biggest of a group can change sex. A home under attack can turn some of its young into soldiers. Founders can grow fins or wide feet to cross to new ground.
+- **For life (new mood function).** Once on, the mood never fades, and the creature grows into another form over a few days (section 9). A worker can become a queen when the old one dies. The biggest of a group can change sex. A home under attack can turn some of its young into soldiers. Founders can grow fins or wide feet to cross to new ground.
 
 ### 3.5 Giving and sharing
 
@@ -133,7 +133,7 @@ Each row needs its mechanism to exist in the world, or the society built on it i
 | Fighting back | Many small bites hurt a hunter that one could not | Yes, and too strong |
 | Bigger prey | Several biters; clingers that slow the prey | Partly: needs a rule for wounding prey larger than yourself |
 | Finding food sooner | Recruiting calls and trails | Yes |
-| Specialised bodies | A guard and a forager, each built for one job, instead of two all-rounders | Needs the caste budget rule (section 9) |
+| Specialised bodies and brains | A guard and a forager, each built for one job and cheaper than an all-rounder | Needs forms (section 9) |
 | More young surviving | Tending speeds hatching and growth; guards keep thieves off | Yes |
 | Getting through winter | A shared larder; huddling for warmth | Larder yes; warmth is proposed |
 | Knowing the land | Tradition | On paper |
@@ -223,7 +223,7 @@ How new homes start is the other choice: a lone founder, a founder with a retinu
 
 ## 8. What is new in this draft
 
-Six additions. Everything else above uses words the vocabulary already has.
+Six additions, and forms (section 9). Section 10 lists further additions found by a wider survey. Everything else above uses words the vocabulary already has.
 
 | Addition | Kind | What it unlocks |
 |---|---|---|
@@ -234,20 +234,90 @@ Six additions. Everything else above uses words the vocabulary already has.
 | What breeding costs the parent | A species setting | One brood and die; short-lived males |
 | Older or younger, bigger or smaller than me, among my kind | Comparisons | Rank by age or size; elders that lead |
 
-## 9. Budget, and keeping it learnable
+## 9. Forms: castes, sexes and stages as separate designs
 
-- **How castes are paid for is open.** A proposal: each caste's body has to fit the body allowance on its own, the brain is shared by all, and each caste after the first costs a fixed amount. Specialising then pays only if the specialists are really better at their jobs.
-- **Societies are advanced play.** A first species needs none of this. The blocks suit the idea of unlock kits in the plan: a pair kit, a herd kit, a colony kit.
-- **Templates.** A few working societies to open up and change will teach more than any description.
+A proposal that replaces "every individual runs the same brain".
 
-## 10. What the player sees
+**A species is made of forms.** A form is one kind of individual: a sex, a life stage or a caste. Each form has its own body and its own page of instincts and moods. A first species has one form. Young forms and two sexes, both already decided, are forms too, so this is one idea and not three.
+
+### What forms share, and what they do not
+
+| Shared by the whole species | Separate for each form |
+|---|---|
+| Being one kind, and the home scent | The body |
+| The named sounds, scents and displays, so that forms understand each other | Instincts and moods |
+| The life-cycle settings | What it costs |
+| A common page of instincts, which a form can take or leave | |
+
+A form that leaves the common page can be very simple. A soldier that never forages needs no feeding instincts, and has to be fed by the others.
+
+### The budget
+
+- **Each form is its own design under the same combined allowance for body and brain.** A soldier can be a large body with a three-line brain. A scout can be a small body with senses and memory. A breeder can be little more than an egg organ.
+- **That is the reason to specialise:** a simple-minded specialist is cheaper to make and run than an all-rounder that can do everything.
+- **The price** is that specialists are helpless alone, and that each form is another design to get right. Whether each extra form should also cost something outright is left for the balance pass.
+
+### When a form is decided, and by whom
+
+| When | Who decides | How | Like |
+|---|---|---|---|
+| At laying | The one that lays | Brood mix: set shares, with rules tied to her moods, the season, or whether the egg was fathered | Most ants and bees |
+| While young | Those that raise it | A For life mood in the young, raised by how it is fed and tended | A queen made by feeding |
+| While young | The young itself | A For life mood raised by what it senses: crowding, an alarm scent at home, the season | Soldiers raised after an attack |
+| As an adult | Events | A For life mood raised when something changes: the breeder's scent fades, it becomes the biggest, it is crowded | A new queen, sex change, a wandering phase |
+| Any time, and reversible | The individual | By age, by signal or by need (section 3.4). No change of body | Sentinels, nurses that become foragers |
+
+### Keeping the shares right
+
+Three ways a designer can steer how many of each form there are. They can be combined.
+
+- **Set shares:** so many workers, soldiers and founders in every brood.
+- **The layer responds:** her moods are raised by what reaches her. An alarm scent carried home makes her lay more soldiers; a full larder, more founders.
+- **Each form limits itself:** a young one is less likely to become a soldier the more soldiers it can smell. The numbers then settle by themselves, and recover after losses.
+
+### Keeping it learnable
+
+- **Forms are advanced play.** A first species has one, and a second form is an unlock.
+- **A limit on forms** per species, perhaps four or five, keeps a design readable.
+- **Templates:** a few working societies to open up and change will teach more than any description.
+
+## 10. A wider survey: what the blocks could not reach
+
+This is from general knowledge of animal societies, not from new research. I went through the stranger corners of how organisms live together and asked of each whether the blocks could build it.
+
+**Already reachable,** though not listed in section 5: partners that return favours; alliances of unrelated adults; markets between species such as cleaners and their clients; false alarms used to steal food; choosing a new home by scouts and a quorum; kidnapping young to raise as helpers; a breeder that slips into another colony and takes it over; siblings that kill each other in the nest; eggs laid as food for the young; rival male types that beat each other in a circle, so that none stays on top; and a solitary species that turns into a marching swarm when crowded.
+
+**Not reachable, with what it would take:**
+
+| What organisms do | Why the blocks cannot | What it would take | Add? |
+|---|---|---|---|
+| Breed by dividing in two, as flatworms and anemones do | Every way of breeding goes through an egg | A fourth way of breeding: splitting into two small adults | Yes |
+| Every individual is both sexes, and any two can mate | Pairs need two sexes | A fifth way of breeding | Yes |
+| Breed alone in summer and in pairs in autumn; or unfathered eggs become males | One way of breeding per species | A brood mix rule that depends on whether the egg was fathered | Yes |
+| Lay eggs on a living host, which the young then eat | An egg stays where it is laid | "Lay" on what it is touching or carrying | Yes |
+| Keep the eggs inside until they hatch | Eggs are always laid | A life-cycle option: a slower mother, safer eggs | Yes |
+| Bodies joined into one animal, each part a different form, as in a man-of-war | Clinging is one rider on one carrier | Chains of clinging, and food shared through the join | Yes, if it proves simple |
+| Rafts, bridges and nests made of living bodies | Bodies are not material | Clinging bodies that others can walk on or float on | Later |
+| Farming: tending a crop, planting seed | Tending works on eggs, young and other creatures | Tending a plant speeds its growth; a dropped seed can sprout | Yes |
+| Telling others where food is without leading them there, as bees do | A display can point only at what is in view | A display that points toward a remembered Place | Yes |
+| Joining a friend's fight; attacking what the leader attacks | No way to refer to another's target | "The one it is facing" | Yes |
+| Stealing food from another's mouth | Grab takes only things lying loose | Grab from a carrier | Yes |
+| Paralysing prey to store it alive for the young | Wounds only slow | Venoms that act on a few feelings every creature has: tired, hurt, dazed | Later |
+| Flying or swimming in formation to save effort | Following costs the same as leading | Moving close behind another costs less | Later |
+| Traps: pits and snares, built alone or together | Digging only makes cover | Dug pits that slow, and built walls that hold | Later |
+| Calls that differ between homes and are learned from parents | Signals are fixed by the design | Learned signals | No: outside this level of mechanics |
+| Parasites that live inside a host or take over its behaviour | Nothing acts inside another body or on another's moods | A separate system | No |
+
+The ones marked "Yes" are small, and each opens a family of societies. I would add them to the vocabulary when area 6 revisits it.
+
+## 11. What the player sees
 
 - **Homes on the map,** each with its numbers.
 - **Who does what:** counts by role, and who is breeding.
 - **The named line in a colony** is the breeder's line.
 - **Events:** a new home founded, a queen replaced, a border fight, a raid.
 
-## 11. To check in the stand-in, for direction only
+## 12. To check in the stand-in, for direction only
 
 1. A sentinel by signal: does the group eat more and lose fewer?
 2. A queen mark that stops others laying: does it keep a home from eating its ground bare?
@@ -255,12 +325,18 @@ Six additions. Everything else above uses words the vocabulary already has.
 4. Homes that are enemies against homes that are friends: spacing, and what happens to the food.
 5. A pack against prey no lone hunter can take.
 
-## 12. Questions for you
+## 13. Answered, and still open
 
-1. **Unkind behaviour.** The blocks allow killing a rival's young, eating a mate, stealing eggs and raiding one's own kind. They follow from the same pieces as everything else. Allow them all, or rule some out for a game this cute?
-2. **Castes and the budget.** Is the proposal in section 9 the right starting point?
-3. **Is anything missing** from the range in sections 5 and 6 that you want to be possible?
+Answered on 15 November:
 
-## 13. Next
+- **All unkind behaviour is allowed:** killing a rival's young, eating a mate, stealing eggs, raiding one's own kind.
+- **Castes and the budget:** agreed as a starting point, with more thought asked for on when specialisation happens, how it is controlled, and whether castes share a brain. Section 9 is that thought: each form has its own body and brain.
+
+Still open:
+
+1. **Forms.** Is "each form is its own design under the same allowance, sharing only signals, settings and an optional common page" what you had in mind?
+2. **The additions marked "Yes" in section 10.** Any you would drop, or any marked "Later" or "No" that you want sooner?
+
+## 14. Next
 
 The stand-in checks above, then area 4: the cast of preset species, and hunters and prey that last together.
