@@ -7,11 +7,12 @@ Draft 2, November 2026. Design area 7 in `design/plan.md`. Section 1 is decided.
 - **The score is total life:** a species' living weight added up over every hour it lasts. Weight is counted as it is. A hunter's weight counts for more than a grazer's. Longest-lived and highest peak are kept as records beside it.
 - **Fading is the same for every species of the same age,** whatever state the species is in.
 - **Two days of grace, then a ramp that is slower than doubling.** Few species are expected to get past seven or eight days, and a truly exceptional one lasting twenty is acceptable.
+- **It keeps ramping forever, so that in the end everything dies.**
 - **A better design lasts longer.**
 - **Presets do not fade** and are not scored.
 - **A player can release a new species whenever they choose.** If they have one already, releasing the new one retires the old.
 - **Retiring means its eggs stop hatching and its living members die of old age.** Nothing is removed by hand. Presets step aside the same way.
-- **No drift.** Daily edits can be strong and still cannot escape the curve.
+- **No drift.** A living species changes by one mutation a day, which the player picks from three offered at random. That cannot escape the curve.
 - **A species is extinct when its last member dies.**
 - **At the end a player keeps** the design, anything it unlocked, its records, the named line's history, and a chronicle of the species' major events.
 
@@ -32,7 +33,7 @@ Two channels, not one, so that no way of life escapes. A species with food to sp
 
 How long a species lasts follows from how much handicap its design can absorb, which I'll call its slack. The check in section 4 says designs absorb two to five times.
 
-**Proposed: after two days of grace, fading rises by the same step every two days.** It is 1 on day two, 2 on day four, 3 on day six, and so on. That is a steady climb, not a doubling.
+**Proposed: after two days of grace, fading rises by about one step every two days, and each step is a little larger than the last.** It is 1 on day two, about 2 on day four, 3 on day six, and 13 by day twenty. The climb never stops and slowly steepens, so no design and no run of lucky mutations can keep ahead of it for good.
 
 | A design that can absorb | Lasts about |
 |---|---|
@@ -41,12 +42,12 @@ How long a species lasts follows from how much handicap its design can absorb, w
 | Three times: a sound design | 6 days |
 | Four times: a very good one | 8 days |
 | Five times: the best the lab has found | 10 days |
-| Ten times: truly exceptional | 20 days |
+| Thirteen times: truly exceptional | 20 days |
 
 - **This matches the range you gave:** most players at seven or eight days at best, and twenty possible.
-- **It still gets harder.** The budget never grows, so there is a ceiling on how good a design can be, and the climb passes it. Under a steady climb the last days are won by design, where under a doubling nothing would have reached them.
+- **Everything dies in the end.** The budget never grows, so there is a ceiling on how good a design can be, and a climb that never stops passes it.
 - **A doubling every three days was the alternative.** It gives five, eight and eleven days for the same designs, and would need a design sixty-four times as good to reach twenty, which nothing could be.
-- **Edits buy more late than early.** A change that makes a species a tenth better buys about half a day at day six and a full day at day twelve. Whether two edits a day can keep a species ahead of the climb for long is for the balance pass to check.
+- **A mutation buys time, not escape.** One that makes a species a tenth better buys about half a day at day six. With one a day, drawn at random, a species cannot improve as fast as the climb steepens.
 
 These figures are arithmetic on top of a stand-in. The step and the grace are for the balance pass.
 

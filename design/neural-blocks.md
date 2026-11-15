@@ -925,7 +925,7 @@ The vocabulary is now about seven reaches, five quantities, six ways of choosing
 - **Watching it think.** Mood bubbles fill, firing instincts glow, and the creature shows its strongest mood as an emote using the player's own name and icon for it. The same view opens on any creature in the live world.
 - **Warnings.** The designer flags an instinct that has never fired, a mood that can never reach its kick-in point, and a creature that spends long periods torn or idle.
 - **After a death.** A strip shows the species' moods over its last hours and which instincts were firing.
-- **Edits to a living species.** A couple a day, applied to newborns.
+- **Changes to a living species.** One mutation a day, picked from three offered at random, applied to newborns.
 - **Puzzles.** A ladder of tank challenges that introduce each word, and a daily puzzle scored on fewest rows among friends.
 
 ## 18. Budget and unlocks

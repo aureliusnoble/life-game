@@ -9,7 +9,7 @@ November 2026. Decisions from discussion, plus proposals for how to carry them o
 - **The world is many biomes, not one pond.** Each has its own cycles, responds to how species use it, and recovers after being overexploited. See `design/plan.md`.
 - **Lifespan pressure depends on a species' age, not on how dominant it is.** It grows roughly exponentially with time.
 - **Designs do not drift.** A species changes only through its owner's edits.
-- **Daily edits can be strong,** a couple of upgrades a day applied to newborns, but never strong enough to escape the curve.
+- **A living species changes by one mutation a day,** picked from three offered at random and applied to newborns. (Changed on 15 November from a couple of free edits a day; see `design/loops.md`.)
 - **The daily check-in includes light, direct interaction** with the creatures, in the spirit of a Tamagotchi.
 - **Creatures are soft critters, not microbes.** The look itself is still being developed; see `design/art-direction.md`.
 

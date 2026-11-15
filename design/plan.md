@@ -19,11 +19,14 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
-| Fading | The same for every species of the same age, whatever state the species is in. Two days of grace, then a ramp slower than doubling. A better design lasts longer: few are expected past seven or eight days, and twenty is acceptable for a truly exceptional one |
+| Fading | The same for every species of the same age, whatever state the species is in. Two days of grace, then a ramp slower than doubling that never stops, so that everything dies in the end. A better design lasts longer: few are expected past seven or eight days, and twenty is acceptable for a truly exceptional one |
 | Generations | Many in a species' life, set by size: about 25 for a small species, 10 for a plain one, and six or more even for a large one |
 | Breeding | Chosen per species: alone, in pairs, one breeder with helpers, both sexes in one, or splitting. Young forms with their own body are in the first version |
 | Forms | A species is made of forms: each sex, life stage and caste has its own body and its own page of instincts under the same combined allowance. Each is a variation on one base. Forms must not be completely divergent, and the more one differs the more it costs |
 | Unkind behaviour | All of it is allowed |
+| Changing a living species | One mutation a day, picked from three offered at random, applied to the newly hatched |
+| Friends' designs | Open to all once the species has ended |
+| Explaining | Little text. The game shows what happened and does not explain why; events are classified so they can be shown on the map, in the recap and in the chronicle |
 | Attaching | Creatures can attach to each other and come off again, with defences against it. Bodies joined for good into one animal are out |
 | Presets | Twenty preset species, with no advantages, no fading and no score. Each living player species takes the place of one. They are respawned if they die out, need not be equally successful, and together should form a fluctuating but stable ecosystem |
 | Dominance | A species' dominance is expected to be cyclical and to depend on which other species are around. The aim is a world that keeps turning over, not one where every design does equally well at every moment |
@@ -129,7 +132,7 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 | 7 | **Lifespan and scoring** | Fading, what counts as doing well, what happens at death, the rhythm of play across weeks | Lifespans land in 3 to 7 days in simulation, and skill moves them |
 | 8 | **Player loops** | The first hour and how the game teaches itself; the daily visit; the design session; death and what follows; unlocks and puzzles, and how unlocks draw players toward ways of playing they have not tried; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
 | 9 | **Pet play** | The named line: who the heir is, and which memories pass down. What a player can do with the name-bearer and with others, where, and what comes back. Whether the name-bearer can be talked to (below) | A mockup that is pleasant to poke at for five minutes |
-| 10 | **Feedback** | Recap, watching it think, the death view, the food web, records | For any outcome, the player can find out why |
+| 10 | **Feedback** | Recap, watching it think, the death view, the food web, records, and the classified events | For any outcome, the player can see what happened by looking, with little text |
 | 11 | **Playing with friends** | Relationships between species, seeing each other's work, sharing, rankings | Friends have reasons to talk about it |
 | 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; an interface that feels handmade and stays readable; sound | Mockups of each biome, of a creature in every mood, and of the interface style |
 | 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
