@@ -393,6 +393,9 @@
   const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; let t0 = null, frozen = null, which = 0, now = 100;
   const frame = (ms) => { if (frozen !== null) return; if (t0 === null) t0 = ms; now = 100 + (ms - t0) * 0.06; draw(now); if (!still) requestAnimationFrame(frame); };
   // for looking closely: hold one moment still, in a chosen act
+  // hooks for capturing film strips: hold time still, start an act, step forward a number of frames
+  window.__hold = () => { frozen = 1; }; window.__pet = pet; window.__act = (a) => { if (a === 'wander') { auto = true; pet.i = 1; begin('walk', now); } else { auto = false; if (a === 'startle') pet.hop = 1; begin(a, now); } }; window.__look = (x, y) => { pet.look = [x, y]; pet.lookTill = now + 240; };
+  window.__tick = (n) => { for (let i = 1; i < n; i++) { now += 1; think(now); } now += 1; draw(now); return [pet.x, pet.y, pet.act]; };
   window.__freeze = (act) => { frozen = 1; auto = false; if (act === 'walk') { pet.i = 1; pet.act = 'walk'; for (let t = now; t < now + 150; t += 1) think(t); now += 150; } else if (act && act !== 'idle') { begin(act, now); for (let t = now; t < now + 130; t += 1) think(t); now += 130; } draw(now); };
   for (const b of document.querySelectorAll('[data-which]')) b.addEventListener('click', () => { which = +b.dataset.which; for (const x of document.querySelectorAll('[data-which]')) x.setAttribute('aria-pressed', String(x === b)); if (frozen !== null || still) draw(now); });
   for (const b of document.querySelectorAll('[data-act]')) b.addEventListener('click', () => { const a = b.dataset.act; if (a === 'wander') { auto = true; begin('walk', now); } else { auto = false; if (a === 'startle') pet.hop = 1; begin(a, now); } });
