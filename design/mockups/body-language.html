@@ -1,0 +1,191 @@
+<title>Body Language Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a sheet of small paper cards, one living pose on each, grouped by what the body is showing. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b;
+    --paper: #fbf5e6; --p-ink: #2b2a26; --p-muted: #7a7466; --p-line: #e0d5b8; --p-shadow: rgba(60, 48, 20, 0.18);
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; } h2 { font-family: var(--display); font-size: 21px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); } .sub { color: var(--muted); max-width: 64ch; font-size: 14px; }
+  .set { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 5; }
+  .set button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; min-height: 40px; cursor: pointer; } .set button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  section { display: flex; flex-direction: column; gap: 10px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } @media (min-width: 620px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } } @media (min-width: 900px) { .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; } }
+  .cell { background: var(--paper); border-radius: 14px; box-shadow: 0 3px 10px var(--p-shadow); overflow: hidden; display: flex; flex-direction: column; border: 0; padding: 0; cursor: pointer; color: var(--p-ink); font: inherit; text-align: center; min-width: 0; }
+  .cell canvas { width: 100%; aspect-ratio: 1; display: block; }
+  .cell span { font-size: 12.5px; font-weight: 600; padding: 5px 4px 7px; line-height: 1.2; min-height: 2.6em; display: flex; align-items: center; justify-content: center; }
+  .cell.hid span { color: var(--p-muted); font-family: var(--mono); font-weight: 400; }
+  .notes { display: grid; gap: 18px; grid-template-columns: 1fr; } @media (min-width: 760px) { .notes { grid-template-columns: 1fr 1fr; } } .notes div { display: flex; flex-direction: column; gap: 6px; min-width: 0; } .notes ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Study · look, sound and feel</p>
+    <h1>Body language sheet</h1>
+    <p class="lede">A test of one question: can a paper creature show what it is doing, how it is and what it feels, with no words? One creature, forty-six ways. Hide the names and see how many you can tell.</p>
+  </header>
+
+  <div class="set" role="group" aria-label="How to look at the sheet">
+    <button type="button" id="names" aria-pressed="true">Names shown</button>
+    <button type="button" id="far" aria-pressed="false">From a distance</button>
+  </div>
+
+  <section><h2>What it is doing</h2><p class="sub">Carried by the movement of the whole body, so that it still reads from a distance.</p><div class="grid" id="g-act"></div></section>
+  <section><h2>How it is</h2><p class="sub">Carried by the body's condition: its shape, its colour, a patch, a shiver.</p><div class="grid" id="g-state"></div></section>
+  <section><h2>What it feels</h2><p class="sub">Eight bearings. A player picks one for each mood they make, and the creature wears the bearing of its strongest mood.</p><div class="grid" id="g-mood"></div></section>
+  <section><h2>What it has noticed</h2><p class="sub">A glance before it acts. The same hunter comes in both. In one the creature saw it.</p><div class="grid" id="g-note"></div></section>
+
+  <div class="notes">
+    <div>
+      <h2>What to try</h2>
+      <ul>
+        <li>Press "Names shown" to hide the names, then tap a card to see what it was.</li>
+        <li>Press "From a distance" to see each one at about the size it has when a whole biome is on screen. Faces are lost, and movement and outline are what is left.</li>
+        <li>Look for pairs that are hard to tell apart. Those are the ones to fix.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>What is real and what is not</h2>
+      <ul>
+        <li>The creature is drawn in code from a few moving pieces: body, feet, ears, eyes, mouth. That is the method proposed for the game. The drawing itself stands in for real art.</li>
+        <li>One body is shown. Ears carry most of the bearing here; another species would use its own signature part.</li>
+        <li>Left out: stings, sprays and other acts that belong to a body part, and the acts that are a path across the ground, such as circling.</li>
+        <li>Nothing here has been tried on a person. Whether each reads is for you to judge.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const TAU = Math.PI * 2, INK = '#2b2a26', GROUND = '#d5eaa6', PAPER = '#fbf5e6';
+  const rgb = (h) => { const n = parseInt(h.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; };
+  const mix = (a, b, k) => { const A = rgb(a), B = rgb(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * k).toString(16).padStart(2, '0')).join(''); };
+  const ell = (g, x, y, rx, ry, c, rot = 0) => { g.fillStyle = c; g.beginPath(); g.ellipse(x, y, Math.max(0.1, rx), Math.max(0.1, ry), rot, 0, TAU); g.fill(); };
+  const sh = (g, on) => { g.shadowColor = on ? 'rgba(50,45,20,0.24)' : 'transparent'; g.shadowBlur = on ? 5 : 0; g.shadowOffsetY = on ? 2 : 0; };
+  const leaf = (g, w, len, c) => { g.fillStyle = c; g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(-w, -len * 0.55, 0, -len); g.quadraticCurveTo(w, -len * 0.55, 0, 0); g.fill(); };
+  const D = () => ({ x: 0, dx: 0, lift: 0, lean: 0, spin: 0, sx: 1, sy: 1, f: 1, size: 1, fat: 0, flat: 0, step: 0, ears: [-0.35, 0.35], earLen: 1, look: 0, lookY: 0, open: 1, wide: false, pupil: 1, lid: 0, brow: 0, eye: 'open', mouth: 'smile', gape: 1, blush: 0, pale: 0, tint: null, tintK: 0.4, patch: false, belly: false, big: 1, alive: true });
+
+  // ---------- the creature: a body, two feet, two ears, a face. Everything it shows is these pieces moved. ----------
+  function critter(g, P, t) {
+    const app = (c) => { if (P.tint) c = mix(c, P.tint, P.tintK); return P.pale ? mix(c, '#f6efdc', P.pale) : c; }, body = app('#ef8a68'), dark = app('#d9714f'), face = app('#f8b99d');
+    const breath = P.alive ? 1 + Math.sin(t / 38) * 0.013 : 1;
+    ell(g, P.x, 3, 40 * P.size * (1 + P.flat * 0.2), 8 * P.size, 'rgba(60,70,30,0.2)');
+    g.save(); g.translate(P.x + P.dx, -P.lift); g.scale(P.f * P.size, P.size); g.rotate(P.lean);
+    if (P.spin) { g.translate(0, -40); g.rotate(P.spin); g.translate(0, 40); }
+    g.scale(P.sx * (1 + P.fat * 0.13), P.sy * breath * (1 - P.flat * 0.42));
+    sh(g, true); ell(g, -18 + P.step, -2, 12, 7, dark); ell(g, 18 - P.step, -2, 12, 7, dark);
+    const ear = (a, i) => { g.save(); g.translate(i ? 17 : -17, -68); if (Math.abs(a) > 1.4) g.translate(i ? 20 : -20, 14); g.rotate(a); sh(g, true); leaf(g, 12, 38 * P.earLen, Math.abs(a) > 1.4 ? dark : body); sh(g, false); g.translate(0, -6); leaf(g, 6, 24 * P.earLen, face); g.restore(); };
+    P.ears.forEach((a, i) => { if (Math.abs(a) <= 1.4) ear(a, i); }); sh(g, true);
+    ell(g, 0, -40, 46, 40, body); if (P.belly) ell(g, -16, -24, 30, 25, body); sh(g, false);
+    P.ears.forEach((a, i) => { if (Math.abs(a) > 1.4) ear(a, i); });
+    if (P.patch) { g.fillStyle = '#fbf5e6'; g.beginPath(); for (const [x, y] of [[-34, -44], [-27, -52], [-21, -45], [-14, -50], [-10, -36], [-16, -28], [-24, -33], [-31, -27]]) g.lineTo(x, y); g.closePath(); g.fill(); g.strokeStyle = INK; g.lineWidth = 1.6; g.lineCap = 'round'; for (const x of [-28, -22, -16]) { g.beginPath(); g.moveTo(x - 2, -43); g.lineTo(x + 2, -35); g.stroke(); } }
+    ell(g, 5, -34, 32, 27, face);
+    const ex = 10 + P.look * 5, ey = -50 + P.lookY * 4, B = P.big; g.strokeStyle = INK; g.lineCap = 'round';
+    for (const s of [-1, 1]) { const cx = ex + s * 15 * (B > 1 ? 1.05 : 1), kind = P.eye === 'wince' ? (s < 0 ? 'shut' : 'open') : P.eye === 'peek' ? (s > 0 ? 'open' : 'x') : P.eye;
+      if (kind === 'x') { g.lineWidth = 2.4; g.beginPath(); g.moveTo(cx - 5, ey - 5); g.lineTo(cx + 5, ey + 5); g.moveTo(cx + 5, ey - 5); g.lineTo(cx - 5, ey + 5); g.stroke(); }
+      else if (kind === 'shut' || kind === 'happy') { g.lineWidth = 2.6; g.beginPath(); if (kind === 'shut') g.arc(cx, ey - 1, 6, 0.2, Math.PI - 0.2); else g.arc(cx, ey + 3, 6, Math.PI + 0.3, TAU - 0.3); g.stroke(); }
+      else { const w = (P.wide ? 9.5 : 8) * B, h = (P.wide ? 10 : 8.5) * B * P.open, pr = 4 * P.pupil * B; ell(g, cx, ey, w, h, '#fff'); ell(g, cx + P.look * 3, ey + P.lookY * 3, pr, Math.min(pr * 1.1, h), INK); ell(g, cx + P.look * 3 + 1.4, ey + P.lookY * 3 - 1.6, 1.3 * B, 1.3 * B, '#fff');
+        if (P.lid > 0.05) { g.save(); g.beginPath(); g.ellipse(cx, ey, w + 0.8, h + 0.8, 0, 0, TAU); g.clip(); g.fillStyle = face; g.fillRect(cx - 14, ey - h - 2, 28, 2 * h * P.lid + 2); g.restore(); g.lineWidth = 1.8; g.beginPath(); g.moveTo(cx - w + 1, ey - h + 2 * h * P.lid); g.lineTo(cx + w - 1, ey - h + 2 * h * P.lid); g.stroke(); } }
+      if (P.brow) { g.lineWidth = 2.6; g.beginPath(); g.moveTo(cx - s * 8, ey - 13 * B + P.brow * 4.5); g.lineTo(cx + s * 8, ey - 13 * B - P.brow * 3); g.stroke(); } }
+    if (P.blush) for (const s of [-1, 1]) ell(g, ex + s * 25, ey + 12, 6, 3.6, `rgba(226,92,120,${0.5 * P.blush})`);
+    const my = ey + 15, m = P.mouth; g.lineWidth = 2.4; g.beginPath();
+    if (m === 'smile') { g.arc(ex, my - 3, 5, 0.25, Math.PI - 0.25); g.stroke(); } else if (m === 'frown') { g.arc(ex, my + 4, 5, Math.PI + 0.35, TAU - 0.35); g.stroke(); } else if (m === 'flat') { g.moveTo(ex - 4, my); g.lineTo(ex + 4, my); g.stroke(); }
+    else if (m === 'o' || m === 'open' || m === 'pant') { ell(g, ex, my + 1, 3 + 2.5 * P.gape, 2.5 + 5 * P.gape, '#7a3b3b'); if (m === 'pant') ell(g, ex, my + 5 + 3 * P.gape, 3.2, 4, '#f08aa0'); }
+    else if (m === 'snap') { g.fillStyle = '#7a3b3b'; g.moveTo(ex - 5, my - 2); g.lineTo(ex + 16, my - 7); g.lineTo(ex + 16, my + 7); g.closePath(); g.fill(); g.fillStyle = '#fff'; g.fillRect(ex + 9, my - 6, 3, 3); g.fillRect(ex + 9, my + 3, 3, 3); }
+    g.restore();
+  }
+  // ---------- other things in a card ----------
+  const blob = (g, x, y, s, col, o = {}) => { g.save(); g.translate(x, y); g.scale(s * (o.f || 1), s * (o.sy || 1)); sh(g, true); ell(g, 0, -22, 26, 22, col); sh(g, false); if (o.patch) { g.fillStyle = PAPER; g.beginPath(); g.moveTo(-18, -30); g.lineTo(-10, -36); g.lineTo(-6, -27); g.lineTo(-13, -20); g.closePath(); g.fill(); }
+    for (const e of [-1, 1]) { if (o.eyes === 'happy') { g.strokeStyle = INK; g.lineWidth = 2.4; g.lineCap = 'round'; g.beginPath(); g.arc(4 + e * 9, -24, 4, Math.PI + 0.3, TAU - 0.3); g.stroke(); } else { ell(g, 4 + e * 9, -27, 5, o.wide ? 6.5 : 5.4, '#fff'); ell(g, 4 + e * 9 + (o.look || 0) * 2, -27, 2.4, 2.6, INK); } } g.restore(); };
+  const hunter = (g, x, y, s) => { g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = '#6a3d6e'; sh(g, true); g.beginPath(); g.moveTo(-20, -40); g.lineTo(-13, -70); g.lineTo(-2, -48); g.moveTo(20, -40); g.lineTo(13, -70); g.lineTo(2, -48); g.fill(); ell(g, 0, -30, 30, 30, '#6a3d6e'); sh(g, false); for (const e of [-1, 1]) { ell(g, 6 + e * 10, -36, 5.5, 6, '#fff'); ell(g, 8 + e * 10, -36, 2.6, 3, INK); } g.strokeStyle = INK; g.lineWidth = 2.2; g.lineCap = 'round'; g.beginPath(); g.moveTo(-3, -21); g.lineTo(15, -21); g.stroke(); g.restore(); };
+  const tuft = (g, x, y, k = 1) => { g.save(); g.translate(x, y); sh(g, true); for (const [a, l] of [[-0.5, 20], [0, 26], [0.5, 19]]) { g.save(); g.rotate(a); leaf(g, 6, l * k, '#5aa35f'); g.restore(); } sh(g, false); g.restore(); };
+  const tag = (g, x, y, ch, col = '#b8355b') => { sh(g, true); ell(g, x, y, 10, 10, '#fffdf6'); sh(g, false); g.fillStyle = col; g.font = '700 13px "Bricolage Grotesque", system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ch, x, y + 1); };
+  const seed = (g, x, y) => { sh(g, true); ell(g, x, y, 8, 6, '#b8803c', 0.4); sh(g, false); }, egg = (g, x, y) => { sh(g, true); ell(g, x, y, 7, 9, '#fffaf0'); sh(g, false); };
+  const hop = (t, per, h) => { const p = (t % per) / per; return p < 0.6 ? { lift: Math.sin(p / 0.6 * Math.PI) * h, sy: 1 + 0.05 * Math.sin(p / 0.6 * Math.PI), step: Math.sin(p / 0.6 * Math.PI) * 5 } : { lift: 0, sy: 1 - 0.07 * Math.sin((p - 0.6) / 0.4 * Math.PI), step: 0 }; };
+  const u = (t, T) => (t % T) / T, ease = (v) => v * v * (3 - 2 * v), seg = (v, a, b) => Math.max(0, Math.min(1, (v - a) / (b - a)));
+  const BACK = [-1.25, -1.0], DROOP = [-2.1, 2.1], UP = [-0.08, 0.1], FWD = [0.3, 0.55];
+
+  // ---------- the sheet. Each entry: what the body does (pose), what goes behind it (bg), what goes in front (fx). ----------
+  const SHEET = [
+    ['act', 'approach', (t) => { const v = u(t, 260), go = v < 0.72; return { x: go ? -42 + 46 * (v / 0.72) : 4, lean: 0.1, ears: FWD, look: 1, ...(go ? hop(t, 24, 7) : {}) }; }, (g, t) => blob(g, 44, 0, 0.62, '#6fa3d8', { f: -1, sy: 1 + Math.sin(t / 20) * 0.03 })],
+    ['act', 'move away', (t) => ({ x: -18 + 70 * u(t, 200), lean: 0.12, ears: BACK, look: -1, wide: true, mouth: 'flat', ...hop(t, 17, 9) }), (g, t) => hunter(g, -62 + 22 * u(t, 200), 0, 0.62)],
+    ['act', 'wander', (t) => { const x = 24 * Math.sin(t / 95) + 7 * Math.sin(t / 37), v = Math.cos(t / 95), still = Math.abs(v) < 0.35; return { x, f: v > 0 ? 1 : -1, look: Math.sin(t / 50), ...(still ? {} : hop(t, 34, 6)) }; }],
+    ['act', 'hold still', (t) => ({ ears: UP, earLen: 1.06, look: Math.sin(t / 34), mouth: 'flat', alive: false, step: 4 })],
+    ['act', 'creep', (t) => ({ x: -40 + 80 * u(t, 520), sy: 0.72, sx: 1.16, ears: BACK, lid: 0.2, look: 1, mouth: 'flat', step: Math.sin(t / 15) * 3.5 })],
+    ['act', 'sprint', (t) => ({ x: -4 + Math.sin(t / 9) * 2, lean: 0.27, sy: 0.82, sx: 1.18, ears: [-1.45 + Math.sin(t / 4) * 0.06, -1.3 + Math.sin(t / 4 + 1) * 0.06], step: Math.sin(t / 2.6) * 8, lift: 2 + Math.abs(Math.sin(t / 2.6)) * 3, mouth: 'flat', look: 1 }),
+      (g, t) => { g.strokeStyle = 'rgba(90,110,50,0.35)'; g.lineWidth = 2; g.lineCap = 'round'; for (let i = 0; i < 5; i++) { const x = 60 - ((t * 5 + i * 31) % 150), y = -8 - i * 15; g.beginPath(); g.moveTo(x, y); g.lineTo(x + 16, y); g.stroke(); } }, (g, t) => { for (let i = 0; i < 4; i++) { const p = ((t + i * 9) % 36) / 36; ell(g, -34 - p * 22, -3 - Math.sin(p * Math.PI) * 9, 2.4 * (1 - p) + 0.6, 2.4 * (1 - p) + 0.6, '#b9cf8a'); } }],
+    ['act', 'eat', (t) => ({ x: -10, lean: 0.33 + Math.sin(t / 6) * 0.02, mouth: Math.sin(t / 5) > 0 ? 'o' : 'flat', gape: 0.3, lookY: 0.6, look: 0.6, blush: 0.5, ears: [-0.5 + Math.sin(t / 6) * 0.05, 0.2] }), (g) => tuft(g, 36, 2), (g, t) => { for (let i = 0; i < 3; i++) { const p = ((t + i * 14) % 42) / 42; ell(g, 22 + i * 3 + p * 4, -22 + p * 20, 1.6, 1.6, '#5aa35f'); } }],
+    ['act', 'bite, to wound', (t) => { const v = u(t, 96), k = v < 0.18 ? ease(v / 0.18) : v < 0.4 ? 1 : 1 - ease(seg(v, 0.4, 0.7)); return { x: -22 + 26 * k, lean: 0.12 + 0.12 * k, brow: 0.9, ears: [0.15, 0.4], earLen: 1.08, mouth: k > 0.5 ? 'snap' : 'flat', look: 1 }; },
+      (g, t) => { const v = u(t, 96), hit = v > 0.15 && v < 0.5; blob(g, 44 + (hit ? 5 : 0), 0, 0.6, '#6fa3d8', { f: -1, sy: hit ? 0.86 : 1, wide: hit, patch: true }); }],
+    ['act', 'rest', (t) => ({ flat: 1, eye: 'shut', ears: DROOP, mouth: 'flat', sy: 1 + Math.sin(t / 38) * 0.03 }), null, (g, t) => { const p = u(t, 150); g.globalAlpha = 1 - p; tag(g, 22 + p * 10, -52 - p * 26, 'z', '#6b7fa8'); g.globalAlpha = 1; }],
+    ['act', 'lay', (t) => { const v = u(t, 250), sq = v < 0.5; return { x: 8, sy: sq ? 0.84 : 1, sx: sq ? 1.1 : 1, dx: sq ? Math.sin(t * 0.9) * 1.6 : 0, look: v > 0.62 ? -1 : 0, lookY: v > 0.62 ? 0.5 : 0, mouth: sq ? 'flat' : 'smile', ears: sq ? BACK : [-0.35, 0.35] }; }, (g, t) => { const v = u(t, 250); if (v > 0.46) egg(g, -18 - 20 * ease(seg(v, 0.46, 0.6)), -7); }],
+    ['act', 'mate', (t) => ({ x: -13, dx: Math.sin(t * 0.5) * 2, eye: 'happy', blush: 1, ears: [0.2, 0.5] }), (g, t) => blob(g, 24 + Math.sin(t * 0.5) * 2, 0, 0.8, '#f4a98e', { f: -1, eyes: 'happy' }), (g, t) => { const p = u(t, 110); g.globalAlpha = 1 - p; tag(g, 4, -70 - p * 18, '♥'); g.globalAlpha = 1; }],
+    ['act', 'carry', (t) => ({ x: -40 + 80 * u(t, 420), lean: Math.sin(t / 9) * 0.07, step: Math.sin(t / 9) * 5, ears: [-1.0, 1.0], mouth: 'flat', lookY: -0.6, sy: 0.95 }), null, (g, t) => seed(g, -40 + 80 * u(t, 420) + Math.sin(t / 9) * 3, -66)],
+    ['act', 'give', (t) => { const v = u(t, 220); return { x: -18, lean: 0.08, look: 1, lift: v > 0.55 && v < 0.8 ? Math.abs(Math.sin(t / 6)) * 4 : 0, eye: v > 0.55 ? 'happy' : 'open' }; }, (g, t) => { const v = u(t, 220); blob(g, 42, v > 0.55 && v < 0.8 ? -Math.abs(Math.sin(t / 6 + 1)) * 4 : 0, 0.62, '#6fa3d8', { f: -1, eyes: v > 0.55 ? 'happy' : null }); }, (g, t) => { const v = u(t, 220), k = ease(seg(v, 0.3, 0.5)); seed(g, 8 + 22 * k, -24 + 6 * k); }],
+    ['act', 'tend', (t) => ({ x: -14, lean: 0.24 + Math.sin(t / 10) * 0.07, lid: 0.3, lookY: 0.7, look: 0.7, ears: FWD, blush: 0.4 }), (g) => blob(g, 34, 0, 0.5, '#f6b49c', { f: -1, eyes: 'happy' })],
+    ['act', 'cling', (t) => ({ x: -4, size: 0.5, flat: 0.45, lift: 46 + Math.sin(t / 14) * 3, lean: 0.05, ears: BACK, lid: 0.2, mouth: 'flat' }), (g, t) => { g.save(); g.translate(Math.sin(t / 28) * 3, -Math.abs(Math.sin(t / 14)) * 3); sh(g, true); ell(g, 0, -24, 50, 26, '#c9ab78'); sh(g, false); for (const e of [-1, 1]) { ell(g, 30 + e * 7, -30, 3.6, 4, '#fff'); ell(g, 31 + e * 7, -30, 1.8, 2, INK); } g.restore(); }],
+    ['act', 'hide', (t) => { const v = u(t, 240), up = v > 0.45 && v < 0.85 ? ease(Math.min(seg(v, 0.45, 0.55), 1 - seg(v, 0.75, 0.85))) : 0; return { lift: -44 + 12 * up, look: Math.sin(t / 22) * up, ears: BACK, wide: true, pupil: 0.7, mouth: 'flat' }; }, null, (g) => { sh(g, true); g.fillStyle = '#c4dd92'; g.beginPath(); g.moveTo(-60, 30); g.lineTo(-60, 2); g.quadraticCurveTo(0, -22, 60, 2); g.lineTo(60, 30); g.closePath(); g.fill(); sh(g, false); }],
+    ['act', 'roll', (t) => { const v = u(t, 170), a = v < 0.25 ? ease(v / 0.25) * Math.PI : v < 0.5 ? Math.PI : v < 0.75 ? Math.PI + ease(seg(v, 0.5, 0.75)) * Math.PI : 0; return { spin: a, lift: Math.sin(Math.min(1, a / TAU) * Math.PI) * 6, step: v > 0.25 && v < 0.5 ? Math.sin(t / 3) * 6 : 0, mouth: 'flat' }; }],
+    ['act', 'puff up', (t) => { const k = 0.5 + 0.5 * Math.sin(t / 26); return { sx: 1 + 0.26 * k, sy: 1 + 0.24 * k, ears: UP, earLen: 1 + 0.2 * k, brow: 0.9, open: 0.75, mouth: 'flat', lift: 2 * k }; }],
+    ['act', 'play dead', (t) => { const v = u(t, 320), peek = v > 0.62 && v < 0.78; return { spin: -Math.PI / 2, lift: -8, eye: peek ? 'peek' : 'x', look: peek ? Math.sin(t / 8) : 0, mouth: 'flat', ears: [-0.6, -0.3], alive: false }; }],
+    ['act', 'crouch', (t) => ({ flat: 0.6, tint: GROUND, tintK: 0.72, ears: BACK, look: Math.sin(t / 40), mouth: 'flat', lid: 0.15 })],
+    ['act', 'call', (t) => ({ sy: 1.07, lean: -0.08, ears: UP, mouth: 'o', gape: 0.7 + 0.3 * Math.sin(t / 5), eye: Math.sin(t / 30) > 0.6 ? 'shut' : 'open' }), null, (g, t) => { g.lineWidth = 2; for (let i = 0; i < 3; i++) { const p = ((t + i * 22) % 66) / 66; g.strokeStyle = `rgba(47,143,138,${1 - p})`; g.beginPath(); g.arc(12, -44, 14 + p * 34, -0.9, 0.5); g.stroke(); } }],
+    ['act', 'show', (t) => ({ x: Math.sin(t / 30) * 9, sy: 1.08, lean: -0.05, ears: UP, brow: 0.3, mouth: 'smile', step: Math.sin(t / 10) * 4 }), (g, t) => { const k = 0.6 + 0.4 * Math.sin(t / 24); g.save(); g.translate(Math.sin(t / 30) * 9 - 6, -52); sh(g, true); for (let i = -2; i <= 2; i++) { g.save(); g.rotate(i * 0.42 * k - 0.15); leaf(g, 9, 44, i % 2 ? '#e86a9a' : '#d0457a'); g.restore(); } sh(g, false); g.restore(); }],
+    ['act', 'mark', (t) => { const v = u(t, 240), i = Math.min(2, Math.floor(v * 3)), w = v * 3 - i, sq = w < 0.45; return { x: -30 + i * 24 + (sq ? 0 : 24 * ease(seg(w, 0.45, 1))), lean: sq ? -0.2 : 0.05, sy: sq ? 0.88 : 1, lift: sq ? 0 : Math.sin(seg(w, 0.45, 1) * Math.PI) * 7, mouth: 'flat', ears: sq ? BACK : [-0.35, 0.35] }; }, (g, t) => { const v = u(t, 240) * 3; for (let i = 0; i < 3; i++) if (v > i + 0.4) { sh(g, true); ell(g, -44 + i * 24, 2, 6, 3.4, '#8a6fc9'); sh(g, false); } }],
+    ['act', 'dig', (t) => ({ x: -8, lean: 0.46, dx: Math.sin(t * 0.8) * 1.3, ears: BACK, mouth: 'flat', lookY: 1, look: 0.5, step: Math.sin(t / 3) * 6 }), (g, t) => ell(g, 32, 3, 12 + 5 * u(t, 300), 4 + 2 * u(t, 300), '#8c7a52'), (g, t) => { for (let i = 0; i < 5; i++) { const p = ((t + i * 8) % 40) / 40; ell(g, 14 - p * 62, -10 - Math.sin(p * Math.PI) * 34, 2.6, 2.6, '#a8905e'); } }],
+
+    ['state', 'hungry', (t) => { const r = u(t, 150) > 0.8; return { fat: -1.5, ears: [-0.9, 0.9], look: 1, lookY: 0.4, mouth: 'frown', lid: 0.15, dx: r ? Math.sin(t * 1.5) * 0.8 : 0, sy: 0.97 }; }, null, (g, t) => { if (u(t, 150) > 0.8) { g.strokeStyle = INK; g.lineWidth = 1.6; g.lineCap = 'round'; for (const a of [0.2, 0.7, 1.2]) { g.beginPath(); g.arc(-4, -22, 30 + a * 6, Math.PI - 0.5 + a * 0.1, Math.PI - 0.2 + a * 0.1); g.stroke(); } } }],
+    ['state', 'fed', (t) => ({ fat: 1.6, sy: 0.98, eye: u(t, 200) > 0.55 ? 'happy' : 'open', blush: 0.6, lid: 0.2 })],
+    ['state', 'tired', (t) => { const v = u(t, 260), y = v > 0.5 && v < 0.74 ? Math.sin(seg(v, 0.5, 0.74) * Math.PI) : 0; return { lid: y > 0.3 ? 0.9 : 0.62, ears: [-1.3, 1.3], sy: 0.93, lean: 0.05, mouth: y > 0.05 ? 'open' : 'flat', gape: y, x: -6 + 12 * u(t, 520), step: Math.sin(t / 22) * 2 }; }],
+    ['state', 'hurt', (t) => { const p = u(t, 46); return { patch: true, x: -30 + 60 * u(t, 460), eye: 'wince', brow: -0.7, mouth: 'frown', lean: p < 0.5 ? -0.11 * Math.sin(p * TAU) : 0, lift: p < 0.5 ? Math.sin(p * TAU) * 4 : 0, step: p < 0.5 ? 4 : 0, ears: [-1.0, 0.7] }; }],
+    ['state', 'cold', (t) => ({ tint: '#9cc3ee', tintK: 0.4, dx: Math.sin(t * 1.9) * 1.3, sx: 0.92, sy: 0.9, ears: [-2.3, 2.3], mouth: 'frown', lid: 0.2, brow: -0.4 })],
+    ['state', 'hot', (t) => ({ tint: '#f2a25c', tintK: 0.18, sy: 0.8, sx: 1.12, ears: [-1.6, 1.6], lid: 0.45, mouth: 'pant', gape: 0.5 + 0.3 * Math.sin(t / 5) }), null, (g, t) => { g.strokeStyle = 'rgba(217,113,79,0.55)'; g.lineWidth = 2; g.lineCap = 'round'; for (const x of [-22, 0, 22]) { g.beginPath(); for (let y = 0; y < 16; y += 2) g.lineTo(x + Math.sin((y + t / 3) / 3) * 3, -86 - y); g.stroke(); } }],
+    ['state', 'stung or ill', (t) => ({ tint: '#b5cf7a', tintK: 0.45, lean: Math.sin(t / 26) * 0.17, pupil: 0.5, wide: true, mouth: 'frown', ears: [-1.5 + Math.sin(t / 26) * 0.3, 1.5 + Math.sin(t / 26) * 0.3], look: Math.sin(t / 13) * 0.6 })],
+    ['state', 'carrying eggs', (t) => ({ belly: true, fat: 0.6, x: -14 + 28 * u(t, 600), step: Math.sin(t / 24) * 2.5, lean: -0.04, lid: 0.15 })],
+    ['state', 'young', (t) => { const v = u(t, 200), roll = v > 0.5 && v < 0.8; return { size: 0.64, big: 1.3, pale: 0.16, x: -22 + 44 * Math.min(1, v / 0.5), spin: roll ? ease(seg(v, 0.5, 0.8)) * TAU : 0, ...(v < 0.5 ? hop(t, 20, 9) : {}), mouth: roll ? 'o' : 'smile', gape: 0.4, ears: roll ? [-0.9, 0.9] : UP }; }],
+    ['state', 'old', (t) => ({ pale: 0.3, lid: 0.32, ears: [-1.1, 1.1], dx: Math.sin(t * 1.3) * 0.4, x: -8 + 16 * u(t, 700), step: Math.sin(t / 30) * 1.5, brow: -0.25, sy: 0.96, lean: 0.06 })],
+    ['state', 'its species fading', () => ({ gone: true }), null, (g, t) => { [0, 0.33, 0.62].forEach((p, i) => { g.save(); g.translate(-38 + i * 38, 0); critter(g, { ...D(), size: 0.46, pale: p, ears: i ? [-0.6 - i * 0.2, 0.6 + i * 0.2] : [-0.35, 0.35], lid: i * 0.14, ...hop(t + i * 11, 44 + i * 16, 5 - i * 1.5) }, t + i * 30); g.restore(); }); }],
+    ['state', 'dead', () => ({ spin: -Math.PI / 2, lift: -8, eye: 'x', pale: 0.78, mouth: 'flat', ears: [-0.7, -0.4], alive: false })],
+
+    ['mood', 'wary', (t) => { const v = u(t, 130), go = v < 0.28; return { x: -8 + (go ? 14 * (v / 0.28) : 14) - 14 * seg(v, 0.7, 1), lean: -0.13, sy: 0.9, wide: true, pupil: 0.55, look: Math.sign(Math.sin(t / 19)), ears: BACK, brow: -0.3, mouth: 'flat', step: go ? Math.sin(t / 2.5) * 4 : 0 }; }],
+    ['mood', 'fierce', (t) => ({ lean: 0.15, sx: 1.1, sy: 1.06, brow: 1, open: 0.72, ears: [0.12, 0.38], earLen: 1.1, mouth: u(t, 90) > 0.8 ? 'snap' : 'frown', look: 1, lift: u(t, 45) < 0.3 ? Math.abs(Math.sin(t / 2.2)) * 4 : 0, step: u(t, 45) < 0.3 ? Math.sin(t / 2.2) * 5 : 0 })],
+    ['mood', 'eager', (t) => ({ lean: 0.1, pupil: 1.4, look: 1, ears: UP, earLen: 1.1, mouth: 'open', gape: 0.25, ...hop(t, 22, 10), sy: 1.07 })],
+    ['mood', 'calm', (t) => ({ sy: 0.97, lid: 0.46, lean: Math.sin(t / 70) * 0.03, ears: [-0.6, 0.6] })],
+    ['mood', 'tender', (t) => ({ x: -12, lean: 0.12 + Math.sin(t / 60) * 0.05, lid: 0.25, blush: 1, ears: [0.5, 0.78], eye: u(t, 130) > 0.82 ? 'happy' : 'open', look: 0.8, lookY: 0.4 }), (g) => blob(g, 38, 0, 0.44, '#f6b49c', { f: -1, eyes: 'happy' })],
+    ['mood', 'weary', (t) => ({ sy: 0.9, sx: 1.05, lid: 0.68, ears: DROOP, lean: 0.05, mouth: 'flat', x: -10 + 20 * u(t, 800), step: Math.sin(t / 26) * 2 })],
+    ['mood', 'playful', (t) => ({ lean: Math.sin(t / 7) * 0.08, ears: [-0.1, 1.2], f: u(t, 150) > 0.5 ? -1 : 1, pupil: 1.15, mouth: 'open', gape: 0.3, ...hop(t, 20, 11), x: Math.sin(t / 40) * 14 })],
+    ['mood', 'gloomy', (t) => { const v = u(t, 220), sigh = v > 0.5 && v < 0.7 ? Math.sin(seg(v, 0.5, 0.7) * Math.PI) : 0; return { sy: 0.9 - 0.05 * sigh, sx: 0.95, lean: 0.11, brow: -1, lookY: 1, lid: 0.3, ears: [-2.3, 2.3], mouth: 'frown', x: -6 + 12 * Math.min(1, v / 0.4), step: v < 0.4 ? Math.sin(t / 12) * 2 : 0 }; }],
+
+    ['note', 'saw it, went on eating', (t) => { const v = u(t, 330), gl = v > 0.34 && v < 0.52 ? ease(Math.min(seg(v, 0.34, 0.4), 1 - seg(v, 0.46, 0.52))) : 0; return { x: 4, lean: 0.33 * (1 - gl), look: 0.6 - 1.6 * gl, lookY: 0.6 * (1 - gl), wide: gl > 0.5, ears: gl > 0.3 ? [-0.9, -0.6] : [-0.5, 0.2], mouth: gl > 0.3 ? 'flat' : Math.sin(t / 5) > 0 ? 'o' : 'flat', gape: 0.3 }; }, (g, t) => { tuft(g, 50, 2); const v = u(t, 330); if (v > 0.25) hunter(g, -78 + 30 * seg(v, 0.25, 1), 0, 0.5); }],
+    ['note', 'never saw it', (t) => ({ x: 4, lean: 0.33 + Math.sin(t / 6) * 0.02, look: 0.6, lookY: 0.6, ears: [-0.5 + Math.sin(t / 6) * 0.05, 0.2], mouth: Math.sin(t / 5) > 0 ? 'o' : 'flat', gape: 0.3 }), (g, t) => { tuft(g, 50, 2); const v = u(t, 330); if (v > 0.25) hunter(g, -78 + 30 * seg(v, 0.25, 1), 0, 0.5); }],
+  ];
+
+  // ---------- the cards ----------
+  let showNames = true, far = false; const cells = [], seen = new Set();
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => { for (const e of es) e.isIntersecting ? seen.add(e.target) : seen.delete(e.target); }, { rootMargin: '80px' }) : null;
+  SHEET.forEach(([group, name, pose, bg, fx], i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'cell'; const cv = document.createElement('canvas'), lab = document.createElement('span'); cv.setAttribute('role', 'img'); b.append(cv, lab);
+    document.getElementById('g-' + group).append(b); const c = { b, cv, lab, name, pose, bg, fx, open: false, off: i * 37, g: cv.getContext('2d') }; cells.push(c); if (io) io.observe(b); else seen.add(b);
+    b.addEventListener('click', () => { if (!showNames) { c.open = !c.open; label(c); } }); label(c); });
+  function label(c) { const vis = showNames || c.open; c.lab.textContent = vis ? c.name : 'tap to see'; c.b.classList.toggle('hid', !vis); c.cv.setAttribute('aria-label', vis ? 'The creature: ' + c.name : 'The creature, name hidden'); }
+  function drawCell(c, t) { const cv = c.cv, w = cv.clientWidth; if (!w) return; const dpr = Math.min(2, window.devicePixelRatio || 1), px = Math.round(w * dpr); if (cv.width !== px) { cv.width = px; cv.height = px; }
+    const g = c.g, k = px / 120; g.setTransform(k, 0, 0, k, 0, 0); g.fillStyle = PAPER; g.fillRect(0, 0, 120, 120); sh(g, true); ell(g, 60, 112, 78, 24, GROUND); sh(g, false);
+    g.save(); g.translate(60, 100); g.scale(far ? 0.34 : 0.78, far ? 0.34 : 0.78); const tt = t + c.off, P = Object.assign(D(), c.pose(tt)); if (P.alive && P.eye === 'open' && (tt % 190) < 7) P.eye = 'shut';
+    if (c.bg) c.bg(g, tt, P); if (!P.gone) critter(g, P, tt); if (c.fx) c.fx(g, tt, P); g.restore(); }
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; let t0 = null;
+  function frame(now) { if (t0 === null) t0 = now; const t = (now - t0) * 0.06; for (const c of cells) if (seen.has(c.b)) drawCell(c, still ? 40 : t); if (!still) requestAnimationFrame(frame); }
+  const press = (id, on) => document.getElementById(id).setAttribute('aria-pressed', String(on));
+  document.getElementById('names').addEventListener('click', (e) => { showNames = !showNames; e.currentTarget.textContent = showNames ? 'Names shown' : 'Names hidden'; press('names', showNames); for (const c of cells) { c.open = false; label(c); } });
+  document.getElementById('far').addEventListener('click', () => { far = !far; press('far', far); if (still) requestAnimationFrame(frame); });
+  requestAnimationFrame(frame); if (still) { window.addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true }); setTimeout(() => requestAnimationFrame(frame), 300); }
+})();
+</script>
