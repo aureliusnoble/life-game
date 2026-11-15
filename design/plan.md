@@ -14,7 +14,9 @@ Draft 2, November 2026. Replaces the "one pond" first version of draft 1.
 | The world | Much richer than one pond: several biomes, each with its own cycles, that respond to how species use them, recover after being overexploited, and offer niches for different bodies, life cycles and social organisation |
 | Pet play | There must be Tamagotchi-like interaction with the species. It centres on one special individual: each species has a named founder that its player looks after closely, and whose fate matters more than the rest |
 | World shape | One connected map. Biomes sit side by side, creatures spread wherever they can live, and the borders between biomes are places in their own right |
-| World size | About six biomes, fixed |
+| World size | Six biomes, fixed: Rocks, Thicket, Meadow, Reed bed, Pond and Mudflat. Each must be large enough, carry several different species, and have its own resources, advantages and costs |
+| Time | A day is about one real hour and a season about two real days |
+| Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Working arrangement | Reviewed changes into the main branch |
 
 ## 2. How the design process runs
@@ -53,7 +55,7 @@ Earlier areas constrain later ones, so the order matters. Art runs alongside fro
 |---|---|---|
 | Behaviour | `design/neural-blocks.md` (draft 4) | Vocabulary written and audited; ten verbs and most functions untested |
 | Bodies | `design/body.md` (draft 1) | Parts audited; shells, the inside and camouflage need rework |
-| World | `design/world.md` (draft 1), on top of `design/environment.md` | Six biomes on one connected map. An overused biome recovers. Biomes do not yet each have their own best build, and there is no map mockup |
+| World | `design/world.md` (draft 2), on top of `design/environment.md` | Six biomes on one connected map, with a map mockup. An overused biome recovers and a species can be designed to manage its food. Biomes have different casts, but three carry only one grazing species, and they do not yet each have their own best build |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |

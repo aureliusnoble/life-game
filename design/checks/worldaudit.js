@@ -77,4 +77,65 @@ function lifeCycles() {
     row(wn, ...Object.keys(kinds).map((k) => `${k} ${mean(fin[k].map((x) => x[0])).toFixed(1)}+${mean(fin[k].map((x) => x[1])).toFixed(1)} (${kept[k]}/5)`)); }
 }
 
-if (require.main === module) { const only = process.argv[2]; for (const f of [biomes, recovery, lifeCycles]) if (!only || f.name === only) f(); }
+// 4. Restraint. The same grazers on the same food, with three rules for when to lay.
+function restraint() {
+  const eat = [I('see plant', 'approach', { str: 'strong', in: ['hungry'] }), I('touch plant', 'bite'), I('always', 'wander')];
+  const near = (w, c, list, R) => list.filter((o) => o !== c && (o.alive ?? true) && w.off(c, o)[2] < R).length;
+  const rules = { 'lays whenever it is well fed': null, 'does not lay when crowded (5 or more of its kind near)': (c, w) => near(w, c, w.creatures.filter((o) => o.kind === c.kind), 70) < 5,
+    'does not lay when food is thin (fewer than 4 plants in view)': (c, w) => near(w, c, w.plants, 51) >= 4 };
+  console.log('\n4. RESTRAINT  (10 breeding grazers on food with a root stock, 14000 beats, 6 runs)');
+  for (const [name, rule] of Object.entries(rules)) { const peak = [], low = [], endG = [], gone = [], fed = [];
+    for (let seed = 1; seed <= 6; seed++) { const w = new World(300, seed, true); w.starve = true; const K = 80; let most = 0, lowest = K, food = 0, n = 0;
+      const sow = () => w.plants.push({ x: w.rnd() * 300, y: w.rnd() * 300, type: 'grass' }); for (let i = 0; i < 60; i++) sow();
+      for (let i = 0; i < 10; i++) w.add('g', { ...build({}), breedAt: 0.7, eggCost: 0.3, cap: 70, breedIf: rule, instincts: eat });
+      live(w, 14000, { grow: (w) => { const N = w.plants.length; if (w.rnd() < 0.012 + 0.006 * N * (1 - N / K)) sow(); if (w.t % 100 === 0 && w.t > 500) { most = Math.max(most, count(w, 'g')); lowest = Math.min(lowest, N); food += N; n++; } } });
+      peak.push(most); low.push(lowest); endG.push(count(w, 'g')); gone.push(count(w, 'g') === 0 && !w.eggCount('g') ? 1 : 0); fed.push(food / n); }
+    row(name, `peaked at ${mean(peak).toFixed(0)}`, `food fell to ${mean(low).toFixed(0)} of 80, averaged ${mean(fed).toFixed(0)}`, `grazers at the end ${mean(endG).toFixed(0)}`, `died out ${gone.reduce((a, b) => a + b, 0)}/6`); }
+}
+
+// 5. Who can live where. Nine species from one pool are put into every biome, each biome with its own foods, and left to breed.
+const FOODS_THIN = { // first attempt: secondary foods too scarce to carry a population
+  rocks:   [['lichen', 16, 0.02, 'open'], ['seeds', 8, 0.015, 'open']],
+  thicket: [['fruit', 22, 0.09, 'inside', 'pulse'], ['fungus', 16, 0.05, 'inside'], ['seeds', 10, 0.03, 'inside']],
+  meadow:  [['grass', 40, 0.2, 'any'], ['flowers', 16, 0.1, 'any', 'day'], ['seeds', 10, 0.03, 'any']],
+  reeds:   [['seeds', 18, 0.06, 'inside'], ['weed', 16, 0.06, 'inside'], ['worms', 12, 0.04, 'any', 'buried']],
+  pond:    [['weed', 30, 0.12, 'any'], ['drift', 18, 0.09, 'inflow']],
+  mudflat: [['worms', 30, 0.12, 'any', 'buried'], ['weed', 14, 0.25, 'any', 'flood']],
+};
+const FOODS = { // second attempt: every food in every biome is plentiful enough to carry a population of its own
+  rocks:   [['lichen', 30, 0.06, 'open'], ['seeds', 14, 0.05, 'open']],
+  thicket: [['fruit', 24, 0.1, 'inside', 'pulse'], ['fungus', 22, 0.08, 'inside'], ['seeds', 16, 0.06, 'inside']],
+  meadow:  [['grass', 40, 0.2, 'any'], ['flowers', 28, 0.22, 'any', 'day'], ['seeds', 20, 0.07, 'any']],
+  reeds:   [['seeds', 20, 0.07, 'inside'], ['weed', 20, 0.08, 'inside'], ['worms', 18, 0.07, 'any', 'buried']],
+  pond:    [['weed', 30, 0.12, 'any'], ['drift', 22, 0.1, 'inflow'], ['worms', 18, 0.07, 'any', 'buried']],
+  mudflat: [['worms', 30, 0.12, 'any', 'buried'], ['weed', 20, 0.3, 'any', 'flood'], ['seeds', 14, 0.05, 'any']],
+};
+function diversity(F = FOODS, label = 'every food plentiful enough to carry a population') {
+  const see = [I('see plant', 'approach', { str: 'strong' }), I('touch plant', 'bite'), I('always', 'wander')], nose = [I('smell plant', 'approach', { str: 'strong' }), ...see];
+  const pool = { grazer: [{}, { grass: 1, weed: 0.4 }, see], sipper: [{ scale: 0.8, organs: { fat: 0.45, gut: 0.25, muscle: 0.15, lungs: 0.15 } }, { flowers: 1, fruit: 0.5 }, see], cracker: [{}, { seeds: 1 }, see], 'fruit-nose': [{ scale: 0.85, nose: 70 }, { fruit: 1, fungus: 0.6 }, nose],
+    prober: [{ scale: 0.8, nose: 60 }, { worms: 1 }, nose], swimmer: [{ move: 'fins' }, { weed: 1 }, see], filterer: [{ move: 'fins' }, { drift: 1 }, see], scraper: [{ scale: 0.7 }, { lichen: 1, fungus: 0.4 }, see],
+    'eats most things': [{ move: 'paddles' }, { grass: 0.5, seeds: 0.5, weed: 0.5, fruit: 0.5, fungus: 0.5 }, see] };
+  console.log(`\n5. WHO CAN LIVE WHERE: ${label}  (9 species, 4 of each, put into every biome and left to breed; no hunters; 6000 beats, 3 runs)  numbers at the end`);
+  console.log('  ' + 'species'.padEnd(18) + Object.keys(F).map((k) => k.padStart(9)).join(''));
+  const fin = {}; for (const k of Object.keys(pool)) fin[k] = {};
+  for (const bn of Object.keys(F)) { const acc = {}; for (const k of Object.keys(pool)) acc[k] = [];
+    for (let seed = 1; seed <= 3; seed++) { const w = makeBiome(bn, seed); w.plants = []; w.foods = ['grass', 'flowers', 'seeds', 'fruit', 'fungus', 'lichen', 'weed', 'drift', 'worms'];
+      const place = (type, where, mode) => { for (let k = 0; k < 40; k++) { const q = { x: w.rnd() * w.size, y: w.rnd() * w.size, type, buried: mode === 'buried' };
+          if (where === 'inflow') { const a = w.rnd() * 6.28, r = w.rnd() * 45; q.x = 60 + Math.cos(a) * r; q.y = 60 + Math.sin(a) * r; }
+          const c = w.coverOf(q); if (mode === 'pulse') { const bush = w.covers[Math.floor(w.t / 800) % w.covers.length]; const a = w.rnd() * 6.28, r = w.rnd() * bush.r; q.x = bush.x + Math.cos(a) * r; q.y = bush.y + Math.sin(a) * r; w.plants.push(q); return; }
+          if (where === 'inside' ? c : where === 'open' ? !c : true) { w.plants.push(q); return; } } };
+      for (const [type, cap, , where, mode] of F[bn]) for (let i = 0; i < cap * 0.7; i++) place(type, where, mode);
+      for (const [name, [spec, diet, ins]] of Object.entries(pool)) for (let i = 0; i < 4; i++) w.add(name, { ...build(spec), nose: spec.nose, diet, breedAt: 0.75, eggCost: 0.35, cap: 14, instincts: ins });
+      live(w, 6000, { grow: (w) => { w.light = Math.floor(w.t / 600) % 2 === 0 ? 1 : 0.2; const flood = w.t % 1200 < 300;
+        for (const [type, cap, regrow, where, mode] of F[bn]) { const have = w.plants.filter((p) => p.type === type).length;
+          if (mode === 'day' && w.light < 0.5) { if (w.t % 600 === 0) w.plants = w.plants.filter((p) => p.type !== type); continue; }
+          if (mode === 'flood' && !flood) continue;
+          if (have < cap && w.rnd() < regrow) place(type, where, mode); } } });
+      for (const k of Object.keys(pool)) acc[k].push(count(w, k)); }
+    for (const k of Object.keys(pool)) fin[k][bn] = mean(acc[k]); }
+  for (const k of Object.keys(pool)) console.log('  ' + k.padEnd(18) + Object.keys(F).map((b) => (fin[k][b] < 0.05 ? '-' : fin[k][b].toFixed(1)).padStart(9)).join(''));
+  console.log('  ' + 'species living'.padEnd(18) + Object.keys(F).map((b) => String(Object.keys(pool).filter((k) => fin[k][b] >= 1).length).padStart(9)).join(''));
+}
+
+if (require.main === module) { const only = process.argv[2]; const thin = () => diversity(FOODS_THIN, 'first attempt, secondary foods scarce'); Object.defineProperty(thin, 'name', { value: 'thin' });
+  for (const f of [biomes, recovery, lifeCycles, restraint, thin, diversity]) if (!only || f.name === only) f(); }

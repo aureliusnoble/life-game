@@ -46,6 +46,9 @@ class World {
     if (verb === 'always') return { s: 1 };
     if (verb === 'sometimes') return { s: ((Math.floor(this.t / 25) * 7 + c.id * 13) % 10) < 3 ? 1 : 0 }; // bouts of 25 beats, about a third of the time
     if (verb === 'am') return { s: what === 'hungry' ? 1 - c.energy : what === 'tired' ? (c.tired ? 1 : 0) : what in c.moods ? c.moods[what] : 0 };
+    if (verb === 'smell' && (what === 'plant' || (this.foods && this.foods.includes(what)))) { const R = c.brain.nose ?? 0; let best = null, bd = R;
+      for (const o of this.plants) { if (what === 'plant' ? !((c.brain.diet && typeof c.brain.diet === 'object' ? c.brain.diet[o.type ?? 'plant'] ?? 0 : 1) > 0) : o.type !== what) continue; const d = this.off(c, o)[2]; if (d < bd) { bd = d; best = o; } }
+      if (!best) return { s: 0 }; const [dx, dy, d0] = this.off(c, best); return { s: Math.max(0.05, 1 - bd / R), dx: dx / (d0 || 1), dy: dy / (d0 || 1), d: d0, target: best }; }
     if (verb === 'smell') { let w = 0, cx = 0, cy = 0; for (const m of this.marks) if (m.type === what) { const [ox, oy, d] = this.off(c, m); if (d < 40) { const k = 1 - d / 40; w += k; cx += ox * k; cy += oy * k; } }
       if (w < 0.02) return { s: 0 }; const d = Math.hypot(cx / w, cy / w) || 1; return { s: Math.min(1, w / 2), dx: cx / w / d, dy: cy / w / d, d, trail: what }; }
     if (verb === 'see' && what === 'cover') { let best = null, bd = 160; for (const p of this.covers) { if (p.maxSize && c.size > p.maxSize) continue; const d = Math.max(0, this.off(c, p)[2] - p.r * 0.5); if (d < bd) { bd = d; best = p; } }
@@ -57,7 +60,7 @@ class World {
     let list;
     const eats = (o) => (c.brain.diet && typeof c.brain.diet === 'object' ? c.brain.diet[o.type ?? 'plant'] ?? 0 : 1) > 0;
     if (what === 'meat') list = this.meat.filter((o) => reach(o));
-    else if (what === 'plant' || (this.foods && this.foods.includes(what))) list = this.plants.filter((o) => (what === 'plant' ? eats(o) : o.type === what) && reach(o));
+    else if (what === 'plant' || (this.foods && this.foods.includes(what))) list = this.plants.filter((o) => (what === 'plant' ? eats(o) : o.type === what) && (verb === 'touch' || !o.buried) && reach(o));
     else list = this.creatures.filter((o) => this.isA(c, o, what) && reach(o) && (!st || this.state(c, o, st)));
     if (!list.length) return { s: 0 };
     const key = (o) => sel === 'weakest' ? o.hp / o.hpMax * 1000 + this.off(c, o)[2] : this.off(c, o)[2];

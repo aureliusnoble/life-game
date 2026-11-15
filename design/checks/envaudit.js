@@ -18,7 +18,7 @@ function live(w, beats, { grow, cap = 20, respawn } = {}) {
     const n = {}; for (const c of w.creatures) if (c.alive) n[c.kind] = (n[c.kind] ?? 0) + 1; for (const e of eggs) n[e.kind] = (n[e.kind] ?? 0) + 1; // eggs count toward a species' ceiling
     for (const c of w.creatures) { if (!c.alive) continue; const b = c.brain, st = b.store ?? 1; c.age = (c.age ?? 0) + 1;
       if (c.eggCool > 0) c.eggCool--;
-      else if (b.breedAt && c.age > (b.adultAt ?? 250) && c.energy >= b.breedAt * st && (n[c.kind] ?? 0) < (b.cap ?? cap)) { c.energy -= (b.eggCost ?? 0.35) * st; c.eggCool = b.eggGap ?? 200; n[c.kind]++; eggs.push({ x: c.x, y: c.y, kind: c.kind, brain: b, at: w.t + (b.hatch ?? 150) }); } }
+      else if (b.breedAt && c.age > (b.adultAt ?? 250) && c.energy >= b.breedAt * st && (n[c.kind] ?? 0) < (b.cap ?? cap) && (!b.breedIf || b.breedIf(c, w))) { c.energy -= (b.eggCost ?? 0.35) * st; c.eggCool = b.eggGap ?? 200; n[c.kind]++; eggs.push({ x: c.x, y: c.y, kind: c.kind, brain: b, at: w.t + (b.hatch ?? 150) }); } }
     for (let i = eggs.length - 1; i >= 0; i--) if (eggs[i].at <= w.t) { const e = eggs.splice(i, 1)[0]; const y = w.add(e.kind, e.brain, { x: e.x, y: e.y }); y.energy = (e.brain.eggCost ?? 0.35) * (e.brain.store ?? 1) * 0.9; }
     if (w.t % 100 === 0) w.creatures = w.creatures.filter((c) => c.alive);
     w.eggCount = (k) => eggs.filter((e) => e.kind === k).length;
