@@ -58,6 +58,8 @@ Decided: the way of breeding is chosen per species.
 | Alone | Any adult can lay | Simple and reliable; one survivor can restart the species | One body and one set of habits for all |
 | In pairs | Two sexes, which must meet | A second body and second set of habits: one sex can be built to guard, fight or show off while the other carries the eggs. Courtship, rivalry and choosing a mate become possible | Mates have to find each other, and a species scattered thin can fail to |
 | One breeder, many helpers | See `design/social.md` | Castes | The breeder is a single point of failure |
+| Both sexes in one | Any two adults can mate, and both lay | Mates are twice as easy to find | No second body: there is only one sex to design |
+| Splitting | An adult divides into two small ones. There is no egg | Nothing for egg thieves to take, and no mate needed | The parent gives up half its weight each time |
 
 What two sexes are worth, beyond being expressive, is an open balance question. It is noted here and left for the end.
 
@@ -72,6 +74,7 @@ Each is made with instincts and a few species settings, not a separate system. S
 | How often | Once, with everything, and die; or again and again | One huge brood swamps the egg thieves and suits a short season; repeated broods spread the risk |
 | Care | None; guard the eggs; feed the young; carry them | Care raises survival and ties a parent down |
 | Where | Scattered; in a nest; hidden; in a shared nest | A nest can be guarded and found again; it can also be found by others |
+| Eggs | Laid, or kept inside until they hatch | Kept inside they are safe from thieves and weather, and the mother is slower and at risk for longer |
 | Waiting | Eggs that wait for spring; adults that sleep through winter; neither | Waiting skips the bad season and skips its opportunities too |
 | Growing up | Young like small adults; or a young form with its own body, such as fins first and legs later. Decided: young forms are in the first version | A young form opens a second habitat and costs budget |
 

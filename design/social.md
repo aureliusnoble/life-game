@@ -1,6 +1,6 @@
 # Social organisation: building blocks for many kinds of society
 
-Draft 2, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
+Draft 3, November 2026. Design area 3 in `design/plan.md`. A proposal on paper: nothing in it has been run, and balance is left to the end.
 
 ## 1. The aim
 
@@ -296,7 +296,7 @@ This is from general knowledge of animal societies, not from new research. I wen
 | Breed alone in summer and in pairs in autumn; or unfathered eggs become males | One way of breeding per species | A brood mix rule that depends on whether the egg was fathered | Yes |
 | Lay eggs on a living host, which the young then eat | An egg stays where it is laid | "Lay" on what it is touching or carrying | Yes |
 | Keep the eggs inside until they hatch | Eggs are always laid | A life-cycle option: a slower mother, safer eggs | Yes |
-| Bodies joined into one animal, each part a different form, as in a man-of-war | Clinging is one rider on one carrier | Chains of clinging, and food shared through the join | Yes, if it proves simple |
+| Bodies joined into one animal, each part a different form, as in a man-of-war | Clinging is one rider on one carrier | Chains of clinging, and food shared through the join | No: decided against. Attaching and letting go is in instead (section 11) |
 | Rafts, bridges and nests made of living bodies | Bodies are not material | Clinging bodies that others can walk on or float on | Later |
 | Farming: tending a crop, planting seed | Tending works on eggs, young and other creatures | Tending a plant speeds its growth; a dropped seed can sprout | Yes |
 | Telling others where food is without leading them there, as bees do | A display can point only at what is in view | A display that points toward a remembered Place | Yes |
@@ -308,35 +308,89 @@ This is from general knowledge of animal societies, not from new research. I wen
 | Calls that differ between homes and are learned from parents | Signals are fixed by the design | Learned signals | No: outside this level of mechanics |
 | Parasites that live inside a host or take over its behaviour | Nothing acts inside another body or on another's moods | A separate system | No |
 
-The ones marked "Yes" are small, and each opens a family of societies. I would add them to the vocabulary when area 6 revisits it.
+The ones marked "Yes" are small, and each opens a family of societies. Decided on 15 November: they go into the vocabulary when area 6 revisits it.
 
-## 11. What the player sees
+## 11. Attaching and letting go
+
+Decided: bodies joined for good into one animal are out. Creatures that attach to each other and come off again are in, along with defences against it. Clinging is already an act; this section gives it enough rules to be a way of life.
+
+### What attaching is for
+
+| Use | Who attaches to whom | What it gains |
+|---|---|---|
+| Being carried | Young on a parent; a small form on a large form of its kind; a hitchhiker on another species | Travel for free, across water or ground it could not cross, under the carrier's protection |
+| Feeding on the carrier | A parasite | A meal that walks. The carrier is weakened, not killed |
+| Cleaning the carrier | A cleaner | The carrier's parasites as food, in return for a service |
+| Holding prey | Hunters | Each one slows the prey until another can bite |
+| Mating | A small male on a female | It never has to find a mate again |
+| Borrowed defence | A soft animal riding on a spiked or stinging one, or carrying one | Protection it did not pay for |
+| Being led home | A thief or a raider on a forager | It is carried to the nest or the larder |
+| Holding on to the world | Anything, on a rock or a stem | Not swept away by current, tide or wind; somewhere to sleep |
+
+### The rules that make it a contest
+
+- **Where it holds.** An attacher holds the carrier's front, back or flank. Most bodies cannot bite their own back.
+- **Load.** Each rider slows the carrier and tires it sooner, and many small riders add up. This is in the stand-in already.
+- **Grip against skin.** How well it holds depends on its grip and on the carrier's skin at that spot. No grip holds everywhere.
+
+| Grip | Holds on | Fails on | Limit |
+|---|---|---|---|
+| Suckers | Smooth skin, shell, wet bodies | Bristles and slime | Slow to attach |
+| Hooks | Bristles and rough skin | Shell and slime | Easily scraped off |
+| Locking jaws | Anything soft | Shell; hurt by spikes | The mouth is busy, so it cannot bite again |
+
+- **While attached** a creature can feed, sting, clean, give, lay on the carrier, signal, or let go. It cannot steer, and it sees little.
+- **Letting go is an instinct like any other:** when full, on smelling its home, when the carrier enters water.
+- **The carrier feels it.** "Something is clinging to me" is a new thing to notice, with where it is and whether it is my kind.
+
+### Getting something off
+
+| Defence | How | What it costs |
+|---|---|---|
+| Shake | Sprint and turn hard; weak grips fail | Stamina |
+| Roll | A new act. Riders on the back are thrown or crushed | It stops, belly up, for a moment |
+| Scrape | Go along a rock, a stem or the edge of a thicket | There has to be one nearby |
+| Dive, or leave the water | Riders that cannot breathe there let go | The right limbs, and water |
+| Withdraw | Pull into the shell; riders on the soft parts are scraped off | A shell |
+| Shed | Drop the tail or the patch of skin being held. The attacker is left holding it | The part has to regrow |
+| Be cleaned | Another of its kind, or a cleaner species, removes the riders. A display can ask for it | A partner |
+| Skin | Slime, spikes or shell where riders would hold | Budget |
+| Keep them off | Keep apart from small strangers; face them; spikes at the rear | Attention |
+
+### What this adds
+
+- **To notice:** something clinging to me.
+- **Acts:** roll, shed.
+- **Body parts:** three grips; slime as a skin; a tail or skin that can be shed.
+- **Feeding without killing:** a small, slow bite from an attached creature takes food from the carrier without wounding it badly.
+- **Holding on to the world:** clinging to a rock or a stem.
+- **A rule that packs need,** already noted in section 4: an attached creature can wound a carrier of any size.
+
+## 12. What the player sees
 
 - **Homes on the map,** each with its numbers.
 - **Who does what:** counts by role, and who is breeding.
 - **The named line in a colony** is the breeder's line.
 - **Events:** a new home founded, a queen replaced, a border fight, a raid.
 
-## 12. To check in the stand-in, for direction only
+## 13. To check in the stand-in, for direction only
 
 1. A sentinel by signal: does the group eat more and lose fewer?
 2. A queen mark that stops others laying: does it keep a home from eating its ground bare?
 3. A guard caste and a forager caste against the same number of all-rounders.
 4. Homes that are enemies against homes that are friends: spacing, and what happens to the food.
 5. A pack against prey no lone hunter can take.
+6. Riders against a carrier: does each grip fail against the right skin, and does each defence work?
 
-## 13. Answered, and still open
+## 14. Answered
 
-Answered on 15 November:
+Decided on 15 November:
 
 - **All unkind behaviour is allowed:** killing a rival's young, eating a mate, stealing eggs, raiding one's own kind.
-- **Castes and the budget:** agreed as a starting point, with more thought asked for on when specialisation happens, how it is controlled, and whether castes share a brain. Section 9 is that thought: each form has its own body and brain.
+- **Forms:** each caste, sex and stage is its own design under the same allowance, sharing only signals, settings and an optional common page (section 9).
+- **The additions marked "Yes" in section 10** go in, except bodies joined into one animal.
+- **Attaching and letting go** is in, with defences (section 11).
 
-Still open:
-
-1. **Forms.** Is "each form is its own design under the same allowance, sharing only signals, settings and an optional common page" what you had in mind?
-2. **The additions marked "Yes" in section 10.** Any you would drop, or any marked "Later" or "No" that you want sooner?
-
-## 14. Next
+## 15. Next
 
 The stand-in checks above, then area 4: the cast of preset species, and hunters and prey that last together.

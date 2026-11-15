@@ -21,7 +21,10 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
 | Fading | The same for every species of the same age, whatever state the species is in. It keeps rising until it is almost impossible to push against. A better design lasts longer, and there is room for a very successful species to last well beyond a beginner's few days |
 | Generations | Many in a species' life, set by size: about 25 for a small species, 10 for a plain one, and six or more even for a large one |
-| Breeding | Chosen per species: alone, in pairs, or one breeder with helpers. Young forms with their own body are in the first version |
+| Breeding | Chosen per species: alone, in pairs, one breeder with helpers, both sexes in one, or splitting. Young forms with their own body are in the first version |
+| Forms | A species is made of forms: each sex, life stage and caste has its own body and its own page of instincts under the same combined allowance. Forms share only signals, life-cycle settings and an optional common page |
+| Unkind behaviour | All of it is allowed |
+| Attaching | Creatures can attach to each other and come off again, with defences against it. Bodies joined for good into one animal are out |
 | Dominance | A species' dominance is expected to be cyclical and to depend on which other species are around. The aim is a world that keeps turning over, not one where every design does equally well at every moment |
 | Unlocks | Unlocks should push players to explore different ways of playing, not only reward more of the same |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
@@ -176,7 +179,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
 | Life cycles | `design/life-cycles.md` (draft 2) | Generations, stages, ways of breeding, life-history choices and the named line. Its four questions are answered |
-| Social organisation | `design/social.md` (draft 2) | Building blocks for societies, about 35 societies and what each is built from, forms (each caste, sex and stage as its own body and brain), and a wider survey of what the blocks cannot reach. All unkind behaviour is allowed. On paper; two questions open |
+| Social organisation | `design/social.md` (draft 3) | Building blocks for societies, about 35 societies and what each is built from, forms, a wider survey with the additions it led to, and attaching and letting go. Decided in outline; on paper, with six direction checks still to run |
 | Loop and lifespan | `design/world-and-loop.md` | Direction decided; fading and keeper actions proposed |
 | Look | `design/art-direction.md` | Soft critters in the Paper lagoon direction |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
