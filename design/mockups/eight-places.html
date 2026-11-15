@@ -55,6 +55,7 @@
     <div>
       <h2>What is real and what is not</h2>
       <ul>
+        <li>The view is the world's: from above, with each creature turned to where it is heading.</li>
         <li>Everything is drawn in code from the paper rules: flat sheets, cut edges, one shadow direction, few colours. It stands in for drawn art, and a person would compose each place far better.</li>
         <li>Each picture is about one phone screen of a biome that is ten screens across. Landmarks are placed by hand in the code; nothing here is the game's map.</li>
         <li>Paper grain, the pale lip on cut edges and sheets that slide as the view moves are left out.</li>
@@ -81,9 +82,11 @@
   const fill = (g, path, col) => { g.fillStyle = col; path(g); g.fill(); };
   const dots = (g, n, seed, fn) => { const r = rng(seed); for (let i = 0; i < n; i++) fn(r() * W, r() * H, r, i); };
   // the same two creatures in every place
-  function critter(g, x, y, t, kind = 0, k = 1) { const col = kind ? '#4f7fb8' : '#ef8a68', dk = kind ? '#3b659a' : '#d9714f', hop = Math.max(0, Math.sin(t / 11 + x)) * 2 * k; y -= hop;
-    if (!kind) for (const s of [-1, 1]) cut(g, leaf(x + s * 2.6 * k, y - 9 * k, 1.8 * k, 7 * k, s * 0.3), col, 1.2); else cut(g, leaf(x - 5 * k, y - 4 * k, 2.4 * k, 7 * k, -1.9), dk, 1.2);
-    cut(g, disc(x, y - 5 * k, 6.6 * k, 5.6 * k), col, 1.2 + hop * 0.4); for (const s of [-1, 1]) { fill(g, disc(x + 1.2 * k + s * 2.4 * k, y - 6.4 * k, 1.5 * k, 1.6 * k), '#fff'); fill(g, disc(x + 1.6 * k + s * 2.4 * k, y - 6.4 * k, 0.75 * k), INK); } }
+  function critter(g, x, y, t, kind = 0, k = 1) { const col = kind ? '#4f7fb8' : '#ef8a68', dk = kind ? '#3b659a' : '#d9714f', h = Math.sin(x * 0.7) * 1.3 + Math.sin(t / 60 + x) * 0.25, hop = Math.max(0, Math.sin(t / 11 + x)) * 1.6 * k;
+    g.save(); g.translate(x + L.ox * (1.2 + hop * 0.5), y + L.oy * (1.2 + hop * 0.5)); g.rotate(h); g.fillStyle = `rgba(40,34,20,${L.a})`; g.beginPath(); g.ellipse(1.5 * k, 0, 9.5 * k, 5.6 * k, 0, 0, TAU); g.fill(); g.restore();
+    g.save(); g.translate(x, y - hop); g.rotate(h); g.scale(k, k); fill(g, leaf(-6, 0, kind ? 2.6 : 1.6, kind ? 8 : 6, -Math.PI / 2), dk); fill(g, disc(0, 0, 7.4, 5.6), col);
+    if (!kind) for (const s of [-1, 1]) fill(g, leaf(3.5, s * 3.6, 1.7, 6.5, s > 0 ? -2.5 : -0.64), dk); fill(g, disc(5, 0, 4.8), col);
+    for (const s of [-1, 1]) { fill(g, disc(6.6, s * 2.3, 1.5), '#fff'); fill(g, disc(7.1, s * 2.3, 0.75), INK); } g.restore(); }
   const glow = (g, x, y, r, col) => { const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, col); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill(); };
 
   // ---------- the eight places. s is the season, 0 spring to 3 winter. Each returns what should glow at night. ----------

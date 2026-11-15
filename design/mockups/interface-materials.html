@@ -110,6 +110,7 @@
         <li>Three materials on one made-up piece of a screen. It is not a design for any screen, and the layout is the same in all three on purpose.</li>
         <li>The pieces shown: a name tag, a hint, a title earned, tabs, two instincts with a strength, a way to add one, a small tally, and three actions with the day's five talks.</li>
         <li>The interface is designed later, starting from what each moment should feel like. This only settles what it is made of.</li>
+        <li>The world behind is seen from above, as it is in the game.</li>
         <li>Everything is type and code. Drawn icons and textures would change each of these, the scrapbook most.</li>
       </ul>
     </div>
@@ -153,9 +154,12 @@
     g.fillStyle = '#cfe6a0'; g.fillRect(0, 0, 340, 230); sheet(ell(40, 150, 150, 70), '#dcefb0', 0.6); sheet(ell(320, 190, 150, 70), '#bfdc8e', 0.6); sheet(ell(286, 70, 62, 30), '#f0e8c0', 0); g.fillStyle = '#8fd0d8'; ell(288, 72, 54, 24)(); g.fill();
     let s = 7; const r = () => (s = (s * 16807) % 2147483647) / 2147483647; for (let i = 0; i < 46; i++) { const x = r() * 340, y = 30 + r() * 180; if (Math.hypot((x - 288) / 66, (y - 72) / 34) < 1) continue; for (const a of [-0.45, 0, 0.45]) sheet(leaf(x, y, 2.2, 9 + r() * 5, a), i % 2 ? '#7fbf55' : '#8fca62', 0.5); }
     for (const [x, y, c] of [[60, 70, '#fff'], [226, 150, '#f7b9cc'], [118, 176, '#fbdc6a'], [24, 120, '#f7b9cc']]) { for (let k = 0; k < 5; k++) sheet(ell(x + Math.cos(k / 5 * TAU) * 4, y + Math.sin(k / 5 * TAU) * 4, 3, 3), c, 0.3); g.fillStyle = '#e9a23a'; ell(x, y, 2.2, 2.2)(); g.fill(); }
-    const pip = (x, y, k, col, dk, face) => { g.fillStyle = 'rgba(60,70,30,0.22)'; ell(x, y + 2, 26 * k, 6 * k)(); g.fill(); for (const e of [-1, 1]) sheet(leaf(x + e * 10 * k, y - 40 * k, 7 * k, 24 * k, e * 0.3), col, 1); sheet(ell(x - 10 * k, y - 1, 7 * k, 4 * k), dk, 0.6); sheet(ell(x + 10 * k, y - 1, 7 * k, 4 * k), dk, 0.6); sheet(ell(x, y - 23 * k, 27 * k, 23 * k), col, 1.2); g.fillStyle = face; ell(x + 3 * k, y - 19 * k, 18 * k, 15 * k)(); g.fill();
-      for (const e of [-1, 1]) { g.fillStyle = '#fff'; ell(x + 6 * k + e * 9 * k, y - 28 * k, 4.8 * k, 5.2 * k)(); g.fill(); g.fillStyle = '#2b2a26'; ell(x + 7 * k + e * 9 * k, y - 28 * k, 2.4 * k, 2.7 * k)(); g.fill(); } g.strokeStyle = '#2b2a26'; g.lineWidth = 1.6 * k; g.lineCap = 'round'; g.beginPath(); g.arc(x + 6 * k, y - 21 * k, 3 * k, 0.25, Math.PI - 0.25); g.stroke(); };
-    pip(150, 168, 1, '#ef8a68', '#d9714f', '#f8b99d'); pip(62, 150, 0.6, '#6fa3d8', '#4f7fb8', '#a9c9ea'); }
+    const pip = (x, y, k, h, col, dk, face) => { g.save(); g.translate(x + 2, y + 4); g.rotate(h); g.fillStyle = 'rgba(40,34,20,0.2)'; g.beginPath(); g.ellipse(4 * k, 0, 34 * k, 21 * k, 0, 0, TAU); g.fill(); g.restore(); g.save(); g.translate(x, y); g.rotate(h); g.scale(k, k);
+      const lf = (px, py, wd, len, a, c) => { g.save(); g.translate(px, py); g.rotate(a); g.fillStyle = c; g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(len * 0.55, -wd, len, 0); g.quadraticCurveTo(len * 0.55, wd, 0, 0); g.fill(); g.restore(); }, el = (px, py, rx, ry, c) => { g.fillStyle = c; g.beginPath(); g.ellipse(px, py, rx, ry, 0, 0, TAU); g.fill(); };
+      lf(-22, 0, 5, 16, Math.PI, dk); for (const [fx, e] of [[12, 1], [12, -1], [-12, 1], [-12, -1]]) el(fx, e * 17, 7, 5, dk); el(0, 0, 26, 20, col);
+      for (const e of [-1, 1]) { lf(14, e * 11.5, 6, 20, e * 2.2, col); lf(16, e * 12.5, 3, 12, e * 2.2, face); } el(18, 0, 17, 17, col); el(24, 0, 10, 12.5, face);
+      for (const e of [-1, 1]) { el(24, e * 7.6, 5, 5, '#fff'); el(25.6, e * 7.6, 2.6, 2.6, '#2b2a26'); } g.restore(); };
+    pip(120, 122, 1, -0.3, '#ef8a68', '#d9714f', '#f8b99d'); pip(50, 136, 0.55, 0.5, '#6fa3d8', '#4f7fb8', '#a9c9ea'); }
   const paint = () => document.querySelectorAll('.world canvas').forEach(meadow); window.addEventListener('resize', paint); paint(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
 })();
 </script>

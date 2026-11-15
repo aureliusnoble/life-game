@@ -23,7 +23,17 @@ The game explains almost nothing in words, so the look does the explaining. It h
 
 Where these pull apart, the first wins.
 
-## 3. The paper rulebook
+## 3. The view
+
+- **The world is seen from above,** and each creature turns to face where it is heading. Both art studies and the behaviour editor mockup were drawn this way, and the map is the basin seen from above.
+- **Direction is part of the rules,** which is why this view suits the game. Sight has a direction and a blind side, a creature can be crept up on from behind, and circling, heading off and facing are all about direction. From above a player can see all of it.
+- **Faces stay readable.** The eyes sit on top of the head and look where the creature looks.
+- **A front-on close-up** is used where one creature is the whole subject: tending the named one, portraits, and the card for one creature.
+- **What each view carries.** From above: where it is going, which way its head is turned, how it moves, its outline, its ears and tail. Close up: the face, leaning, and the mouth.
+
+This was drawn in every study and never written down. It is recorded here on 15 November as the working decision.
+
+## 4. The paper rulebook
 
 "Paper" is a set of rules that everything on screen obeys, the world and the interface alike.
 
@@ -52,7 +62,7 @@ How paper handles what it is bad at:
 | Darkness in a cave | A dark sheet with a hole cut round what the followed creature can sense |
 | Cover over a creature | The canopy or the reed stand is cut away round the creature being followed |
 
-## 4. Three distances
+## 5. Three distances
 
 | Distance | On screen | What has to read |
 |---|---|---|
@@ -62,18 +72,20 @@ How paper handles what it is bad at:
 
 Each piece of body language is designed for the farthest distance it has to read at. What a creature is doing is carried by movement and outline, so that it reads in the biome view. Faces are for close up.
 
-## 5. Bodies that show
+## 6. Bodies that show
 
 A body shows four things, each carried by a different part of it so that they do not compete.
 
 | What | Carried by | Reads at |
 |---|---|---|
-| What it is doing | The movement of the whole body: the gait, the lunge, the huddle | Biome and close |
+| What it is doing | Where the body is going, which way it and its head point, and how it moves: the gait, the lunge, the huddle | Biome and close |
 | How it is | The body's condition: thin or round, a patch where it was hurt, a shiver, colour faded with age | Close. Thinness and a limp also at biome |
 | What it feels | The face and the bearing: eyes, the signature part, posture | Close |
 | What it is saying | Signals, drawn in paper: rings for a call, a raised flag for a display, a chit left on the ground for a scent | Biome and close |
 
 ### What it is doing
+
+The table gives each act in words that fit both views. Seen from above, leaning toward something is the body stretching toward it with the head pointed at it.
 
 | Act | The body |
 |---|---|
@@ -138,12 +150,13 @@ Proposed: when a player makes a mood they also pick its **bearing** from a small
 
 - **The player's icon** appears above the creature on a small paper tag at the moment a mood starts. It stays up while the player is watching it think.
 - **Feelings the game defines,** such as startled and outnumbered, have fixed flinches of their own.
+- **From above the bearings are harder to tell apart** than close up. In the study, calm, weary and tired differ mostly by the eyelids. Ears, tail and movement have to carry more of each bearing in the world's view, and the icon tag matters more.
 
 ### What it has noticed
 
 Before it acts on something, a creature glances at it: the head turns and the signature part points. This is how a player sees, in the world, that a creature saw the hunter and went on eating.
 
-## 6. Variety
+## 7. Variety
 
 - **Body plans** set the outline: bun, tadpole, pear, bean, noodle, chonk, and more to come.
 - **Each part is a cut piece** that tucks under or over the body's sheet, so no part looks stuck on. Parts take their colours from the species' inks.
@@ -152,7 +165,7 @@ Before it acts on something, a creature glances at it: the head turns and the si
 - **The young** are the same sheets with a larger head.
 - **At the basin's distance** a species is its pair of colours. The maker's mark is a stamp on portraits and lists, and is not worn on bodies.
 
-## 7. The eight places
+## 8. The eight places
 
 | Biome | Colours | Its paper | Movement | Through the year |
 |---|---|---|---|---|
@@ -169,7 +182,7 @@ Before it acts on something, a creature glances at it: the head turns and the si
 - **Borders are places.** Where two biomes meet their sheets interleave.
 - **Every visit has a different light,** because a day is an hour.
 
-## 8. The interface: direction only
+## 9. The interface: direction only
 
 This is not the style system, which comes after the flows, and it is not a design for any screen. It is what can be said now.
 
@@ -190,7 +203,7 @@ Three materials for the interface are set side by side in a study, to choose bet
 | Field guide | A naturalist's notebook: cream pages, ink labels, specimen tags | Calm and ordered; suits the instruments |
 | Paper theatre | Bold flat card, thick tabs, punched holes | Toy-like and bright; the largest touch targets |
 
-## 9. Sound
+## 10. Sound
 
 - **The game is whole with the sound off.** Phones are often muted, and nothing is told by sound alone.
 - **Each place has a bed:** wind on the tops, a hush and drips in the wood, dry insects on the heath, grass and crickets on the plain, lapping at the lakes, squelch and reed rattle in the marsh, hiss on the dunes, surf on the flats. The bed changes with the time of day, the season and the weather.
@@ -200,7 +213,7 @@ Three materials for the interface are set side by side in a study, to choose bet
 - **Sound comes from where it happens** and fades with distance. At the basin's distance there is only the bed.
 - **Made in the browser where possible,** to keep the download small. A browser allows sound only after the first touch.
 
-## 10. Feel
+## 11. Feel
 
 - **Nothing snaps.** Things ease in and settle.
 - **Everything alive breathes and blinks.**
@@ -208,7 +221,7 @@ Three materials for the interface are set side by side in a study, to choose bet
 - **Quiet, including deaths.** No alarms and no red flashes. A creature falls on its side and becomes a pale cut-out.
 - **Slow movement everywhere:** water, grass, cloud shadow, drifting leaves.
 
-## 11. What it costs to draw
+## 12. What it costs to draw
 
 The second art study shaded every pixel, which is too heavy for a phone. Proposed for the game:
 
@@ -219,23 +232,23 @@ The second art study shaded every pixel, which is too heavy for a phone. Propose
 
 How many creatures a mid-range phone can draw at each distance has not been measured.
 
-## 12. Studies
+## 13. Studies
 
 | Study | Shows | Tests |
 |---|---|---|
-| `design/mockups/body-language.html` | One creature in every act, state and bearing | Whether each can be told from the others without a label |
+| `design/mockups/body-language.html` | One creature in every act, state and bearing, from above and close up | Whether each can be told from the others without a label, in the world's view |
 | `design/mockups/eight-places.html` | The eight biomes in paper, by time of day and season | Whether each place is its own and still one world |
 | `design/mockups/interface-materials.html` | Three materials for the interface on the same piece of screen | Which direction to take |
 
 These are drawn in code and stand in for drawn art. They test the rules, and they are not the art.
 
-## 13. Questions
+## 14. Questions
 
 1. **Bearings.** A mood wears one of eight bearings, picked by the player when the mood is made. Proposed: yes.
 2. **Voices.** A species' named calls are real sounds picked from a set. Proposed: yes.
 3. **Deaths are quiet:** a fall and a pale cut-out, with nothing gory. Proposed: yes.
 4. **The interface's material:** scrapbook, field guide, paper theatre, or a mix.
 
-## 14. Next
+## 15. Next
 
 The three studies are made. They were checked to run on a phone-width screen without errors; whether each pose reads, whether the places are beautiful and which material to take are for a person to judge. Then screens, which is area 13.

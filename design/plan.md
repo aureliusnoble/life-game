@@ -33,6 +33,7 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Unlocks | Unlocks should push players to explore different ways of playing, not only reward more of the same |
 | Feedback | The game records facts and never a cause. A few instruments are used the same way in the tank, the world, the recap and the end. Moments are recorded for the day's headline and each name-bearer's death. Each of the day's three mutations can be tried in the tank first. Of a friend's living species, only its outside is shown |
 | Friends | A board for each world year and for all time, with titles that change hands. A keeper's nudge is noticed only by the keeper's own species. A visitor can stroke a friend's named one and give it a treat. An ended design can be taken as a starting point, marked "after" its source, and released only with the taker's own unlocks |
+| View | The world is seen from above, and creatures turn to face where they are heading. A front-on close-up is used for tending, portraits and the card for one creature |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
 
