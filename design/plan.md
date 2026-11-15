@@ -59,7 +59,7 @@ Each area below goes through the same four steps, and is not called done until i
 
 | Test | Result |
 |---|---|
-| Not mandatory | **Fails.** The smallest size and the fat-storing inside are in every winner. Any larger size costs 0.5 to 1.6, and any other inside 0.3 to 1.0 |
+| Not mandatory | **Fails.** The smallest size and the fat-storing inside are in every winner. Any larger size costs 0.5 to 1.6. A large gut does as well as fat in two habitats; every other inside costs 0.3 to 1.0 |
 | Viable | **Fails.** Never in a best design anywhere: every size but the smallest, the other three insides, the sting, eyes on stalks, paddles, and not laying when food is thin |
 | A real choice | **Mixed.** Size, limbs and the inside matter in all six habitats; a nose and the response to threat in four; shape, eyes and shell in three. Sting, camouflage, false eyes and egg size changed nothing anywhere |
 | Different winners | **Fails on land.** Each habitat's winner is the best or near it at home in five of six, but one design is as good as the best in five of the six habitats. Only water forces a different body |
