@@ -20,7 +20,10 @@ const PLAIN = { scale: 1, shape: 'mid', eyes: 'side', bigEyes: false, move: 'leg
 const SHAPE = { round: [1.0, 1.1], mid: [1.2, 0.9], long: [1.8, 0.7] };
 const INSIDE = { even: {}, runner: { muscle: 0.45, lungs: 0.35, gut: 0.1, fat: 0.1 }, storer: { fat: 0.55, muscle: 0.15, gut: 0.15, lungs: 0.15 }, digester: { gut: 0.55, fat: 0.15, muscle: 0.15, lungs: 0.15 } };
 const BUDGET = 13, CAP = 30, SHARE = 12, BEATS = 5000, PLAIN_MASS = Math.pow(1.2 * 0.9, 1.5), HABITATS = Object.keys(BIOMES), EXP = +(process.env.LIFE_EXP ?? 1), UPKEEP_EXP = +(process.env.UPKEEP_EXP ?? 0.75), GEN_EXP = +(process.env.GEN_EXP ?? 0),
+  MIN_PREY = +(process.env.MIN_PREY ?? 0), PULSE = +(process.env.PULSE ?? 0),
   TAG = process.env.LAB_TAG ?? (EXP === 1 ? '' : 'exp' + EXP), OUT = path.join(__dirname, TAG ? 'balance-' + TAG : 'balance');
+// MIN_PREY makes hunters ignore prey smaller than that share of their own size, as not worth the chase. PULSE, in beats,
+// adds a disaster at that interval which kills four in five of every grazer, whatever its design; eggs survive it.
 // UPKEEP_EXP sets how running costs rise with weight: 0.75 means a large body burns less per unit of weight (the body
 // audit's rule), 1 means every unit of weight costs the same at any size. GEN_EXP above 0 makes small bodies grow up,
 // lay and hatch faster and large ones slower. LAB_TAG names the folder the results go to.
@@ -56,13 +59,14 @@ function express(g) {
 // With `versus`, six of a second design share the same food, and both are scored.
 function trial(g, habitat, seed, o = {}) {
   const w = makeBiome(habitat, seed), hb = BIOMES[habitat].water ? { ...hunterBody, move: 'fins' } : hunterBody, brain = express(g);
-  const H = (spec, ins, extra = {}) => { const b = { ...build(spec), ...extra, instincts: ins }; if (!o.hungryHunters) b.upkeep = 0; return b; };
+  const H = (spec, ins, extra = {}) => { const b = { ...build(spec), ...extra, minPrey: MIN_PREY, instincts: ins }; if (!o.hungryHunters) b.upkeep = 0; return b; };
   const supply = (0.03 + 0.1 * BIOMES[habitat].regrow) / BIOMES[habitat].regrow;
   const other = o.versus ? express(o.versus) : null; for (let i = 0; i < 6; i++) { w.add('mine', brain); if (other) w.add('rival', other); }
   const cast = o.noHunters ? [] : [H(hb, HUNT.chaser), H({ ...hb, scale: 1.9 }, HUNT.chaser), H({ ...hb, eyes: 'none', sideLine: true }, HUNT.feeler, { feel: 45 })], hs = cast.map((b) => w.add('hunter', b));
   let sum = 0, n = 0, hunterBeats = 0, rsum = 0, slain = 0, heads = 0;
   const weight = (kind) => w.creatures.reduce((a, c) => a + (c.alive && c.kind === kind ? Math.pow(c.brain.mass ?? 1, EXP) : 0), 0);
   live(w, BEATS, { grow: (w) => { if (w.rnd() < supply) w.grow(w);
+    if (PULSE && w.t % PULSE === 0) for (const c of w.creatures) if (c.alive && c.kind !== 'hunter' && w.rnd() < 0.8) c.alive = false;
     if (w.t % 50 === 0 && !o.hungryHunters) hs.forEach((c, i) => { if (!c.alive) { slain++; hs[i] = w.add('hunter', cast[i]); } });
     if (w.t % 100 === 0) { hunterBeats += count(w, 'hunter'); sum += weight('mine'); rsum += weight('rival'); heads += count(w, 'mine'); n++; } } });
   return { score: sum / n / SHARE / Math.pow(PLAIN_MASS, EXP), rival: rsum / n / SHARE / Math.pow(PLAIN_MASS, EXP), heads: heads / n, hunters: hunterBeats / (BEATS / 100) / 3, kills: w.log.kills.length - slain, slain };

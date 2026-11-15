@@ -36,7 +36,7 @@ class World {
   // The movement sense: all round, but only things that are moving, and not things that creep.
   canFeel(c, o) { if (!c.feel || o.spd < 0.05 || o.pace === 'creep' || o.brain.silent) return false; return this.off(c, o)[2] < c.feel * (o.pace === 'sprint' ? 2 : 1); }
   isA(c, o, cat) { if (o === c || !o.alive || o.pose === 'dead') return false; const kin = o.kind === c.kind, sz = o.size * (o.pose === 'puff' ? 1.6 : 1);
-    return cat === 'my kind' ? kin : cat === 'adult' ? kin && !o.young : cat === 'bigger creature' ? !kin && sz > c.size * 1.2 : cat === 'smaller creature' ? !kin && sz < c.size * 0.8 : cat === 'movement' || cat === 'creature' ? !kin : false; }
+    return cat === 'my kind' ? kin : cat === 'adult' ? kin && !o.young : cat === 'bigger creature' ? !kin && sz > c.size * 1.2 : cat === 'smaller creature' ? !kin && sz < c.size * 0.8 && sz >= c.size * (c.brain.minPrey ?? 0) : cat === 'movement' || cat === 'creature' ? !kin : false; }
   state(c, o, st) { const [dx, dy, d] = this.off(c, o); const toward = -(o.vx * dx + o.vy * dy) / (d || 1);
     if ((st === 'facing me' || st === 'facing away') && o.brain.falseEyes) return st === 'facing me';
     if (st === 'facing me' || st === 'facing away') { const inArc = o.arc >= 6.28 || Math.acos(Math.max(-1, Math.min(1, -(dx * o.hx + dy * o.hy) / (d || 1)))) <= o.arc / 2; return st === 'facing me' ? inArc : !inArc; }

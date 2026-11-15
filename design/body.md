@@ -152,3 +152,25 @@ A test of breadth: each line is a distinct way to live. The first eight were run
 1. Fix the problems in section 6 in the stand-in world and re-run: shell cost and cover, the inside, camouflage, and what effort costs a hunter.
 2. Give the unaudited parts mechanics and run each against its neighbour.
 3. Run builds against each other, not only against fixed hunters, to see whether a mix of builds can coexist.
+
+## 10. Size: fast lives and slow lives
+
+Added 15 November. A proposal, with lab results where marked.
+
+The score is a species' living weight added up over the time it lasts. A swarm of small animals and a few large ones should both be worth playing, each in its own situations. Size should therefore set the tempo of a whole life, not just a number of hit points: **small lives fast and large lives slow.**
+
+| What size changes | Small | Large | Where it decides things | Status |
+|---|---|---|---|---|
+| Running cost | Burns more food for each unit of weight | Carries more weight on the same food | Steady, lean places favour large | In the stand-in |
+| Tempo | Grows up, lays and hatches sooner, so many generations | Slow to breed and slow to replace losses | After a disaster, a bloom or a fire, small fills the gap first | LAB_TEMPO |
+| Reserves | Starves soon without food | Sits out a famine or a winter on its stores | Long winters and failed seasons favour large | In the stand-in |
+| Who hunts it | Not worth a big hunter's chase, but anything middling can eat it | Few things can take it, but each loss is a large share of the species | Big hunters about favours small; many small hunters favours large | LAB_CHASE |
+| Numbers | Many heads: some survive any disaster; more eyes and more scouts | Few heads: one bad day can end the species | Disaster-prone places, and food that is scattered | LAB_PULSE |
+| Hiding and fitting | Hidden by tall grass; fits crevices, burrows and thicket; carried by mud, lily pads and floating mats | Seen from afar, shut out of tight places, bogs down | Marsh, Woodland, Highlands, Tidal flats | Partly in the stand-in |
+| Moving | Quick off the mark and turns on the spot; tires soon; swept along by currents | Slow to start and to turn; fast over distance; wades rivers | Chases in clutter favour small; open ground and crossings favour large | Turning is in the stand-in; the rest is proposed |
+| Food | Needs rich food such as seeds, fruit, flowers and prey, and can live on scattered scraps | Can live on poor, bulky food such as grass, reeds and weed, given a large gut | Bulk in the Grassland and Marsh favours large; scraps in the Woodland and Heath favour small | Proposed |
+| Pushing | Gives way at a food patch to anything bigger; can mob, with many small bites | Pushes smaller animals off food and nests | Any shared patch | Proposed |
+| Warmth | Chills quickly, so cold nights slow it unless it huddles or burrows | Holds its heat, and overheats when it sprints in a hot place | Highland nights; Heath and Dune days | Proposed |
+| Young | Many small eggs, cheap to lose | A few large young that start strong | Egg thieves and bad years | Egg size exists, but changed nothing in the lab |
+
+What a player should feel: a swarm is a boom-and-recover design that thrives on upheaval and thin pickings, and a large species is a steady keeper that thrives where little changes and food is plain but plentiful. Neither should be right in every biome or every season.
