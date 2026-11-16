@@ -83,6 +83,15 @@ fam('feeling', 'where I am', (wd) => 'am ' + wd.replace('[ground]', 'sand'), { '
   sinking: self((me, w) => { w.region('water', 'deep water', me.x, me.y, 20); me.stamina = 0.1; }), wet: self((me, w) => { w.raining = true; }), dry: self(() => 0), exposed: self(() => 0, { light: 0.4 }), 'in shade': self((me, w) => w.region('shelter', 'shade', me.x, me.y, 10)), 'in sun': self(() => 0), underground: self((me, w) => w.region('shelter', 'a burrow', me.x, me.y, 10)), 'high up': self((me, w) => w.hills.push({ x: me.x, y: me.y, r: 30, h: 1 })), 'on [ground]': self(() => 0, { ground: 'sand' }) });
 fam('degree', 'degree', (wd) => 'am ' + wd + ' hungry', { 'a little': self((me) => { me.energy = 0.65 * me.store; }), very: self((me) => { me.energy = 0.1 * me.store; }) });
 
+// ---------------- what attention costs: each rule is checked by a notice that is true without it and false with it
+fam('attention', 'attention', null, null, { custom: () => { const out = [], pair = (word, text, on, off, want = [0, 1]) => { const a = scene(on)(), b = scene(off)(), got = [fires(a[0], a[1], text), fires(b[0], b[1], text)]; out.push({ word, ok: got[0] === want[0] && got[1] === want[1], note: got[0] === want[0] && got[1] === want[1] ? '' : 'the rule makes no difference' }); };
+  pair('eating sees only near', 'see creature', (w, me) => { other(w, me, 30, 0); me.headDown = 3; }, (w, me) => other(w, me, 30, 0));
+  pair('resting sees nothing', 'see creature', (w, me) => { other(w, me, 10, 0); me.resting = 2; }, (w, me) => other(w, me, 10, 0));
+  pair('hiding sees nothing and is unseen', 'see creature', (w, me) => { const o = other(w, me, 20, 0); o.hiding = 2; }, (w, me) => other(w, me, 20, 0));
+  pair('sprinting smells nothing and is loud', 'smell creature', (w, me) => { other(w, me, 30, 0); me.pace = 'sprint'; me.spd = me.B.top; }, (w, me) => other(w, me, 30, 0));
+  pair('creeping is hard to hear or feel', 'feel movement', (w, me) => { const o = other(w, me, 22, 0); o.spd = 0.3; o.pace = 'creep'; }, (w, me) => { const o = other(w, me, 22, 0); o.spd = 0.5; o.pace = 'normal'; });
+  pair('holding still is unfelt', 'feel movement', (w, me) => { const o = other(w, me, 22, 0); o.spd = 0; }, (w, me) => { const o = other(w, me, 22, 0); o.spd = 0.5; o.pace = 'normal'; }); return out; } });
+
 // ---------------- moments: each is made to happen, and then asked for
 const moment = (word, make) => ({ word, run: () => { const [w, me] = scene()(); make(w, me); return fires(w, me, word); } });
 const brain = (me, ...ins) => { me.brain = { instincts: ins, moods: me.brain.moods }; me.habit = ins.map(() => 1); me.fired = ins.map(() => -99); };

@@ -2,7 +2,7 @@
 
 Record of the pass set out in `design/plan.md` section 3: does every part matter, and can what the design promises be programmed. It runs on the rig (`design/checks/rig.js`), a stand-in for the simulation, and sets no costs and tunes no numbers. A part passes when there is one setting in which it is the right choice.
 
-Status on 16 November 2026: bodies done; 316 of the 350 words of a brain done; the promised behaviours not yet begun.
+Status on 16 November 2026: bodies done; 350 of the 350 words of a brain done; the promised behaviours not yet begun.
 
 ## 1. Bodies: every choice on the species sheet that means something
 
@@ -125,7 +125,7 @@ None of these was visible until a part was tested alone. Each change is to the s
 
 ## 2. Brains: every word of the vocabulary
 
-Status on 16 November: 316 of the 350 words are done. The thirty-four that remain are the words for signals, what attention costs, and the settings for a whole species.
+Status on 16 November: 350 of the 350 words are done. Every word has now been through its tests. Five findings are open and wait for step 3.4: tight and medium wandering, pointing, one breeder with helpers, and mating each time.
 
 ### 2a. The words a brain notices with
 
@@ -244,14 +244,14 @@ Run with `node design/checks/mechaudit.js moods`; the tests are in `design/check
 | kicks in high | Passes | A harmless neighbour that calls now and then, and a fear that rises quickly | 109 against 12.6 bites eaten in 800 beats | kicks in at half: 75.7 in the same setting | It takes a great deal to frighten it, and it barely pauses in its feeding |
 | Bond | Passes | A young one, its parent that walks steadily on, and three other adults milling about | 500 against 369 beats within 30 of its own parent, of 500 | Place: 369 in the same setting | It follows the one it first knew, through the others; without the bond it follows whichever is nearest and is soon with a stranger |
 | Place | Passes | It hatches in a burrow, wanders far off, and then a hard frost comes. The burrow is the only shelter | 1500 against 573 beats lived through a frost, of 1500 | Bond: 573 in the same setting | It knows where it was born and goes back there |
-| Rhythm | Passes | Six that lay, and one animal that eats every egg it finds | 72.2 against 0 young hatched in 1500 beats | Count: 0 in the same setting | They all lay in the same few beats, and there are more eggs than the egg-eater can get round before they hatch. Laying each in its own time, they feed it one clutch after another |
+| Rhythm | Passes | A dark night. A family keeps together by calling, and a hunter that listens for calls prowls not far off | 567 against 121 beats lived of 600 | Count: 122 against 0 bites its kin eat in 600 beats | They call in a slow pulse, enough to keep together and too little for the hunter to home on; calling without pause, they bring it straight to them |
 | Count | Passes | A harmless neighbour that calls now and then. Its fear rises quickly | 130 against 75.7 bites eaten in 800 beats | Rhythm: 61.5 in the same setting | It takes three calls close together to frighten it, and one call at a time never does; without the count every call stops its feeding |
-| Born with | Passes | Six that lay, and a small animal that eats every egg it finds | 1.4 against 0.3 young hatched in 1500 beats | For life: 0.3 in the same setting | A third of them are born guards: they go for the egg-eater and kill it, and the eggs hatch |
+| Born with | Passes | Six that lay, and a small animal that eats every egg it finds | 139 against 101 young hatched in 1500 beats | For life: 101 in the same setting | A third of them are born guards: they go for the egg-eater and kill it, and the eggs hatch |
 | Catching | Passes | Three with their backs to a hunter. One of their kind, in front of them, sees it | 500 against 256 beats lived of 500 | Learn: 256 in the same setting | They see fear on the one that faces them, take fright themselves and run, without ever seeing the hunter |
 | Learn | Passes | Food all about, and big animals of another kind that bite whatever touches them | 900 against 115 beats lived of 900 | Catching: 115 in the same setting | Bitten once, it knows that kind and keeps clear of it; without the lesson it walks into them again and again |
 | Takes over | Passes | A hunter, in country full of food that it wants badly | 556 against 389 beats lived of 600 | Habit: 360 in the same setting | Once afraid it has no thought for food and runs; without that, appetite outweighs fear and it stops to eat |
 | Habit | Passes | It is drawn alike to rocks and to scrub. There is food by the rocks. In the scrub there is only a small animal that bites | 15.5 against 0 bites eaten in 2000 beats | Takes over: 0 in the same setting | Each bite it takes in the scrub makes the scrub draw it less, until it wanders off and finds the rocks. Without the habit it goes back to the scrub for as long as it lives |
-| For life | Passes | A colony of helpers whose one breeder has died. Only a breeder lays | 10.6 against 0 young hatched in 1500 beats | Born with: 0 in the same setting | With no breeder in sight, one of them slowly changes, grows into a breeder and begins to lay. Without that the colony dies out |
+| For life | Passes | A colony of helpers whose one breeder has died. Only a breeder lays | 57.9 against 0 young hatched in 1500 beats | Born with: 0 in the same setting | With no breeder in sight, one of them slowly changes, grows into a breeder and begins to lay. Without that the colony dies out |
 
 "Raised by" and "calmed by" are the acts raise and calm seen from the mood's side, and are covered by those two tests in 2b.
 
