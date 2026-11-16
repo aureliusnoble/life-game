@@ -13,7 +13,7 @@ function hidden(w, c, o, d) { if (o.hiding) return true; if ((w.inCloud(o) || w.
   const gr = GROUND[w.groundAt(o.x, o.y)] || {}; if (gr.hide && o.sz <= gr.hide && d > NEAR && !(GROUND[w.groundAt(c.x, c.y)] || {}).hide) return true; return false; }
 function canSee(w, c, o) { const [dx, dy, d] = w.off(c, o), warm = o.B !== undefined && o.alive; if (c.B.heat && warm && d < c.B.heat) return true; if (!c.B.sight || c.resting > 0 || c.hiding) return false;
   let R = c.B.sight * Math.max(0.12, w.lightAt(c.x, c.y)) * (o.glowing ? 1 / Math.max(0.12, w.lightAt(c.x, c.y)) : 1); if (c.headDown > 0) R = Math.min(R, NEAR);
-  if (o.B) { if (o.B.camo && o.spd < 0.25 * o.B.top && camoOn(w, o)) R *= 0.2; if (o.pose === 'crouch' && o.spd < 0.05) R *= 0.5; if (hidden(w, c, o, d)) return false; }
+  if (o.B) { if (o.B.camo && o.spd < 0.25 * o.B.top && camoOn(w, o)) R *= 0.2; if (o.pose === 'crouch' && o.spd < 0.05) R *= 0.3; if (hidden(w, c, o, d)) return false; }
   if (d >= R) return false; if (c.B.arc < 359) { const cs = (dx * c.hx + dy * c.hy) / (d || 1); if (Math.acos(clamp(cs, -1, 1)) > (c.B.arc * Math.PI) / 360) return false; } return true; }
 const camoOn = (w, o) => { const g = w.groundAt(o.x, o.y); return { grass: ['open grass', 'tall grass'], reed: ['thicket'], sand: ['sand'], rock: ['rock', 'scree'], mud: ['mud'], litter: ['scrub', 'bare ground'] }[o.B.camo].includes(g); };
 // the movement sense: all round, only things that move, and not things that creep or hold still
