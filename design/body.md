@@ -51,7 +51,7 @@ Decided in `design/social.md`, section 9. A form is one kind of individual: a se
 
 Breeding is set for the species, not the body: see `design/life-cycles.md`.
 
-Since draft 3 these steps are written out as one sheet of 72 choices, in section 16. The sheet adds a step for looks, which this table lacked: a head, a tail, how the body is cut, a face and the style of each covering.
+Since draft 3 these steps are written out as one sheet of 86 choices, in section 16. The sheet adds a step for looks, which this table lacked: a head, a tail, how the body is cut, a face and the style of each covering.
 
 **What the body works out,** shown live beside a test tank as the player edits:
 
@@ -449,6 +449,40 @@ The first review of variety found that nothing in the drawing decided which idea
 - **A body made by chance spends a random share of the budget,** so the plain end shows as well as the loaded end.
 
 The reviews also widened the outline: a waist (one piece, head on a neck, two lobes, three), longer tails, a wing span, and a pattern that can take the second paper.
+
+### No types: how far the editor reaches
+
+The owner's rule, 16 November: a player never selects a type of creature. The editor has to let them make the kinds of creature in the mockups, and many more, by shaping and painting one body.
+
+**How it is tested.** `node design/checks/sheetaudit.js faithful` draws each of the study's sixteen creatures as it was drawn by hand, and under it the nearest creature the sheet can make. `node design/checks/sheetaudit.js fit` finds that nearest creature by search: it changes one look at a time and keeps whatever brings the picture nearer. It changes looks and outline only, never what a body can do. The share of the picture that still differs is a harsh measure, since a part moved by a few pixels counts as different, but it is the same measure each time.
+
+| | Median share of the picture that differs | Worst |
+|---|---|---|
+| The sheets as first written by hand | 58% | 84% |
+| After the search, with the choices the sheet had | 40% | 74% |
+| After the search, with the choices added below | 34% | 65% |
+
+By eye, thirteen of the sixteen are now the same creature: the picture is `design/checks/sheet/faithful.png`. The three that are not are named under the table of what was added.
+
+**What the mockups used that the sheet could not say,** and what was added. Each is a choice of looks and costs nothing.
+
+| The mockups have | The sheet had | Added |
+|---|---|---|
+| Five to nine papers each: a head, limbs, ears, a muzzle and a tail in their own colours | Three papers, and only from a list of swatches | Any colour for any paper. Paint by part: head, limbs, ears, muzzle and tail each take their own paper, or are left to the kit |
+| Front paws twice the size of the hind ones | One size for every pair | Front and hind pairs sized apart |
+| Bodies from 13 units long and 6 wide | Nothing shorter than 34 or narrower than 9 | Length and width reach down to those |
+| A head sunk into the shoulders, or standing clear; a broad head | Set by the kit | Head set and head width |
+| Eyes set wider or closer than usual for their kind | Set by the kind of eye | Eye spacing, within what the kind allows |
+| A leaf that covers most of the back | One size | The size of what is worn. At its largest it reaches the nape and never the face |
+| Rounds in two papers | Two tones of one paper | Rounds cut from the body's paper and the second in turn |
+| Broad moth wings | One wing shape, with a span | Wing breadth |
+| Bold bands, large spots | One size | Pattern size |
+
+Still out of reach: young riding on a parent's back, which is something a creature does and not a body (Bolster); a worn leaf in the species' own paper and not the colour of the ground it hides on (Lugg); gill fronds together with spots (Swimmer).
+
+**Where a player still picks from a list.** Twenty-seven choices are lists. Ten of them mean something in play and have to be lists: the plan, the three skins, camouflage, the kind of eyes, the mover, the mouth, the sting and the grip. Each is a part, not a type of creature, and any of them goes with any other. The other seventeen are styles of a part: the head's outline (three), the tail's end (five), the ears (two), the mouth's line (five), the pattern (five) and so on. Those are where the editor is still a menu, and each could become a shape the player pulls about. That is work for the screens (area 14) and the art pass, and the order to do it in is: the head's outline, then the tail, then a pattern the player places.
+
+**What the editor should be on a phone** follows from this. The creature is the control: drag its ends to lengthen it, its sides to widen it, a limb to lengthen that pair, the head to set it; tap a part to paint it. Lists are for parts, never for creatures. The sixteen are offered as things made with the same editor, to open and take apart, and the editor opens on the plain body.
 
 ### Known limits
 
