@@ -319,7 +319,7 @@ What the tests found:
 
 ## 3. The promised behaviours
 
-Status on 16 November: begun. The way of doing it is in place and two of the eight tested recipes have been through it. About 220 behaviours are promised across the documents.
+Status on 16 November: begun. The way of doing it is in place and five of the eight tested recipes have been through it. About 220 behaviours are promised across the documents.
 
 **How it is done.** Each behaviour is written in full in the notation of `design/neural-blocks.md`, as a player would read it. `design/checks/rig/script.js` reads that notation into the rig, so what is tested is the text itself. The entries are in `design/checks/mech/library.js`, each with a body the species sheet allows, a setting, and the plainer versions of the same animal that it has to beat. Run with `node design/checks/mechaudit.js library [name]`.
 
@@ -334,7 +334,7 @@ Status on 16 November: begun. The way of doing it is in place and two of the eig
 
 | Source | What | Done |
 |---|---|---|
-| `design/neural-blocks.md` section 11 | Eight tested recipes | 2 run: one passes, one fails |
+| `design/neural-blocks.md` section 11 | Eight tested recipes | 5 run: three pass, two fail as written. Choosy courtship, Nesting ground and Choosing a target are still to write |
 | `design/neural-blocks.md` section 12 | The behaviour atlas, about 140 rows | 0 |
 | `design/social.md` section 5 | About thirty-five societies | 0 |
 | `design/life-cycles.md` section 7 | Ways of living through the year | 0 |
@@ -347,5 +347,8 @@ Status on 16 November: begun. The way of doing it is in place and two of the eig
 |---|---|---|---|---|---|
 | Remembering a place | Yes | 5 instincts, 1 mood | Yes: 10.8 bites in 2000 beats | Yes: 4.1 with no memory | |
 | Torn between food and fear | Yes | 4 instincts, no moods | **No** | **No**: 2.6 bites against 6.1 with no fear at all | As written ("move away, not when very hungry") it goes in only when it is nearly starved, takes one bite and is driven off again. The tests of "more when" and "less when" in 2b show the same idea working when hunger weakens the fear by degrees. To settle in 3.4: rewrite the recipe that way |
+| Flocking | Yes | 4 instincts, no moods | Yes: all eight together and moving on 400 of the last 400 beats | Yes: 0 when they only wander, 88 when they gather but each goes its own way | |
+| Flashing in time | Yes | 2 instincts, 1 mood | Yes: all four lit together on 90 of the last 300 beats | Yes: 27 without the hurrying | |
+| Pack hunt on big prey | Yes | 8 instincts, 2 moods | **No** | **No**: the prey falls with 0.3 of 8 hunters left, against 5.8 when they simply attack on sight | In wide country against tough prey that bites back, as the document describes it. The pack as written rarely gets going: to examine in 3.4. In small country, where the hunters meet anyway, it did no better than attacking on sight |
 
 The four findings left open by section 2 (tight and medium wandering, pointing, one breeder with helpers, mating each time) are settled here or in step 3.4.

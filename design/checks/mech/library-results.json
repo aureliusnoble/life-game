@@ -37,5 +37,64 @@
   },
   "pays": true,
   "pass": true
+ },
+ {
+  "name": "Pack hunt on big prey",
+  "from": "neural-blocks.md, section 11",
+  "says": "One sees the big prey and calls; the rest come; none goes in until enough of them are there, and then they all do",
+  "unit": "hunters still alive when the prey is dead, of 8 (none if it never is)",
+  "written": true,
+  "notes": [],
+  "fits": true,
+  "over": [],
+  "lines": 8,
+  "moods": 2,
+  "with": 0.26666666666666666,
+  "does": false,
+  "against": {
+   "attack on sight": 5.833333333333333,
+   "brave, but no call": 0
+  },
+  "pays": false,
+  "pass": false
+ },
+ {
+  "name": "Flocking",
+  "from": "neural-blocks.md, section 11",
+  "says": "They gather, keep a little apart from each other, and travel the same way",
+  "unit": "beats on which all eight are within 45 of their middle, of the last 400",
+  "written": true,
+  "notes": [],
+  "fits": true,
+  "over": [],
+  "lines": 4,
+  "moods": 0,
+  "with": 400,
+  "does": true,
+  "against": {
+   "wandering only": 0,
+   "gathering, but each going its own way": 87.9
+  },
+  "pays": true,
+  "pass": true
+ },
+ {
+  "name": "Flashing in time",
+  "from": "neural-blocks.md, section 11",
+  "says": "Each has its own slow rhythm of light; each hurries when it sees another lit; after a while they pulse together",
+  "unit": "beats on which all four are lit together, of the last 300",
+  "written": true,
+  "notes": [],
+  "fits": true,
+  "over": [],
+  "lines": 2,
+  "moods": 1,
+  "with": 89.7,
+  "does": true,
+  "against": {
+   "no hurrying": 26.9
+  },
+  "pays": true,
+  "pass": true
  }
 ]
