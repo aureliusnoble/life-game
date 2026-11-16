@@ -1,0 +1,122 @@
+{
+ "habitat": "pond",
+ "tried": 98,
+ "top": [
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "fins",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": false,
+    "threat": "hide",
+    "herd": false,
+    "laying": "not crowded",
+    "eggs": "few large"
+   },
+   "s": 1.409,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "fins",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": false,
+    "threat": "hide",
+    "herd": false,
+    "laying": "not when food is thin",
+    "eggs": "many small"
+   },
+   "s": 1.402,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "stalk",
+    "bigEyes": false,
+    "move": "fins",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": false,
+    "threat": "run",
+    "herd": false,
+    "laying": "not when food is thin",
+    "eggs": "many small"
+   },
+   "s": 1.355,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "round",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "fins",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": false,
+    "threat": "hide",
+    "herd": false,
+    "laying": "not crowded",
+    "eggs": "many small"
+   },
+   "s": 1.318,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "fins",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": true,
+    "inside": "digester",
+    "nose": false,
+    "threat": "hide",
+    "herd": false,
+    "laying": "not when food is thin",
+    "eggs": "few large"
+   },
+   "s": 1.287,
+   "price": 13
+  }
+ ],
+ "plain": 0.087
+}

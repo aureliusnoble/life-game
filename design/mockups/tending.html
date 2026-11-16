@@ -1,0 +1,213 @@
+<title>Tending Pip</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a phone-width column with the creature on top and its few controls under it; notes beside it on a wide screen. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b;
+    --paper: #fbf5e6; --paper2: #f3ead2; --slip: #fffdf6; --p-ink: #2b2a26; --p-muted: #7a7466; --p-line: #e0d5b8; --p-shadow: rgba(60, 48, 20, 0.22);
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; } h2 { font-family: var(--display); font-size: 19px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 26px; align-items: start; } @media (min-width: 880px) { .stage { grid-template-columns: 400px minmax(0, 1fr); } }
+  .notes { display: flex; flex-direction: column; gap: 18px; min-width: 0; } .notes section { display: flex; flex-direction: column; gap: 6px; } .notes ul, .notes ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+  .phone { background: var(--paper); color: var(--p-ink); border-radius: 26px; box-shadow: 0 10px 30px var(--p-shadow); width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; display: flex; flex-direction: column; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 16px 10px; } .top b { font-family: var(--display); font-size: 21px; } .top span { font-family: var(--mono); font-size: 11.5px; color: var(--p-muted); }
+  canvas { width: 100%; aspect-ratio: 36 / 38; display: block; touch-action: none; cursor: grab; max-width: 100%; background: #cfe6a0; }
+  .acts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; padding: 12px; background: var(--slip); }
+  .phone button { font: 600 14px var(--body); color: var(--p-ink); min-height: 46px; border: 1.5px solid var(--p-line); background: var(--paper); border-radius: 14px; cursor: pointer; padding: 6px 4px; -webkit-tap-highlight-color: transparent; }
+  .phone button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; } .phone button[disabled] { opacity: 0.5; cursor: default; }
+  .pips { display: flex; gap: 3px; justify-content: center; margin-top: 3px; } .pips i { width: 6px; height: 6px; border-radius: 50%; background: var(--p-ink); } .pips i.used { background: var(--p-line); }
+  .say[hidden] { display: none; }
+  .say { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; padding: 0 12px 12px; background: var(--slip); } .say button { font-weight: 500; text-align: left; padding: 8px 10px; }
+  .album { display: flex; gap: 8px; padding: 0 12px 14px; background: var(--slip); min-height: 20px; flex-wrap: wrap; } .album figure { margin: 0; background: #fff; padding: 4px 4px 2px; box-shadow: 0 2px 5px var(--p-shadow); border-radius: 4px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--p-muted); } .album img { display: block; width: 52px; height: 52px; border-radius: 2px; }
+  .set { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } .set button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; min-height: 40px; cursor: pointer; } .set button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); } .set button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Concept test · pet play</p>
+    <h1>Tending Pip</h1>
+    <p class="lede">A test of one question: is the named one pleasant to spend two minutes with? Stroke it with a finger, give it a treat, call it, and talk to it through a few fixed things to say. It answers by how it moves, and with very few words.</p>
+  </header>
+
+  <div class="stage">
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <section class="phone" aria-label="Phone mockup of tending the named one">
+        <div class="top"><b id="name">Pip the Fourth</b><span id="age">young adult · day 3</span></div>
+        <canvas id="c" role="img" aria-label="The named one, close in"></canvas>
+        <div class="acts">
+          <button type="button" id="treat">Treat</button>
+          <button type="button" id="call">Call</button>
+          <button type="button" id="talk" aria-expanded="false">Talk<span class="pips" id="pips"></span></button>
+          <button type="button" id="snap">Portrait</button>
+        </div>
+        <div class="say" id="say" hidden>
+          <button type="button" data-q="how">How are you?</button><button type="button" data-q="what">What happened?</button>
+          <button type="button" data-q="where">Where is the food?</button><button type="button" data-q="come">Come with me.</button>
+        </div>
+        <div class="album" id="album" aria-label="The line's album"></div>
+      </section>
+      <div class="set" role="group" aria-label="Which creature">
+        <button type="button" data-kind="shy" aria-pressed="true">A shy one</button>
+        <button type="button" data-kind="bold" aria-pressed="false">A bold one</button>
+        <button type="button" id="heir">The name passes on</button>
+      </div>
+    </div>
+
+    <aside class="notes">
+      <section><h2>What to try</h2><ol>
+        <li>Put a finger down near it. A shy one backs away from a finger that moves, and creeps up to one held still. A bold one comes straight over.</li>
+        <li>Stroke it. A shy one flinches and settles only as you keep it gentle. A bold one enjoys it at once.</li>
+        <li>Give it a treat. A shy one waits until your finger is away. After three it is full and turns the next one down.</li>
+        <li>Call it. Whether it comes depends on its character and how far it trusts you.</li>
+        <li>Talk to it. There are five a day. When they are gone it has said what it has to say: it settles down, and still answers a stroke.</li>
+        <li>Pass the name on. The heir is a young one that has never met you.</li>
+      </ol></section>
+      <section><h2>What this is testing</h2><ul>
+        <li>Whether a creature that shows how it is, with almost no words, is enough to feel like a pet.</li>
+        <li>Whether character read from a design (bold or shy here) makes two creatures feel like different individuals.</li>
+        <li>Whether running out of talks reads as the creature's own doing.</li>
+      </ul></section>
+      <section><h2>What is not real</h2><ul>
+        <li>There is no simulation behind it and no language model. Its answers are stock lines.</li>
+        <li>The creature and its ground are placeholders for the Paper lagoon look, and there is no sound.</li>
+        <li>Grooming and the nudges that reach the whole species are not here.</li>
+      </ul></section>
+    </aside>
+  </div>
+</main>
+
+<script>
+(() => {
+  const TAU = Math.PI * 2, W = 360, H = 380, GY = 306, S = 1.3;   // S: how large the creature is drawn
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d'); let K = 1;
+  const NUM = ['Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth'], ROMAN = ['IV', 'V', 'VI', 'VII', 'VIII'];
+  const P = { x: 180, y: GY, tx: 180, face: 1, sx: 1, sy: 1, vsx: 0, vsy: 0, hop: 0, vhop: 0, trust: 0.12, bold: 0.2, full: 0.2, look: [0, 0], blink: 0, nextBlink: 90, joy: 0, startle: 0, chew: 0, yawn: 0, settled: false, shake: 0, lean: 0, point: 0, gen: 0, wantTreat: null, walkT: 0 };
+  let ptr = { x: -99, y: -99, down: false, lx: 0, ly: 0, calm: 0, away: 999 }, treats = [], bits = [], bubble = null, ring = 0, flash = 0, talks = 5, hinted = false, t = 0, memory = 0;
+  const near = () => Math.hypot(ptr.x - P.x, ptr.y - (P.y - 40 * S)) < 62 * S;
+  const emote = (ch, col = '#d2574b') => bits.push({ x: P.x + (Math.random() - 0.5) * 30, y: P.y - 92 * S, vy: -0.7, life: 70, ch, col });
+  const say = (text, ch) => { bubble = { text, ch, life: 190 }; };
+  const impulse = (ax, ay) => { P.vsx += ax; P.vsy += ay; };
+
+  const clamp = (x) => Math.max(50, Math.min(W - 50, x));
+  function step() {
+    t++; const shy = P.bold < 0.5, present = ptr.x > 0, moved = present ? Math.hypot(ptr.x - ptr.lx, ptr.y - ptr.ly) : 0;
+    ptr.calm = present && moved < 0.8 ? ptr.calm + 1 : 0; ptr.away = present ? 0 : ptr.away + 1;
+    // springs: squash and stretch settle back to rest; the hop only exists while it is off the ground
+    P.vsx += (1 - P.sx) * 0.18; P.vsx *= 0.78; P.sx += P.vsx; P.vsy += (1 - P.sy) * 0.18; P.vsy *= 0.78; P.sy += P.vsy;
+    if (P.hop > 0 || P.vhop > 0) { P.vhop -= 0.9; P.hop += P.vhop; if (P.hop <= 0) { P.hop = 0; if (P.vhop < -2) impulse(0.08, -0.1); P.vhop = 0; } }
+    for (const k of ['joy', 'startle', 'chew', 'yawn', 'shake', 'point']) if (P[k] > 0) P[k]--;
+    if (--P.nextBlink < 0) { P.blink = 7; P.nextBlink = 80 + Math.random() * 160; } if (P.blink > 0) P.blink--;
+    // where it looks: the finger if it is about, otherwise wherever it is going
+    const gx = present ? ptr.x - P.x : P.face * 40, gy = present ? ptr.y - (P.y - 46 * S) : 0, gm = Math.hypot(gx, gy) || 1;
+    P.look[0] += (gx / gm * Math.min(1, gm / 60) - P.look[0]) * 0.15; P.look[1] += (gy / gm * Math.min(1, gm / 60) - P.look[1]) * 0.15;
+    const d = present ? Math.abs(ptr.x - P.x) : 999, side = P.x < ptr.x ? -1 : 1, busy = P.settled || P.wantTreat || P.chew > 0 || P.startle > 0;
+    P.backing = false; P.creep = false;
+    if (ptr.down && near()) { hinted = true;                       // being stroked
+      if (shy && P.trust < 0.35 && P.startle === 0 && moved > 0.5) { P.startle = 50; P.vhop = 7; P.tx = clamp(P.x + side * 92); P.trust += 0.045; emote('!'); P.settled = false; }
+      else if (P.startle === 0 && moved > 0.3) { P.trust = Math.min(1, P.trust + (shy ? 0.004 : 0.012)); P.lean += ((ptr.x - P.x) / 60 - P.lean) * 0.1; impulse(0.004, -0.007); P.tx = P.x;
+        if (!shy || P.trust > 0.4) { P.joy = 30; if (t % 24 === 0) emote(Math.random() < 0.5 ? '♥' : '♪'); } } }
+    else { P.lean *= 0.9;
+      if (present && !busy) {
+        if (shy && P.trust < 0.5) {
+          if (d < 118 && ptr.calm < 50) { P.tx = clamp(P.x + side * 40); P.backing = true; if (t % 70 === 0) emote('…', '#6b7fa8'); }   // a shy one backs away from a moving finger
+          else if (ptr.calm > 80 && d > 64) { P.tx = clamp(ptr.x + side * 60); P.creep = true; if (ptr.calm % 50 === 0) P.trust = Math.min(1, P.trust + 0.035); } }   // and creeps up to one held still
+        else if (d > 68) { P.tx = clamp(ptr.x + side * 58); if (t % 110 === 0) emote('?', '#4f9a58'); } } }                          // a bold or trusting one comes to the finger
+    ptr.lx = ptr.x; ptr.ly = ptr.y;
+    // treats: a bold or trusting one goes straight to it; a shy stranger waits for the finger to go
+    if (!P.wantTreat && treats.length && P.chew === 0 && !P.settled) { const tr = treats[0];
+      if (P.full >= 1) { if (!tr.refused) { tr.refused = true; P.shake = 40; P.face = tr.x > P.x ? -1 : 1; } }
+      else if (!shy || P.trust > 0.45 || ptr.away > 70) { P.wantTreat = tr; tr.side = P.x < tr.x ? 1 : -1; } }
+    if (P.wantTreat) { const tr = P.wantTreat; P.tx = clamp(tr.x - tr.side * 30 * S); if (Math.abs(P.x - P.tx) < 4) { P.face = tr.side; P.chew = 54; P.full = Math.min(1.01, P.full + 0.34); P.trust = Math.min(1, P.trust + 0.05); treats.splice(treats.indexOf(tr), 1); P.wantTreat = null; P.joy = 60; emote('♪', '#4f9a58'); } }
+    // left alone, a bold one roams and a shy one mostly stays put
+    if (!present && !busy && Math.abs(P.tx - P.x) < 2 && t % (shy ? 420 : 140) === 0) P.tx = clamp(P.x + (Math.random() - 0.5) * (shy ? 60 : 240));
+    // walking
+    const dx = P.tx - P.x; if (Math.abs(dx) > 2 && !P.settled) { P.face = P.backing ? -side : dx > 0 ? 1 : -1; const sp = P.startle ? 3.4 : P.creep ? 0.5 : shy ? 1.2 : 2.1; P.x += Math.sign(dx) * Math.min(Math.abs(dx), sp); P.walkT += P.creep ? 0.12 : 0.3;
+      if (!P.creep && !P.backing && P.hop === 0 && P.vhop === 0 && t % (shy ? 20 : 11) === 0) P.vhop = shy ? 2.4 : 4.4; }
+    if (P.settled && t % 150 === 0) emote('z', '#6b7fa8');
+    for (const b of bits) { b.y += b.vy; b.life--; } bits = bits.filter((b) => b.life > 0);
+    if (bubble && --bubble.life <= 0) bubble = null; if (ring > 0) ring--; if (flash > 0) flash--;
+    P.full = Math.max(0, P.full - 0.00012);
+  }
+
+  // ---------- drawing ----------
+  const sh = (on) => { ctx.shadowColor = on ? 'rgba(50,45,20,0.26)' : 'transparent'; ctx.shadowBlur = on ? 7 * K : 0; ctx.shadowOffsetY = on ? 3 * K : 0; };
+  const ell = (x, y, rx, ry, c, rot = 0) => { ctx.fillStyle = c; ctx.beginPath(); ctx.ellipse(x, y, rx, ry, rot, 0, TAU); ctx.fill(); };
+  function ground() {
+    ctx.fillStyle = '#cfe6a0'; ctx.fillRect(0, 0, W, H); ctx.save(); sh(true);
+    ell(60, 210, 220, 90, '#dcefb0'); ell(330, 250, 190, 80, '#c2de92'); ell(180, 390, 330, 120, '#b4d483'); ctx.restore();
+    ctx.save(); ell(320, 350, 90, 36, '#93d6e2'); ctx.restore();
+    ctx.strokeStyle = '#6fa85a'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    for (const [x, y] of [[40, 318], [92, 342], [150, 322], [232, 340], [286, 312], [22, 360], [200, 364]]) { ctx.beginPath(); ctx.moveTo(x - 5, y - 9); ctx.lineTo(x, y); ctx.lineTo(x + 5, y - 9); ctx.stroke(); }
+    for (const [x, y, c] of [[70, 300, '#fff'], [258, 352, '#f7b9cc'], [130, 356, '#fbdc6a']]) { for (let i = 0; i < 5; i++) ell(x + Math.cos(i / 5 * TAU) * 4, y + Math.sin(i / 5 * TAU) * 4, 3, 3, c); ell(x, y, 2.2, 2.2, '#e9a23a'); }
+  }
+  function creature() {
+    const lie = P.settled ? 1 : 0, bob = P.hop, timid = P.bold < 0.5 && P.trust < 0.5 && ptr.x > 0 ? 0.93 : 1, sx = P.sx * (1 + lie * 0.12), sy = P.sy * timid * (1 - lie * 0.28) * (P.chew > 0 ? 1 - 0.05 * Math.abs(Math.sin(P.chew * 0.5)) : 1);
+    const wob = P.shake > 0 ? Math.sin(P.shake * 0.9) * 5 : 0, x = P.x + wob, y = P.y - bob, f = P.face;
+    ell(P.x, P.y + 4, (44 - bob * 0.6) * S, (9 - bob * 0.12) * S, 'rgba(60,70,30,0.22)');
+    ctx.save(); ctx.translate(x, y); ctx.rotate(P.lean * 0.12 + (P.startle > 30 ? -f * 0.08 : 0)); ctx.scale(sx * S, sy * S);
+    const step = Math.abs(P.tx - P.x) > 2 && !P.settled ? Math.sin(P.walkT) * 5 : 0;
+    sh(true); ell(-18 + step, -2, 12, 7, '#d9714f'); ell(18 - step, -2, 12, 7, '#d9714f');
+    ell(0, -40, 46, 40, '#ef8a68'); sh(false);
+    ctx.fillStyle = '#ef8a68'; for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(s * 20, -72); ctx.quadraticCurveTo(s * 34, -100, s * 38, -70); ctx.quadraticCurveTo(s * 30, -62, s * 20, -72); ctx.fill(); }
+    ell(f * 4, -30, 30, 24, '#f8b99d'); ell(-f * 40, -34, 9, 7, '#d9714f');
+    const ex = f * 10 + P.look[0] * 5, ey = -50 + P.look[1] * 4, closed = P.blink > 0 || lie || (P.joy > 0 && P.trust > 0.45 && ptr.down), wide = P.startle > 20;
+    for (const s of [-1, 1]) { const cx = ex + s * 15;
+      if (closed) { ctx.strokeStyle = '#2b2a26'; ctx.lineWidth = 2.6; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, ey + (lie ? 0 : 2), 6, lie ? 0.15 : Math.PI + 0.3, lie ? Math.PI - 0.15 : TAU - 0.3); ctx.stroke(); }
+      else { ell(cx, ey, wide ? 9.5 : 8, wide ? 10 : 8.5, '#fff'); ell(cx + P.look[0] * 3, ey + P.look[1] * 3, wide ? 3 : 4, wide ? 3 : 4.4, '#2b2a26'); ell(cx + P.look[0] * 3 + 1.4, ey + P.look[1] * 3 - 1.6, 1.3, 1.3, '#fff'); } }
+    if (P.joy > 0 || P.trust > 0.6) for (const s of [-1, 1]) ell(ex + s * 25, ey + 12, 6, 3.6, 'rgba(226,92,120,0.45)');
+    ctx.strokeStyle = '#2b2a26'; ctx.lineWidth = 2.4; ctx.lineCap = 'round'; const my = ey + 14;
+    if (P.yawn > 0 || P.chew > 0 && Math.sin(P.chew * 0.5) > 0) ell(ex, my + 1, P.yawn > 0 ? 6 : 4, P.yawn > 0 ? 7 * Math.sin(Math.PI * Math.min(1, P.yawn / 60)) + 2 : 3.4, '#7a3b3b');
+    else { ctx.beginPath(); if (wide) { ctx.moveTo(ex - 4, my + 2); ctx.lineTo(ex + 4, my + 2); } else ctx.arc(ex, my - 2, 5, 0.25, Math.PI - 0.25); ctx.stroke(); }
+    ctx.restore();
+    if (P.point > 0) { const dir = P.point > 0 ? P.face : 1; ctx.save(); ctx.setLineDash([3, 7]); ctx.strokeStyle = '#2b2a26'; ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(P.x + dir * 74, P.y - 56); ctx.lineTo(P.x + dir * 142, P.y - 66); ctx.stroke(); ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(P.x + dir * 153, P.y - 67); ctx.lineTo(P.x + dir * 140, P.y - 75); ctx.lineTo(P.x + dir * 142, P.y - 58); ctx.closePath(); ctx.fillStyle = '#2b2a26'; ctx.fill(); ctx.restore(); }
+  }
+  function draw() {
+    K = cv.width / W; ctx.setTransform(K, 0, 0, K, 0, 0); ground();
+    if (ring > 0) { const r = (60 - ring) * 2.4; ctx.strokeStyle = `rgba(43,42,38,${ring / 60 * 0.6})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(180, H - 6, r, Math.PI, TAU); ctx.stroke(); }
+    for (const tr of treats) { ctx.save(); sh(true); ell(tr.x, Math.min(GY + 8, tr.y), 7, 5.5, '#c98a3c', 0.4); ctx.restore(); if (tr.y < GY + 8) tr.y += 7; }
+    creature();
+    ctx.font = '700 18px "Bricolage Grotesque", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const b of bits) { ctx.globalAlpha = Math.min(1, b.life / 25); ctx.save(); sh(true); ell(b.x, b.y, 13, 13, '#fffdf6'); ctx.restore(); ctx.fillStyle = b.col; ctx.fillText(b.ch, b.x, b.y + 1); ctx.globalAlpha = 1; }
+    if (bubble) { const a = Math.min(1, bubble.life / 20, (190 - bubble.life) / 10 + 0.2), bx = Math.max(96, Math.min(W - 96, P.x)), by = P.y - 132 * S; ctx.globalAlpha = a; ctx.font = '600 15px Inter, system-ui, sans-serif'; const tw = Math.max(54, ctx.measureText(bubble.text).width + 30);
+      ctx.save(); sh(true); ctx.fillStyle = '#fffdf6'; ctx.beginPath(); ctx.roundRect(bx - tw / 2, by - 19, tw, 38, 16); ctx.fill(); ctx.beginPath(); ctx.moveTo(P.x - 8, by + 17); ctx.lineTo(P.x, by + 30); ctx.lineTo(P.x + 8, by + 17); ctx.fill(); ctx.restore(); ctx.fillStyle = '#2b2a26'; ctx.fillText(bubble.text, bx, by + 1); ctx.globalAlpha = 1; }
+    if (!hinted) { ctx.font = '600 13px Inter, system-ui, sans-serif'; ctx.fillStyle = 'rgba(43,42,38,0.75)'; ctx.fillText('Stroke it with a finger', W / 2, 30); }
+    if (flash > 0) { ctx.fillStyle = `rgba(255,255,255,${flash / 12})`; ctx.fillRect(0, 0, W, H); }
+  }
+
+  // ---------- the few things a keeper can do ----------
+  const $ = (id) => document.getElementById(id);
+  function pips() { const el = $('pips'); el.textContent = ''; for (let i = 0; i < 5; i++) { const p = document.createElement('i'); if (i >= talks) p.className = 'used'; el.append(p); } }
+  function settle() { P.yawn = 70; setTimeout(() => { P.settled = true; P.tx = P.x; }, 900); $('say').hidden = true; $('talk').setAttribute('aria-expanded', 'false'); $('talk').firstChild.textContent = 'Settled'; }
+  $('treat').addEventListener('click', () => { if (treats.length < 3) treats.push({ x: 50 + Math.random() * 260, y: -10 }); if (P.settled) { P.settled = false; } });
+  $('call').addEventListener('click', () => { ring = 60; if (P.settled) { P.blink = 0; emote('♪', '#6b7fa8'); return; } setTimeout(() => { if (P.trust > 0.55 || (P.bold > 0.6 && P.trust > 0.2)) { P.tx = 180; P.vhop = 5; P.joy = 50; emote('♪'); } else { P.face = P.x < 180 ? 1 : -1; P.shake = P.trust > 0.3 ? 0 : 30; if (P.trust > 0.3) P.tx = P.x + P.face * 22; emote(P.trust > 0.3 ? '?' : '…', '#6b7fa8'); } }, 350); });
+  $('talk').addEventListener('click', () => { if (talks <= 0) { if (P.settled) { emote('♪', '#6b7fa8'); impulse(0.03, -0.03); } return; } const s = $('say'); s.hidden = !s.hidden; $('talk').setAttribute('aria-expanded', String(!s.hidden)); });
+  const LINES = ['Yips came at dusk.', 'Three hatched by the reeds.', 'The old one fell in the cold.'];
+  for (const b of document.querySelectorAll('[data-q]')) b.addEventListener('click', () => { if (talks <= 0) return; talks--; pips(); const q = b.dataset.q; impulse(0.04, -0.05);
+    if (P.trust < 0.25) { say('…'); P.face = -P.face; emote('…', '#6b7fa8'); }
+    else if (q === 'how') say(P.full < 0.3 ? 'Hungry.' : P.full >= 1 ? 'Full. Warm.' : P.trust > 0.6 ? 'Good. You are here.' : 'Wary.');
+    else if (q === 'what') say(LINES[memory++ % LINES.length]);
+    else if (q === 'where') { P.face = P.x < 180 ? 1 : -1; P.point = 150; say('That way.'); }
+    else if (P.trust > 0.5) { P.tx = 180; P.vhop = 5; say('Yes.'); emote('♥'); } else { P.shake = 34; say('No.'); }
+    if (talks === 0) setTimeout(settle, 2300); });
+  $('snap').addEventListener('click', () => { flash = 0; draw(); const s = document.createElement('canvas'); s.width = s.height = 104; const g = s.getContext('2d'), k = cv.width / W, side = 150 * k, sx0 = Math.max(0, Math.min(cv.width - side, (P.x - 75) * k)); g.drawImage(cv, sx0, (P.y - 136) * k, side, side, 0, 0, 104, 104); flash = 12;
+    const fig = document.createElement('figure'), img = new Image(); img.src = s.toDataURL(); img.alt = 'Portrait of Pip ' + ROMAN[P.gen]; fig.append(img, ROMAN[P.gen]); const al = $('album'); if (al.children.length >= 5) al.firstChild.remove(); al.append(fig); });
+  function person(kind) { P.bold = kind === 'bold' ? 0.85 : 0.2; for (const b of document.querySelectorAll('[data-kind]')) b.setAttribute('aria-pressed', String(b.dataset.kind === kind)); }
+  for (const b of document.querySelectorAll('[data-kind]')) b.addEventListener('click', () => { person(b.dataset.kind); P.trust = 0.12 + 0.2 * P.bold; });
+  $('heir').addEventListener('click', () => { P.gen = (P.gen + 1) % NUM.length; $('name').textContent = 'Pip the ' + NUM[P.gen]; $('age').textContent = 'young adult · a stranger to you'; Object.assign(P, { trust: 0.1 + 0.2 * P.bold, full: 0.3, settled: false, x: 40, tx: 150 + Math.random() * 60, joy: 0 }); talks = 5; pips(); treats = []; $('talk').firstChild.textContent = 'Talk'; hinted = false; });
+  const at = (e) => { const b = cv.getBoundingClientRect(); ptr.x = ((e.clientX - b.left) / b.width) * W; ptr.y = ((e.clientY - b.top) / b.height) * H; };
+  cv.addEventListener('pointerdown', (e) => { at(e); ptr.down = true; ptr.lx = ptr.x; ptr.ly = ptr.y; cv.setPointerCapture(e.pointerId); if (near() && P.settled) { P.blink = 0; emote('♪', '#6b7fa8'); } });
+  cv.addEventListener('pointermove', at); cv.addEventListener('pointerup', (e) => { ptr.down = false; if (e.pointerType !== 'mouse') ptr.x = -99; }); cv.addEventListener('pointerleave', () => { if (!ptr.down) ptr.x = -99; }); cv.addEventListener('pointercancel', () => { ptr.down = false; ptr.x = -99; });
+  function fit() { const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.round((cv.clientWidth || 360) * dpr); cv.width = w; cv.height = Math.round(w * H / W); }
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fit, 120); });
+  function frame() { step(); draw(); requestAnimationFrame(frame); }
+  pips(); person('shy'); fit(); requestAnimationFrame(frame);
+})();
+</script>

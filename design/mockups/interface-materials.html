@@ -1,0 +1,165 @@
+<title>Interface Materials</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Caveat:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Nunito:wght@600;700&family=Patrick+Hand&family=Spectral:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+  /* Layout: the same piece of a screen three times, side by side on a wide screen and one at a time on a phone. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; } h2 { font-family: var(--display); font-size: 19px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .pick { display: flex; flex-wrap: wrap; gap: 6px; } .pick button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; min-height: 40px; cursor: pointer; } .pick button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .trio { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; } .col { display: flex; flex-direction: column; gap: 12px; min-width: 0; align-items: center; } .col > div { max-width: 340px; width: 100%; } .col h2 { margin-bottom: 4px; } .col ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 3px; font-size: 14px; }
+  @media (max-width: 919px) { .col[hidden] { display: none; } } @media (min-width: 920px) { .trio { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } .pick { display: none; } .col[hidden] { display: flex !important; } }
+  .notes { display: grid; gap: 18px; grid-template-columns: 1fr; } @media (min-width: 760px) { .notes { grid-template-columns: 1fr 1fr; } } .notes div { display: flex; flex-direction: column; gap: 6px; min-width: 0; } .notes ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+
+  /* ---------- what all three share: the same pieces in the same places ---------- */
+  .phone { width: 100%; max-width: 340px; border-radius: 28px; overflow: hidden; position: relative; background: #cfe6a0; box-shadow: 0 12px 34px rgba(40, 40, 20, 0.25); color: var(--k); line-height: 1.3; }
+  .phone button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; } .phone button:focus-visible { outline: 2px solid var(--go); outline-offset: 2px; }
+  .world { position: relative; height: 214px; } .world canvas { width: 100%; height: 100%; display: block; }
+  .nametag { position: absolute; left: 12px; top: 12px; } .callout { position: absolute; right: 12px; top: 96px; max-width: 128px; } .stamp { position: absolute; right: 12px; top: 10px; }
+  .slipwrap { position: relative; margin-top: -24px; } .slip { position: relative; background: var(--stock); padding: 20px 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .tabs { display: flex; gap: 6px; } .rows { display: flex; flex-direction: column; gap: 8px; }
+  .row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 8px; align-items: center; text-align: left; width: 100%; border: 0; background: none; padding: 8px 10px; min-height: 56px; }
+  .row .n { grid-row: 1 / 3; } .row .when { grid-column: 2; } .row .then { grid-column: 2; display: flex; align-items: center; gap: 6px; min-width: 0; } .row .str { grid-column: 3; grid-row: 1 / 3; display: flex; gap: 3px; align-items: center; }
+  .add { min-height: 46px; background: none; border: 0; text-align: left; padding: 6px 10px; display: flex; align-items: center; gap: 8px; }
+  .tally { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 2px 4px; } .tally .d { display: inline-flex; gap: 3px; margin-left: 4px; vertical-align: middle; } .tally .d i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+  .acts { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 8px; } .acts button { min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; } .pips { display: flex; gap: 3px; } .pips i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: block; } .pips i.used { opacity: 0.3; }
+  .tape, .plate, .handle { display: none; }
+
+  /* ---------- 1. Scrapbook: torn slips, tape, pencil, a rubber stamp ---------- */
+  .t-scrap { --stock: #fbf6e9; --k: #3a332b; --m: #857b6c; --go: #c4455e; font-family: "Patrick Hand", "Comic Sans MS", cursive; font-size: 17px; }
+  .t-scrap .slipwrap { filter: drop-shadow(0 -3px 5px rgba(60, 48, 20, 0.28)); }
+  .t-scrap .slip { transform: rotate(-0.5deg) scale(1.02); clip-path: polygon(0 7px, 4% 2px, 9% 8px, 14% 3px, 19% 7px, 24% 1px, 30% 6px, 35% 2px, 41% 8px, 47% 3px, 52% 7px, 58% 2px, 63% 6px, 69% 1px, 74% 7px, 80% 3px, 85% 8px, 91% 2px, 96% 6px, 100% 3px, 100% 100%, 0 100%);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .4  0 0 0 0 .33  0 0 0 0 .2  0 0 0 .22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); padding-top: 26px; }
+  .t-scrap .tape { display: block; position: absolute; top: -6px; width: 62px; height: 20px; z-index: 2; background: repeating-linear-gradient(90deg, rgba(240, 150, 170, 0.75) 0 7px, rgba(250, 190, 200, 0.75) 7px 14px); } .t-scrap .tape.a { left: 18px; transform: rotate(-9deg); } .t-scrap .tape.b { right: 22px; transform: rotate(6deg); background: repeating-linear-gradient(90deg, rgba(150, 205, 190, 0.78) 0 7px, rgba(190, 228, 215, 0.78) 7px 14px); }
+  .t-scrap .tabs button { background: none; border: 0; font: 700 23px "Caveat", cursive; padding: 2px 8px; min-height: 40px; color: var(--m); } .t-scrap .tabs button[aria-pressed="true"] { color: var(--k); background: linear-gradient(transparent 50%, #f7dc7a 50%, #f7dc7a 88%, transparent 88%); transform: rotate(-1.5deg); }
+  .t-scrap .row { background: #fffdf6 repeating-linear-gradient(transparent 0 26px, rgba(90, 130, 170, 0.22) 26px 27px); box-shadow: 1px 2px 0 rgba(60, 48, 20, 0.16); border-radius: 3px; } .t-scrap .row:nth-child(odd) { transform: rotate(-0.5deg); } .t-scrap .row:nth-child(even) { transform: rotate(0.6deg); }
+  .t-scrap .row[aria-pressed="true"] { outline: 2.2px solid var(--k); border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; background: #fff7c9 repeating-linear-gradient(transparent 0 26px, rgba(90, 130, 170, 0.22) 26px 27px); }
+  .t-scrap .n { font: 700 24px "Caveat", cursive; color: var(--m); } .t-scrap .arrow::before { content: "→"; font: 700 22px "Caveat", cursive; } .t-scrap .act { font: 700 23px "Caveat", cursive; background: linear-gradient(transparent 62%, rgba(240, 150, 170, 0.7) 62%, rgba(240, 150, 170, 0.7) 92%, transparent 92%); padding: 0 3px; }
+  .t-scrap .str i { width: 12px; height: 12px; border: 1.8px solid var(--k); border-radius: 50% 45% 55% 48%; display: block; } .t-scrap .str i.on { background: var(--k); }
+  .t-scrap .add { border: 2px dashed var(--m); border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; color: var(--m); } .t-scrap .add b { font: 700 26px "Caveat", cursive; line-height: 1; }
+  .t-scrap .tally .tl { font: 700 21px "Caveat", cursive; } .t-scrap .tally em { font-style: normal; color: var(--m); }
+  .t-scrap .acts button { background: #fffdf6; border: 2.2px solid var(--k); border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; font: 700 23px "Caveat", cursive; box-shadow: 2px 3px 0 rgba(60, 48, 20, 0.22); transition: transform 0.08s, box-shadow 0.08s; } .t-scrap .acts button:nth-child(1) { transform: rotate(-1.2deg); } .t-scrap .acts button:nth-child(2) { transform: rotate(0.9deg); }
+  .t-scrap .acts button:active { transform: translate(2px, 3px); box-shadow: none; } .t-scrap .acts .go { background: var(--go); color: #fff8ea; border-color: #8f2f43; }
+  .t-scrap .nametag { background: #ecd9a8; padding: 5px 12px 5px 26px; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); transform: rotate(-3deg); filter: drop-shadow(1px 2px 2px rgba(60, 48, 20, 0.3)); } .t-scrap .nametag::before { content: ""; position: absolute; left: 11px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: #9db56e; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.4); }
+  .t-scrap .nametag b { font: 700 24px "Caveat", cursive; display: block; line-height: 1; } .t-scrap .nametag i { font-style: normal; font-size: 14px; color: #6f6046; }
+  .t-scrap .callout { background: #fbe88f; padding: 9px 9px 10px; font-size: 15.5px; transform: rotate(3deg); box-shadow: 2px 3px 5px rgba(60, 48, 20, 0.28); line-height: 1.2; } .t-scrap .callout::before { content: ""; position: absolute; left: 50%; top: -8px; width: 38px; height: 14px; margin-left: -19px; background: rgba(255, 255, 255, 0.55); transform: rotate(-4deg); }
+  .t-scrap .stamp { border: 3px double var(--go); color: var(--go); font: 700 13px "Patrick Hand", cursive; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; transform: rotate(-9deg); opacity: 0.85; background: rgba(251, 246, 233, 0.5); }
+
+  /* ---------- 2. Field guide: a naturalist's notebook ---------- */
+  .t-guide { --stock: #f6f2e4; --k: #1f2d3a; --m: #6c7781; --go: #1d6a7a; font-family: "Spectral", Georgia, serif; font-size: 15.5px; }
+  .t-guide .slip { border-top: 1.5px solid var(--k); box-shadow: 0 -6px 14px rgba(20, 30, 40, 0.2); background-image: repeating-linear-gradient(transparent 0 27px, rgba(31, 45, 58, 0.08) 27px 28px); padding-top: 14px; }
+  .t-guide .tabs { position: absolute; top: -29px; left: 14px; gap: 3px; } .t-guide .tabs button { font: 500 11px "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; background: #e6dfc8; border: 1.5px solid var(--k); border-bottom: 0; border-radius: 7px 7px 0 0; padding: 0 10px; height: 28px; min-height: 0; color: var(--m); } .t-guide .tabs button[aria-pressed="true"] { background: var(--stock); color: var(--k); height: 30px; margin-top: -2px; position: relative; z-index: 1; }
+  .t-guide .plate { display: flex; justify-content: space-between; font: 400 10.5px "IBM Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--m); border-bottom: 1px solid var(--k); padding-bottom: 5px; }
+  .t-guide .rows { gap: 0; } .t-guide .row { border-bottom: 1px solid rgba(31, 45, 58, 0.25); padding: 9px 4px; border-radius: 0; } .t-guide .row[aria-pressed="true"] { background: radial-gradient(ellipse at 34% 50%, rgba(206, 216, 110, 0.62), rgba(206, 216, 110, 0.3) 55%, transparent 76%); }
+  .t-guide .n { font: 400 11px "IBM Plex Mono", monospace; color: var(--m); align-self: start; padding-top: 4px; } .t-guide .n::after { content: "."; } .t-guide .arrow { flex: 1; border-bottom: 1.5px dotted var(--m); height: 0; transform: translateY(3px); min-width: 14px; } .t-guide .act { font-style: italic; font-weight: 600; font-size: 17px; }
+  .t-guide .str { align-items: flex-end; gap: 4px; border-bottom: 1px solid var(--k); padding: 0 2px; height: 16px; } .t-guide .str i { width: 2.5px; height: 6px; background: rgba(31, 45, 58, 0.28); display: block; } .t-guide .str i.on { height: 13px; background: var(--k); }
+  .t-guide .add { font: 500 11.5px "IBM Plex Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--go); padding-left: 4px; } .t-guide .add span { border-bottom: 1.5px dotted var(--go); }
+  .t-guide .tally { font: 400 11px "IBM Plex Mono", monospace; letter-spacing: 0.04em; border-top: 1px solid var(--k); border-bottom: 1px solid var(--k); padding: 7px 4px; } .t-guide .tally .tl { text-transform: uppercase; letter-spacing: 0.1em; color: var(--m); } .t-guide .tally em { font-style: normal; }
+  .t-guide .acts button { background: var(--stock); border: 1.5px solid var(--k); border-radius: 3px; font: 500 12px "IBM Plex Mono", monospace; letter-spacing: 0.1em; text-transform: uppercase; } .t-guide .acts button:active { background: var(--k); color: var(--stock); } .t-guide .acts .go { background: var(--go); color: var(--stock); border-color: var(--go); } .t-guide .acts .go:active { background: #13505d; }
+  .t-guide .nametag { background: #fbf8ee; border: 1.5px solid var(--k); padding: 5px 9px 6px; } .t-guide .nametag::after { content: ""; position: absolute; left: 72%; top: 100%; width: 62px; border-top: 1.5px solid var(--k); transform-origin: 0 0; transform: rotate(62deg); } .t-guide .nametag b { font: italic 600 18px "Spectral", serif; display: block; line-height: 1.1; } .t-guide .nametag i { font: 400 10px "IBM Plex Mono", monospace; font-style: normal; letter-spacing: 0.06em; text-transform: uppercase; color: var(--m); }
+  .t-guide .callout { background: rgba(246, 242, 228, 0.94); border: 1.5px dashed var(--k); padding: 7px 9px; font-style: italic; font-size: 14px; line-height: 1.25; } .t-guide .callout::before { content: "* "; font-style: normal; color: var(--go); font-weight: 600; }
+  .t-guide .stamp { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--go); outline: 1px solid var(--go); outline-offset: -6px; color: var(--go); font: 500 8px "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; justify-content: center; text-align: center; transform: rotate(9deg); background: rgba(246, 242, 228, 0.72); line-height: 1.35; padding: 8px; }
+
+  /* ---------- 3. Paper theatre: thick card, big tabs, punched holes ---------- */
+  .t-theatre { --stock: #fff8ea; --edge: #e0d0a8; --k: #2d2a32; --m: #7d7686; --go: #e0486e; --go-edge: #a92f50; font-family: "Nunito", system-ui, sans-serif; font-size: 15px; font-weight: 600; }
+  .t-theatre .slip { border-radius: 26px 26px 0 0; box-shadow: 0 -4px 0 #fff, 0 -10px 18px rgba(40, 30, 10, 0.22); padding-top: 26px; gap: 12px; }
+  .t-theatre .handle { display: block; position: absolute; top: 9px; left: 50%; width: 44px; height: 7px; margin-left: -22px; border-radius: 99px; background: #e9dcba; box-shadow: inset 0 2px 2px rgba(40, 30, 10, 0.25); }
+  .t-theatre .tabs { position: absolute; top: -34px; left: 18px; gap: 4px; align-items: flex-end; } .t-theatre .tabs button { font: 700 15px "Baloo 2", system-ui, sans-serif; border: 0; border-radius: 14px 14px 0 0; padding: 0 13px; height: 34px; min-height: 0; color: var(--k); } .t-theatre .tabs button:nth-child(1) { background: #ffd9b8; } .t-theatre .tabs button:nth-child(2) { background: #c9ecc0; } .t-theatre .tabs button:nth-child(3) { background: #c4e4f6; }
+  .t-theatre .tabs button[aria-pressed="true"] { background: var(--stock); height: 40px; box-shadow: 0 -4px 0 #fff; }
+  .t-theatre .row { background: #fff; border-radius: 16px; box-shadow: 0 4px 0 var(--edge); padding: 9px 12px; transition: transform 0.12s; } .t-theatre .row[aria-pressed="true"] { background: #fff1ad; box-shadow: 0 4px 0 #e2c552; transform: rotate(-1deg) scale(1.01); }
+  .t-theatre .n { display: none; } .t-theatre .when { background: #c4e4f6; border-radius: 9px; padding: 2px 9px; justify-self: start; margin-bottom: 4px; } .t-theatre .arrow { width: 0; height: 0; border: 6px solid transparent; border-left: 9px solid var(--k); border-right: 0; margin-left: 4px; } .t-theatre .act { background: #c9ecc0; border-radius: 9px; padding: 1px 10px; font: 700 16px "Baloo 2", system-ui, sans-serif; }
+  .t-theatre .str { gap: 4px; } .t-theatre .str i { width: 13px; height: 13px; border-radius: 50%; background: #efe3c4; box-shadow: inset 0 2px 2px rgba(40, 30, 10, 0.28); display: block; } .t-theatre .str i.on { background: var(--k); box-shadow: none; }
+  .t-theatre .add { color: var(--m); } .t-theatre .add b { width: 34px; height: 34px; border-radius: 50%; background: var(--go); color: #fff; display: flex; align-items: center; justify-content: center; font: 800 22px "Baloo 2", system-ui, sans-serif; box-shadow: 0 3px 0 var(--go-edge); line-height: 1; }
+  .t-theatre .tally { background: #f6ecd2; border-radius: 14px; padding: 8px 12px; } .t-theatre .tally .tl { font: 700 14px "Baloo 2", system-ui, sans-serif; } .t-theatre .tally em { font-style: normal; color: var(--m); } .t-theatre .tally .d i { width: 9px; height: 9px; }
+  .t-theatre .acts button { background: #fff; border: 0; border-radius: 18px; min-height: 56px; font: 700 17px "Baloo 2", system-ui, sans-serif; box-shadow: 0 5px 0 var(--edge); transition: transform 0.08s, box-shadow 0.08s; margin-bottom: 5px; } .t-theatre .acts button:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--edge); } .t-theatre .acts .go { background: var(--go); color: #fff; box-shadow: 0 5px 0 var(--go-edge); } .t-theatre .acts .go:active { box-shadow: 0 1px 0 var(--go-edge); }
+  .t-theatre .nametag { background: #fff; border-radius: 16px; padding: 5px 13px 6px; box-shadow: 0 4px 0 var(--edge); } .t-theatre .nametag b { font: 800 18px "Baloo 2", system-ui, sans-serif; display: block; line-height: 1.15; } .t-theatre .nametag i { font-style: normal; font-size: 12.5px; color: var(--m); }
+  .t-theatre .callout { background: #fff; border-radius: 16px; padding: 8px 11px; box-shadow: 0 4px 0 var(--edge); font-size: 13.5px; line-height: 1.25; } .t-theatre .callout::after { content: ""; position: absolute; left: 22px; bottom: -6px; width: 14px; height: 14px; background: #fff; transform: rotate(45deg); box-shadow: 3px 3px 0 var(--edge); }
+  .t-theatre .stamp { width: 58px; height: 58px; border-radius: 50%; background: #ffd45c; outline: 6px dotted #ffd45c; outline-offset: -3px; display: flex; align-items: center; justify-content: center; text-align: center; font: 800 11px "Baloo 2", system-ui, sans-serif; text-transform: uppercase; line-height: 1.05; transform: rotate(8deg); color: #5b4300; margin: 4px; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Study · look, sound and feel</p>
+    <h1>Interface materials</h1>
+    <p class="lede">A choice to make: what is the interface made of? The same piece of a screen, three ways. The world behind is the same in each. Tap the tabs, the instincts and the buttons to feel how each one presses.</p>
+  </header>
+  <div class="pick" role="group" aria-label="Which material" id="pick"></div>
+  <div class="trio" id="trio"></div>
+  <div class="notes">
+    <div>
+      <h2>What to look at</h2>
+      <ul>
+        <li>Which one you would still like on the hundredth visit, and which would tire.</li>
+        <li>Whether the words can be read at arm's length. The instinct rows are the test: they are the core of the game.</li>
+        <li>How each sits on the world. The interface should be plainer than the place behind it.</li>
+        <li>How a press feels. Each has its own: a tag that shifts, a label that inks in, a card that sinks.</li>
+        <li>Mixing is allowed. A calm page with one or two handmade touches is a direction too.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>What this is and is not</h2>
+      <ul>
+        <li>Three materials on one made-up piece of a screen. It is not a design for any screen, and the layout is the same in all three on purpose.</li>
+        <li>The pieces shown: a name tag, a hint, a title earned, tabs, two instincts with a strength, a way to add one, a small tally, and three actions with the day's five talks.</li>
+        <li>The interface is designed later, starting from what each moment should feel like. This only settles what it is made of.</li>
+        <li>The world behind is seen from above, as it is in the game.</li>
+        <li>Everything is type and code. Drawn icons and textures would change each of these, the scrapbook most.</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const THEMES = [
+    ['scrap', 'Scrapbook', ['Torn slips, tape, pencil and a rubber stamp.', 'The most handmade, and the most personal.', 'The busiest. Handwriting is slower to read, and tilted pieces are harder to line up.']],
+    ['guide', 'Field guide', ['A naturalist’s notebook: ruled pages, typed labels, specimen tags.', 'Calm and ordered. It suits tallies, lines and the page of instincts.', 'The least cute. It can feel like study, and small labels need care on a phone.']],
+    ['theatre', 'Paper theatre', ['Thick card, big tabs, punched holes.', 'Toy-like, with the largest targets and the clearest press.', 'It takes the most room, and bright card can compete with the world.']],
+  ];
+  const pips = (n) => `<span class="pips">${'<i></i>'.repeat(5)}</span>`, str = (n) => `<span class="str" role="img" aria-label="strength ${n} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</span>`;
+  const row = (n, when, act, s, on) => `<button type="button" class="row" aria-pressed="${on}"><span class="n">${n}</span><span class="when">${when}</span><span class="then"><span class="arrow" aria-hidden="true"></span><span class="act">${act}</span></span>${str(s)}</button>`;
+  const phone = (id, name) => `<section class="phone t-${id}" aria-label="${name}: a piece of a screen">
+    <div class="world"><canvas role="img" aria-label="A paper meadow with two creatures"></canvas>
+      <div class="nametag"><b>Pip the Fourth</b><i>young adult · day 3</i></div><div class="stamp">The Elder</div><div class="callout">Tap a creature to see what is pulling it</div></div>
+    <div class="slipwrap"><i class="tape a"></i><i class="tape b"></i><div class="slip"><i class="handle"></i>
+      <div class="tabs" role="group" aria-label="Pages"><button type="button" aria-pressed="true">Instincts</button><button type="button" aria-pressed="false">Moods</button><button type="button" aria-pressed="false">Body</button></div>
+      <div class="plate"><span>Pl. IV</span><span>the adult form</span></div>
+      <div class="rows">${row(1, 'see a bigger creature', 'move away', 3, true)}${row(2, 'touch a plant', 'bite', 2, false)}</div>
+      <button type="button" class="add"><b>+</b><span>a new instinct</span></button>
+      <div class="tally"><span class="tl">Since yesterday</span><span><em>hunted</em><span class="d">${'<i style="background:#6a3d6e"></i>'.repeat(3)}</span></span><span><em>starved</em><span class="d"><i style="background:#d19324"></i></span></span></div>
+      <div class="acts"><button type="button">Treat</button><button type="button">Call</button><button type="button" class="go">Talk${pips()}</button></div>
+    </div></div></section>`;
+  document.getElementById('trio').innerHTML = THEMES.map(([id, name, notes], i) => `<div class="col" data-id="${id}"${i ? ' hidden' : ''}><div><h2>${name}</h2><ul>${notes.map((n) => `<li>${n}</li>`).join('')}</ul></div>${phone(id, name)}</div>`).join('');
+  document.getElementById('pick').innerHTML = THEMES.map(([id, name], i) => `<button type="button" data-id="${id}" aria-pressed="${!i}">${name}</button>`).join('');
+  document.getElementById('pick').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; for (const x of e.currentTarget.children) x.setAttribute('aria-pressed', String(x === b)); for (const c of document.querySelectorAll('.col')) c.hidden = c.dataset.id !== b.dataset.id; paint(); });
+  // the pieces answer a touch the same way in all three: only the feel differs
+  document.getElementById('trio').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return;
+    if (b.parentElement.classList.contains('tabs')) for (const x of b.parentElement.children) x.setAttribute('aria-pressed', String(x === b));
+    else if (b.classList.contains('row')) { const dot = e.target.closest('.str i'); if (dot) { const all = [...dot.parentElement.children], n = all.indexOf(dot) + 1; all.forEach((x, i) => x.classList.toggle('on', i < n)); dot.parentElement.setAttribute('aria-label', `strength ${n} of 4`); } else b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); }
+    else if (b.classList.contains('go')) { const left = [...b.querySelectorAll('.pips i:not(.used)')]; if (left.length) left[left.length - 1].classList.add('used'); else b.querySelectorAll('.pips i').forEach((x) => x.classList.remove('used')); } });
+
+  // ---------- the world behind: the same paper meadow in all three ----------
+  const TAU = Math.PI * 2;
+  function meadow(cv) { const w = cv.clientWidth, h = cv.clientHeight; if (!w) return; const dpr = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); const g = cv.getContext('2d'); g.setTransform(cv.width / 340, 0, 0, cv.width / 340, 0, 0);
+    const sheet = (path, col, d = 2) => { g.save(); g.translate(1.5 * d, 2.5 * d); g.fillStyle = 'rgba(40,34,20,0.2)'; path(); g.fill(); g.restore(); g.fillStyle = col; path(); g.fill(); }, ell = (x, y, rx, ry) => () => { g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); };
+    const leaf = (x, y, wd, len, a) => () => { const c = Math.cos(a), s = Math.sin(a), tx = x + s * len, ty = y - c * len, mx = x + s * len / 2, my = y - c * len / 2; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(mx - c * wd, my - s * wd, tx, ty); g.quadraticCurveTo(mx + c * wd, my + s * wd, x, y); };
+    g.fillStyle = '#cfe6a0'; g.fillRect(0, 0, 340, 230); sheet(ell(40, 150, 150, 70), '#dcefb0', 0.6); sheet(ell(320, 190, 150, 70), '#bfdc8e', 0.6); sheet(ell(286, 70, 62, 30), '#f0e8c0', 0); g.fillStyle = '#8fd0d8'; ell(288, 72, 54, 24)(); g.fill();
+    let s = 7; const r = () => (s = (s * 16807) % 2147483647) / 2147483647; for (let i = 0; i < 46; i++) { const x = r() * 340, y = 30 + r() * 180; if (Math.hypot((x - 288) / 66, (y - 72) / 34) < 1) continue; for (const a of [-0.45, 0, 0.45]) sheet(leaf(x, y, 2.2, 9 + r() * 5, a), i % 2 ? '#7fbf55' : '#8fca62', 0.5); }
+    for (const [x, y, c] of [[60, 70, '#fff'], [226, 150, '#f7b9cc'], [118, 176, '#fbdc6a'], [24, 120, '#f7b9cc']]) { for (let k = 0; k < 5; k++) sheet(ell(x + Math.cos(k / 5 * TAU) * 4, y + Math.sin(k / 5 * TAU) * 4, 3, 3), c, 0.3); g.fillStyle = '#e9a23a'; ell(x, y, 2.2, 2.2)(); g.fill(); }
+    const pip = (x, y, k, h, col, dk, face) => { g.save(); g.translate(x + 2, y + 4); g.rotate(h); g.fillStyle = 'rgba(40,34,20,0.2)'; g.beginPath(); g.ellipse(4 * k, 0, 34 * k, 21 * k, 0, 0, TAU); g.fill(); g.restore(); g.save(); g.translate(x, y); g.rotate(h); g.scale(k, k);
+      const lf = (px, py, wd, len, a, c) => { g.save(); g.translate(px, py); g.rotate(a); g.fillStyle = c; g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(len * 0.55, -wd, len, 0); g.quadraticCurveTo(len * 0.55, wd, 0, 0); g.fill(); g.restore(); }, el = (px, py, rx, ry, c) => { g.fillStyle = c; g.beginPath(); g.ellipse(px, py, rx, ry, 0, 0, TAU); g.fill(); };
+      lf(-22, 0, 5, 16, Math.PI, dk); for (const [fx, e] of [[12, 1], [12, -1], [-12, 1], [-12, -1]]) el(fx, e * 17, 7, 5, dk); el(0, 0, 26, 20, col);
+      for (const e of [-1, 1]) { lf(14, e * 11.5, 6, 20, e * 2.2, col); lf(16, e * 12.5, 3, 12, e * 2.2, face); } el(18, 0, 17, 17, col); el(24, 0, 10, 12.5, face);
+      for (const e of [-1, 1]) { el(24, e * 7.6, 5, 5, '#fff'); el(25.6, e * 7.6, 2.6, 2.6, '#2b2a26'); } g.restore(); };
+    pip(120, 122, 1, -0.3, '#ef8a68', '#d9714f', '#f8b99d'); pip(50, 136, 0.55, 0.5, '#6fa3d8', '#4f7fb8', '#a9c9ea'); }
+  const paint = () => document.querySelectorAll('.world canvas').forEach(meadow); window.addEventListener('resize', paint); paint(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
+})();
+</script>

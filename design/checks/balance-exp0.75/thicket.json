@@ -1,0 +1,122 @@
+{
+ "habitat": "thicket",
+ "tried": 108,
+ "top": [
+  {
+   "g": {
+    "scale": 1.25,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "none",
+    "sting": false,
+    "camo": true,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.569,
+   "price": 12.7
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "none",
+    "sting": true,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.518,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "none",
+    "sting": true,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": true,
+    "threat": "run",
+    "herd": true,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.462,
+   "price": 13
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": true,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": true,
+    "threat": "run",
+    "herd": true,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.458,
+   "price": 11
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "none",
+    "spikes": "none",
+    "sting": false,
+    "camo": true,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "digester",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 1.431,
+   "price": 11
+  }
+ ],
+ "plain": 0.856
+}

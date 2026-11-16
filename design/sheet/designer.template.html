@@ -1,0 +1,142 @@
+<title>Body Designer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: the creature stays in view at the top; one group of choices at a time scrolls under it. */
+  :root { --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b; --card: #f8faf8; --free: #2f7a5c;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; --card: #16262a; --free: #7fd3ae; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; --card: #16262a; --free: #7fd3ae; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+  .wrap { max-width: 560px; margin: 0 auto; padding-block: 20px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 14px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 6vw, 36px); line-height: 1.05; margin: 0; text-wrap: balance; } h2 { font-family: var(--display); font-size: 18px; margin: 0; } p { margin: 0; }
+  .lede { color: var(--muted); max-width: 60ch; }
+  .stage { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); display: flex; flex-direction: column; gap: 8px; padding-block: 6px; }
+  #c { width: 100%; aspect-ratio: 200 / 150; display: block; border-radius: 18px; box-shadow: 0 8px 22px rgba(40, 40, 20, 0.2); background: #9dc084; }
+  #small { width: 100%; aspect-ratio: 300 / 54; display: block; border-radius: 10px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  button, select { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; min-height: 38px; cursor: pointer; }
+  button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:disabled { opacity: 0.45; cursor: default; }
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; } .tabs button { flex: none; }
+  .tabs .sep { flex: none; align-self: center; font: 500 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 0 4px; }
+  .has { display: flex; flex-wrap: wrap; gap: 4px; } .has button { font-size: 12.5px; min-height: 30px; padding: 3px 9px; border-style: dashed; }
+  .meter { display: flex; align-items: center; gap: 10px; font: 500 12.5px var(--mono); color: var(--muted); } .meter .bar { flex: 1; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; min-width: 60px; } .meter .bar i { display: block; height: 100%; background: var(--ink); } .meter.over .bar i { background: var(--accent); }
+  .fields { display: flex; flex-direction: column; gap: 10px; }
+  .field { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .field.off { opacity: 0.55; }
+  .field .top { display: flex; align-items: baseline; gap: 8px; } .field .name { font-weight: 600; } .field .tag { font: 500 11px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-left: auto; white-space: nowrap; } .field .tag.free { color: var(--free); }
+  .field .help { font-size: 13px; color: var(--muted); } .field .help b { color: var(--ink); font-weight: 500; }
+  .field input[type="range"] { width: 100%; accent-color: var(--ink); min-height: 30px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 6px; } .swatches button { width: 34px; min-height: 34px; padding: 0; border-radius: 50%; border: 2px solid var(--line); } .swatches button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--bg) inset; }
+  .notes { display: flex; flex-direction: column; gap: 6px; } .notes ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; color: var(--muted); }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:6px">
+    <p class="kicker">Concept test · the species sheet</p>
+    <h1>Body designer</h1>
+    <p class="lede">Every choice here is a line on one sheet. The game's rules read it for what the body can do, and the paper kit reads the same sheet to draw it. Choices that mean something in play cost budget; looks are free.</p>
+  </header>
+  <div class="stage">
+    <canvas id="c" role="img" aria-label="The creature being designed, seen from above"></canvas>
+    <canvas id="small" role="img" aria-label="The same creature a centimetre long, as a cut-out, asleep, cold, young and dead"></canvas>
+    <div class="row" role="group" aria-label="Preview">
+      <button type="button" id="walk" aria-pressed="true">Walking</button>
+      <label class="row" style="gap:4px;color:var(--muted);font-size:13px">On <select id="ground"></select></label>
+      <label class="row" style="gap:4px;color:var(--muted);font-size:13px">It is <select id="how"><option value="">ordinary</option></select></label>
+      <button type="button" id="random">Surprise me</button>
+      <label class="row" style="gap:4px;color:var(--muted);font-size:13px">Start from <select id="preset"><option value="">the plain one</option></select></label>
+    </div>
+    <div class="meter" id="meter"><span id="cost"></span><span class="bar"><i id="bar"></i></span><span>not tuned</span></div>
+  </div>
+  <section style="display:flex;flex-direction:column;gap:6px"><h2>What it has</h2><p class="lede" style="font-size:13px">Each is a part that means something, and should be readable off the picture. Tap one to go to it.</p><div class="has" id="has"></div></section>
+  <nav class="tabs" id="tabs" aria-label="Groups of choices"></nav>
+  <section class="fields" id="fields" aria-live="polite"></section>
+  <div class="notes">
+    <h2>What this is testing</h2>
+    <ul>
+      <li>Whether one sheet of choices can make creatures that look far apart, and whether each part that matters in play can be read off the picture.</li>
+      <li>The drawing is the paper kit from the depth study, unchanged in kind: every part here is one entry in its tables.</li>
+      <li>The strip under the picture shows the same creature a centimetre long, as a cut-out, asleep, cold, young and dead. Every body has to wear every state.</li>
+      <li>Costs are placeholders. Numbers are set in the balance pass, after every part has been shown to matter.</li>
+      <li>A second form, such as a young one or a caste, is a second sheet that differs from the first. That editor is not built here.</li>
+    </ul>
+  </div>
+</main>
+
+<script>
+/*SHEET*/
+</script>
+<script>
+(() => {
+/*KIT*/
+  // ---------- the designer: it writes a sheet, and the kit above draws it ----------
+  const S = window.SHEET, $ = (id) => document.getElementById(id), small = $('small'), sx = small.getContext('2d');
+  const GROUND = { grass: ['#9dc084', 'sugar'], sand: ['#e6d6a8', 'kraft'], water: ['#4d9bb0', 'card'], 'leaf litter': ['#5a7552', 'sugar'], rock: ['#b8b1a2', 'card'], paper: ['#f1ead8', 'sugar'] };
+  let cur = S.plain(), spec = null, walking = true, how = '', ground = 'grass', group = 'Body', t0 = null, now = 100, frozen = null;
+  const kitOf = (s, gcol) => { const sp = S.toKit(s); sp.nose = noseOf(sp); sp.P = papers(sp.pal, gcol); return sp; };
+  const remake = () => { spec = kitOf(cur, GROUND[ground][0]); };
+  const ruler = document.createElement('canvas'), rx = ruler.getContext('2d', { willReadFrequently: true });
+  // how long a body really is, and where its middle lies: it is drawn once, small, and measured, so that any sheet fits its picture
+  const measure = (sp, wide = 1) => { if (sp.M) return sp.M; const N = 260, rough = (sp.body.L + 2 * sp.body.W + 150) * wide, s0 = (N * 0.9) / rough, k0 = K; K = 1; ruler.width = ruler.height = N; rx.setTransform(s0, 0, 0, s0, N / 2, N / 2); try { critter(rx, 40, sp, Object.assign({}, Q0)); } catch (e) { K = k0; return (sp.M = { len: rough, cx: 0, cy: 0 }); } K = k0;
+    const d = rx.getImageData(0, 0, N, N).data; let x0 = N, x1 = 0, y0 = N, y1 = 0; for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (d[(y * N + x) * 4 + 3] > 40) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    if (x1 < x0) return (sp.M = { len: rough, cx: 0, cy: 0 }); if ((x0 <= 1 || y0 <= 1 || x1 >= N - 2 || y1 >= N - 2) && wide < 4) return measure(sp, wide * 1.7); return (sp.M = { len: Math.max(x1 - x0, y1 - y0) / s0 + 6, w: (x1 - x0) / s0 + 6, h: (y1 - y0) / s0 + 6, cx: ((x0 + x1) / 2 - N / 2) / s0, cy: ((y0 + y1) / 2 - N / 2) / s0 }); };
+  const poseOf = (sp, t, state, walk) => { const q = Object.assign({}, Q0, { phase: walk ? t / (sp.cycle || 36) : 0.15, stride: walk ? 1 : 0, tail: 0.1 + (walk ? 0.2 * Math.sin(t / 9) : 0.08 * Math.sin(t / 30)), earL: 0, earR: 0, bob: walk ? Math.max(0, Math.sin(2 * TAU * t / (sp.cycle || 36))) : 0 }), r = state ? row(HOW, state) : null;
+    if (r) { wear(q, r, 1); if (r.dead !== undefined) q.ground = GROUND[ground][0]; if (r.curl) q.stride = 0; } return q; };
+  // one creature set down at x, y so that it is `len` units long from nose to tail
+  const put = (g, sp, x, y, len, t, state, walk, o) => { const q = poseOf(sp, t, state, walk), M = measure(sp), ext = M.len, sc = len / ext * (q.young ? 0.62 : 1), A = 0.42; stand(g, x - (Math.cos(A) * M.cx - Math.sin(A) * M.cy) * sc, y - (Math.sin(A) * M.cx + Math.cos(A) * M.cy) * sc, A, sc, (og) => critter(og, t, sp, q), q.dead !== undefined ? (q.dead > 2 ? 0 : 1) : 4.2 * (q.up || 1), Object.assign({ reach: ext + 24 }, o)); };
+  function draw(t) { const dpr = Math.min(3, window.devicePixelRatio || 1), U = 200, H = 150; K = dpr * (cv.clientWidth || 360) / U; const px = Math.round(U * K), py = Math.round(H * K); if (cv.width !== px || cv.height !== py) { cv.width = px; cv.height = py; for (const k in pats) delete pats[k]; }
+    ctx.setTransform(K, 0, 0, K, 0, 0); floor(ctx, U, H, GROUND[ground][0], GROUND[ground][1], 5);
+    { const M = measure(spec), w = M.w || M.len, h = M.h || M.len, fit = Math.min(U * 0.86 / (w * Math.cos(0.42) + h * Math.sin(0.42)), H * 0.84 / (w * Math.sin(0.42) + h * Math.cos(0.42))); put(ctx, spec, U * 0.5, H * 0.5, M.len * fit * (0.72 + 0.28 * (cur.size - 0.7) / 0.8), t, how, walking && how !== 'Asleep' && how !== 'Dead'); }      // as large as fits; a small species is shown smaller
+    // the strip: a centimetre long, as a cut-out and in its papers; then asleep, cold, young and dead
+    const U2 = 300, H2 = 54, k0 = K; K = dpr * (small.clientWidth || 360) / U2; const px2 = Math.round(U2 * K), py2 = Math.round(H2 * K); if (small.width !== px2 || small.height !== py2) { small.width = px2; small.height = py2; }
+    sx.setTransform(K, 0, 0, K, 0, 0); floor(sx, U2, H2, GROUND[ground][0], GROUND[ground][1], 6); const cm = U2 / (small.clientWidth || 360) * 38;      // thirty-eight CSS pixels is a centimetre
+    put(sx, spec, 24, 27, cm, 40, '', false, { sil: '#22201c' }); put(sx, spec, 70, 27, cm, 40, '', false);
+    [['Asleep', 122], ['Cold', 172], ['Young', 222], ['Dead', 270]].forEach(([st, x]) => put(sx, spec, x, 27, 44, t, st, false)); K = k0; }
+  const frame = (ms) => { if (frozen !== null) return; if (t0 === null) t0 = ms; now = 100 + (ms - t0) * 0.06; draw(now); requestAnimationFrame(frame); };
+
+  // ---------- the choices ----------
+  const GROUPS = ['Body', 'Inside', 'Skin', 'Senses', 'Movers', 'Weapons', 'Carrying', 'Head', 'Face', 'Limbs', 'Tail', 'Pattern', 'Colour'], FREE = ['Head', 'Face', 'Limbs', 'Tail', 'Pattern', 'Colour'];
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+  const set = (id, v) => { cur[id] = v; cur = S.tidy(cur); remake(); paintUI(); if (frozen !== null) draw(now); };
+  function paintTabs() { const tabs = $('tabs'); tabs.textContent = ''; GROUPS.forEach((gname, i) => { if (i === 0) tabs.append(el('span', 'sep', 'Means something')); if (gname === FREE[0]) tabs.append(el('span', 'sep', 'Looks')); const b = el('button', '', gname); b.type = 'button'; b.setAttribute('aria-pressed', String(gname === group)); b.addEventListener('click', () => { group = gname; paintUI(); }); tabs.append(b); }); }
+  function paintUI() { paintTabs(); const dead = S.idle(cur), box = $('fields'); box.textContent = '';
+    for (const f of S.FIELDS.filter((x) => x.group === group)) { const off = dead[f.id], card = el('div', 'field' + (off ? ' off' : '')), top = el('div', 'top'); top.append(el('span', 'name', S.LABEL[f.id]), el('span', 'tag' + (f.kind === 'look' ? ' free' : ''), f.kind === 'look' ? 'free' : 'costs')); card.append(top);
+      const help = el('p', 'help'); if (off) help.textContent = 'Not in use: ' + off + '.'; else { if (f.does) { help.append(f.does + '. '); } const b = el('b', '', 'Shows as: '); help.append(b, f.shows.charAt(0).toLowerCase() + f.shows.slice(1) + '.'); } card.append(help);
+      if (f.type === 'pick') { const r = el('div', 'row'); for (const o of f.options) { const b = el('button', '', S.word(o, f.id)); b.type = 'button'; b.disabled = !!off; b.setAttribute('aria-pressed', String(cur[f.id] === o)); b.addEventListener('click', () => set(f.id, o)); r.append(b); } card.append(r); }
+      else if (f.type === 'flag') { const b = el('button', '', cur[f.id] ? 'Has it' : 'Does not have it'); b.type = 'button'; b.disabled = !!off; b.setAttribute('aria-pressed', String(!!cur[f.id])); b.addEventListener('click', () => set(f.id, !cur[f.id])); const r = el('div', 'row'); r.append(b); card.append(r); }
+      else if (f.type === 'num') { const inp = el('input'); inp.type = 'range'; inp.id = 'f-' + f.id; inp.min = f.range[0]; inp.max = f.range[1]; inp.step = f.step || (f.range[1] - f.range[0]) / 100; inp.value = cur[f.id]; inp.disabled = !!off; inp.setAttribute('aria-label', S.LABEL[f.id]); inp.addEventListener('input', () => { cur[f.id] = +inp.value; cur = S.tidy(cur); remake(); paintMeter(); paintHas(); if (frozen !== null) draw(now); }); inp.addEventListener('change', () => paintUI()); card.append(inp); }
+      else { const r = el('div', 'swatches'); if (f.auto) { const b = el('button', '', 'as it comes'); b.type = 'button'; b.style.width = 'auto'; b.style.padding = '0 10px'; b.style.fontSize = '12px'; b.setAttribute('aria-pressed', String(cur[f.id] === 'auto')); b.addEventListener('click', () => set(f.id, 'auto')); r.append(b); } for (const o of f.options) { const b = el('button'); b.type = 'button'; b.style.background = o; b.setAttribute('aria-label', o); b.setAttribute('aria-pressed', String(cur[f.id] === o)); b.addEventListener('click', () => set(f.id, o)); r.append(b); } const any = el('input'); any.type = 'color'; any.value = /^#/.test(cur[f.id]) ? cur[f.id] : '#888888'; any.setAttribute('aria-label', 'Any colour'); any.addEventListener('change', () => set(f.id, any.value)); r.append(any); card.append(r); }
+      box.append(card); }
+    paintMeter(); paintHas(); }
+  function paintMeter() { const c = S.cost(cur); $('cost').textContent = c.toFixed(1) + ' of ' + S.BUDGET; $('bar').style.width = Math.min(100, c / S.BUDGET * 100) + '%'; $('meter').classList.toggle('over', c > S.BUDGET); }
+  function paintHas() { const box = $('has'); box.textContent = ''; for (const [id, text] of S.says(cur)) { const b = el('button', '', text); b.type = 'button'; b.addEventListener('click', () => { group = S.BY[id].group; paintUI(); $('tabs').scrollIntoView({ block: 'nearest' }); }); box.append(b); } }
+  for (const n of Object.keys(GROUND)) $('ground').add(new Option(n, n)); for (const [n] of HOW) $('how').add(new Option(n.toLowerCase(), n));
+  for (const n of Object.keys(S.PRESETS || {})) $('preset').add(new Option(n, n));
+  $('ground').addEventListener('change', (e) => { ground = e.target.value; remake(); if (frozen !== null) draw(now); });
+  $('how').addEventListener('change', (e) => { how = e.target.value; if (frozen !== null) draw(now); });
+  $('walk').addEventListener('click', (e) => { walking = !walking; e.target.setAttribute('aria-pressed', String(walking)); e.target.textContent = walking ? 'Walking' : 'Standing'; if (frozen !== null) draw(now); });
+  $('random').addEventListener('click', () => { cur = S.random(Math.random); remake(); paintUI(); if (frozen !== null) draw(now); });
+  $('preset').addEventListener('change', (e) => { cur = e.target.value ? S.tidy(S.PRESETS[e.target.value]) : S.plain(); remake(); paintUI(); if (frozen !== null) draw(now); });
+  remake(); paintUI();
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { frozen = 1; walking = false; $('walk').setAttribute('aria-pressed', 'false'); $('walk').textContent = 'Standing'; draw(now); } else requestAnimationFrame(frame);
+  // ---------- hooks for the checks in design/checks/sheetaudit.js ----------
+  window.__kit = { pals: Object.fromEntries(KIT.map((r) => [r.name, r.pal])), draws: DRAWS(), states: HOW.map((x) => x[0]), bearings: BEAR.map((x) => x[0]) };
+  window.__set = (s) => { cur = S.tidy(s); remake(); paintUI(); draw(now); }; window.__get = () => cur; window.__hold = () => { frozen = 1; draw(now); };
+  // a picture of one sheet, `size` pixels square with the creature `len` pixels long: its papers, or its outline alone
+  const lab = document.createElement('canvas'), lx = lab.getContext('2d', { willReadFrequently: true }); window.__lab = lab;
+  // the closest creature the sheet can make to one of the study's own: a search over the sheet's choices, one at a time, keeping whatever brings the picture nearer
+  window.__fit = (name, start, passes = 2) => { const size = 146, G = [157, 192, 132], on = (d, k) => Math.abs(d[k] - G[0]) + Math.abs(d[k + 1] - G[1]) + Math.abs(d[k + 2] - G[2]) > 40, ref = window.__px({}, { size, len: 100, row: name, sized: false }).data.slice();
+    const loss = (sh) => { const r = window.__px(sh, { size, len: 100, sized: false }); if (r.err) return 999; const B = r.data; let u = 0, df = 0; for (let k = 0; k < ref.length; k += 4) { if (on(ref, k) || on(B, k)) { u++; if (Math.abs(ref[k] - B[k]) + Math.abs(ref[k + 1] - B[k + 1]) + Math.abs(ref[k + 2] - B[k + 2]) > 60) df++; } } return 100 * df / (u || 1); };
+    let cur = S.tidy(start), best = loss(cur); const first = best, fields = S.FIELDS.filter((f) => f.type !== 'hue' && f.id !== 'lids' && (f.kind === 'look' || ['length', 'width', 'taper'].includes(f.id)));      // looks and outline only: what a body can do is not changed to make a picture match
+    for (let p = 0; p < passes; p++) for (const f of fields) { const cands = f.type === 'num' ? [-0.3, -0.12, -0.04, 0.04, 0.12, 0.3].map((d) => cur[f.id] + d * (f.range[1] - f.range[0])) : f.type === 'flag' ? [!cur[f.id]] : f.options.filter((o) => o !== cur[f.id]);
+      for (const v of cands) { const t = S.tidy(Object.assign({}, cur, { [f.id]: v })); if (t[f.id] === cur[f.id]) continue; const l = loss(t); if (l < best - 0.15) { best = l; cur = t; } } }
+    return { sheet: cur, loss: best, first }; };
+  window.__px = (s, o = {}) => { const size = o.size || 64, len = o.len || 40, k0 = K; K = 1; lab.width = lab.height = size; lx.setTransform(1, 0, 0, 1, 0, 0); lx.clearRect(0, 0, size, size); if (!o.bare) { lx.fillStyle = o.ground || '#9dc084'; lx.fillRect(0, 0, size, size); }
+    const row = o.row && KIT.find((r) => r.name === o.row), sp = row ? Object.assign({}, row, { M: undefined, P: undefined }) : kitOf(S.tidy(s), o.ground || '#9dc084'), q = Object.assign({}, Q0, o.q || {}); if (row) { sp.nose = noseOf(sp); sp.P = papers(sp.pal, o.ground || '#9dc084'); }      // o.row draws one of the study's own creatures as it was drawn by hand, to set beside what the sheet makes if (o.state) { const r = row(HOW, o.state) || row(BEAR, o.state); if (r) wear(q, r, 1); if (q.dead !== undefined) q.ground = o.ground || '#9dc084'; } if (o.walk !== undefined) { q.stride = 1; q.phase = o.walk; }
+    let err = null; try { const M = measure(sp), ext = M.len, sc = Math.min(len / ext * (q.young ? 0.62 : 1) * (o.sized === false ? 1 : row ? row.scale || 1 : S.tidy(s).size), (size - 6) / ext); stand(lx, size / 2 - M.cx * sc, size / 2 - M.cy * sc, 0, sc, (og) => critter(og, 40, sp, q), o.sil ? 0 : 2, Object.assign({ reach: ext + 24 }, o.sil ? { sil: '#000000' } : {})); } catch (e) { err = String(e && e.message || e); } K = k0; return { data: lx.getImageData(0, 0, size, size).data, err }; };
+})();
+</script>

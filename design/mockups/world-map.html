@@ -1,0 +1,434 @@
+<title>Watershed Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: the map on the left, the selected biome's card beside it; stacked on a phone. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --card: #ffffff; --line: #d2dcd7;
+    --accent: #b8355b; --press: #17282b; --press-ink: #f3f7f5;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42; --accent: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  header { display: flex; flex-direction: column; gap: 8px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.15; margin: 0; }
+  p { margin: 0; }
+  .lede { max-width: 66ch; color: var(--muted); }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+  .row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .label { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; margin-right: 4px; }
+  button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  button:hover { border-color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"] { background: var(--press); color: var(--press-ink); border-color: var(--press); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: start; }
+  @media (min-width: 900px) { .stage { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+  .mapcol, .side { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  canvas { width: 100%; aspect-ratio: 4 / 5; display: block; border-radius: 18px; cursor: pointer; touch-action: manipulation; max-width: 100%; background: #7fbdd0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .where { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  dl { margin: 0; display: grid; grid-template-columns: 1fr; gap: 10px; }
+  dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  dd { margin: 2px 0 0; }
+  .note { color: var(--muted); font-size: 14px; max-width: 70ch; }
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="kicker">World mockup · second pass</p>
+    <h1>The river basin</h1>
+    <p class="lede">Eight biomes on one map, from the high ground in the north to the sea in the south. Each is a region with many features: Lakeland has a lake and seven ponds, and three brooks join into two rivers. Tap a biome to read what living there is like, zoom in to see its features, and change the season or the tide.</p>
+  </header>
+
+  <div class="controls">
+    <div class="row" role="group" aria-label="Season">
+      <span class="label">Season</span>
+      <button type="button" data-season="spring" aria-pressed="false">Spring</button>
+      <button type="button" data-season="summer" aria-pressed="true">Summer</button>
+      <button type="button" data-season="autumn" aria-pressed="false">Autumn</button>
+      <button type="button" data-season="winter" aria-pressed="false">Winter</button>
+    </div>
+    <div class="row" role="group" aria-label="Tide">
+      <span class="label">Tide</span>
+      <button type="button" data-tide="low" aria-pressed="true">Out</button>
+      <button type="button" data-tide="high" aria-pressed="false">In</button>
+    </div>
+    <div class="row" role="group" aria-label="View">
+      <span class="label">View</span>
+      <button type="button" data-view="basin" aria-pressed="true">Whole basin</button>
+      <button type="button" data-view="biome" aria-pressed="false">One biome</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="mapcol">
+      <canvas id="map" role="img" aria-label="Map of the river basin and its eight biomes"></canvas>
+      <p class="note" id="scale-note"></p>
+    </div>
+    <div class="side">
+      <div class="row" role="group" aria-label="Biome" id="biomes"><span class="label">Biome</span></div>
+      <aside class="card" aria-live="polite">
+        <span class="where" id="b-where"></span>
+        <h2 id="b-name"></h2>
+        <dl id="b-facts"></dl>
+        <p class="note" id="b-season"></p>
+      </aside>
+    </div>
+  </div>
+  <p class="note">The whole basin is about 26 phone screens across and 20 tall, and each biome about ten across. A day is about one real hour and a season about two real days. The sizes are a proposal worked out by arithmetic; nothing has been run at this scale yet.</p>
+</main>
+
+<script>
+(() => {
+  const W = 1040, H = 1300, TAU = Math.PI * 2, SW = 40, SH = 65;
+  const cv = document.getElementById('map'), ctx = cv.getContext('2d');
+  const hc = document.createElement('canvas').getContext('2d');
+  const rng = (a) => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+
+  // ---------- the map: shapes run off the canvas so the edges stay full ----------
+  const SHAPES = {
+    tidal: [[-60, 1066], [182, 1086], [332, 1064], [404, 1000], [522, 1030], [702, 1040], [862, 1050], [1100, 1030], [1100, 1190], [800, 1214], [520, 1198], [260, 1224], [-60, 1206]],
+    marsh: [[380, 770], [562, 770], [690, 720], [760, 850], [882, 900], [1100, 870], [1100, 1064], [862, 1084], [702, 1074], [522, 1064], [384, 1046], [340, 902]],
+    dunes: [[-60, 740], [160, 770], [290, 735], [424, 772], [364, 902], [404, 1036], [336, 1100], [182, 1122], [-60, 1104]],
+    lakeland: [[700, 420], [862, 470], [1100, 440], [1100, 700], [1100, 904], [882, 934], [742, 884], [690, 760], [690, 602]],
+    grassland: [[250, 300], [455, 312], [600, 272], [684, 332], [746, 446], [726, 602], [706, 742], [562, 804], [402, 794], [268, 760], [272, 602], [292, 432]],
+    heath: [[-60, 290], [150, 322], [300, 292], [336, 432], [306, 602], [286, 764], [160, 804], [-60, 774]],
+    woodland: [[560, -60], [840, -60], [1100, -60], [1100, 300], [1100, 480], [862, 506], [742, 446], [650, 340], [600, 250], [600, 120]],
+    highlands: [[-60, -60], [230, -60], [450, -60], [652, -60], [676, 170], [612, 300], [455, 352], [292, 332], [150, 372], [-60, 336]],
+  };
+  const ORDER = ['tidal', 'marsh', 'dunes', 'lakeland', 'grassland', 'heath', 'woodland', 'highlands'];
+  const BOX = { highlands: [0, 0, 676, 372], woodland: [600, 0, 1040, 506], heath: [0, 300, 340, 804], grassland: [270, 290, 750, 804], lakeland: [700, 440, 1040, 934], marsh: [345, 730, 1040, 1084], dunes: [0, 740, 424, 1124], tidal: [0, 1010, 1040, 1224] };
+  const LIFT = { tidal: 0.5, marsh: 0.7, dunes: 0.8, lakeland: 0.8, grassland: 0.9, heath: 1, woodland: 1.1, highlands: 1.3 };
+  const NAMEAT = { highlands: [396, 252], woodland: [900, 296], heath: [185, 560], grassland: [520, 610], lakeland: [890, 604], marsh: [585, 936], dunes: [190, 955], tidal: [566, 1136] };
+  const PAL = {
+    highlands: { spring: '#b8b5c6', summer: '#bcb9c9', autumn: '#b3afbf', winter: '#c9cad6' },
+    woodland: { spring: '#62a268', summer: '#3f8156', autumn: '#b47a3c', winter: '#7c8a80' },
+    heath: { spring: '#bdbb8c', summer: '#c8b386', autumn: '#bca286', winter: '#b9b0a2' },
+    grassland: { spring: '#a8d47a', summer: '#bedc78', autumn: '#dcc76c', winter: '#e6e9e1' },
+    lakeland: { spring: '#8fcb8c', summer: '#86c486', autumn: '#b7c182', winter: '#d7e1db' },
+    marsh: { spring: '#a9bb6c', summer: '#8fae5a', autumn: '#cbb26c', winter: '#d4cdb3' },
+    dunes: { spring: '#ead9a9', summer: '#f0dda6', autumn: '#e5d09f', winter: '#e3d9be' },
+    tidal: { spring: '#b9a685', summer: '#c9ad86', autumn: '#bb9d76', winter: '#a99a84' },
+  };
+  const SEA = { spring: '#7fbdd0', summer: '#78b8cf', autumn: '#7aaec4', winter: '#86b2c4' };
+  const TREES = { spring: ['#4f9058', '#74b06e', '#5fa062'], summer: ['#2f6a47', '#4d8a57', '#3d7a4f'], autumn: ['#a0612a', '#cf8f3e', '#b8752f'], winter: ['#6b7a70', '#8b978c', '#7a877d'] };
+  const SCRUB = { spring: ['#8fa05a', '#a58fb0', '#7f9a52'], summer: ['#8e6f93', '#7f8a52', '#a07fa6'], autumn: ['#7d5f7a', '#8a7a45', '#9a6f52'], winter: ['#857b86', '#8c8a72', '#8a8078'] };
+
+  const FACTS = {
+    highlands: { where: 'North · the high ground', name: 'Highlands', rows: [
+      ['Habitats', 'Crags and crevices, scree slopes, small cold pools, caves, and the springs where the brooks begin.'],
+      ['Climate and cycle', 'The coldest biome, with the longest winter and snow on the tops. Hot days and freezing nights.'],
+      ['Foods', 'Lichen; seeds blown up from below; weed in the pools; fungus in the caves.'],
+      ['Advantage', 'The safest places to rest and nest, and the longest views.'],
+      ['Cost', 'The least food on the map.'],
+      ['Suits', 'Small bodies, baskers, colonies that nest here and feed lower down, and cave dwellers that need no eyes.']],
+      season: { spring: 'Snow melt swells the brooks.', summer: 'The tops are clear. Baskers are at their fastest by day.', autumn: 'Seeds blow up from the lower ground, and the first snow settles.', winter: 'Snow lies longest here. Lichen stops growing; the caves stay the same.' } },
+    woodland: { where: 'North-east · the wooded slopes', name: 'Woodland', rows: [
+      ['Habitats', 'Dense stands, glades of open grass, fallen logs, forest brooks and a gorge.'],
+      ['Climate and cycle', 'Mild and sheltered, and always dim. Fruiting moves from stand to stand; autumn leaf fall feeds fungus.'],
+      ['Foods', 'Fruit in bursts; fungus; seeds and nuts; small prey in the litter.'],
+      ['Advantage', 'Rich food, out of reach of big hunters.'],
+      ['Cost', 'Eyes work poorly, and the food moves about.'],
+      ['Suits', 'Noses, hoarders, wanderers that call others to a find, and pairs that hold a territory.']],
+      season: { spring: 'New leaf. Little fruit yet.', summer: 'The canopy closes and the floor is at its darkest.', autumn: 'The big fruiting, then leaf fall and fungus.', winter: 'Bare stands. Only what was hoarded.' } },
+    heath: { where: 'West · the dry ground', name: 'Heath', rows: [
+      ['Habitats', 'Dry scrub, bare sandy patches, banks soft enough to burrow in, and a few water holes.'],
+      ['Climate and cycle', 'Dry, with hot summers. Late-summer fires burn patches of scrub, and the burnt ground flushes with new growth.'],
+      ['Foods', 'Seeds; shoots on burnt ground; insects; whatever gathers at the water holes.'],
+      ['Advantage', 'Few competitors, and a rush of food after a fire.'],
+      ['Cost', 'Little water and thin cover.'],
+      ['Suits', 'Burrowers, species that follow the fires, ambushers at water holes, and lives that need little.']],
+      season: { spring: 'Last year\'s burnt ground flushes green.', summer: 'Dry. Late in the season a patch of scrub burns.', autumn: 'Burnt patches lie bare; seeds ripen on the rest.', winter: 'Cold and thin. The water holes are the busiest places.' } },
+    grassland: { where: 'Centre · the open plain', name: 'Grassland', rows: [
+      ['Habitats', 'Open plain, tussock that hides small bodies, flower fields, copses, pools that fill in spring, and river crossings.'],
+      ['Climate and cycle', 'The strongest seasons on the map: lush summers and dead winters.'],
+      ['Foods', 'Grass; flowers by day; seed in late summer.'],
+      ['Advantage', 'The most food, and room to run.'],
+      ['Cost', 'Little cover, and the hardest winters.'],
+      ['Suits', 'Speed and long sight, herds, packs, eggs that wait for spring, and species that leave for the winter.']],
+      season: { spring: 'Pools fill, flowers open and waiting eggs hatch.', summer: 'Tall grass. The most food of the year.', autumn: 'Seed heads, and the grass turns.', winter: 'Nothing grows. Stay, sleep, or leave.' } },
+    lakeland: { where: 'East · the still waters', name: 'Lakeland', rows: [
+      ['Habitats', 'Seven ponds of different sizes, one deep lake with an island, channels between the waters, lily shallows and reed fringes.'],
+      ['Climate and cycle', 'Mild. Water rises after rain and blooms follow. Pond edges freeze in winter; the lake\'s deep does not.'],
+      ['Foods', 'Weed; drift where streams enter; litter on the bottom, found by smell; small prey.'],
+      ['Advantage', 'Water to escape into, and a deep with no winter.'],
+      ['Cost', 'Needs fins or paddles to use fully, and each pond is small enough to be eaten out.'],
+      ['Suits', 'Fins, shoals, big hunters of the deep, species that move from pond to pond, and young in water with adults on land.']],
+      season: { spring: 'High water after the rains, and blooms follow.', summer: 'Lily pads shade the shallows.', autumn: 'Cooling. Litter sinks to the bottom.', winter: 'The ponds freeze at the edges. Life moves to the lake\'s deep.' } },
+    marsh: { where: 'South-centre · the wet ground', name: 'Marsh', rows: [
+      ['Habitats', 'Reed stands, lanes of open water, floating mats, mud banks and drowned trees.'],
+      ['Climate and cycle', 'Floods in spring. Reeds grow through summer and die back in winter, leaving no cover.'],
+      ['Foods', 'Seed heads; weed; buried food in the mud; other species\' eggs.'],
+      ['Advantage', 'The best cover on the map, for hiding and for nests.'],
+      ['Cost', 'Nothing can see far, and the cover is gone in winter.'],
+      ['Suits', 'Hiders and stalkers, hidden nests, solitary and paired lives, and waders.']],
+      season: { spring: 'Flooded. New shoots, thin cover.', summer: 'Reeds at full height. The best hiding on the map.', autumn: 'Seed heads ripen.', winter: 'The reeds have died back. Everything inside is in plain view.' } },
+    dunes: { where: 'South-west · the blown sand', name: 'Dunes', rows: [
+      ['Habitats', 'Loose sand ridges, damp hollows with plants, grass tufts, the driftline and blown-out bowls.'],
+      ['Climate and cycle', 'Windy. Scent marks and tracks vanish within the hour. Hot by day, cold at night.'],
+      ['Foods', 'Seeds; plants in the hollows; whatever the sea leaves on the driftline.'],
+      ['Advantage', 'Nothing can track you, and digging is easy.'],
+      ['Cost', 'Legs are slow on sand, and food is thin and far apart.'],
+      ['Suits', 'Burrowers, wide feet, lone wanderers, and species that cannot afford to be followed.']],
+      season: { spring: 'The hollows green up.', summer: 'Hot sand by day, cold at night.', autumn: 'The hollows turn and the plants set seed.', winter: 'Bare and windblown. The hollows hold what food there is.' } },
+    tidal: { where: 'South · along the sea', name: 'Tidal flats', rows: [
+      ['Habitats', 'Mud, branching channels, sandbars, salt pans and pools left by the tide.'],
+      ['Climate and cycle', 'The tide covers and uncovers the flats several times a game day.'],
+      ['Foods', 'Buried food found by smell and touch; whatever each tide strands; weed in the pools.'],
+      ['Advantage', 'Restocked by every tide, and heavy hunters cannot cross the mud.'],
+      ['Cost', 'No cover at all, and under water part of the day.'],
+      ['Suits', 'Light bodies, flocks that follow the waterline, species that keep time, and visitors from other biomes.']],
+      season: { spring: 'The tide matters more here than the season.', summer: 'The salt pans dry out between tides.', autumn: 'The tide matters more here than the season.', winter: 'Cold, but every tide still restocks it.' } },
+  };
+  const burntText = (s) => ({ spring: 'new growth', summer: 'burning', autumn: 'burnt ground', winter: 'burnt ground' })[s];
+  const FEAT = {
+    highlands: [['spring', 234, 118], ['cold pool', 118, 238], ['cave', 150, 288], ['crags', 300, 176]],
+    woodland: [['glade', 760, 160], ['gorge', 852, 268], ['dense stand', 930, 118]],
+    heath: [['water hole', 92, 500], [burntText, 168, 468], ['bare sand', 60, 434], ['burrow bank', 252, 714]],
+    grassland: [['flower field', 430, 478], ['copse', 455, 548], ['crossing', 368, 606], [(s) => s === 'spring' ? 'spring pool' : null, 560, 674]],
+    lakeland: [['the lake', 868, 694], ['island', 946, 730], ['pond', 800, 582], ['channel', 952, 622], ['reed fringe', 1000, 838], ['lily shallows', 884, 802]],
+    marsh: [['reed stand', 560, 838], ['open lane', 600, 1014], ['mud bank', 500, 960], ['drowned trees', 985, 978]],
+    dunes: [['sand ridges', 300, 958], ['damp hollow', 110, 896], ['blown-out bowl', 222, 850], ['driftline', 250, 1088]],
+    tidal: [['channel', 462, 1146], ['sandbar', 150, 1203], ['salt pan', 840, 1122], [(s, t) => t === 'low' ? 'tide pool' : null, 290, 1157]],
+  };
+
+  // ---------- geometry helpers ----------
+  function blob(pts, seed, wob = 7) { const r = rng(seed), p = pts.map(([x, y]) => [x + (r() - 0.5) * wob * 2, y + (r() - 0.5) * wob * 2]), n = p.length, path = new Path2D();
+    const s = mid(p[n - 1], p[0]); path.moveTo(s[0], s[1]);
+    for (let i = 0; i < n; i++) { const m = mid(p[i], p[(i + 1) % n]); path.quadraticCurveTo(p[i][0], p[i][1], m[0], m[1]); } path.closePath(); return path; }
+  const shrink = (pts, k, dx = 0, dy = 0) => { const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length; return pts.map(([x, y]) => [cx + (x - cx) * k + dx, cy + (y - cy) * k + dy]); };
+  const ring = (x, y, rx, ry, n = 8) => Array.from({ length: n }, (_, i) => [x + Math.cos((i / n) * TAU) * rx, y + Math.sin((i / n) * TAU) * ry]);
+  const puddle = (x, y, rx, ry, seed) => blob(ring(x, y, rx, ry), seed, Math.min(rx, ry) * 0.16);
+  function curve(pts) { const p = new Path2D(), n = pts.length; p.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < n - 1; i++) { const e = i === n - 2 ? pts[i + 1] : mid(pts[i], pts[i + 1]); p.quadraticCurveTo(pts[i][0], pts[i][1], e[0], e[1]); }
+    if (n === 2) p.lineTo(pts[1][0], pts[1][1]); return p; }
+  const hit = (path, x, y) => hc.isPointInPath(path, x, y);
+  const hitS = (path, x, y, w) => { hc.lineWidth = w; return hc.isPointInStroke(path, x, y); };
+  const dot = (q, x, y, r) => { q.moveTo(x + r, y); q.arc(x, y, r, 0, TAU); };
+  const oval = (q, x, y, rx, ry, rot = 0) => { q.moveTo(x + rx * Math.cos(rot), y + rx * Math.sin(rot)); q.ellipse(x, y, rx, ry, rot, 0, TAU); };
+
+  // ---------- fixed features ----------
+  const paths = {}; ORDER.forEach((k, i) => { paths[k] = blob(SHAPES[k], 11 + i * 7); });
+  const LAKE = [[806, 690], [850, 646], [930, 640], [996, 676], [1010, 750], [972, 812], [888, 826], [822, 790]];
+  const G = {
+    hiTier: blob([[60, 40], [300, 20], [520, 40], [600, 150], [540, 250], [400, 290], [250, 270], [120, 300], [30, 230]], 61, 6),
+    peaks: [[[90, 70], [220, 50], [300, 110], [250, 190], [130, 200], [70, 140]], [[380, 60], [500, 50], [560, 130], [500, 210], [400, 200], [350, 130]]],
+    lake: blob(LAKE, 5, 4), lakeMid: blob(shrink(LAKE, 0.66, -6, 6), 6, 3), lakeDeep: blob(shrink(LAKE, 0.34, -22, 18), 7, 2), lakeRim: blob(shrink(LAKE, 1.17), 8, 4),
+    island: blob([[926, 690], [942, 680], [962, 688], [966, 706], [950, 718], [930, 712]], 9, 2),
+    ponds: [[800, 548, 32, 21], [900, 540, 20, 14], [985, 562, 27, 18], [775, 745, 16, 22], [800, 850, 30, 20], [935, 872, 34, 21], [1010, 880, 15, 11]],
+    pools: [[118, 214, 15, 10], [404, 150, 17, 11], [566, 226, 13, 9], [190, 118, 10, 7], [500, 108, 10, 7], [862, 128, 9, 6], [92, 476, 15, 10], [226, 612, 13, 9], [120, 716, 16, 11]],
+    springPools: [[450, 480, 16, 10], [560, 650, 18, 11], [420, 706, 13, 9], [650, 700, 12, 8], [500, 566, 11, 7]],
+    glades: [[760, 120, 40, 26], [960, 200, 46, 30], [880, 384, 44, 27], [1004, 410, 24, 17]],
+    sand: [[60, 400, 34, 22], [252, 470, 30, 20], [184, 656, 38, 24], [60, 636, 26, 16]],
+    burnt: [[168, 424, 46, 30], [64, 580, 36, 28], [150, 756, 36, 22]],
+    banks: [[60, 520], [252, 694]],
+    caves: [[150, 268], [60, 150], [590, 160]],
+    fields: [[430, 420, 44], [690, 676, 32], [480, 722, 44], [372, 548, 28]],
+    copses: [[455, 516], [640, 640], [410, 655], [585, 738]],
+    hollows: [[110, 860, 34, 22], [270, 900, 30, 20], [160, 1040, 36, 22], [312, 1004, 24, 16], [60, 980, 22, 15]],
+    bowls: [[222, 820, 26, 17], [88, 1076, 24, 14]],
+    mud: [[500, 936, 30, 12], [840, 1012, 30, 12], [992, 1024, 32, 12], [468, 1036, 24, 10], [700, 872, 24, 10], [620, 1046, 26, 10]],
+    bars: [[150, 1180, 48, 11], [900, 1150, 54, 12], [560, 1182, 60, 12], [1008, 1108, 30, 9], [280, 1204, 28, 8]],
+    pans: [[110, 1140, 26, 9], [840, 1100, 30, 10], [612, 1090, 24, 8]],
+    floods: [[560, 900, 150, 70], [850, 990, 180, 62], [520, 1016, 120, 40]],
+    gorge: curve([[838, 186], [822, 220], [772, 300], [728, 352]]),
+    stones: [[311, 600], [320, 601], [329, 602], [667, 588], [676, 580], [685, 572]],
+  };
+  G.peaks = G.peaks.map((p, i) => ({ path: blob(p, 63 + i, 4), big: blob(shrink(p, 1.02), 65 + i, 4), mid: blob(shrink(p, 0.62, 0, -6), 67 + i, 3), small: blob(shrink(p, 0.36, 0, -8), 69 + i, 2) }));
+  for (const k of ['ponds', 'pools', 'springPools', 'glades', 'sand', 'burnt', 'hollows', 'bowls', 'mud', 'bars', 'pans', 'floods']) G[k] = G[k].map(([x, y, rx, ry], i) => ({ x, y, rx, ry, path: puddle(x, y, rx, ry, k.length * 13 + i) }));
+  G.pondMid = G.ponds.map((p, i) => (p.rx > 24 ? puddle(p.x + 2, p.y + 1, p.rx * 0.5, p.ry * 0.5, 300 + i) : null));
+  G.fields = G.fields.map(([x, y, r]) => { const p = new Path2D(); p.arc(x, y, r, 0, TAU); return p; });
+  G.tidePool = puddle(290, 1136, 12, 8, 401);
+
+  const RIVERS = [
+    { pts: [[190, 118], [226, 205], [296, 296], [350, 372]], w: 6 },
+    { pts: [[350, 372], [342, 470], [320, 600], [300, 700], [330, 770], [392, 826], [372, 900], [384, 970], [402, 1040], [394, 1100]], w: 11 },
+    { pts: [[500, 108], [522, 200], [502, 290], [532, 372], [590, 450], [640, 520]], w: 6 },
+    { pts: [[862, 128], [822, 220], [772, 300], [704, 380], [664, 450], [640, 520]], w: 6 },
+    { pts: [[640, 520], [676, 580], [740, 622], [820, 694]], w: 11 },
+    { pts: [[806, 566], [820, 610], [848, 654]], w: 4 }, { pts: [[918, 544], [945, 548], [962, 556]], w: 4 }, { pts: [[986, 578], [990, 630], [984, 672]], w: 4 },
+    { pts: [[828, 774], [805, 764], [788, 752]], w: 4 }, { pts: [[852, 816], [824, 836]], w: 4 }, { pts: [[925, 822], [932, 856]], w: 4 }, { pts: [[966, 876], [998, 880]], w: 4 },
+    { pts: [[800, 866], [792, 900], [772, 960], [742, 1016], [722, 1074]], w: 8 }, { pts: [[940, 890], [946, 940], [906, 990], [922, 1050], [952, 1100]], w: 6 },
+    { pts: [[452, 850], [520, 892], [592, 872], [660, 924], [742, 1016]], w: 6 }, { pts: [[440, 972], [512, 1006], [596, 988], [672, 1040], [722, 1074]], w: 6 },
+    { pts: [[394, 1100], [368, 1160], [330, 1260]], w: 8, tidal: true }, { pts: [[394, 1100], [430, 1160], [466, 1260]], w: 8, tidal: true },
+    { pts: [[722, 1074], [700, 1140], [668, 1260]], w: 8, tidal: true }, { pts: [[722, 1074], [762, 1140], [806, 1260]], w: 8, tidal: true },
+    { pts: [[952, 1100], [972, 1160], [990, 1260]], w: 6, tidal: true },
+    { pts: [[368, 1160], [310, 1178], [258, 1168]], w: 4, tidal: true }, { pts: [[762, 1140], [826, 1160], [866, 1150]], w: 4, tidal: true }, { pts: [[430, 1160], [470, 1168], [492, 1160]], w: 4, tidal: true },
+  ].map((r) => ({ ...r, path: curve(r.pts) }));
+  const WET = [...RIVERS, { path: G.gorge, w: 16 }, { path: G.lake }, ...G.ponds, ...G.pools, ...G.springPools];
+
+  // ---------- where the small things go, worked out once ----------
+  function spots(name, n, seed, o = {}) { const r = rng(seed), [x0, y0, x1, y1] = o.box || BOX[name], hi = ORDER.slice(ORDER.indexOf(name) + 1), pad = o.pad == null ? 8 : o.pad, out = [];
+    for (let k = 0; k < n * 30 && out.length < n; k++) { const x = x0 + r() * (x1 - x0), y = y0 + r() * (y1 - y0);
+      if (!hit(paths[name], x, y) || hi.some((h) => hit(paths[h], x, y))) continue;
+      if (!o.wet && WET.some((w) => (w.w ? hitS(w.path, x, y, w.w + pad * 2) : hit(w.path, x, y)))) continue;
+      if (o.avoid && o.avoid.some((a) => hit(a.path || a, x, y))) continue;
+      if (o.within && !o.within.some((a) => hit(a.path || a, x, y))) continue;
+      out.push({ x, y, a: r(), b: r(), c: r() }); }
+    return out; }
+  const D = {
+    crags: spots('highlands', 40, 101), scree: spots('highlands', 90, 102),
+    trees: spots('woodland', 170, 111, { avoid: G.glades, pad: 12 }), logs: spots('woodland', 8, 112, { within: G.glades }),
+    scrub: spots('heath', 150, 121, { avoid: [...G.sand, ...G.burnt] }), sprouts: spots('heath', 40, 122, { within: G.burnt }), embers: spots('heath', 9, 123, { within: [G.burnt[0]] }),
+    tufts: spots('grassland', 190, 131), flowers: spots('grassland', 150, 132, { within: G.fields }),
+    lakeTufts: spots('lakeland', 60, 141, { avoid: [G.lakeRim] }), lakeTrees: spots('lakeland', 16, 142, { avoid: [G.lakeRim], pad: 12 }),
+    fringe: spots('lakeland', 90, 143, { within: [G.lakeRim], pad: 2 }),
+    lilies: spots('lakeland', 30, 144, { wet: true, within: [G.lake, G.ponds[0], G.ponds[4], G.ponds[5]], avoid: [G.lakeMid, G.island] }),
+    clumps: spots('marsh', 52, 151, { avoid: G.mud, pad: 4 }), snags: spots('marsh', 9, 153, { box: [930, 915, 1040, 1000] }).concat(spots('marsh', 6, 154, { box: [470, 790, 640, 850] })),
+    ridges: spots('dunes', 54, 161, { avoid: [...G.hollows, ...G.bowls] }), dTufts: spots('dunes', 50, 162, { avoid: G.bowls }), hollowPlants: spots('dunes', 44, 163, { within: G.hollows }),
+    tidePools: spots('tidal', 14, 171, { avoid: [...G.bars, ...G.pans], box: [0, 1090, 1040, 1200] }),
+    copse: [], drift: [], waves: [], isle: [{ x: 940, y: 698, a: 0.3 }, { x: 952, y: 704, a: 0.7 }, { x: 944, y: 708, a: 0.5 }],
+  };
+  { const r = rng(181); for (const [cx, cy] of G.copses) for (let i = 0; i < 6; i++) { const a = r() * TAU, d = r() * 17; D.copse.push({ x: cx + Math.cos(a) * d, y: cy + Math.sin(a) * d * 0.8, a: r(), b: r() }); }
+    const line = [[404, 1036], [336, 1100], [182, 1122], [0, 1106]];
+    for (let i = 0; i < 80; i++) { const t = r() * (line.length - 1), s = Math.floor(t), f = t - s, p = line[s], q = line[s + 1]; D.drift.push({ x: p[0] + (q[0] - p[0]) * f + (r() - 0.5) * 6 - 5, y: p[1] + (q[1] - p[1]) * f - 9 + (r() - 0.5) * 6, a: r() }); }
+    for (let i = 0; i < 20; i++) D.waves.push({ x: 500 + r() * 520, y: 1238 + r() * 54 }); }
+
+  // ---------- drawing ----------
+  let season = 'summer', tide = 'low', view = 'basin', selected = 'lakeland', V = { s: 1, tx: 0, ty: 0 }, K = 1, grain = null;
+  function sheet(path, fill, lift = 1) { ctx.save(); ctx.shadowColor = 'rgba(30,34,30,0.34)'; ctx.shadowBlur = 11 * lift * K; ctx.shadowOffsetY = 4.5 * lift * K; ctx.fillStyle = fill; ctx.fill(path); ctx.restore();
+    ctx.save(); ctx.clip(path); ctx.lineWidth = 2.4; ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.stroke(path); ctx.restore(); }
+  function sunk(path, fill, d = 1) { ctx.fillStyle = fill; ctx.fill(path); ctx.save(); ctx.clip(path); ctx.shadowColor = 'rgba(10,30,45,0.5)'; ctx.shadowBlur = 9 * d * K; ctx.shadowOffsetY = 4 * d * K;
+    const hole = new Path2D(); hole.rect(-400, -400, W + 800, H + 800); hole.addPath(path); ctx.fillStyle = '#000'; ctx.fill(hole, 'evenodd'); ctx.restore(); }
+  function clipVisible(name) { ctx.clip(paths[name]); for (const h of ORDER.slice(ORDER.indexOf(name) + 1)) { const p = new Path2D(); p.rect(-400, -400, W + 800, H + 800); p.addPath(paths[h]); ctx.clip(p, 'evenodd'); } }
+  function batch() { const m = new Map(); return {
+    at(c) { let q = m.get(c); if (!q) m.set(c, q = new Path2D()); return q; },
+    fill(shadow = true) { for (const [c, q] of m) { ctx.save(); if (shadow) { ctx.shadowColor = 'rgba(30,34,30,0.3)'; ctx.shadowBlur = 3 * K; ctx.shadowOffsetY = 1.5 * K; } ctx.fillStyle = c; ctx.fill(q); ctx.restore(); } },
+    stroke(w) { for (const [c, q] of m) { ctx.save(); ctx.strokeStyle = c; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(q); ctx.restore(); } } }; }
+  function viewFor() { if (view === 'basin') return { s: 1, tx: 0, ty: 0 }; const [x0, y0, x1, y1] = BOX[selected], s = Math.max(1.5, Math.min(2.8, Math.min(W / (x1 - x0), H / (y1 - y0)) * 0.96));
+    return { s, tx: Math.min(0, Math.max(W - s * W, W / 2 - s * (x0 + x1) / 2)), ty: Math.min(0, Math.max(H - s * H, H / 2 - s * (y0 + y1) / 2)) }; }
+
+  function draw() {
+    const k0 = cv.width / W, S = season, P = (k) => PAL[k][S], cold = S === 'winter', upx = W / (cv.clientWidth || 400);
+    V = viewFor(); K = k0 * V.s;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); ctx.setTransform(K, 0, 0, K, k0 * V.tx, k0 * V.ty);
+    const shallow = { spring: '#9fdbe4', summer: '#93d6e2', autumn: '#8fc9d8', winter: '#a9d3de' }[S], midW = cold ? '#7fb6cc' : '#62b3cf', deep = cold ? '#5a94b4' : '#3c8db5', run = cold ? '#b9dbe6' : '#7fc9dd';
+
+    // sea, then the sheets of land from the lowest to the highest
+    ctx.fillStyle = SEA[S]; ctx.fillRect(-80, -80, W + 160, H + 160);
+    ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+    for (const p of D.waves) { ctx.beginPath(); ctx.moveTo(p.x - 9, p.y); ctx.quadraticCurveTo(p.x, p.y - 4, p.x + 9, p.y); ctx.stroke(); } ctx.restore();
+    ctx.fillStyle = P('tidal'); ctx.fillRect(-80, -80, W + 160, 1270);
+    for (const k of ORDER) sheet(paths[k], P(k), LIFT[k]);
+    sheet(G.hiTier, cold ? '#d6d7e1' : '#c9c7d5', 0.9);
+    for (const p of G.peaks) { sheet(p.path, cold ? '#e4e5ec' : '#d8d6e1', 0.8); const cap = { winter: p.big, spring: p.mid, autumn: p.small }[S]; if (cap) sheet(cap, '#f6f7fa', 0.5); }
+    // the selected biome's outline: its own edge where it shows, and the edge of each sheet lying over it
+    { const hi = ORDER.slice(ORDER.indexOf(selected) + 1), outside = (h) => { const p = new Path2D(); p.rect(-400, -400, W + 800, H + 800); p.addPath(paths[h]); ctx.clip(p, 'evenodd'); };
+      ctx.save(); ctx.lineWidth = 5 / Math.sqrt(V.s); ctx.strokeStyle = '#b8355b'; ctx.setLineDash([1.5, 9]); ctx.lineCap = 'round';
+      ctx.save(); hi.forEach(outside); ctx.stroke(paths[selected]); ctx.restore();
+      hi.forEach((h, i) => { ctx.save(); ctx.clip(paths[selected]); hi.slice(i + 1).forEach(outside); ctx.stroke(paths[h]); ctx.restore(); });
+      ctx.restore(); }
+
+    // ground: clearings, bare and burnt patches, hollows, banks
+    for (const g of G.glades) sunk(g.path, { spring: '#b4dc8a', summer: '#c6e08a', autumn: '#dccb7c', winter: '#e4e8e0' }[S], 0.7);
+    ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 22; ctx.strokeStyle = '#9a97ac'; ctx.stroke(G.gorge); ctx.lineWidth = 15; ctx.strokeStyle = '#6f6c84'; ctx.stroke(G.gorge); ctx.restore();
+    ctx.fillStyle = 'rgba(238,225,190,0.9)'; for (const p of G.sand) ctx.fill(p.path);
+    G.burnt.forEach((p, i) => { if (S === 'summer' && i > 0) return; ctx.fillStyle = { spring: '#a4d070', summer: '#4a4340', autumn: '#4f4743', winter: '#857a70' }[S]; ctx.fill(p.path);
+      if (S === 'summer') { ctx.save(); ctx.lineWidth = 3.5; ctx.strokeStyle = '#ec8a3a'; ctx.stroke(p.path); ctx.restore(); } });
+    { const b = batch(), holes = batch(); for (const [x, y] of G.banks) { oval(b.at('#a98f66'), x, y, 30, 8, -0.1); for (let i = -2; i <= 2; i++) dot(holes.at('#4a3d2f'), x + i * 10, y + 1 - i, 2.6); } b.fill(); holes.fill(false); }
+    for (const p of G.bowls) sunk(p.path, '#f6ebc8', 0.6);
+    for (const p of G.hollows) sunk(p.path, { spring: '#9ccf7e', summer: '#8cc474', autumn: '#b5b56c', winter: '#b9b596' }[S], 0.6);
+    { const b = batch(); for (const p of G.mud) b.at('#a08a66').addPath(p.path); b.fill(); }
+    ctx.save(); ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(255,255,255,0.8)'; for (const p of G.pans) { ctx.fillStyle = '#ece6da'; ctx.fill(p.path); ctx.stroke(p.path); } ctx.restore();
+
+    // water: the lake, ponds and pools, then everything that runs
+    sunk(G.lake, shallow); sunk(G.lakeMid, midW, 0.8); sunk(G.lakeDeep, deep, 0.7);
+    G.ponds.forEach((p, i) => { sunk(p.path, shallow, 0.6); if (G.pondMid[i]) sunk(G.pondMid[i], midW, 0.4); });
+    for (const p of G.pools) sunk(p.path, cold ? '#c8e2ea' : run, 0.4);
+    if (S === 'spring') for (const p of G.springPools) sunk(p.path, run, 0.4);
+    if (tide === 'low') { sunk(G.tidePool, run, 0.4); const b = batch(); for (const p of D.tidePools) oval(b.at('rgba(140,205,222,0.9)'), p.x, p.y, 5 + p.a * 7, 3 + p.b * 4, p.c * 3); b.fill(false); }
+    if (cold) { ctx.save(); ctx.clip(G.lake); ctx.lineWidth = 9; ctx.strokeStyle = 'rgba(245,250,252,0.8)'; ctx.stroke(G.lake); ctx.restore();
+      for (const p of G.ponds) { ctx.save(); ctx.clip(p.path); ctx.lineWidth = 14; ctx.strokeStyle = 'rgba(245,250,252,0.85)'; ctx.stroke(p.path); ctx.restore(); } }
+    ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (const r of RIVERS) { ctx.lineWidth = r.w + 4; ctx.strokeStyle = 'rgba(40,60,60,0.3)'; ctx.stroke(r.path); }
+    for (const r of RIVERS) { ctx.lineWidth = r.w; ctx.strokeStyle = run; ctx.stroke(r.path); }
+    ctx.setLineDash([6, 13]); for (const r of RIVERS) if (r.w >= 6) { ctx.lineWidth = r.w * 0.26; ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.stroke(r.path); }
+    ctx.restore();
+    { const b = batch(); for (const [x, y] of G.stones) dot(b.at('#ece7d9'), x, y, 3.2); b.fill(); }
+    if (S === 'spring') { ctx.save(); clipVisible('marsh'); ctx.fillStyle = 'rgba(127,201,221,0.45)'; for (const p of G.floods) ctx.fill(p.path); ctx.restore(); }
+    if (tide === 'high') { ctx.save(); clipVisible('tidal');
+      for (const k of ['marsh', 'dunes']) { const p = new Path2D(); p.rect(-400, -400, W + 800, H + 800); p.addPath(paths[k], new DOMMatrix().translate(0, 13)); ctx.clip(p, 'evenodd'); }
+      ctx.globalAlpha = 0.9; ctx.fillStyle = SEA[S]; ctx.fill(paths.tidal); ctx.restore(); }
+    { const b = batch(); G.bars.forEach((p, i) => { if (tide === 'low' || i < 2) b.at('#ead8a8').addPath(p.path); }); b.fill(); }
+
+    // what grows and what lies about
+    { const b = batch(), s = batch(); for (const p of D.scree) dot(s.at('rgba(150,146,168,0.75)'), p.x, p.y, 1.4 + p.a * 1.8); s.fill(false);
+      for (const p of D.crags) { const n = 5 + Math.floor(p.a * 3), rr = 6 + p.b * 9, q = b.at(['#9d99ae', '#aeabbd', '#8f8ba2'][Math.floor(p.c * 3)]);
+        for (let i = 0; i < n; i++) { const a = p.c * TAU + (i / n) * TAU, d = rr * (0.75 + 0.35 * Math.abs(Math.sin(i * 2.3 + p.a * 9))), x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d * 0.8; i ? q.lineTo(x, y) : q.moveTo(x, y); } q.closePath(); }
+      b.fill(); const c = batch(), rim = batch(); for (const [x, y] of G.caves) { const q = c.at('#3b3648'); q.moveTo(x - 9, y); q.arc(x, y, 9, Math.PI, 0); q.closePath(); const e = rim.at('#e2e0ea'); e.moveTo(x - 10, y); e.arc(x, y, 10, Math.PI, 0); } c.fill(false); rim.stroke(2.2); }
+    { const b = batch(), fruit = batch(), share = S === 'autumn' ? 1 : S === 'summer' ? 0.3 : 0;
+      for (const p of D.trees) { const r = (cold ? 6 : 8) + p.a * 8; dot(b.at(TREES[S][Math.floor(p.c * 3)]), p.x, p.y, r);
+        if (p.b < share) for (const [dx, dy] of [[p.c - 0.5, p.a - 0.5], [p.a - 0.5, p.b - 0.4], [0.3 - p.b * 0.5, p.c - 0.6]]) dot(fruit.at('#d9412f'), p.x + dx * r * 1.3, p.y + dy * r * 1.3, 2); }
+      b.fill(); fruit.fill(false); const logs = batch(); for (const p of D.logs) { const a = p.a * Math.PI, q = logs.at('#8a6a4a'); q.moveTo(p.x - Math.cos(a) * 8, p.y - Math.sin(a) * 8); q.lineTo(p.x + Math.cos(a) * 8, p.y + Math.sin(a) * 8); } logs.stroke(4.5); }
+    { const b = batch(); D.scrub.forEach((p, i) => { if (cold && i % 2) return; dot(b.at(SCRUB[S][Math.floor(p.c * 3)]), p.x, p.y, 3 + p.a * 3.5); }); b.fill();
+      if (S === 'spring') { const t = batch(); for (const p of D.sprouts) { const q = t.at('#5f9a3e'); q.moveTo(p.x - 2.5, p.y - 5); q.lineTo(p.x, p.y); q.lineTo(p.x + 2.5, p.y - 5); } t.stroke(1.6); }
+      if (S === 'summer') { const e = batch(); for (const p of D.embers) dot(e.at(p.a < 0.5 ? '#ffb347' : '#ec6a2a'), p.x, p.y, 1.6 + p.b * 1.6); e.fill(false); } }
+    { const n = { spring: 120, summer: 190, autumn: 130, winter: 0 }[S], t = batch(), h = S === 'summer' ? 8 : 5.5;
+      D.tufts.slice(0, n).forEach((p) => { const q = t.at(S === 'autumn' ? 'rgba(160,130,50,0.7)' : 'rgba(90,150,70,0.7)'); q.moveTo(p.x - 3.4, p.y - h); q.lineTo(p.x, p.y); q.lineTo(p.x + 3.4, p.y - h); }); t.stroke(1.8);
+      const fl = D.flowers.slice(0, { spring: 150, summer: 95, autumn: 70, winter: 0 }[S]), b = batch(), c = batch();
+      for (const p of fl) { if (S === 'autumn') { dot(c.at('#a8843a'), p.x, p.y, 1.8); continue; } const q = b.at(['#ffffff', '#f7b9cc', '#fbdc6a'][Math.floor(p.c * 3)]); for (let i = 0; i < 5; i++) { const a = (i / 5) * TAU + p.a; dot(q, p.x + Math.cos(a) * 2.6, p.y + Math.sin(a) * 2.6, 2.1); } dot(c.at('#e9a23a'), p.x, p.y, 1.5); }
+      b.fill(); c.fill(false); const tr = batch(); for (const p of D.copse) dot(tr.at(TREES[S][p.b < 0.5 ? 0 : 1]), p.x, p.y, (cold ? 5 : 7) + p.a * 5); tr.fill(); }
+    { const t = batch(); if (!cold) for (const p of D.lakeTufts) { const q = t.at(S === 'autumn' ? 'rgba(150,130,60,0.7)' : 'rgba(70,140,80,0.7)'); q.moveTo(p.x - 3, p.y - 5.5); q.lineTo(p.x, p.y); q.lineTo(p.x + 3, p.y - 5.5); } t.stroke(1.7);
+      const tr = batch(); for (const p of D.lakeTrees) dot(tr.at(TREES[S][Math.floor(p.c * 3)]), p.x, p.y, (cold ? 5 : 7) + p.a * 5); tr.fill();
+      const rs = batch(); D.fringe.forEach((p, i) => { if (cold && i % 3) return; const q = rs.at(cold ? '#a39a78' : S === 'autumn' ? '#9a8742' : '#5f8a3e'), hgt = (cold ? 4 : 8) + p.a * 4; q.moveTo(p.x, p.y); q.lineTo(p.x + (p.b - 0.5) * 4, p.y - hgt); }); rs.stroke(1.8);
+      if (S === 'summer' || S === 'spring') { const pads = batch(), fl = batch(); D.lilies.slice(0, S === 'summer' ? 30 : 14).forEach((p) => { const rr = 4.5 + p.a * 3.5, a = p.b * TAU, q = pads.at('#6fb77c'); q.moveTo(p.x, p.y); q.arc(p.x, p.y, rr, a + 0.35, a + TAU - 0.35); q.closePath(); if (p.c < 0.4) dot(fl.at('#fbe3ea'), p.x + 1, p.y - 0.5, 1.9); }); pads.fill(); fl.fill(false); }
+      sheet(G.island, P('lakeland'), 0.5); const it = batch(); for (const p of D.isle) dot(it.at(TREES[S][p.a < 0.5 ? 0 : 1]), p.x, p.y, cold ? 4 : 5.5); it.fill(); }
+    { const share = { spring: 0.45, summer: 1, autumn: 1, winter: 0.25 }[S], stem = batch(), head = batch(), col = cold ? '#a39a78' : S === 'autumn' ? '#9a8742' : '#5f8a3e';
+      for (const p of D.clumps) for (let i = 0; i < 8; i++) { const u = Math.abs(Math.sin(p.a * 99 + i * 7.3)), v = Math.abs(Math.sin(p.b * 77 + i * 3.1)); if (u * 0.999 > share && i > 1) continue;
+        const x = p.x + (u - 0.5) * 22, y = p.y + (v - 0.5) * 14, hgt = (cold ? 4 : S === 'spring' ? 6.5 : 10) + v * 4, lean = (u - 0.5) * 4, q = stem.at(col); q.moveTo(x, y); q.lineTo(x + lean, y - hgt);
+        if (S === 'summer' || S === 'autumn') { const e = head.at(S === 'autumn' ? '#7a5a2c' : '#8a7a3c'); e.moveTo(x + lean, y - hgt); e.lineTo(x + lean * 1.2, y - hgt - 3.2); } }
+      stem.stroke(1.8); head.stroke(2.8); const sn = batch(); for (const p of D.snags) { const q = sn.at('#6f675c'); q.moveTo(p.x, p.y); q.lineTo(p.x, p.y - 10); q.moveTo(p.x, p.y - 5); q.lineTo(p.x - 4, p.y - 10); q.moveTo(p.x, p.y - 6.5); q.lineTo(p.x + 4, p.y - 11.5); } sn.stroke(1.8); }
+    { const lit = batch(), shade = batch(); for (const p of D.ridges) { const r = 9 + p.a * 12, s = shade.at('rgba(150,120,70,0.32)'), l = lit.at('#fbf0cb'); s.moveTo(p.x - r, p.y + 2.6); s.quadraticCurveTo(p.x + r * 0.2, p.y - r * 0.55 + 2.6, p.x + r, p.y + 2.6); l.moveTo(p.x - r, p.y); l.quadraticCurveTo(p.x + r * 0.2, p.y - r * 0.55, p.x + r, p.y); }
+      shade.stroke(3); lit.stroke(3); const t = batch(); for (const p of D.dTufts) { const q = t.at(cold ? 'rgba(140,140,100,0.7)' : 'rgba(110,140,80,0.75)'); q.moveTo(p.x - 2.5, p.y - 5); q.lineTo(p.x, p.y); q.lineTo(p.x + 2.5, p.y - 5); } t.stroke(1.6);
+      const hp = batch(); if (!cold) for (const p of D.hollowPlants) dot(hp.at(S === 'autumn' ? '#8a8a44' : '#4f9a58'), p.x, p.y, 1.6 + p.a * 1.8); hp.fill(false);
+      const dr = batch(); for (const p of D.drift) dot(dr.at(p.a < 0.6 ? '#6f5a44' : '#8a7458'), p.x, p.y, 1.2 + p.a * 1.4); dr.fill(false); }
+
+    // paper grain, names, and the scale
+    if (!grain) { const g = document.createElement('canvas'); g.width = g.height = 128; const gc = g.getContext('2d'), id = gc.createImageData(128, 128), gr = rng(77);
+      for (let i = 0; i < id.data.length; i += 4) { const v = 150 + gr() * 105; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; } gc.putImageData(id, 0, 0); grain = g; }
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = 0.2; ctx.fillStyle = ctx.createPattern(grain, 'repeat'); ctx.fillRect(0, 0, cv.width, cv.height); ctx.restore();
+    const zoomed = view !== 'basin', fs = zoomed ? Math.max(20, 15 * upx) / V.s : Math.max(26, 13 * upx);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    const write = (t, x, y, size, ink) => { ctx.lineWidth = size * 0.24; ctx.strokeStyle = 'rgba(255,255,255,0.78)'; ctx.strokeText(t, x, y); ctx.fillStyle = ink; ctx.fillText(t, x, y); };
+    if (zoomed) { const fq = Math.max(13, 10.5 * upx) / V.s; ctx.font = `500 ${fq}px "JetBrains Mono", ui-monospace, monospace`;
+      for (const k of ORDER) for (const [t, x, y] of FEAT[k]) { const text = typeof t === 'function' ? t(S, tide) : t; if (text) write(text, x, y, fq, '#28434a'); } }
+    ctx.font = `700 ${fs}px "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif`;
+    for (const k of ORDER) write(FACTS[k].name, NAMEAT[k][0], NAMEAT[k][1], fs, '#1d2e30');
+    ctx.setTransform(k0, 0, 0, k0, 0, 0);
+    const fw = SW * V.s, fh = SH * V.s, fx = 16, fy = H - 10 - fh, n = zoomed ? 5 : 10, bx = fx + fw + 14, by = H - 17;
+    const rule = new Path2D(); rule.moveTo(bx, by); rule.lineTo(bx + n * fw, by); for (let i = 0; i <= n; i++) { rule.moveTo(bx + i * fw, by - 7); rule.lineTo(bx + i * fw, by); }
+    const frame = new Path2D(); frame.roundRect(fx, fy, fw, fh, 5 * V.s);
+    ctx.save(); ctx.lineCap = 'round'; ctx.lineWidth = 5.5; ctx.strokeStyle = 'rgba(255,255,255,0.75)'; ctx.stroke(rule); ctx.stroke(frame);
+    ctx.lineWidth = 2.4; ctx.strokeStyle = '#1d2e30'; ctx.stroke(rule); ctx.setLineDash([7, 6]); ctx.stroke(frame); ctx.restore();
+  }
+
+  // ---------- the card and the controls ----------
+  const NORTH_FIRST = ['highlands', 'woodland', 'heath', 'grassland', 'lakeland', 'marsh', 'dunes', 'tidal'];
+  function card() { const f = FACTS[selected]; document.getElementById('b-where').textContent = f.where; document.getElementById('b-name').textContent = f.name;
+    const dl = document.getElementById('b-facts'); dl.textContent = ''; for (const [k, v] of f.rows) { const w = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = v; w.append(dt, dd); dl.append(w); }
+    document.getElementById('b-season').textContent = `In ${season}: ${f.season[season]}`;
+    for (const b of document.querySelectorAll('[data-biome]')) b.setAttribute('aria-pressed', String(b.dataset.biome === selected));
+    document.getElementById('scale-note').textContent = view === 'basin'
+      ? 'The dashed frame in the bottom corner is one phone screen at play zoom. The bar beside it is ten screens, about ten minutes\' walk.'
+      : 'The dashed frame is still one phone screen at play zoom. The bar beside it is five screens, about five minutes\' walk.'; }
+  function fit() { const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.round((cv.clientWidth || 400) * dpr); cv.width = w; cv.height = Math.round(w * H / W); draw(); }
+  const refresh = () => { draw(); card(); };
+  const holder = document.getElementById('biomes');
+  for (const k of NORTH_FIRST) { const b = document.createElement('button'); b.type = 'button'; b.dataset.biome = k; b.textContent = FACTS[k].name; b.setAttribute('aria-pressed', 'false'); b.addEventListener('click', () => { selected = k; refresh(); }); holder.append(b); }
+  cv.addEventListener('pointerdown', (e) => { const b = cv.getBoundingClientRect(), x = (((e.clientX - b.left) / b.width) * W - V.tx) / V.s, y = (((e.clientY - b.top) / b.height) * H - V.ty) / V.s;
+    const got = [...ORDER].reverse().find((k) => hit(paths[k], x, y)); if (got && y < 1226) { selected = got; refresh(); } });
+  const group = (attr, set) => { for (const b of document.querySelectorAll(`[data-${attr}]`)) b.addEventListener('click', () => { set(b.dataset[attr]); for (const o of document.querySelectorAll(`[data-${attr}]`)) o.setAttribute('aria-pressed', String(o === b)); refresh(); }); };
+  group('season', (v) => { season = v; }); group('tide', (v) => { tide = v; }); group('view', (v) => { view = v; });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fit, 120); });
+  fit(); card(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+})();
+</script>

@@ -1,0 +1,347 @@
+[
+ {
+  "label": "Plan: no front",
+  "id": "plan",
+  "n": 624
+ },
+ {
+  "label": "Length: least and most",
+  "id": "length",
+  "n": 718
+ },
+ {
+  "label": "Width: least and most",
+  "id": "width",
+  "n": 583
+ },
+ {
+  "label": "Taper: least and most",
+  "id": "taper",
+  "n": 159
+ },
+ {
+  "label": "Size: least and most",
+  "id": "size",
+  "n": 1156
+ },
+ {
+  "label": "Gut: least and most",
+  "id": "gut",
+  "n": 173
+ },
+ {
+  "label": "Fat: least and most",
+  "id": "fat",
+  "n": 59
+ },
+ {
+  "label": "Muscle: least and most",
+  "id": "muscle",
+  "n": 59
+ },
+ {
+  "label": "Lungs: least and most",
+  "id": "lungs",
+  "n": 196
+ },
+ {
+  "label": "Brood: least and most",
+  "id": "brood",
+  "n": 183
+ },
+ {
+  "label": "Skin on its front: bristles",
+  "id": "skinFront",
+  "n": 50
+ },
+ {
+  "label": "Skin on its front: slime",
+  "id": "skinFront",
+  "n": 37
+ },
+ {
+  "label": "Skin on its front: spikes",
+  "id": "skinFront",
+  "n": 47
+ },
+ {
+  "label": "Skin on its front: shell",
+  "id": "skinFront",
+  "n": 197
+ },
+ {
+  "label": "Skin on its sides: bristles",
+  "id": "skinFlanks",
+  "n": 55
+ },
+ {
+  "label": "Skin on its sides: slime",
+  "id": "skinFlanks",
+  "n": 66
+ },
+ {
+  "label": "Skin on its sides: spikes",
+  "id": "skinFlanks",
+  "n": 38
+ },
+ {
+  "label": "Skin on its sides: shell",
+  "id": "skinFlanks",
+  "n": 79
+ },
+ {
+  "label": "Skin on its back: bristles",
+  "id": "skinBack",
+  "n": 174
+ },
+ {
+  "label": "Skin on its back: slime",
+  "id": "skinBack",
+  "n": 67
+ },
+ {
+  "label": "Skin on its back: spikes",
+  "id": "skinBack",
+  "n": 59
+ },
+ {
+  "label": "Skin on its back: shell",
+  "id": "skinBack",
+  "n": 251
+ },
+ {
+  "label": "Camouflage: grass",
+  "id": "camo",
+  "n": 55
+ },
+ {
+  "label": "Camouflage: reed",
+  "id": "camo",
+  "n": 40
+ },
+ {
+  "label": "Camouflage: sand",
+  "id": "camo",
+  "n": 148
+ },
+ {
+  "label": "Camouflage: rock",
+  "id": "camo",
+  "n": 201
+ },
+ {
+  "label": "Camouflage: mud",
+  "id": "camo",
+  "n": 144
+ },
+ {
+  "label": "Camouflage: leaf litter",
+  "id": "camo",
+  "n": 253
+ },
+ {
+  "label": "False eyes",
+  "id": "falseEyes",
+  "n": 27
+ },
+ {
+  "label": "A tail that sheds",
+  "id": "shedTail",
+  "n": 20
+ },
+ {
+  "label": "Ink",
+  "id": "ink",
+  "n": 131
+ },
+ {
+  "label": "Eyes: facing forward",
+  "id": "eyes",
+  "n": 24
+ },
+ {
+  "label": "Eyes: on the sides",
+  "id": "eyes",
+  "n": 26
+ },
+ {
+  "label": "Eyes: on stalks",
+  "id": "eyes",
+  "n": 35
+ },
+ {
+  "label": "Eye size: least and most",
+  "id": "eyeSize",
+  "n": 48
+ },
+ {
+  "label": "Nose",
+  "id": "nose",
+  "n": 120
+ },
+ {
+  "label": "Ears",
+  "id": "ears",
+  "n": 37
+ },
+ {
+  "label": "Touch",
+  "id": "whiskers",
+  "n": 41
+ },
+ {
+  "label": "Side line",
+  "id": "sideLine",
+  "n": 15
+ },
+ {
+  "label": "Heat pits",
+  "id": "heatPits",
+  "n": 14
+ },
+ {
+  "label": "Echo",
+  "id": "ping",
+  "n": 94
+ },
+ {
+  "label": "Compass",
+  "id": "compass",
+  "n": 17
+ },
+ {
+  "label": "Moves on: stilts",
+  "id": "mover",
+  "n": 251
+ },
+ {
+  "label": "Moves on: webbed feet",
+  "id": "mover",
+  "n": 26
+ },
+ {
+  "label": "Moves on: fins",
+  "id": "mover",
+  "n": 67
+ },
+ {
+  "label": "Moves on: paddles",
+  "id": "mover",
+  "n": 79
+ },
+ {
+  "label": "Moves on: a skirt of cilia",
+  "id": "mover",
+  "n": 109
+ },
+ {
+  "label": "Moves on: one broad foot",
+  "id": "mover",
+  "n": 115
+ },
+ {
+  "label": "Moves on: body waves",
+  "id": "mover",
+  "n": 166
+ },
+ {
+  "label": "Tail fin",
+  "id": "tailFin",
+  "n": 198
+ },
+ {
+  "label": "Wings",
+  "id": "wings",
+  "n": 289
+ },
+ {
+  "label": "Mouth: jaws",
+  "id": "mouth",
+  "n": 125
+ },
+ {
+  "label": "Mouth: locking jaws",
+  "id": "mouth",
+  "n": 375
+ },
+ {
+  "label": "Mouth: tongue",
+  "id": "mouth",
+  "n": 120
+ },
+ {
+  "label": "Mouth: beak",
+  "id": "mouth",
+  "n": 188
+ },
+ {
+  "label": "Sting: front",
+  "id": "sting",
+  "n": 399
+ },
+ {
+  "label": "Sting: rear",
+  "id": "sting",
+  "n": 215
+ },
+ {
+  "label": "Horns",
+  "id": "horns",
+  "n": 216
+ },
+ {
+  "label": "Digging claws",
+  "id": "claws",
+  "n": 34
+ },
+ {
+  "label": "Club tail",
+  "id": "club",
+  "n": 199
+ },
+ {
+  "label": "Grip: suckers",
+  "id": "grip",
+  "n": 97
+ },
+ {
+  "label": "Grip: hooks",
+  "id": "grip",
+  "n": 182
+ },
+ {
+  "label": "Grip: arms",
+  "id": "grip",
+  "n": 195
+ },
+ {
+  "label": "Pouch",
+  "id": "pouch",
+  "n": 74
+ },
+ {
+  "label": "Gland that gives",
+  "id": "gland",
+  "n": 34
+ },
+ {
+  "label": "Voice: least and most",
+  "id": "voice",
+  "n": 47
+ },
+ {
+  "label": "Scent glands",
+  "id": "scent",
+  "n": 22
+ },
+ {
+  "label": "Glow",
+  "id": "glow",
+  "n": 294
+ },
+ {
+  "label": "Crest",
+  "id": "crest",
+  "n": 61
+ }
+]

@@ -1,0 +1,476 @@
+<title>Microbes or Critters</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: two live tanks compared side by side, then one card per species holding both portraits. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --card: #ffffff; --line: #d2dcd7;
+    --micro: #0e6f7d; --crit: #b8355b; --press: #17282b; --press-ink: #f3f7f5;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42;
+      --micro: #5cc9d7; --crit: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --card: #172629; --line: #2b3f42;
+    --micro: #5cc9d7; --crit: #ff8fab; --press: #e7efec; --press-ink: #10201f; color-scheme: dark;
+  }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap {
+    max-width: 1060px; margin: 0 auto; padding-block: 28px 56px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: flex; flex-direction: column; gap: 30px;
+  }
+  header { display: flex; flex-direction: column; gap: 8px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 6vw, 46px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.2; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .lede { max-width: 62ch; color: var(--muted); }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .label { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+  button {
+    font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  button:hover { border-color: var(--ink); }
+  button:focus-visible { outline: 2px solid var(--micro); outline-offset: 2px; }
+  button[aria-pressed="true"], button.primary { background: var(--press); color: var(--press-ink); border-color: var(--press); }
+
+  .tanks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 18px; }
+  figure { margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .tank { width: 100%; aspect-ratio: 4 / 3; display: block; border-radius: 14px; touch-action: manipulation; cursor: pointer; max-width: 100%; }
+  figcaption { display: flex; flex-direction: column; gap: 2px; }
+  .style-name { font-family: var(--display); font-weight: 700; font-size: 18px; }
+  .style-name.m { color: var(--micro); }
+  .style-name.c { color: var(--crit); }
+  .note { color: var(--muted); font-size: 14px; }
+
+  .cards { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 560px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 940px) { .cards { grid-template-columns: repeat(4, 1fr); } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .card h3 { font-family: var(--display); font-weight: 700; font-size: 19px; margin: 0; }
+  .traits { font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: 0.02em; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pair canvas { width: 100%; aspect-ratio: 1; display: block; max-width: 100%; }
+  .pair span { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .pair .m { color: var(--micro); }
+  .pair .c { color: var(--crit); }
+  .pair figure { gap: 4px; align-items: center; }
+
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--line); }
+  thead th { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  thead th.m { color: var(--micro); }
+  thead th.c { color: var(--crit); }
+  tbody th { font-weight: 600; }
+  section { display: flex; flex-direction: column; gap: 14px; }
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="kicker">Creature style trial · first pass</p>
+    <h1>Microbes or critters?</h1>
+    <p class="lede">The same four species, drawn two ways. <strong>Everything here is drawn and animated by code</strong> from each species' parts: eyes, ears, tail, limbs and pattern. Nothing is hand-animated. Tap either tank to call the creatures over.</p>
+  </header>
+
+  <div class="controls">
+    <button class="primary" id="shuffle" type="button">Shuffle species</button>
+    <div class="seg" role="group" aria-label="Mood">
+      <span class="label" style="align-self:center">Mood</span>
+      <button type="button" data-mood="calm" aria-pressed="true">Calm</button>
+      <button type="button" data-mood="hungry" aria-pressed="false">Hungry</button>
+      <button type="button" data-mood="scared" aria-pressed="false">Scared</button>
+      <button type="button" data-mood="charmed" aria-pressed="false">Charmed</button>
+      <button type="button" data-mood="sleepy" aria-pressed="false">Sleepy</button>
+    </div>
+  </div>
+
+  <div class="tanks">
+    <figure>
+      <canvas class="tank" id="tank-m" aria-label="Animated tank of the four species drawn as microbes"></canvas>
+      <figcaption><span class="style-name m">Microbes</span><span class="note">Translucent cells under a microscope: membranes, flagella, cilia, eyespots.</span></figcaption>
+    </figure>
+    <figure>
+      <canvas class="tank" id="tank-c" aria-label="Animated tank of the four species drawn as soft critters"></canvas>
+      <figcaption><span class="style-name c">Soft critters</span><span class="note">Small soft animals in a pond, seen from above: faces, ears, tails, stubby legs.</span></figcaption>
+    </figure>
+  </div>
+
+  <section>
+    <h2>Portraits</h2>
+    <p class="lede">A portrait is what would appear on a species card, in the daily recap and when you check in on one individual. It follows the mood chosen above.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section>
+    <h2>How the two compare</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th class="m">Microbes</th><th class="c">Soft critters</th></tr></thead>
+        <tbody>
+          <tr><th>Feel</th><td>Life on a microscope slide</td><td>Small animals in a pond or terrarium</td></tr>
+          <tr><th>Expression</th><td>Eyes and movement only</td><td>A whole face: brows, mouth, blush</td></tr>
+          <tr><th>Portraits</th><td>A specimen under glass</td><td>A character you could name</td></tr>
+          <tr><th>Telling species apart</th><td>Parts read as texture, so species can blur together</td><td>Ears, tails and limbs change the outline</td></tr>
+          <tr><th>Art effort</th><td>Lowest</td><td>Low: one body, plus parts that attach to it</td></tr>
+          <tr><th>Main risk</th><td>Hard to care about one individual</td><td>Faces need careful design to stay charming</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const TAU = Math.PI * 2;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rng = (a) => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const col = (h, s, l, a = 1) => `hsla(${Math.round(h)},${s}%,${l}%,${a})`;
+  const lerpA = (a, b, t) => a + ((((b - a) % TAU) + TAU * 1.5) % TAU - Math.PI) * t;
+  const NAMES = ['Mossback', 'Pibble', 'Quillow', 'Bramblet', 'Noodle', 'Tufty', 'Glimmer', 'Wumple', 'Sprocket', 'Dabble', 'Fennick', 'Thimble', 'Bogwort', 'Skitter', 'Pookin', 'Lumen', 'Hobnob', 'Squill', 'Burble', 'Tansy'];
+  const MOODS = { calm: { speed: 18, jitter: 2.2 }, hungry: { speed: 27, jitter: 3 }, scared: { speed: 50, jitter: 9 }, charmed: { speed: 13, jitter: 1.6 }, sleepy: { speed: 3, jitter: 0.6 } };
+  const W = 400, H = 300;
+  let seed = 3, species = [], mood = 'calm', tanks = [], portraits = [];
+
+  function shuffled(arr, r) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function makeSpecies() {
+    const r = rng(seed * 9973 + 11);
+    const ears = shuffled(['none', 'round', 'point', 'antenna'], r), tails = shuffled(['whip', 'fan', 'none', 'whip'], r);
+    const limbs = shuffled(['legs', 'fins', 'none', 'legs'], r), pats = shuffled(['plain', 'spots', 'stripes', 'belly'], r);
+    const eyes = shuffled([2, 2, 1, 3], r), names = shuffled(NAMES, r), base = r() * 360;
+    species = [0, 1, 2, 3].map((i) => ({
+      name: names[i], hue: (base + i * 90 + r() * 30) % 360, size: 0.84 + r() * 0.38, stretch: 1.05 + r() * 0.45,
+      eyes: eyes[i], ears: ears[i], tail: tails[i], limbs: limbs[i], pattern: pats[i], k: r() * 100,
+    }));
+  }
+
+  // ------------------------------------------------------------ small drawing helpers
+  function ell(ctx, x, y, rx, ry, rot, fill, stroke, lw) {
+    ctx.beginPath(); ctx.ellipse(x, y, Math.max(0.1, rx), Math.max(0.1, ry), rot, 0, TAU);
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+  }
+  function heart(ctx, x, y, s, fill) {
+    ctx.beginPath(); ctx.moveTo(x, y + s * 0.55);
+    ctx.bezierCurveTo(x - s * 1.25, y - s * 0.25, x - s * 0.55, y - s * 1.05, x, y - s * 0.3);
+    ctx.bezierCurveTo(x + s * 0.55, y - s * 1.05, x + s * 1.25, y - s * 0.25, x, y + s * 0.55);
+    ctx.fillStyle = fill; ctx.fill();
+  }
+  // One eye. o: { look:[x,y], closed, tiny, heart, lid }  (lid = colour used to close the eye)
+  function eye(ctx, x, y, R, o) {
+    if (o.closed) {
+      ell(ctx, x, y, R, R, 0, o.lid, o.line, R * 0.14);
+      ctx.beginPath(); ctx.arc(x, y - R * 0.1, R * 0.6, 0.15 * Math.PI, 0.85 * Math.PI); ctx.strokeStyle = o.line; ctx.lineWidth = Math.max(1, R * 0.2); ctx.stroke();
+      return;
+    }
+    ell(ctx, x, y, R, R, 0, '#ffffff', o.line, Math.max(0.8, R * 0.14));
+    const px = x + o.look[0] * R * 0.32, py = y + o.look[1] * R * 0.32;
+    if (o.heart) heart(ctx, px, py + R * 0.05, R * 0.5, '#e8436f');
+    else {
+      const pr = R * (o.tiny ? 0.28 : 0.56);
+      ell(ctx, px, py, pr, pr, 0, '#1c2430');
+      ell(ctx, px - pr * 0.3, py - pr * 0.35, pr * 0.32, pr * 0.32, 0, '#ffffff');
+    }
+  }
+  function emote(ctx, x, y, kind, t, s = 1) {
+    if (!kind) return;
+    const bob = Math.sin(t * 3 + x) * 1.2 * s; y += bob;
+    ell(ctx, x, y, 8 * s, 8 * s, 0, 'rgba(255,255,255,0.94)', 'rgba(20,40,45,0.25)', 1);
+    if (kind === 'heart') heart(ctx, x, y + 0.5 * s, 4.2 * s, '#e8436f');
+    else if (kind === 'leaf') { ctx.save(); ctx.translate(x, y); ctx.rotate(-0.6); ell(ctx, 0, 0, 5 * s, 2.6 * s, 0, '#4fae6e'); ctx.restore(); }
+    else { ctx.fillStyle = kind === '!' ? '#d64545' : '#4a6fb3'; ctx.font = `700 ${11 * s}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(kind, x, y + 0.5 * s); }
+  }
+  const moodEmote = (m) => ({ calm: null, hungry: 'leaf', scared: '!', charmed: 'heart', sleepy: 'z' }[m]);
+  const eyeSpots = (sp, L, r) => sp.eyes === 1 ? [[L * 0.5, 0, 1.3]] : sp.eyes === 3 ? [[L * 0.42, r * 0.46, 1], [L * 0.42, -r * 0.46, 1], [L * 0.76, 0, 0.7]] : [[L * 0.48, r * 0.43, 1], [L * 0.48, -r * 0.43, 1]];
+
+  // ------------------------------------------------------------ soft critter, seen from above (x is forward)
+  function critterTop(ctx, sp, t, o) {
+    const r = 13 * sp.size, L = r * sp.stretch, h = sp.hue;
+    const body = col(h, 62, 65), dark = col(h, 42, 30), light = col(h, 70, 84), acc = col((h + 35) % 360, 72, 74), mark = col(h, 48, 46, 0.55);
+    const moving = o.v > 2 ? 1 : 0.25, hop = Math.sin(t * (5 + o.v * 0.2) + o.phase) * 0.05 * moving;
+    const sx = 1 + hop, sy = 1 - hop;
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    if (sp.limbs === 'legs') for (const [fx, side, ph] of [[0.42, 1, 0], [0.42, -1, Math.PI], [-0.42, 1, Math.PI], [-0.42, -1, 0]]) {
+      const sw = Math.sin(t * (7 + o.v * 0.25) + ph + o.phase) * r * 0.24 * moving;
+      ell(ctx, L * fx + sw, side * r * 0.9, r * 0.32, r * 0.24, 0, body, dark, 1.6);
+    }
+    if (sp.limbs === 'fins') for (const side of [1, -1]) {
+      const fl = Math.sin(t * 5 + o.phase) * 0.3;
+      ctx.save(); ctx.translate(L * 0.1, side * r * 0.78); ctx.rotate(side * (2.3 + fl));
+      ell(ctx, r * 0.5, 0, r * 0.62, r * 0.27, 0, acc, dark, 1.6); ctx.restore();
+    }
+    if (sp.ears === 'round') for (const s of [1, -1]) { ell(ctx, L * 0.2, s * r * 0.92, r * 0.36, r * 0.36, 0, body, dark, 1.8); ell(ctx, L * 0.2, s * r * 0.95, r * 0.19, r * 0.19, 0, acc); }
+    if (sp.ears === 'point') for (const s of [1, -1]) {
+      ctx.beginPath(); ctx.moveTo(L * 0.42, s * r * 0.62); ctx.lineTo(L * 0.3, s * r * 1.5); ctx.lineTo(-L * 0.1, s * r * 0.82); ctx.closePath();
+      ctx.fillStyle = body; ctx.fill(); ctx.strokeStyle = dark; ctx.lineWidth = 1.8; ctx.stroke();
+    }
+    ell(ctx, 0, 0, L * sx, r * sy, 0, body, dark, 2);
+    ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, L * sx, r * sy, 0, 0, TAU); ctx.clip();
+    if (sp.pattern === 'spots') for (const [px, py, pr] of [[-0.55, -0.35, 0.3], [-0.2, 0.4, 0.24], [-0.75, 0.3, 0.2], [0.05, -0.55, 0.18]]) ell(ctx, L * px, r * py, r * pr, r * pr, 0, mark);
+    if (sp.pattern === 'stripes') for (let i = 0; i < 3; i++) { ctx.fillStyle = mark; ctx.fillRect(-L * 0.85 + i * L * 0.34, -r * 1.2, L * 0.15, r * 2.4); }
+    if (sp.pattern === 'belly') ell(ctx, -L * 0.2, 0, L * 0.55, r * 0.5, 0, col(h, 70, 84, 0.7));
+    ell(ctx, -L * 0.15, -r * 0.55, L * 0.5, r * 0.2, 0, 'rgba(255,255,255,0.22)');
+    ctx.restore();
+    if (sp.ears === 'antenna') for (const s of [1, -1]) {
+      const wob = Math.sin(t * 4 + o.phase + s) * r * 0.12, ex = L * 1.3, ey = s * r * 0.7 + wob;
+      ctx.beginPath(); ctx.moveTo(L * 0.75, s * r * 0.3); ctx.quadraticCurveTo(L * 1.05, s * r * 0.35, ex, ey); ctx.strokeStyle = dark; ctx.lineWidth = 1.6; ctx.stroke();
+      ell(ctx, ex, ey, r * 0.17, r * 0.17, 0, acc, dark, 1.4);
+    }
+    for (const s of [1, -1]) ell(ctx, L * 0.16, s * r * 0.66, r * 0.2, r * 0.13, 0, o.mood === 'charmed' ? 'rgba(240,90,130,0.75)' : 'rgba(240,110,140,0.4)');
+    const closed = o.mood === 'sleepy' || o.blink < 0;
+    for (const [ex, ey, k] of eyeSpots(sp, L, r)) eye(ctx, ex, ey, r * 0.34 * k, { look: o.look, closed, tiny: o.mood === 'scared', heart: o.mood === 'charmed' || o.love > 0, lid: body, line: dark });
+  }
+  function critterTail(ctx, sp, a) {
+    if (sp.tail === 'none') return;
+    const r = 13 * sp.size, h = sp.hue, body = col(h, 62, 65), dark = col(h, 42, 30), acc = col((h + 35) % 360, 72, 74);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    const pts = a.tail, n = pts.length;
+    for (const pass of [0, 1]) for (let i = 1; i < n; i++) {
+      const w = r * (0.5 - 0.36 * (i / n));
+      ctx.beginPath(); ctx.moveTo(pts[i - 1].x, pts[i - 1].y); ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.strokeStyle = pass ? body : dark; ctx.lineWidth = pass ? w : w + 3.2; ctx.stroke();
+    }
+    if (sp.tail === 'fan') {
+      const p = pts[n - 1], q = pts[n - 2], ang = Math.atan2(p.y - q.y, p.x - q.x);
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(ang);
+      ctx.beginPath(); ctx.moveTo(-r * 0.1, 0); ctx.quadraticCurveTo(r * 0.5, -r * 0.75, r * 0.95, -r * 0.5); ctx.quadraticCurveTo(r * 0.6, 0, r * 0.95, r * 0.5); ctx.quadraticCurveTo(r * 0.5, r * 0.75, -r * 0.1, 0); ctx.closePath();
+      ctx.fillStyle = acc; ctx.fill(); ctx.strokeStyle = dark; ctx.lineWidth = 1.6; ctx.stroke(); ctx.restore();
+    }
+  }
+
+  // ------------------------------------------------------------ microbe, seen from above (x is forward)
+  function microbeTop(ctx, sp, t, o) {
+    const r = 13 * sp.size, L = r * sp.stretch, h = sp.hue, r2 = rng(Math.floor(sp.k * 1000) + 5);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    const nF = sp.tail === 'whip' ? 1 : sp.tail === 'fan' ? 3 : 0;
+    for (let i = 0; i < nF; i++) {
+      const off = (i - (nF - 1) / 2) * r * 0.4; ctx.beginPath();
+      for (let s = 0; s <= 1.001; s += 0.05) { const x = -L * 0.92 - s * L * 1.7, y = off + Math.sin(s * 9 - t * (8 + o.v * 0.2) + i * 1.3 + o.phase) * r * 0.34 * s; s === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+      ctx.strokeStyle = col(h, 75, 80, 0.75); ctx.lineWidth = 1.3; ctx.stroke();
+    }
+    const edge = (th) => {
+      let k = 1 + 0.05 * Math.sin(3 * th + t * 1.7 + o.phase) + 0.035 * Math.sin(5 * th - t * 1.2 + o.phase);
+      if (sp.limbs === 'legs') k += 0.2 * Math.pow(Math.max(0, Math.sin(2 * th + o.phase + Math.sin(t * 0.8) * 0.9)), 3);
+      return [Math.cos(th) * L * k, Math.sin(th) * r * k];
+    };
+    if (sp.limbs === 'fins') { ctx.strokeStyle = col(h, 70, 82, 0.7); ctx.lineWidth = 1; for (let i = 0; i < 26; i++) { const th = (i / 26) * TAU; if (Math.abs(Math.cos(th)) > 0.86) continue; const [x, y] = edge(th), w = Math.sin(t * 9 + i * 0.9) * 0.35; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + Math.cos(th + w) * r * 0.42 - r * 0.12, y + Math.sin(th + w) * r * 0.42); ctx.stroke(); } }
+    if (sp.ears === 'point') for (const s of [0.5, 0, -0.5]) { const [x, y] = edge(s); ctx.beginPath(); ctx.moveTo(x * 0.95, y * 0.95); ctx.lineTo(x + Math.cos(s) * r * 0.55, y + Math.sin(s) * r * 0.55); ctx.strokeStyle = col(h, 80, 86, 0.9); ctx.lineWidth = 1.8; ctx.stroke(); }
+    if (sp.ears === 'antenna') for (const s of [0.35, -0.35]) { const [x, y] = edge(s), wob = Math.sin(t * 3 + s * 9) * 0.25; ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x + r * 0.6, y + s * r, x + Math.cos(s * 2 + wob) * r * 1.3, y + Math.sin(s * 2 + wob) * r * 1.3); ctx.strokeStyle = col(h, 75, 82, 0.8); ctx.lineWidth = 1; ctx.stroke(); }
+    if (sp.ears === 'round') for (const s of [0.7, -0.7]) { const [x, y] = edge(s); ell(ctx, x * 1.05, y * 1.05, r * 0.22, r * 0.22, 0, col(h, 75, 70, 0.45), col(h, 85, 85, 0.8), 1); }
+    ctx.beginPath(); for (let i = 0; i <= 44; i++) { const [x, y] = edge((i / 44) * TAU); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.closePath();
+    const g = ctx.createRadialGradient(L * 0.2, -r * 0.25, r * 0.1, 0, 0, L * 1.1);
+    g.addColorStop(0, col(h, 80, 76, 0.5)); g.addColorStop(1, col(h, 72, 46, 0.62));
+    ctx.fillStyle = g; ctx.fill();
+    ctx.save(); ctx.clip();
+    for (let i = 0; i < 12; i++) ell(ctx, (r2() - 0.5) * L * 1.6, (r2() - 0.5) * r * 1.5, r * 0.05 + r2() * r * 0.05, r * 0.06, 0, col(h, 60, 88, 0.45));
+    ell(ctx, -L * 0.22, r * 0.05, r * 0.42, r * 0.36, 0, col((h + 200) % 360, 45, 36, 0.7), col((h + 200) % 360, 60, 70, 0.6), 0.8);
+    ell(ctx, -L * 0.26, r * 0.02, r * 0.14, r * 0.14, 0, col((h + 200) % 360, 50, 24, 0.8));
+    if (sp.pattern === 'spots') for (const [px, py, pr] of [[-0.6, -0.4, 0.2], [0.05, 0.45, 0.17], [-0.7, 0.35, 0.14]]) ell(ctx, L * px, r * py, r * pr, r * pr, 0, 'rgba(255,255,255,0.14)', 'rgba(255,255,255,0.5)', 0.8);
+    if (sp.pattern === 'stripes') for (let i = 0; i < 3; i++) ell(ctx, -L * 0.62 + i * L * 0.3, -r * 0.42, L * 0.11, r * 0.2, 0.4, 'hsla(125,55%,52%,0.6)');
+    if (sp.pattern === 'belly') ell(ctx, -L * 0.55, -r * 0.1, r * 0.34, r * 0.3, 0, 'rgba(255,255,255,0.16)', 'rgba(255,255,255,0.55)', 0.9);
+    ctx.restore();
+    ctx.shadowColor = col(h, 90, 70, 0.7); ctx.shadowBlur = 7; ctx.strokeStyle = col(h, 85, 84, 0.95); ctx.lineWidth = 1.5; ctx.stroke(); ctx.shadowBlur = 0;
+    const closed = o.mood === 'sleepy' || o.blink < 0;
+    for (const [ex, ey, k] of eyeSpots(sp, L * 0.92, r * 0.9)) eye(ctx, ex, ey, r * 0.23 * k, { look: o.look, closed, tiny: o.mood === 'scared', heart: false, lid: col(h, 70, 60), line: col(h, 60, 24) });
+  }
+
+  // ------------------------------------------------------------ tanks
+  function makeTank(canvas, style) {
+    const r = rng(seed * 31 + (style === 'm' ? 7 : 19)), dr = rng(style === 'm' ? 404 : 808);
+    const tank = { canvas, ctx: canvas.getContext('2d'), style, r, agents: [], call: null, scale: 1 };
+    tank.decor = Array.from({ length: 46 }, () => ({ x: dr() * W, y: dr() * H, s: dr(), a: dr() * TAU }));
+    for (let si = 0; si < 4; si++) for (let j = 0; j < 2; j++) {
+      const a = { sp: si, x: 50 + r() * (W - 100), y: 45 + r() * (H - 90), h: r() * TAU, v: 0, turn: 0, phase: r() * TAU, blink: 1 + r() * 4, love: 0, tail: [] };
+      for (let i = 0; i < 7; i++) a.tail.push({ x: a.x - Math.cos(a.h) * (14 + i * 4), y: a.y - Math.sin(a.h) * (14 + i * 4) });
+      tank.agents.push(a);
+    }
+    canvas.addEventListener('pointerdown', (e) => {
+      const b = canvas.getBoundingClientRect();
+      tank.call = { x: ((e.clientX - b.left) / b.width) * W, y: ((e.clientY - b.top) / b.height) * H, t: 4 };
+      if (still) { for (let i = 0; i < 60; i++) stepTank(tank, 0.05); drawAll(performance.now() / 1000); }
+    });
+    return tank;
+  }
+  function stepTank(tank, dt) {
+    const m = MOODS[mood], r = tank.r;
+    if (tank.call && (tank.call.t -= dt) <= 0) tank.call = null;
+    for (const a of tank.agents) {
+      const sp = species[a.sp], rad = 13 * sp.size, L = rad * sp.stretch;
+      a.turn = (a.turn + (r() - 0.5) * m.jitter * dt * 6) * 0.96;
+      let target = a.h + a.turn * dt * 3, speed = m.speed * (0.8 + sp.size * 0.3);
+      if (a.x < 44 || a.x > W - 44 || a.y < 40 || a.y > H - 40) target = lerpA(a.h, Math.atan2(H / 2 - a.y, W / 2 - a.x), 0.07);
+      if (tank.call) {
+        const dx = tank.call.x - a.x, dy = tank.call.y - a.y, d = Math.hypot(dx, dy);
+        target = lerpA(a.h, Math.atan2(dy, dx), 0.16); speed = d > 30 ? 40 : 0; if (d < 48) a.love = 1.5;
+      }
+      a.h = target; a.v += (speed - a.v) * Math.min(1, dt * 3);
+      a.x = Math.max(16, Math.min(W - 16, a.x + Math.cos(a.h) * a.v * dt)); a.y = Math.max(16, Math.min(H - 16, a.y + Math.sin(a.h) * a.v * dt));
+      let px = a.x - Math.cos(a.h) * L * 0.85, py = a.y - Math.sin(a.h) * L * 0.85; const seg = rad * 0.42;
+      for (const p of a.tail) { const dx = p.x - px, dy = p.y - py, d = Math.hypot(dx, dy) || 1; p.x = px + (dx / d) * seg; p.y = py + (dy / d) * seg; px = p.x; py = p.y; }
+      a.blink -= dt; if (a.blink < -0.13) a.blink = 1.6 + r() * 4; a.love = Math.max(0, a.love - dt);
+    }
+    for (const a of tank.agents) for (const b of tank.agents) if (a !== b) {
+      const dx = a.x - b.x, dy = a.y - b.y, d = Math.hypot(dx, dy) || 1; if (d < 30) { a.x += (dx / d) * (30 - d) * 0.06; a.y += (dy / d) * (30 - d) * 0.06; }
+    }
+  }
+  function drawTank(tank, t) {
+    const { ctx, canvas, style } = tank, k = canvas.width / W;
+    ctx.setTransform(k, 0, 0, k, 0, 0); ctx.clearRect(0, 0, W, H);
+    if (style === 'm') {
+      const g = ctx.createRadialGradient(W / 2, H / 2, 20, W / 2, H / 2, W * 0.66); g.addColorStop(0, '#17485290'.slice(0, 7)); g.addColorStop(0.65, '#0c2a33'); g.addColorStop(1, '#04131a');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      tank.decor.forEach((d, i) => {
+        const x = (d.x + Math.sin(t * 0.2 + d.a) * 10 + t * 3 * (d.s - 0.3)) % W, y = (d.y + Math.cos(t * 0.17 + d.a) * 8 + H) % H;
+        if (i < 7) ell(ctx, (x + W) % W, y, 22 + d.s * 26, 22 + d.s * 26, 0, 'rgba(120,220,230,0.045)');
+        else ell(ctx, (x + W) % W, y, 0.6 + d.s * 1.3, 0.6 + d.s * 1.3, 0, `rgba(190,240,245,${0.12 + d.s * 0.3})`);
+      });
+    } else {
+      const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#c4e6d4'); g.addColorStop(1, '#8fcbb8'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      tank.decor.forEach((d, i) => {
+        if (i < 22) ell(ctx, d.x, d.y, 4 + d.s * 9, 3 + d.s * 6, d.a, ['rgba(255,255,255,0.3)', 'rgba(96,150,135,0.32)', 'rgba(228,214,170,0.45)'][i % 3]);
+        else if (i < 26) { ell(ctx, d.x, d.y, 20 + d.s * 12, 20 + d.s * 12, 0, '#5db27f', '#3f8f63', 1.5); ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + Math.cos(d.a) * (20 + d.s * 12), d.y + Math.sin(d.a) * (20 + d.s * 12)); ctx.strokeStyle = '#8fcbb8'; ctx.lineWidth = 3; ctx.stroke(); }
+        else if (i < 31) for (let j = 0; j < 6; j++) { const an = d.a + j * (TAU / 6) + Math.sin(t * 0.8 + j) * 0.06; ell(ctx, d.x + Math.cos(an) * 9, d.y + Math.sin(an) * 9, 10, 3.6, an, '#3f946c', '#2f7a57', 1); }
+      });
+      ctx.strokeStyle = 'rgba(255,255,255,0.16)'; ctx.lineWidth = 2;
+      for (let i = 0; i < 5; i++) { ctx.beginPath(); for (let x = 0; x <= W; x += 20) { const y = 30 + i * 62 + Math.sin(x * 0.03 + t * 0.9 + i * 2) * 9; x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); }
+    }
+    if (tank.call) { const p = 1 - tank.call.t / 4; for (const q of [p, (p + 0.5) % 1]) { ctx.beginPath(); ctx.arc(tank.call.x, tank.call.y, 6 + q * 46, 0, TAU); ctx.strokeStyle = `rgba(255,255,255,${0.55 * (1 - q)})`; ctx.lineWidth = 2; ctx.stroke(); } }
+    const order = [...tank.agents].sort((a, b) => a.y - b.y);
+    for (const a of order) {
+      const sp = species[a.sp], rad = 13 * sp.size;
+      const look = tank.call ? (() => { const dx = tank.call.x - a.x, dy = tank.call.y - a.y, d = Math.hypot(dx, dy) || 1, c = Math.cos(-a.h), s = Math.sin(-a.h); return [(dx * c - dy * s) / d, (dx * s + dy * c) / d]; })() : [0.6, Math.sin(t * 0.7 + a.phase) * 0.5];
+      const o = { v: a.v, phase: a.phase, blink: a.blink, look, mood, love: a.love };
+      if (style === 'c') { ell(ctx, a.x + 3, a.y + 6, rad * sp.stretch * 0.95, rad * 0.85, a.h, 'rgba(20,70,60,0.18)'); critterTail(ctx, sp, a); }
+      ctx.save(); ctx.translate(a.x, a.y); ctx.rotate(a.h + (style === 'm' ? Math.sin(t * 1.3 + a.phase) * 0.12 : 0));
+      (style === 'c' ? critterTop : microbeTop)(ctx, sp, t, o); ctx.restore();
+    }
+    if (style === 'm') { const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.42, W / 2, H / 2, W * 0.7); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,6,10,0.78)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
+    for (const a of order) { const sp = species[a.sp]; emote(ctx, a.x + 9, a.y - 13 * sp.size - 12, a.love > 0 ? 'heart' : moodEmote(mood), t); }
+  }
+
+  // ------------------------------------------------------------ portraits (160 x 160 logical)
+  function critterPortrait(ctx, sp, t) {
+    const h = sp.hue, body = col(h, 62, 65), dark = col(h, 42, 30), acc = col((h + 35) % 360, 72, 74), mark = col(h, 48, 46, 0.5);
+    ell(ctx, 80, 80, 70, 70, 0, col(h, 55, 90));
+    ell(ctx, 80, 138, 44, 7, 0, col(h, 30, 45, 0.25));
+    const bw = 34 + 9 * sp.size + (sp.stretch - 1) * 12, bh = 34 + 8 * sp.size - (sp.stretch - 1) * 8;
+    const breath = 1 + 0.022 * Math.sin(t * (mood === 'sleepy' ? 1.2 : 2.2) + sp.k), shiver = mood === 'scared' ? Math.sin(t * 42) * 1.3 : 0;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.save(); ctx.translate(80 + shiver, 92 + bh); ctx.scale(1 / breath, breath); ctx.translate(0, -bh);
+    if (sp.tail !== 'none') {
+      const wag = Math.sin(t * (mood === 'charmed' ? 7 : 3) + sp.k) * 0.25, tx = bw * 1.26, ty = -bh * 0.2 + wag * 14;
+      for (const pass of [0, 1]) { ctx.beginPath(); ctx.moveTo(bw * 0.7, bh * 0.5); ctx.quadraticCurveTo(bw * 1.35, bh * 0.55, tx, ty); ctx.strokeStyle = pass ? body : dark; ctx.lineWidth = pass ? 8 : 12; ctx.stroke(); }
+      if (sp.tail === 'fan') ell(ctx, tx + 2, ty - 5, 7, 11, 0.5 + wag, acc, dark, 2);
+    }
+    if (sp.ears === 'round') for (const s of [1, -1]) { ell(ctx, s * bw * 0.64, -bh * 0.82, bw * 0.3, bw * 0.3, 0, body, dark, 2.4); ell(ctx, s * bw * 0.64, -bh * 0.8, bw * 0.16, bw * 0.16, 0, acc); }
+    if (sp.ears === 'point') for (const s of [1, -1]) {
+      ctx.beginPath(); ctx.moveTo(s * bw * 0.88, -bh * 0.42); ctx.lineTo(s * bw * 0.98, -bh * 1.42); ctx.lineTo(s * bw * 0.25, -bh * 0.9); ctx.closePath();
+      ctx.fillStyle = body; ctx.fill(); ctx.strokeStyle = dark; ctx.lineWidth = 2.4; ctx.stroke();
+    }
+    if (sp.ears === 'antenna') for (const s of [1, -1]) {
+      const wob = Math.sin(t * 3 + s + sp.k) * 4, ex = s * bw * 0.62 + wob, ey = -bh * 1.5;
+      ctx.beginPath(); ctx.moveTo(s * bw * 0.3, -bh * 0.9); ctx.quadraticCurveTo(s * bw * 0.36, -bh * 1.3, ex, ey); ctx.strokeStyle = dark; ctx.lineWidth = 2.4; ctx.stroke();
+      ell(ctx, ex, ey, 5, 5, 0, acc, dark, 2);
+    }
+    if (sp.limbs === 'fins') for (const s of [1, -1]) { const fl = Math.sin(t * 4 + sp.k) * 0.25; ctx.save(); ctx.translate(s * bw * 0.9, bh * 0.2); ctx.rotate(s * (0.6 + fl)); ell(ctx, s * 8, 0, 13, 6, 0, acc, dark, 2.2); ctx.restore(); }
+    if (sp.limbs === 'legs') for (const s of [1, -1]) ell(ctx, s * bw * 0.45, bh * 0.94, bw * 0.27, bh * 0.15, 0, body, dark, 2.4);
+    ell(ctx, 0, 0, bw, bh, 0, body, dark, 2.8);
+    ctx.save(); ctx.beginPath(); ctx.ellipse(0, 0, bw, bh, 0, 0, TAU); ctx.clip();
+    if (sp.pattern === 'belly') ell(ctx, 0, bh * 0.55, bw * 0.62, bh * 0.52, 0, col(h, 70, 86, 0.8));
+    if (sp.pattern === 'spots') for (const [px, py, pr] of [[-0.5, -0.66, 0.2], [0.02, -0.84, 0.16], [0.46, -0.62, 0.22]]) ell(ctx, bw * px, bh * py, bw * pr, bw * pr, 0, mark);
+    if (sp.pattern === 'stripes') { ctx.strokeStyle = mark; ctx.lineWidth = 6; for (const y of [-0.92, -0.7, -0.48]) { ctx.beginPath(); ctx.ellipse(0, bh * (y + 0.1), bw * 0.9, bh * 0.3, 0, 1.15 * Math.PI, 1.85 * Math.PI); ctx.stroke(); } }
+    ell(ctx, -bw * 0.4, -bh * 0.5, bw * 0.28, bh * 0.14, -0.5, 'rgba(255,255,255,0.28)');
+    ctx.restore();
+    // face
+    const blinkNow = mood !== 'scared' && mood !== 'charmed' && ((t * 0.7 + sp.k) % 3.4) < 0.11;
+    const closed = mood === 'sleepy' || blinkNow, look = mood === 'hungry' ? [0, 0.6] : mood === 'scared' ? [Math.sin(t * 6) * 0.6, -0.2] : [Math.sin(t * 0.6 + sp.k) * 0.6, 0.1];
+    const R = bw * (mood === 'scared' ? 1.1 : 1), eo = { look, closed, tiny: mood === 'scared', heart: mood === 'charmed', lid: body, line: dark };
+    const spots = sp.eyes === 1 ? [[0, -bh * 0.16, 0.36]] : sp.eyes === 3 ? [[-bw * 0.4, -bh * 0.04, 0.21], [bw * 0.4, -bh * 0.04, 0.21], [0, -bh * 0.46, 0.15]] : [[-bw * 0.36, -bh * 0.1, 0.25], [bw * 0.36, -bh * 0.1, 0.25]];
+    for (const [ex, ey, k] of spots) eye(ctx, ex, ey, R * k, eo);
+    if (mood === 'scared') { ctx.strokeStyle = dark; ctx.lineWidth = 2.4; for (const s of [1, -1]) { ctx.beginPath(); ctx.moveTo(s * bw * 0.18, -bh * 0.52); ctx.lineTo(s * bw * 0.52, -bh * 0.62); ctx.stroke(); } }
+    for (const s of [1, -1]) ell(ctx, s * bw * 0.62, bh * 0.22, bw * 0.15, bh * 0.085, 0, mood === 'charmed' ? 'rgba(240,80,125,0.8)' : 'rgba(240,110,140,0.45)');
+    const my = bh * 0.34; ctx.strokeStyle = dark; ctx.lineWidth = 2.4;
+    if (mood === 'calm') { ctx.beginPath(); ctx.arc(0, my - bw * 0.1, bw * 0.16, 0.15 * Math.PI, 0.85 * Math.PI); ctx.stroke(); }
+    else if (mood === 'hungry') { ell(ctx, 0, my, bw * 0.17, bh * 0.15, 0, '#7a2b3b', dark, 2); ell(ctx, 0, my + bh * 0.07, bw * 0.1, bh * 0.06, 0, '#f08a94'); const dy = (t * 14) % 16; ell(ctx, bw * 0.2, my + bh * 0.12 + dy, 2.2, 3.2, 0, 'rgba(120,190,235,0.9)'); }
+    else if (mood === 'scared') { ctx.beginPath(); for (let i = 0; i <= 4; i++) { const x = -bw * 0.2 + i * bw * 0.1, y = my + (i % 2 ? -3 : 3); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); }
+    else if (mood === 'charmed') { ctx.beginPath(); ctx.arc(0, my - bw * 0.12, bw * 0.24, 0.05 * Math.PI, 0.95 * Math.PI); ctx.closePath(); ctx.fillStyle = '#7a2b3b'; ctx.fill(); ctx.stroke(); }
+    else { ctx.beginPath(); ctx.moveTo(-bw * 0.07, my); ctx.lineTo(bw * 0.07, my); ctx.stroke(); }
+    ctx.restore();
+    if (mood === 'charmed') for (let i = 0; i < 3; i++) { const p = (t * 0.5 + i / 3) % 1; ctx.globalAlpha = 1 - p; heart(ctx, 118 + Math.sin(p * 6 + i) * 8, 62 - p * 44, 5 + i, '#e8436f'); ctx.globalAlpha = 1; }
+    if (mood === 'sleepy') { ctx.fillStyle = '#4a6fb3'; ctx.textAlign = 'center'; for (let i = 0; i < 3; i++) { const p = (t * 0.35 + i / 3) % 1; ctx.globalAlpha = 1 - p; ctx.font = `700 ${9 + p * 9}px system-ui, sans-serif`; ctx.fillText('z', 116 + p * 16, 56 - p * 38); } ctx.globalAlpha = 1; }
+    if (mood === 'scared') { const p = (t * 1.2) % 1; ell(ctx, 124, 50 + p * 14, 3, 4.5, 0, `rgba(120,190,235,${1 - p})`); }
+  }
+  function microbePortrait(ctx, sp, t) {
+    ctx.save(); ctx.beginPath(); ctx.arc(80, 80, 70, 0, TAU); ctx.clip();
+    const g = ctx.createRadialGradient(80, 80, 8, 80, 80, 74); g.addColorStop(0, '#1a4c57'); g.addColorStop(0.7, '#0c2a33'); g.addColorStop(1, '#04131a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 160, 160);
+    const r2 = rng(Math.floor(sp.k * 77) + 3);
+    for (let i = 0; i < 16; i++) ell(ctx, r2() * 160, (r2() * 160 + t * (2 + r2() * 3)) % 160, 0.6 + r2() * 1.3, 0.6 + r2() * 1.3, 0, `rgba(190,240,245,${0.15 + r2() * 0.3})`);
+    ctx.save(); ctx.translate(80, 76 + Math.sin(t * 1.1 + sp.k) * 2); ctx.rotate(-Math.PI / 2 + Math.sin(t * 0.8 + sp.k) * 0.08); ctx.scale(2.35 / (0.7 + sp.stretch * 0.3), 2.35 / (0.7 + sp.stretch * 0.3));
+    const blink = ((t * 0.7 + sp.k) % 3.4) < 0.11 ? -1 : 1;
+    microbeTop(ctx, sp, t, { v: mood === 'scared' ? 30 : 6, phase: sp.k, blink, look: mood === 'scared' ? [0.2, Math.sin(t * 6) * 0.7] : [0.5, Math.sin(t * 0.6) * 0.5], mood, love: 0 });
+    ctx.restore();
+    const v = ctx.createRadialGradient(80, 80, 44, 80, 80, 72); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,6,10,0.7)'); ctx.fillStyle = v; ctx.fillRect(0, 0, 160, 160);
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(80, 80, 70, 0, TAU); ctx.strokeStyle = 'rgba(150,215,225,0.5)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = 'rgba(190,235,240,0.75)'; ctx.font = '500 9px ui-monospace, Menlo, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillText('× 400', 80, 141);
+    emote(ctx, 122, 36, moodEmote(mood), t, 1.25);
+  }
+
+  // ------------------------------------------------------------ page wiring
+  function fit(canvas, lw) { const dpr = Math.min(2, window.devicePixelRatio || 1), cw = canvas.clientWidth || 300; canvas.width = Math.round(cw * dpr); canvas.height = Math.round(canvas.width * (canvas.dataset.ratio || 1)); return canvas.width / lw; }
+  function buildCards() {
+    const host = document.getElementById('cards'); host.textContent = ''; portraits = [];
+    species.forEach((sp) => {
+      const card = document.createElement('article'); card.className = 'card';
+      const h3 = document.createElement('h3'); h3.textContent = sp.name;
+      const tr = document.createElement('div'); tr.className = 'traits';
+      tr.textContent = [`${sp.eyes} ${sp.eyes === 1 ? 'eye' : 'eyes'}`, sp.ears === 'none' ? 'no ears' : sp.ears === 'antenna' ? 'antennae' : sp.ears === 'point' ? 'pointed ears' : 'round ears', sp.tail === 'none' ? 'no tail' : sp.tail === 'fan' ? 'fan tail' : 'whip tail', sp.limbs === 'none' ? 'no limbs' : sp.limbs, sp.pattern].join(' · ');
+      const pair = document.createElement('div'); pair.className = 'pair';
+      for (const [style, label] of [['m', 'Microbe'], ['c', 'Critter']]) {
+        const fig = document.createElement('figure'), cv = document.createElement('canvas'), cap = document.createElement('span');
+        cv.setAttribute('aria-label', `${sp.name} portrait, ${label.toLowerCase()} style`); cap.className = style; cap.textContent = label;
+        fig.append(cv, cap); pair.append(fig); portraits.push({ cv, ctx: cv.getContext('2d'), sp, style });
+      }
+      card.append(h3, tr, pair); host.append(card);
+    });
+  }
+  function resize() { for (const tk of tanks) { tk.canvas.dataset.ratio = H / W; fit(tk.canvas, W); } for (const p of portraits) fit(p.cv, 160); }
+  function drawAll(t) {
+    for (const tk of tanks) drawTank(tk, t);
+    for (const p of portraits) { const k = p.cv.width / 160; p.ctx.setTransform(k, 0, 0, k, 0, 0); p.ctx.clearRect(0, 0, 160, 160); (p.style === 'c' ? critterPortrait : microbePortrait)(p.ctx, p.sp, t); }
+  }
+  function rebuild() {
+    makeSpecies();
+    tanks = [makeTankFresh('tank-m', 'm'), makeTankFresh('tank-c', 'c')];
+    buildCards(); resize();
+    if (still) { for (const tk of tanks) for (let i = 0; i < 120; i++) stepTank(tk, 0.05); drawAll(2); }
+  }
+  function makeTankFresh(id, style) { const old = document.getElementById(id), cv = old.cloneNode(false); old.replaceWith(cv); return makeTank(cv, style); }
+
+  document.getElementById('shuffle').addEventListener('click', () => { seed++; rebuild(); });
+  for (const b of document.querySelectorAll('[data-mood]')) b.addEventListener('click', () => {
+    mood = b.dataset.mood; for (const o of document.querySelectorAll('[data-mood]')) o.setAttribute('aria-pressed', String(o === b));
+    if (still) drawAll(2);
+  });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); if (still) drawAll(2); }, 120); });
+
+  rebuild();
+  if (!still) {
+    let last = performance.now();
+    const frame = (now) => { const dt = Math.min(0.05, (now - last) / 1000); last = now; for (const tk of tanks) stepTank(tk, dt); drawAll(now / 1000); requestAnimationFrame(frame); };
+    requestAnimationFrame(frame);
+  }
+})();
+</script>

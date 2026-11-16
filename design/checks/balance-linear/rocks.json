@@ -1,0 +1,122 @@
+{
+ "habitat": "rocks",
+ "tried": 92,
+ "top": [
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "legs",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "even",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 0.909,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 0.85,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": true,
+    "move": "legs",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "even",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 0.781,
+   "price": 12.2
+  },
+  {
+   "g": {
+    "scale": 1,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": false,
+    "move": "cilia",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": true,
+    "inside": "even",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "few large"
+   },
+   "s": 0.779,
+   "price": 12
+  },
+  {
+   "g": {
+    "scale": 0.85,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": true,
+    "move": "cilia",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": false,
+    "inside": "even",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 0.776,
+   "price": 11.2
+  },
+  {
+   "g": {
+    "scale": 0.85,
+    "shape": "long",
+    "eyes": "side",
+    "bigEyes": true,
+    "move": "cilia",
+    "shell": "back",
+    "spikes": "none",
+    "sting": false,
+    "camo": false,
+    "sideLine": false,
+    "falseEyes": true,
+    "inside": "even",
+    "nose": true,
+    "threat": "run",
+    "herd": false,
+    "laying": "always",
+    "eggs": "many small"
+   },
+   "s": 0.776,
+   "price": 12.2
+  }
+ ],
+ "plain": 0.379
+}

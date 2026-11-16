@@ -1,0 +1,223 @@
+<title>Ages of the Basin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: a phone-width column with the basin's history on top and what hangs off it underneath; notes beside it on a wide screen. */
+  :root {
+    --bg: #eef2ef; --ink: #17282b; --muted: #55686a; --line: #d2dcd7; --accent: #b8355b;
+    --paper: #fbf5e6; --slip: #fffdf6; --p-ink: #2b2a26; --p-muted: #7a7466; --p-line: #e0d5b8; --p-shadow: rgba(60, 48, 20, 0.22); --bar: #e9dfc4;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #0f1a1c; --ink: #e7efec; --muted: #9cb0ad; --line: #2b3f42; --accent: #ff8fab; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 0; letter-spacing: -0.01em; text-wrap: balance; } h2 { font-family: var(--display); font-size: 19px; margin: 0; } p { margin: 0; }
+  .lede { max-width: 64ch; color: var(--muted); }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 26px; align-items: start; } @media (min-width: 880px) { .stage { grid-template-columns: 400px minmax(0, 1fr); } }
+  .notes { display: flex; flex-direction: column; gap: 18px; min-width: 0; } .notes section { display: flex; flex-direction: column; gap: 6px; } .notes ul, .notes ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; } .notes li { max-width: 60ch; }
+  .phone { background: var(--paper); color: var(--p-ink); border-radius: 26px; box-shadow: 0 10px 30px var(--p-shadow); width: 100%; max-width: 400px; margin: 0 auto; overflow: hidden; display: flex; flex-direction: column; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 16px 8px; } .top b { font-family: var(--display); font-size: 21px; } .top span { font-family: var(--mono); font-size: 11.5px; color: var(--p-muted); text-align: right; }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; padding: 0 14px 10px; }
+  .phone button { font: 500 13px var(--body); color: var(--p-ink); min-height: 34px; border: 1.5px solid var(--p-line); background: var(--paper); border-radius: 999px; cursor: pointer; padding: 4px 11px; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 6px; }
+  .phone button[aria-pressed="true"] { background: var(--p-ink); color: var(--paper); border-color: var(--p-ink); }
+  .phone button:focus-visible, .phone select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  canvas { width: 100%; aspect-ratio: 360 / 220; display: block; max-width: 100%; background: var(--slip); touch-action: pan-y; cursor: crosshair; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+  .panel { padding: 12px 14px; border-top: 1px solid var(--p-line); display: flex; flex-direction: column; gap: 8px; }
+  .ph { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; } .ph b { font-family: var(--display); font-size: 17px; } .ph span { font: 11.5px var(--mono); color: var(--p-muted); }
+  .who { display: flex; gap: 12px; align-items: center; } .who svg { flex: none; } .who b { font-family: var(--display); font-size: 20px; display: block; line-height: 1.15; } .who span { font-size: 13px; color: var(--p-muted); }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; } .stats div { background: var(--slip); border-radius: 10px; padding: 6px 8px; } .stats b { font: 600 15px var(--mono); display: block; } .stats span { font-size: 11px; color: var(--p-muted); }
+  .facts { font-size: 13.5px; display: flex; flex-direction: column; gap: 3px; } .facts span { color: var(--p-muted); } .tag { display: inline-block; background: var(--p-ink); color: var(--paper); border-radius: 999px; padding: 1px 9px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+  select { font: 500 14px var(--body); color: var(--p-ink); background: var(--slip); border: 1.5px solid var(--p-line); border-radius: 10px; padding: 7px 8px; min-height: 40px; max-width: 100%; }
+  .rows { display: flex; flex-direction: column; gap: 4px; } .rows button { border-radius: 10px; border-color: transparent; background: transparent; display: grid; grid-template-columns: 18px 12px minmax(0, 1fr) 46px; gap: 7px; align-items: center; text-align: left; padding: 4px 4px; min-height: 36px; width: 100%; position: relative; }
+  .rows button i.fill { position: absolute; left: 44px; top: 5px; bottom: 5px; background: var(--bar); border-radius: 6px; z-index: 0; } .rows button > * { position: relative; z-index: 1; } .rows .n { font: 11.5px var(--mono); color: var(--p-muted); } .rows .v { font: 600 12.5px var(--mono); text-align: right; } .rows small { color: var(--p-muted); }
+  .list { display: flex; flex-direction: column; gap: 5px; font-size: 13.5px; } .list button { border-radius: 10px; border-color: transparent; background: transparent; text-align: left; padding: 3px 4px; min-height: 34px; width: 100%; display: block; line-height: 1.35; } .list small { color: var(--p-muted); display: block; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Concept test · playing with friends</p>
+    <h1>Ages of the basin</h1>
+    <p class="lede">A test of one question: does a group's world have a history worth talking about? Forty days of a made-up basin, six friends and the species they released. Each band is one species. Its thickness is its living weight, so its area is its score.</p>
+  </header>
+
+  <div class="stage">
+    <section class="phone" aria-label="Phone mockup of the basin's history">
+      <div class="top"><b>The basin</b><span id="at"></span></div>
+      <div class="chips" role="group" aria-label="Which years" id="zoom"></div>
+      <canvas id="ages" role="img" aria-label="Living weight of every species through time, as stacked bands"></canvas>
+      <div class="chips" role="group" aria-label="Whose species" id="makers" style="padding-top:10px"></div>
+      <div class="panel" id="card"></div>
+      <div class="panel">
+        <div class="ph"><b id="pairTitle">Between</b></div>
+        <select id="other" aria-label="The other species"></select>
+        <div class="facts" id="pair"></div>
+      </div>
+      <div class="panel">
+        <div class="ph"><b>The board</b><span id="basinScore"></span></div>
+        <div class="chips" role="group" aria-label="Which board" id="boardTabs" style="padding:0"></div>
+        <div class="rows" id="board"></div>
+      </div>
+      <div class="panel"><div class="ph"><b>Titles</b><span>all time</span></div><div class="list" id="titles"></div></div>
+      <div class="panel"><div class="ph"><b>Firsts</b></div><div class="list" id="firsts"></div></div>
+    </section>
+
+    <div class="notes">
+      <section>
+        <h2>What to try</h2>
+        <ol>
+          <li>Drag across the bands. The card under them follows the species under your finger.</li>
+          <li>Pick one year to see it larger. The pale blue stripes are winters.</li>
+          <li>Tap a name to light up everything that friend released.</li>
+          <li>Under the card, pick a second species to see what passed between the two.</li>
+          <li>Tap a row on the board, a title or a first to jump to that species.</li>
+        </ol>
+      </section>
+      <section>
+        <h2>What this is testing</h2>
+        <ul>
+          <li>Whether one shared picture can show who rose, whom they pushed aside and how long each lasted.</li>
+          <li>Whether titles give more than one way to be best. The total-life board and the titles are often led by different species.</li>
+          <li>Whether a design taken from a friend's ended species, marked "after", makes a family tree worth following.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>What is real and what is not</h2>
+        <ul>
+          <li>The history is made up by a small model written for this page: seven foods that follow the seasons, grazers, hunters, scavengers, fading as designed, and players who release a new species when the old one ends or is failing. It is not the game's simulation, and no real group played it.</li>
+          <li>The pale mass on top is the presets. Twelve stand in for the game's twenty, and the one most like a new species steps aside for it.</li>
+          <li>Counts between two species come from the model's flows of food and prey. The game would count real meals and deaths.</li>
+          <li>Three titles are missing because this model has no places or homes: The Wanderer, The Homebuilder, and the map run through time.</li>
+          <li>The layout, the look and the wording are not designs.</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  // ---------- a made-up history: forty real days of a basin, from a small model of foods, grazers, hunters and fading ----------
+  const STEPS = 960, YEAR = 192, FOODS = ['grass', 'reeds', 'leaves', 'seeds', 'fruit', 'tide wrack', 'remains'];
+  const SUPPLY = [10, 6, 6, 5, 4, 4, 0], SEASON = [[1.1, 1, 0.7, 0.25], [0.9, 1.1, 0.9, 0.5], [1, 1.2, 0.6, 0.1], [0.3, 0.8, 1.5, 0.6], [0.2, 1, 1.4, 0.1], [1, 1, 1, 0.9], [1, 1, 1, 1]];
+  const SEASONS = ['spring', 'summer', 'autumn', 'winter'], SIZES = { small: 0.3, plain: 1, large: 4 }, GENS = { small: 3.2, plain: 1.3, large: 0.8 };
+  const when = (t) => ({ year: Math.floor(t / YEAR) + 1, day: Math.floor((t % YEAR) / 24) + 1, season: SEASONS[Math.floor((t % YEAR) / 48)] });
+  const fade = (days) => (days <= 2 ? 1 : 1 + 0.5 * (days - 2) + 0.0093 * (days - 2) ** 2);
+  function history(seed) {
+    let s = seed >>> 0; const rnd = () => { s = (s + 0x6D2B79F5) | 0; let z = Math.imul(s ^ (s >>> 15), 1 | s); z = (z + Math.imul(z ^ (z >>> 7), 61 | z)) ^ z; return ((z ^ (z >>> 14)) >>> 0) / 4294967296; };
+    const pick = (a) => a[Math.floor(rnd() * a.length)], seasonMul = (f, t) => { const p = t % YEAR, k = Math.floor(p / 48), fr = Math.max(0, (p % 48 - 36) / 12); return SEASON[f][k] * (1 - fr) + SEASON[f][(k + 1) % 4] * fr; };
+    const winter = (t) => { const p = t % YEAR; return p >= 144 ? Math.min(1, (p - 144) / 12, (192 - p) / 12) : 0; };
+    const all = [], mk = (o) => { const sp = Object.assign({ w: new Float32Array(STEPS), now: 0, born: 0, ended: null, life: 0, peak: 0, peakHeads: 0, eats: {}, eatenBy: {}, lostTo: {}, id: all.length, aside: false, yearLife: {} }, o); all.push(sp); return sp; };
+    // twelve presets stand in for the game's twenty
+    const P = (name, kind, size, diet, prefs) => mk({ name, maker: null, kind, size, diet: diet || {}, prefs: prefs || {}, a: 0.25, hard: 0.7, now: 6 });
+    P('Nubbins', 'grazer', 'plain', { grass: 1 }); P('Hobbins', 'grazer', 'small', { grass: 0.7, seeds: 0.5 }); P('Lollops', 'grazer', 'large', { leaves: 1 }); P('Frizzles', 'grazer', 'small', { leaves: 0.6, fruit: 0.6 });
+    P('Sippets', 'grazer', 'plain', { reeds: 1 }); P('Splodges', 'grazer', 'large', { reeds: 0.6, 'tide wrack': 0.6 }); P('Pipkins', 'grazer', 'small', { seeds: 1 }); P('Scrumps', 'grazer', 'plain', { fruit: 1 }); P('Blibs', 'grazer', 'small', { 'tide wrack': 1 });
+    P('Yips', 'hunter', 'plain', null, { plain: 1, large: 0.6 }); P('Gawps', 'hunter', 'small', null, { small: 1 }); P('Mooches', 'scavenger', 'plain', { remains: 1, fruit: 0.3 });
+    const presets = all.slice();
+    const NAMES = ['Mibbles', 'Tufties', 'Wumps', 'Dabbles', 'Snoots', 'Pobbles', 'Quibs', 'Thrums', 'Noggins', 'Skitters', 'Bumbles', 'Whiffles', 'Plinks', 'Dozers', 'Gribbles', 'Toddles', 'Murmles', 'Squinks', 'Zooks', 'Burbles', 'Jinks', 'Padders', 'Scoots', 'Trundles', 'Peeps', 'Lurks', 'Prowls', 'Snaffles', 'Chompers', 'Wibbets', 'Doodles', 'Nabbers', 'Fuzzlets', 'Tumbles', 'Bobbins', 'Ruffles', 'Mumbles', 'Skulks', 'Pounces', 'Dawdles', 'Snufflers', 'Wigglets'];
+    const makers = [['Sam', 0, 0.55], ['Ada', 0, 0.7], ['Jo', 14, 0.5], ['Kit', 40, 0.6], ['Ravi', 130, 0.45], ['Mei', 300, 0.65]].map(([name, joins, skill], i) => ({ name, joins, skill, i, cur: null, next: joins, made: 0 }));
+    const ended = [], similar = (a, b) => { if (a.kind !== b.kind) return 0; let d = 0.1; for (const f in a.diet) d += a.diet[f] * (b.diet[f] || 0); for (const k in a.prefs) d += a.prefs[k] * (b.prefs[k] || 0); return d + (a.size === b.size ? 0.3 : 0); };
+    const design = (m, t) => { let o; const best = ended.filter((e) => e.maker !== m.name).sort((a, b) => b.life - a.life)[0];
+      if (best && rnd() < 0.3) o = { kind: best.kind, size: best.size, diet: Object.assign({}, best.diet), prefs: Object.assign({}, best.prefs), after: best.id };
+      else { const r = rnd(), size = pick(['small', 'small', 'plain', 'plain', 'large']);
+        if (r < 0.62) { const f1 = pick(FOODS.slice(0, 6)), diet = { [f1]: 1 }; if (rnd() < 0.45) diet[pick(FOODS.slice(0, 6))] = 0.6; o = { kind: 'grazer', size, diet, prefs: {} }; }
+        else if (r < 0.88) { const prefs = { [pick(['small', 'plain', 'large'])]: 1 }; if (rnd() < 0.5) prefs[pick(['small', 'plain', 'large'])] = 0.6; o = { kind: 'hunter', size, diet: {}, prefs }; }
+        else o = { kind: 'scavenger', size, diet: { remains: 1, [pick(['fruit', 'seeds', 'tide wrack'])]: 0.4 }, prefs: {} }; }
+      const q = Math.min(1, m.skill + m.made * 0.04 + (rnd() - 0.5) * 0.35); o.a = (o.kind === 'hunter' ? 0.26 + 0.3 * q : 0.14 + 0.34 * q); o.hard = Math.min(1, Math.max(0, q + (rnd() - 0.5) * 0.8));
+      const sp = mk(Object.assign(o, { name: NAMES[(all.length - 12) % NAMES.length], maker: m.name, makerI: m.i, born: t, now: 1.2 })); m.made++; m.cur = sp;
+      const pre = presets.filter((p) => !p.aside).sort((a, b) => similar(sp, b) - similar(sp, a))[0]; if (pre) { pre.aside = true; sp.stoodAside = pre; } return sp; };
+    const food = SUPPLY.map((v) => v * 4), firsts = [], first = {}, note = (key, t, sp, text) => { if (!first[key]) { first[key] = 1; firsts.push({ t, id: sp.id, text }); } };
+    let remainsIn = 0;
+    for (let t = 0; t < STEPS; t++) {
+      for (const m of makers) { const c = m.cur;
+        if (c && c.ended === null && !c.retired && (t - c.born) / 24 > 4.5 && c.now < c.peak * 0.4 && rnd() < 0.02) { c.retired = true; m.next = t; }
+        if ((!c || c.ended !== null || c.retired) && t >= m.next) design(m, t); }
+      const live = all.filter((x) => x.now > 0), wn = winter(t);
+      for (let f = 0; f < 7; f++) food[f] = food[f] * 0.95 + (f === 6 ? remainsIn : SUPPLY[f] * seasonMul(f, t)); remainsIn = 0;
+      const gain = new Map(), loss = new Map(), ate = FOODS.map(() => []); for (const x of live) { gain.set(x, 0); loss.set(x, 0); }
+      for (const x of live) if (x.kind !== 'hunter') for (const fn in x.diet) { const f = FOODS.indexOf(fn), sat = food[f] / (food[f] + 20), q = x.now * x.a * x.diet[fn] * sat; ate[f].push([x, q, sat]); }
+      for (let f = 0; f < 7; f++) { let tot = 0; for (const [, q] of ate[f]) tot += q; const k = tot > food[f] ? food[f] / tot : 1; for (const [x, q, sat] of ate[f]) { gain.set(x, gain.get(x) + 0.5 * q * k);
+          for (const [y, q2] of ate[f]) if (y !== x && x.maker) x.lostTo[y.id] = (x.lostTo[y.id] || 0) + q2 * k * (1 - sat) * 0.5; } food[f] = Math.max(0, food[f] - tot * k); }
+      for (const h of live) if (h.kind === 'hunter') { let ps = 0; for (const k in h.prefs) ps += h.prefs[k]; for (const j of live) { const pr = h.prefs[j.size]; if (!pr || j === h || j.kind === 'hunter') continue; const q = h.now * h.a * (pr / ps) * (j.now * j.now) / (j.now * j.now + 225) * 0.5, got = Math.min(q, j.now * 0.2);
+          gain.set(h, gain.get(h) + 0.25 * got); loss.set(j, loss.get(j) + got); remainsIn += got * 0.2; const heads = got / SIZES[j.size]; h.eats[j.id] = (h.eats[j.id] || 0) + heads; j.eatenBy[h.id] = (j.eatenBy[h.id] || 0) + heads; } }
+      for (const x of live) { const days = (t - x.born) / 24, up = (x.kind === 'hunter' ? 0.03 : 0.04) * (x.maker ? fade(days) : 1) + (1 - x.hard) * 0.05 * wn + (x.aside || x.retired ? 0.1 : 0);
+        const dead = x.now * up; remainsIn += dead * 0.3; x.now = Math.max(0, x.now + (x.aside || x.retired ? 0 : gain.get(x)) - dead - loss.get(x));
+        if (!x.maker) { if (x.now < 0.5 && !x.aside) x.now = 1.5; if (x.now < 0.02) x.now = 0; }
+        else if (x.now < 0.25) { x.now = 0; x.ended = t; ended.push(x); if (x.stoodAside) { x.stoodAside.aside = false; x.stoodAside.now = Math.max(x.stoodAside.now, 1.5); } const m = makers[x.makerI]; if (m.cur === x) m.next = t + 4 + Math.floor(rnd() * 26); }
+        x.w[t] = x.now; x.life += x.now / 24; x.peak = Math.max(x.peak, x.now); x.peakHeads = Math.max(x.peakHeads, x.now / SIZES[x.size]); const y = Math.floor(t / YEAR); x.yearLife[y] = (x.yearLife[y] || 0) + x.now / 24;
+        if (x.maker && x.now > 0) { if (x.kind === 'hunter') note('hunter', t, x, 'the first hunter made by a player'); if (x.kind === 'scavenger') note('scav', t, x, 'the first to live on the dead');
+          if (t % YEAR === YEAR - 1 && x.born <= t - 47) note('winter', t, x, 'the first to see a whole winter through'); if (days >= 8) note('eight', t, x, 'the first to last eight days'); if (x.now / SIZES[x.size] > 400) note('crowd', t, x, 'the first to number four hundred'); } }
+    }
+    for (const x of all) { x.days = ((x.ended === null ? STEPS : x.ended) - x.born) / 24; x.line = Math.floor(x.days * GENS[x.size]) + 1; x.killed = 0; x.eaten = 0;
+      for (const id in x.eats) if (all[id].maker) x.killed += x.eats[id]; for (const id in x.eatenBy) x.eaten += x.eatenBy[id]; }
+    return { all, presets, makers, firsts };
+  }
+  // ---------- the page ----------
+  const HIST = history(11), all = HIST.all, players = all.filter((x) => x.maker), $ = (id) => document.getElementById(id), fmt = (v) => Math.round(v).toLocaleString('en-GB');
+  const MCOL = ['#ef8a68', '#3f9f9a', '#8a6fc9', '#d8a23a', '#d0457a', '#4f7fb8'];
+  const mix = (hex, k) => { const n = parseInt(hex.slice(1), 16), f = (v) => Math.round(v + (255 - v) * k); return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`; };
+  // players' species sit on the flat baseline so their shapes can be read; the presets ride on top as one pale mass
+  const order = players.slice().sort((a, b) => a.makerI - b.makerI || a.born - b.born).concat(HIST.presets); const nth = {};
+  order.forEach((x, i) => { if (!x.maker) x.col = i % 2 ? '#e6dcc0' : '#ece3ca'; else { nth[x.maker] = (nth[x.maker] || 0) + 1; x.col = mix(MCOL[x.makerI], nth[x.maker] % 2 ? 0 : 0.3); } });
+  const cum = []; order.forEach((x, k) => { const c = new Float32Array(STEPS); for (let t = 0; t < STEPS; t++) c[t] = (k ? cum[k - 1][t] : 0) + x.w[t]; cum.push(c); });
+  const peakAt = (x) => { let b = 0; for (let t = 0; t < STEPS; t++) if (x.w[t] > x.w[b]) b = t; return b; };
+  let sel = players.slice().sort((a, b) => b.life - a.life)[0], cursor = peakAt(sel), zoom = 0, lit = null, boardTab = 'year';
+  const range = () => (zoom ? [(zoom - 1) * YEAR, zoom * YEAR] : [0, STEPS]);
+  const cv = $('ages'), g = cv.getContext('2d'), CW = 360, CH = 220, x0 = 6, x1 = CW - 6, y0 = 16, y1 = CH - 20; let sc = 1, top = 1;
+  const fit = () => { const dpr = Math.min(2, window.devicePixelRatio || 1), cw = cv.clientWidth || 360; cv.width = Math.round(cw * dpr); cv.height = Math.round(cw * CH / CW * dpr); sc = cv.width / CW; drawAges(); };
+  function drawAges() { const [t0, t1] = range(), n = t1 - 1 - t0, X = (t) => x0 + (x1 - x0) * (t - t0) / n; top = 0; for (let t = t0; t < t1; t++) top = Math.max(top, cum[cum.length - 1][t]); top = Math.ceil(top / 50) * 50; const Y = (v) => y1 - (y1 - y0) * v / top;
+    g.setTransform(sc, 0, 0, sc, 0, 0); g.clearRect(0, 0, CW, CH);
+    for (let y = 0; y < 5; y++) { const a = Math.max(t0, y * YEAR + 144), b = Math.min(t1 - 1, (y + 1) * YEAR); if (b > a) { g.fillStyle = 'rgba(77,134,201,0.13)'; g.fillRect(X(a), y0, X(b) - X(a), y1 - y0); } }
+    order.forEach((x, k) => { if (x.born >= t1 || (x.ended !== null && x.ended < t0)) return; g.beginPath(); for (let t = t0; t < t1; t++) g.lineTo(X(t), Y(cum[k][t])); for (let t = t1 - 1; t >= t0; t--) g.lineTo(X(t), Y(k ? cum[k - 1][t] : 0)); g.closePath();
+      g.globalAlpha = lit && x.maker !== lit ? 0.28 : 1; g.fillStyle = x.col; g.fill(); g.globalAlpha = 1; if (x === sel) { g.strokeStyle = '#2b2a26'; g.lineWidth = 1.5; g.lineJoin = 'round'; g.stroke(); } });
+    g.font = '9.5px "JetBrains Mono", ui-monospace, monospace'; g.fillStyle = '#7a7466'; g.textBaseline = 'top'; g.strokeStyle = '#cfc4a4'; g.lineWidth = 1;
+    if (!zoom) for (let y = 0; y < 5; y++) { const a = y * YEAR; g.beginPath(); g.moveTo(X(a), y0); g.lineTo(X(a), y1 + 3); g.stroke(); g.textAlign = 'left'; g.fillText('Year ' + (y + 1), X(a) + 3, y1 + 6); }
+    else { g.textAlign = 'left'; for (let d = 1; d <= 7; d += 2) { const x = X(t0 + (d - 1) * 24); g.beginPath(); g.moveTo(x, y1); g.lineTo(x, y1 + 3); g.stroke(); g.fillText('day ' + d, x + 3, y1 + 6); } }
+    for (const f of HIST.firsts) if (f.t >= t0 && f.t < t1) { const x = X(f.t); g.fillStyle = '#2b2a26'; g.beginPath(); g.moveTo(x, 4); g.lineTo(x + 4, 8); g.lineTo(x, 12); g.lineTo(x - 4, 8); g.closePath(); g.fill(); }
+    if (cursor >= t0 && cursor < t1) { g.strokeStyle = '#2b2a26'; g.lineWidth = 1; g.beginPath(); g.moveTo(X(cursor), y0); g.lineTo(X(cursor), y1); g.stroke(); } }
+  const pointAt = (e) => { const r = cv.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * CW, py = (e.clientY - r.top) / r.height * CH, [t0, t1] = range();
+    const t = Math.max(t0, Math.min(t1 - 1, Math.round(t0 + (px - x0) / (x1 - x0) * (t1 - 1 - t0)))), v = (y1 - py) / (y1 - y0) * top; cursor = t;
+    for (let k = 0; k < order.length; k++) if (order[k].w[t] > 0.01 && cum[k][t] >= v) { if (v >= 0) sel = order[k]; break; } render(); };
+  let down = false; cv.addEventListener('pointerdown', (e) => { down = true; cv.setPointerCapture(e.pointerId); pointAt(e); }); cv.addEventListener('pointermove', (e) => { if (down) pointAt(e); }); cv.addEventListener('pointerup', () => { down = false; }); cv.addEventListener('pointercancel', () => { down = false; });
+  // faces and words
+  const face = (x, px) => { const s = { small: 0.62, plain: 0.8, large: 1 }[x.size], c = x.maker ? MCOL[x.makerI] : '#cdbf96', r = 15 * s, ears = x.kind === 'hunter' ? `<path d="M${20 - r * 0.85} ${22 - r * 0.3} L${20 - r * 0.6} ${22 - r * 1.5} L${20 - r * 0.1} ${22 - r * 0.8} Z M${20 + r * 0.85} ${22 - r * 0.3} L${20 + r * 0.6} ${22 - r * 1.5} L${20 + r * 0.1} ${22 - r * 0.8} Z" fill="${c}"/>` : x.kind === 'scavenger' ? `<circle cx="${20 - r}" cy="${22 + r * 0.1}" r="${r * 0.35}" fill="${c}"/><circle cx="${20 + r}" cy="${22 + r * 0.1}" r="${r * 0.35}" fill="${c}"/>` : '';
+    return `<svg width="${px}" height="${px}" viewBox="0 0 40 40" aria-hidden="true">${ears}<circle cx="20" cy="22" r="${r}" fill="${c}"/><circle cx="${20 - r * 0.36}" cy="${22 - r * 0.15}" r="${Math.max(1.2, r * 0.13)}" fill="#2b2a26"/><circle cx="${20 + r * 0.36}" cy="${22 - r * 0.15}" r="${Math.max(1.2, r * 0.13)}" fill="#2b2a26"/></svg>`; };
+  const andList = (a) => (a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1] : a[0] || ''), owner = (x) => (x.maker ? x.maker + "'s" : 'a preset'), full = (x) => `${x.name} <small>${x.maker || 'preset'}</small>`;
+  const sort = (o) => Object.keys(o).sort((a, b) => o[b] - o[a]), stamp = (t) => { const w = when(t); return `Year ${w.year}, day ${w.day}`; };
+  const what = (x) => x.kind === 'hunter' ? `A ${x.size} hunter of ${andList(sort(x.prefs))} animals` : `A ${x.size} ${x.kind} on ${andList(sort(x.diet))}`;
+  const best = (f) => players.slice().sort((a, b) => f(b) - f(a))[0];
+  const TITLES = [['The Elder', (x) => x.days, (x) => x.days.toFixed(1) + ' days'], ['The Multitude', (x) => x.peakHeads, (x) => fmt(x.peakHeads) + ' at its peak'], ['The Giant', (x) => (x.size === 'large' && x.days >= 3 ? x.life : 0), (x) => 'a large body that lasted ' + x.days.toFixed(1) + ' days'], ['The Old Line', (x) => x.line, (x) => 'its name passed down ' + x.line + ' times'], ['The Menace', (x) => x.killed, (x) => fmt(x.killed) + " of other players' creatures killed"], ['The Larder', (x) => x.eaten, (x) => fmt(x.eaten) + ' of its own eaten']].map(([name, f, say]) => ({ name, sp: best(f), say }));
+  function drawCard() { const x = sel, tags = TITLES.filter((t) => t.sp === x).map((t) => `<span class="tag">${t.name}</span>`).join(''), nem = sort(x.eatenBy)[0], prey = sort(x.eats)[0];
+    const lines = [`<span>${stamp(x.born)} to ${x.ended === null ? 'now' : stamp(x.ended)}${x.retired ? ', retired by its maker' : ''}</span>`];
+    if (tags) lines.push('<div>' + tags + '</div>');
+    lines.push(nem && x.eatenBy[nem] >= 1 ? `<div><span>Nemesis: </span>${all[nem].name} <span>took ${fmt(x.eatenBy[nem])}</span></div>` : '<div><span>Nothing hunted it.</span></div>');
+    if (x.kind === 'hunter' && prey) lines.push(`<div><span>Mainstay: </span>${all[prey].name} <span>${fmt(x.eats[prey])} eaten</span></div>`);
+    if (x.after !== undefined) lines.push(`<div><span>Made after </span>${all[x.after].name} <span>(${all[x.after].maker})</span></div>`);
+    if (x.stoodAside) lines.push(`<div><span>The preset that stood aside for it: </span>${x.stoodAside.name}</div>`);
+    $('card').innerHTML = `<div class="who">${face(x, 52)}<div><b>${x.name}</b><span>${x.maker ? x.maker + "'s" : 'A preset'} · ${what(x)}</span></div></div>` + (x.maker ? `<div class="stats"><div><b>${fmt(x.life)}</b><span>total life</span></div><div><b>${x.days.toFixed(1)}</b><span>days</span></div><div><b>${fmt(x.peakHeads)}</b><span>most alive</span></div></div>` : '') + `<div class="facts">${lines.join('')}</div>`; }
+  const links = (a, b) => [[a.eats[b.id], `${a.name} ate ${fmt(a.eats[b.id] || 0)} ${b.name}`, 'eat'], [b.eats[a.id], `${b.name} ate ${fmt(b.eats[a.id] || 0)} ${a.name}`, 'eat'], [a.lostTo[b.id], `${a.name} lost ${fmt(a.lostTo[b.id] || 0)} meals to ${b.name}`, 'rival'], [b.lostTo[a.id], `${b.name} lost ${fmt(b.lostTo[a.id] || 0)} meals to ${a.name}`, 'rival']].filter((l) => l[0] >= 1).sort((p, q) => q[0] - p[0]);
+  function drawPair(keep) { const a = sel, opts = all.filter((b) => b !== a && links(a, b).length).sort((p, q) => links(a, q)[0][0] - links(a, p)[0][0]).slice(0, 14), o = $('other'), was = keep ? o.value : null;
+    $('pairTitle').textContent = 'Between ' + a.name + ' and'; o.innerHTML = opts.map((b) => `<option value="${b.id}">${b.name} (${b.maker || 'preset'})</option>`).join(''); o.hidden = !opts.length; if (was && opts.some((b) => String(b.id) === was)) o.value = was;
+    if (!opts.length) { $('pair').innerHTML = '<span>Nothing passed between it and any other species.</span>'; return; } const b = all[+o.value], ls = links(a, b);
+    $('pair').innerHTML = `<div><span class="tag">${ls[0][2] === 'eat' ? 'hunter and prey' : 'rivals'}</span></div>` + ls.map((l) => `<div>${l[1]}</div>`).join(''); }
+  function drawBoard() { const y = Math.floor(cursor / YEAR), f = boardTab === 'year' ? (x) => x.yearLife[y] || 0 : (x) => x.life, rows = players.filter((x) => f(x) > 0.5).sort((a, b) => f(b) - f(a)).slice(0, 6), max = rows.length ? f(rows[0]) : 1;
+    $('boardTabs').innerHTML = [['year', 'Year ' + (y + 1)], ['all', 'All time']].map(([k, s]) => `<button type="button" data-tab="${k}" aria-pressed="${k === boardTab}">${s}</button>`).join('');
+    $('board').innerHTML = rows.map((x, i) => `<button type="button" data-id="${x.id}"><i class="fill" style="width:calc((100% - 100px) * ${(f(x) / max).toFixed(3)})"></i><span class="n">${i + 1}</span><span class="dot" style="background:${MCOL[x.makerI]}"></span><span>${full(x)}</span><span class="v">${fmt(f(x))}</span></button>`).join('');
+    const basin = (yy) => all.reduce((a, x) => a + (x.yearLife[yy] || 0), 0), bestY = [0, 1, 2, 3, 4].sort((p, q) => basin(q) - basin(p))[0]; $('basinScore').textContent = `the basin, year ${y + 1}: ${fmt(basin(y))} · best: year ${bestY + 1}`; }
+  function render(keepPair) { const w = when(cursor); $('at').textContent = `Year ${w.year}, day ${w.day} · ${w.season}`; drawAges(); drawCard(); drawPair(keepPair); drawBoard();
+    for (const b of $('zoom').children) b.setAttribute('aria-pressed', String(+b.dataset.z === zoom)); for (const b of $('makers').children) b.setAttribute('aria-pressed', String(b.dataset.m === lit)); }
+  const jump = (id) => { sel = all[id]; cursor = peakAt(sel); if (zoom) zoom = Math.floor(cursor / YEAR) + 1; render(); };
+  $('zoom').innerHTML = ['All', 1, 2, 3, 4, 5].map((z, i) => `<button type="button" data-z="${i}"${i ? ` aria-label="Year ${z}"` : ''}>${i === 1 ? 'Year 1' : z}</button>`).join('');
+  $('makers').innerHTML = HIST.makers.map((m) => `<button type="button" data-m="${m.name}"><span class="dot" style="background:${MCOL[m.i]}"></span>${m.name}</button>`).join('');
+  $('titles').innerHTML = TITLES.map((t) => `<button type="button" data-id="${t.sp.id}"><b>${t.name}</b> · ${t.sp.name} <small>${t.sp.maker} · ${t.say(t.sp)}</small></button>`).join('');
+  $('firsts').innerHTML = HIST.firsts.map((f) => `<button type="button" data-id="${f.id}">${all[f.id].name} <small>${all[f.id].maker} · ${stamp(f.t)} · ${f.text}</small></button>`).join('');
+  $('zoom').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; zoom = +b.dataset.z; if (zoom) { const [t0, t1] = range(); if (cursor < t0 || cursor >= t1) cursor = t0 + 96; } render(true); });
+  $('makers').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; lit = lit === b.dataset.m ? null : b.dataset.m; render(true); });
+  $('boardTabs').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { boardTab = b.dataset.tab; drawBoard(); } });
+  for (const id of ['board', 'titles', 'firsts']) $(id).addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) jump(+b.dataset.id); });
+  $('other').addEventListener('change', () => drawPair(true));
+  window.addEventListener('resize', fit); render(); fit();
+})();
+</script>

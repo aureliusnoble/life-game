@@ -1,0 +1,169 @@
+<title>Loop Wireframes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Layout: one phone-sized wireframe with its notes beside it; stacked on a phone. Greyscale on purpose. */
+  :root {
+    --bg: #f3f4f3; --ink: #1c2222; --muted: #5d6868; --line: #cfd6d4; --card: #ffffff; --accent: #1c2222;
+    --w-bg: #ffffff; --w-ink: #222a2a; --w-soft: #7b8686; --w-line: #9aa5a3; --w-fill: #e9edec; --w-stripe: #dfe5e3;
+    --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #121717; --ink: #e6ecea; --muted: #9aa8a5; --line: #2e3a38; --card: #1a2221; --accent: #e6ecea; --w-bg: #1a2221; --w-ink: #e6ecea; --w-soft: #9aa8a5; --w-line: #62706d; --w-fill: #26302f; --w-stripe: #202a29; color-scheme: dark; } }
+  :root[data-theme="dark"] { --bg: #121717; --ink: #e6ecea; --muted: #9aa8a5; --line: #2e3a38; --card: #1a2221; --accent: #e6ecea; --w-bg: #1a2221; --w-ink: #e6ecea; --w-soft: #9aa8a5; --w-line: #62706d; --w-fill: #26302f; --w-stripe: #202a29; color-scheme: dark; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+  .wrap { max-width: 980px; margin: 0 auto; padding-block: 26px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 18px; }
+  h1 { font-size: clamp(24px, 5vw, 34px); line-height: 1.1; margin: 0; letter-spacing: -0.01em; } h2 { font-size: 17px; margin: 0; } p { margin: 0; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .lede { color: var(--muted); max-width: 66ch; }
+  .pick { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button { font: 500 14px var(--body); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; min-height: 40px; cursor: pointer; }
+  button:hover { border-color: var(--ink); } button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); } button[disabled] { opacity: 0.4; cursor: default; }
+  .stage { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: start; }
+  @media (min-width: 820px) { .stage { grid-template-columns: 360px minmax(0, 1fr); } }
+  .notes { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .notes dl { margin: 0; display: grid; gap: 10px; } .notes dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); } .notes dd { margin: 2px 0 0; max-width: 60ch; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; } .steps button { padding: 6px 11px; min-height: 36px; font-size: 13px; }
+
+  /* the wireframe itself */
+  .wf { width: 100%; max-width: 360px; margin: 0 auto; aspect-ratio: 9 / 17; border: 2px solid var(--w-ink); border-radius: 28px; overflow: hidden; background: var(--w-bg); color: var(--w-ink); display: flex; flex-direction: column; font-size: 13px; line-height: 1.35; position: relative; }
+  .wf .bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 14px; border-bottom: 1.5px solid var(--w-line); font-size: 12.5px; } .wf .bar span { color: var(--w-soft); font-family: var(--mono); font-size: 11px; }
+  .wf .area { flex: 1; position: relative; min-height: 0; background: var(--w-fill); }
+  .wf .hatch { background: repeating-linear-gradient(135deg, var(--w-fill) 0 9px, var(--w-stripe) 9px 18px); }
+  .wf .tag { position: absolute; left: 8px; top: 8px; font-family: var(--mono); font-size: 10.5px; color: var(--w-soft); background: var(--w-bg); border: 1px dashed var(--w-line); border-radius: 6px; padding: 2px 6px; max-width: 78%; }
+  .wf .blob { position: absolute; border: 1.5px solid var(--w-ink); border-radius: 50%; background: var(--w-bg); display: grid; place-items: center; } .wf .blob i { font-style: normal; font-size: 10.5px; color: var(--w-soft); text-align: center; padding: 2px; }
+  .wf .ring { outline: 2px dashed var(--w-ink); outline-offset: 5px; }
+  .wf .pin { position: absolute; border: 2px dashed var(--w-ink); border-radius: 50%; width: 62px; height: 62px; display: grid; place-items: center; font-size: 11px; background: var(--w-bg); }
+  .wf .mark { position: absolute; font-family: var(--mono); font-size: 10.5px; color: var(--w-soft); }
+  .wf .callout { position: absolute; max-width: 62%; background: var(--w-bg); border: 1.5px dashed var(--w-ink); border-radius: 12px; padding: 7px 10px; font-weight: 600; }
+  .wf .sheet { border-top: 2px solid var(--w-ink); background: var(--w-bg); padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .wf .card { position: absolute; left: 12px; right: 12px; background: var(--w-bg); border: 1.5px solid var(--w-ink); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .wf .big { font-size: 15px; font-weight: 600; } .wf .soft { color: var(--w-soft); font-size: 12px; }
+  .wf .line { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .wf .btn { border: 1.5px solid var(--w-ink); border-radius: 999px; padding: 7px 13px; font-weight: 600; } .wf .btn.primary { background: var(--w-ink); color: var(--w-bg); } .wf .btn.quiet { border-style: dashed; font-weight: 500; color: var(--w-soft); border-color: var(--w-line); }
+  .wf .chip { border: 1.5px solid var(--w-line); border-radius: 9px; padding: 5px 8px; } .wf .chip.act { border-color: var(--w-ink); font-weight: 600; } .wf .chip.new { border-style: dashed; border-color: var(--w-ink); } .wf .chip.set { font-size: 11.5px; color: var(--w-soft); }
+  .wf .input { border: 1.5px solid var(--w-line); border-radius: 10px; padding: 9px 11px; color: var(--w-soft); }
+  .wf .opt { border: 1.5px solid var(--w-line); border-radius: 12px; padding: 9px 11px; } .wf .opt b { display: block; }
+  .wf .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; } .wf .nums div { border: 1px solid var(--w-line); border-radius: 10px; padding: 6px 2px; } .wf .nums b { display: block; font-size: 16px; }
+  .wf .nav { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--w-ink); } .wf .nav span { text-align: center; padding: 11px 2px; font-size: 12px; color: var(--w-soft); } .wf .nav .on { color: var(--w-ink); font-weight: 700; box-shadow: inset 0 3px 0 var(--w-ink); }
+  .wf .rank { display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--w-line); } .wf .rank small { color: var(--w-soft); display: block; }
+  .wf .box { border: 1.5px dashed var(--w-line); border-radius: 10px; min-height: 58px; display: grid; place-items: center; color: var(--w-soft); font-family: var(--mono); font-size: 10.5px; text-align: center; padding: 4px; }
+  .wf .rowl { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--w-line); } .wf .rowl small { color: var(--w-soft); display: block; }
+  .wf .pad { padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; overflow: hidden; }
+  .banner { font-family: var(--mono); font-size: 12px; color: var(--muted); border: 1px dashed var(--line); border-radius: 10px; padding: 8px 12px; }
+</style>
+
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <p class="kicker">Flows · wireframe stage</p>
+    <h1>The loops, screen by screen</h1>
+    <p class="lede">Each screen of the four loops as a wireframe: where things sit and the words on them, and nothing else. Step through and say where a screen is wrong, missing or one too many.</p>
+  </header>
+  <p class="banner">Wireframes. Striped areas stand for the living world. Nothing here is a visual design, and nothing is interactive except the stepping.</p>
+
+  <div class="pick" role="group" aria-label="Loop">
+    <button type="button" data-flow="first" aria-pressed="true">The first hour</button>
+    <button type="button" data-flow="daily" aria-pressed="false">The daily visit</button>
+    <button type="button" data-flow="design" aria-pressed="false">The design session</button>
+    <button type="button" data-flow="end" aria-pressed="false">The end</button>
+  </div>
+
+  <div class="stage">
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+      <div class="wf" id="wf" aria-live="polite"></div>
+      <div class="pick" style="justify-content:center"><button type="button" id="prev">Back</button><span id="count" class="kicker"></span><button type="button" id="next">Next</button></div>
+    </div>
+    <aside class="notes">
+      <h2 id="title"></h2>
+      <dl><div><dt>What the player does</dt><dd id="does"></dd></div><div><dt>What the screen is for</dt><dd id="for"></dd></div><div><dt>Still to settle</dt><dd id="open"></dd></div></dl>
+      <ol class="steps" id="steps"></ol>
+    </aside>
+  </div>
+</main>
+
+<script>
+(() => {
+  const world = (label, inner = '', plain = false) => `<div class="area${plain ? '' : ' hatch'}"><span class="tag">${label}</span>${inner}</div>`;
+  const blob = (label, x, y, d, extra = '') => `<div class="blob ${extra}" style="left:${x}%;top:${y}%;width:${d}px;height:${d}px"><i>${label}</i></div>`;
+  const callout = (text, x, y) => `<div class="callout" style="left:${x}%;top:${y}%">${text}</div>`;
+  const mark = (text, x, y) => `<span class="mark" style="left:${x}%;top:${y}%">${text}</span>`;
+  const btn = (t, kind = '') => `<span class="btn ${kind}">${t}</span>`, chip = (t, kind = '') => `<span class="chip ${kind}">${t}</span>`;
+  const sheet = (inner) => `<div class="sheet">${inner}</div>`, line = (inner) => `<div class="line">${inner}</div>`;
+  const bar = (l, r) => `<div class="bar"><b>${l}</b><span>${r}</span></div>`;
+  const nav = (on) => `<div class="nav">${['World', 'Species', 'Design', 'Friends'].map((n) => `<span class="${n === on ? 'on' : ''}">${n}</span>`).join('')}</div>`;
+  const rowi = (a, b, c, extra = '', cls = '') => line(`${chip(a, cls)}${b ? chip(b, cls) : ''}<span class="soft">→</span>${chip(c, 'act ' + cls)}${extra}`);
+  const top = bar('Pip the Fourth', 'day 3 · vigour ▮▮▮▯▯');
+
+  const FLOWS = {
+    first: [
+      { t: 'Arrive', does: 'Types a name. Nothing else is asked: no account, no install.', for: 'To show a living, shared place before anything is explained.', open: 'Whether the first thing seen should be a friend\'s species, if one is alive, in place of presets.',
+        h: world('the basin, close in on a quiet corner', blob('preset', 18, 34, 46) + blob('preset', 52, 22, 38) + blob('preset', 62, 52, 52)) + sheet(`<p class="big">Everything here was made by someone.</p><div class="input">Your name</div>${line(btn('Come in', 'primary'))}`) },
+      { t: 'A body', does: 'Makes three small choices on a starter body: where its eyes look, legs or fins, its colours.', for: 'A body is shaped, not picked from a list, and every choice is valid.', open: 'How much of the real designer shows here. This screen has three handles; the full designer has dozens.',
+        h: bar('Your first creature', 'choice 1 of 3') + world('the body, large, on a plain table', blob('starter body', 24, 30, 170) + blob('eye', 60, 36, 26) + blob('eye', 60, 52, 26) + callout('Drag its eyes to where it looks.', 8, 8), true) + sheet(line(chip('Eyes', 'act') + chip('Legs or fins') + chip('Colours')) + line(btn('Done', 'primary'))) },
+      { t: 'First instinct', does: 'Picks "approach" to finish the row, then adds "touch a plant → bite".', for: 'An instinct is "notice → act". The creature eats: the first success, a few minutes in.', open: 'Whether the row arrives half-written, as here, or the player builds it from empty.',
+        h: world('test tank', blob('yours', 22, 30, 44) + mark('plant', 66, 62) + callout('It walks straight past its food.', 30, 6)) + sheet(rowi('see', 'a plant', '?', '', '') + `<p class="soft">Do what?</p>` + line(chip('approach', 'new') + chip('move away') + chip('wander')) + `<p class="soft">Next: touch a plant → bite</p>`) },
+      { t: 'Fear', does: 'Adds "see a bigger creature → move away" and sets it to strong. Taps the creature to see what is pulling it.', for: 'Strength, and that instincts add up. The first look at "watch it think".', open: 'Whether being caught once, on purpose, is the right way to teach this.',
+        h: world('test tank', blob('yours', 20, 48, 44, 'ring') + blob('hunter', 60, 16, 70) + callout('Tap it to see what pulls it.', 6, 6)) + sheet(rowi('see', 'a plant', 'approach') + rowi('touch', 'a plant', 'bite') + rowi('see', 'a bigger creature', 'move away', chip('strong', 'set new'), 'new')) },
+      { t: 'Where to live', does: 'Taps one of the lit places.', for: 'The world has places, and they differ.', open: 'How many places to offer. Three is easy; the basin has eight biomes.',
+        h: world('the whole basin', `<div class="pin" style="left:38%;top:36%">Grassland</div><div class="pin" style="left:66%;top:44%">Lakeland</div><div class="pin" style="left:10%;top:40%">Heath</div>` + callout('Pick a place with food and room.', 20, 8)) + sheet(`<div class="opt"><b>Grassland</b>Grass everywhere and room to run. Hard winters.</div>${line(btn('Start here', 'primary'))}`) },
+      { t: 'Release', does: 'Names the first one that will hatch.', for: 'The named line: this one is theirs, and its name will pass down.', open: 'Whether the player picks the egg or the game does.',
+        h: world('the chosen place, close in', blob('eggs', 38, 36, 84)) + sheet(`<p class="big">Name the first to hatch</p><div class="input">Pip</div>${line(btn('Release', 'primary'))}`) },
+      { t: 'Meet it', does: 'Strokes it, feeds it, says hello. It answers in its own way.', for: 'Time with the named one is part of day one. The session ends here, not on a menu.', open: 'What "say hello" does while talking is still only an idea: a sound and a pose would be enough.',
+        h: world('close in on the one just hatched', blob('Pip', 30, 26, 130) + mark('it looks up at the finger', 22, 82)) + sheet(line(btn('Stroke') + btn('Feed') + btn('Say hello')) + `<p class="soft">It notices you.</p>`) },
+      { t: 'Until tomorrow', does: 'Leaves, or stays to play.', for: 'A reason to return, and a way back in that is offered, not demanded.', open: 'When to ask about a daily notification. Not here.',
+        h: world('the same place, at dusk', `<div class="card" style="top:22%"><p class="big">Tonight the rest will hatch.</p><p class="soft">Keep your place on any phone:</p>${line(btn('Copy my link') + btn('Not now', 'quiet'))}</div>` + mark('or stay: three puzzles in the tank', 12, 84)) + nav('World') },
+    ],
+    daily: [
+      { t: 'Open', does: 'Touches the named one, or just looks.', for: 'The game opens on the living world with the named one on screen. Never on a menu.', open: 'What shows when the named one is asleep, hidden or has died since yesterday.',
+        h: top + world('the world, close in on your named one', blob('Pip IV', 34, 30, 76, 'ring') + blob('', 12, 58, 40) + blob('', 68, 60, 44) + blob('', 70, 18, 36)) + nav('World') },
+      { t: 'Since yesterday', does: 'Skips it, or steps through. It is kept and can be played again.', for: 'What happened, shown where it happened, with one headline and one thing worth doing.', open: 'How many numbers. Three here; every extra one is something to read.',
+        h: top + world('the map, with yesterday drawn on it', mark('· · · their trail · · ·', 18, 16) + `<div class="card" style="top:26%"><div class="nums"><div><b>14</b>hatched</div><div><b>9</b>died</div><div><b>4th</b>generation</div></div><p class="big">The name passed to Pip the Fourth.</p><p class="soft">hunted 6 · hunger 2 · old age 1</p><p>Worth a look: Yips near the herd.</p>${line(btn('Show me', 'primary') + btn('Skip', 'quiet'))}</div>`) + nav('World') },
+      { t: 'Tend', does: 'Strokes it and feeds it. Perhaps talks to it, through a fixed set of things to say.', for: 'The two-minute visit. Doing only this still counts.', open: 'Talking is an idea, not a decision. Without it this screen is stroke and feed.',
+        h: top + world('close in on the named one', blob('Pip IV', 30, 20, 130) + callout('Tired. We ran all night.', 34, 66)) + sheet(line(btn('Stroke') + btn('Feed') + btn('Talk', 'primary')) + line(chip('How are you?') + chip('What happened?') + chip('Where is the food?'))) },
+      { t: 'Watch', does: 'Follows one. Taps any creature to see what it is doing, then watches it think.', for: 'Looking around should be fun in itself, and answer "what is it doing?" without text.', open: 'How much the sheet says. Three facts here, and the rest behind a tap.',
+        h: top + world('the world, following one', blob('', 30, 30, 50, 'ring') + blob('Yip', 64, 12, 62)) + sheet(`<p class="big">A grown Mossback</p><p>Running from a Yip.</p>${line(chip('Scared', 'act') + chip('hungry'))}<p class="soft">3 days old · 2 broods · hatched at the east nest</p>${line(btn('Watch it think', 'primary'))}`) },
+      { t: 'Nudge', does: 'Drops one of the species\' own scents or calls, stirs a mood, or holds a finger down as a beacon.', for: 'Light, direct play that works through the creatures\' own instincts.', open: 'How long each nudge lasts. They are not rationed.',
+        h: top + world('the world', blob('', 24, 46, 44) + blob('', 58, 54, 40) + callout('Tap the ground to drop it.', 26, 10)) + sheet(line(btn('Scent', 'primary') + btn('Call') + btn('Stir a mood') + btn('Beacon'))) },
+      { t: 'Change', does: 'Picks one of three mutations, or none.', for: 'The one change a day to a living species. It applies to the newly hatched.', open: 'Whether each choice shows what it might do. Here it is a few words, with no forecast.',
+        h: top + world('the world, dimmed', `<div class="card" style="top:6%"><p class="big">Today's change</p><div class="opt"><b>Longer legs</b>Faster, and hungrier.</div><div class="opt"><b>Stay nearer each other</b>A new instinct.</div><div class="opt"><b>Fewer, larger eggs</b>Young that start stronger.</div>${line(btn('None today', 'quiet'))}<p class="soft">Applies to the newly hatched.</p></div>`) + nav('Species') },
+      { t: 'Unlocked', does: 'Tries the new thing in the tank, or leaves it for later.', for: 'One new word or part at a time, each with something to do.', open: 'Where unlocked things wait if left for later.',
+        h: top + world('the world, dimmed', `<div class="card" style="top:22%"><p class="soft">New</p><p class="big">A nose</p><p>Smell food in the dark and through cover.</p>${line(btn('Try it in the tank', 'primary') + btn('Later', 'quiet'))}</div>`) + nav('Design') },
+      { t: 'Friends', does: 'Visits a friend\'s species. Opens the design of one that has ended.', for: 'Where everyone stands by total life, and one thing worth talking about.', open: 'What else friends can do to each other\'s species, if anything.',
+        h: bar('Friends', 'by total life') + `<div class="area" style="padding:10px 14px;overflow:hidden"><p class="big" style="margin-bottom:6px">Mara's Fidgets reached the Marsh.</p><div class="rank"><b>1</b><div>Mara · Fidgets<small>day 6</small></div><span>▮▮▮▮▮</span></div><div class="rank"><b>2</b><div>You · Mossbacks<small>day 3</small></div><span>▮▮▮</span></div><div class="rank"><b>3</b><div>Jon · Glimmerfish<small>ended on day 5</small></div>${btn('Open design', 'quiet')}</div><div class="rank"><b>–</b><div>Lollops<small>preset · not scored</small></div><span>▮▮</span></div></div>` + nav('Friends') },
+      { t: 'Ahead', does: 'Leaves.', for: 'One line about tomorrow, as the reason to come back.', open: 'How sure the forecast has to be before it is shown.',
+        h: top + world('the same place, at dusk', `<div class="card" style="top:30%"><p class="big">Winter begins tomorrow.</p><p>About three days left at this rate.</p>${line(btn('Done', 'primary'))}</div>`) + nav('World') },
+    ],
+    design: [
+      { t: 'What happened', does: 'Reads how the last species went, by looking.', for: 'The shape of its life and what took its members, as counts and a line. No account of why.', open: 'Whether "which instincts fired" belongs here or one tap further in.',
+        h: bar('Mossbacks', 'ended on day 6') + `<div class="area pad"><div class="box">its living weight, day by day · the area is the score</div><p class="big">Total life 412</p><p class="soft">hunted 31 · hunger 12 · cold 9 · old age 20</p><div class="rowl"><div>Fired most<small>see a bigger creature → move away</small></div><span>▮▮▮▮</span></div><div class="rowl"><div>Never fired<small>see my kind → stay near</small></div><span>▯</span></div>${line(btn('Its chronicle') + btn('Open the design', 'primary'))}</div>` + nav('Design') },
+      { t: 'Where the openings are', does: 'Looks over the basin and picks a place and an idea.', for: 'Dominance moves with what else is alive. This shows where there is room now.', open: 'How openings are worked out, and how sure the game has to be before it marks one.',
+        h: bar('The basin', 'autumn · winter in 2 days') + world('the whole basin, with markers', `<div class="pin" style="left:8%;top:26%">spare seed</div><div class="pin" style="left:54%;top:64%">no hunters</div><div class="pin" style="left:44%;top:22%">crowded</div>`) + sheet(`<div class="opt"><b>Tidal flats</b>Buried food and no hunters. Under water part of the day.</div>${line(btn('Design for here', 'primary'))}`) + nav('Design') },
+      { t: 'Design', does: 'Builds the species: its body, its forms, its instincts and how it breeds.', for: 'The hub for a design. Each line opens one editor.', open: 'Whether body and instincts are separate screens, or one screen with the tank always on top.',
+        h: bar('New species', 'budget ▮▮▮▮▯▯') + `<div class="area pad">${line(chip('Grown', 'act') + chip('+ form', 'set'))}<div class="rowl"><div>Body<small>plain size · legs · eyes on the sides</small></div><span>›</span></div><div class="rowl"><div>Instincts<small>4 rows · 1 mood</small></div><span>›</span></div><div class="rowl"><div>Breeding<small>alone · many small eggs</small></div><span>›</span></div><p class="soft">Start from</p>${line(chip('a plain body') + chip('my last design') + chip('a preset'))}${line(btn('Try it', 'primary'))}</div>` + nav('Design') },
+      { t: 'Try it', does: 'Watches the design among what lives in the chosen place, changes it, watches again.', for: 'A trial against the real neighbours before anything is released.', open: 'How long a trial runs, and whether it can be sped up.',
+        h: bar('Test tank', 'Tidal flats · as they are now') + world('test tank, with the species living there brought in', blob('yours', 16, 40, 44, 'ring') + blob('Pipkin', 58, 20, 36) + blob('Mooch', 64, 60, 40)) + sheet(line(btn('Drop food') + btn('Tide in') + btn('Night') + btn('Send a hunter')) + rowi('smell', 'buried food', 'approach') + line(btn('Back to the design', 'quiet') + btn('Ready', 'primary'))) },
+      { t: 'Release, or hold', does: 'Releases now, or keeps the design for a better moment.', for: 'The player chooses when. Releasing retires the species they have.', open: 'How plainly to say what retiring means. One line here.',
+        h: bar('Release', 'autumn · winter in 2 days') + world('the chosen place, close in', blob('eggs', 38, 30, 84)) + sheet(`<p class="big">Release in the Tidal flats?</p><p>Your Mossbacks will be retired: their eggs stop hatching and the living ones grow old.</p>${line(btn('Release now', 'primary') + btn('Hold for later', 'quiet'))}`) },
+    ],
+    end: [
+      { t: 'The last one', does: 'Watches.', for: 'The moment itself, without a screen in the way.', open: 'What this is like when the species was retired and dwindled, and not killed.',
+        h: world('the world, close in on the last one', blob('Pip VI', 34, 34, 80) + mark('it lies down', 40, 72)) + sheet(`<p class="big">The Mossbacks are gone.</p>${line(btn('Their life', 'primary'))}`) },
+      { t: 'Its life', does: 'Reads it, and can share it with friends.', for: 'The whole life in one view: its shape, the score, the records, the major events and the named line.', open: 'How many events make the chronicle. Four here.',
+        h: bar('Mossbacks', 'day 1 to day 6') + `<div class="area pad"><div class="box">its living weight over six days</div><p class="big">Total life 412 · 2nd among friends</p>${line(chip('longest named line') + chip('first to winter in the Marsh'))}<div class="rowl"><div>Day 1<small>hatched in the Grassland</small></div></div><div class="rowl"><div>Day 3<small>Yips found the herd</small></div></div><div class="rowl"><div>Day 4<small>the first winter</small></div></div><div class="rowl"><div>Day 6<small>the last one died of cold</small></div></div><p class="soft">Pip · Pip II · Pip III · Pip IV · Pip V · Pip VI</p></div>` },
+      { t: 'What is kept', does: 'Opens the old design to change it, or leaves it.', for: 'Nothing earned is lost when a species ends.', open: 'Where old designs live, and how many are kept.',
+        h: bar('Kept', 'from the Mossbacks') + `<div class="area pad"><div class="rowl"><div>The design<small>open it again and change it</small></div>${btn('Open', 'quiet')}</div><div class="rowl"><div>Unlocked<small>a nose · Scared · stay near</small></div></div><div class="rowl"><div>Records<small>2 set</small></div></div><div class="rowl"><div>The named line<small>six name-bearers, and how each died</small></div><span>›</span></div><p class="soft">Friends can now open this design too.</p></div>` },
+      { t: 'What next', does: 'Begins a design session, now or later.', for: 'The openings in the world as they stand, as the nudge toward the next idea.', open: 'Whether this is its own screen or simply the start of the design session.',
+        h: bar('The basin', 'winter') + world('the whole basin, with markers', `<div class="pin" style="left:8%;top:26%">spare seed</div><div class="pin" style="left:54%;top:64%">no hunters</div>`) + sheet(line(btn('Start a new species', 'primary') + btn('Later', 'quiet'))) + nav('Design') },
+    ],
+  };
+
+  let flow = 'first', i = 0; const $ = (id) => document.getElementById(id);
+  function render() { const list = FLOWS[flow], s = list[i]; $('wf').innerHTML = s.h; $('title').textContent = `${i + 1}. ${s.t}`; $('does').textContent = s.does; $('for').textContent = s.for; $('open').textContent = s.open;
+    $('count').textContent = `${i + 1} of ${list.length}`; $('prev').disabled = i === 0; $('next').disabled = i === list.length - 1;
+    const steps = $('steps'); steps.textContent = ''; list.forEach((x, k) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.textContent = `${k + 1}. ${x.t}`; b.setAttribute('aria-pressed', String(k === i)); b.addEventListener('click', () => { i = k; render(); }); li.append(b); steps.append(li); });
+    for (const b of document.querySelectorAll('[data-flow]')) b.setAttribute('aria-pressed', String(b.dataset.flow === flow)); }
+  for (const b of document.querySelectorAll('[data-flow]')) b.addEventListener('click', () => { flow = b.dataset.flow; i = 0; render(); });
+  $('prev').addEventListener('click', () => { if (i > 0) { i--; render(); } }); $('next').addEventListener('click', () => { if (i < FLOWS[flow].length - 1) { i++; render(); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') $('next').click(); if (e.key === 'ArrowLeft') $('prev').click(); });
+  render();
+})();
+</script>
