@@ -1,16 +1,17 @@
 # Plan: full design first, then build
 
-Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a design area of its own, what the mockup stage of the look settled and what waits for the art pass, what is left of the design stage in order, and the build in detail.
+Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a design area of its own, a mechanics pass before the balance pass, what the mockup stage of the look settled and what waits for the art pass, what is left of the design stage in order, and the build in detail.
 
 ## Where the project stands
 
 | Stage | What it is | State on 16 November |
 |---|---|---|
 | 1. Design | Fifteen areas, each written down, tested for direction, answered and closed; mockups to react to | Twelve areas are written and their questions answered. The look has had two rounds of independent review and is closed for the mockup stage. Left: the species sheet (area 13), the screens (area 14), and the audits that have been waiting |
-| 2. Balance pass | The whole design run through the tests in section 3, and its numbers set | Not started. It needs the list of parts and words frozen, which area 13 does for bodies |
-| 3. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
-| 4. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
-| 5. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
+| 2. Mechanics pass | Every body part and every part of a brain shown to matter in play somewhere, and every complex behaviour the design promises written in the vocabulary and run (section 3) | Not started as a pass. Parts of it exist: thirteen body parts and draft 4's verbs were audited, and the first lab runs already name parts that do nothing |
+| 3. Balance pass | The whole design run through the balance tests in section 3, and its numbers set | Not started. It comes after the mechanics pass and the screens |
+| 4. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
+| 5. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
+| 6. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
 
 **What the mockup stage is for** (the owner, 16 November). The mockups exist to make sure that the systems later work depends on are in place and flexible enough. They are not the full design pass. Seasons, night, weather, every state on every body and every biome's full set of things come later, in the art pass during the build (section 7). What the reviews found is carried forward to that pass and is not lost.
 
@@ -30,6 +31,7 @@ Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a
 | Time | A day is about one real hour and a season about two real days |
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
+| Mechanics pass | Before balance is set, every body part and every part of a brain has to have a meaningful effect on play. It need not be balanced, but it has to be worth choosing in some setting. And the complex behaviours the design promises have to be programmable with the mechanics that exist. Asked on 16 November |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
 | Fading | The same for every species of the same age, whatever state the species is in. Two days of grace, then a ramp slower than doubling that never stops, so that everything dies in the end. A better design lasts longer: few are expected past seven or eight days, and twenty is acceptable for a truly exceptional one |
 | Generations | Many in a species' life, set by size: about 25 for a small species, 10 for a plain one, and six or more even for a large one |
@@ -65,7 +67,49 @@ Each area below goes through the same four steps, and is not called done until i
 3. **Questions and answers** on the choices that are yours.
 4. **Close it** against its own checklist, and list what is still open.
 
-## 3. How balance is tested
+## 3. How mechanics and balance are tested
+
+There are two passes, and they ask different things. The mechanics pass asks whether everything does something and whether what we promised can be built. The balance pass asks whether the numbers are fair. The first comes before the screens are designed, because it can remove, merge or add parts and words. The second comes last.
+
+### The mechanics pass
+
+Asked for on 16 November. It covers bodies, brains, life cycles and societies (areas 2, 3, 5 and 6), and it is run on the frozen lists: the species sheet for bodies (area 13) and the vocabulary for brains.
+
+**First question: does every part matter?** "Part" means every option on the species sheet that costs budget, and every piece a brain is written from: each sense, act, mood, mood function, signal and setting in `design/neural-blocks.md`. Each has to pass four tests. None of them is about balance.
+
+| Test | Passes when |
+|---|---|
+| It changes something | The same design with and without it differs in what happens: what it eats, what eats it, where it can live, how many it leaves |
+| It is worth choosing somewhere | In at least one setting, a design with it does better than the same design without it, by more than the noise from map to map. A setting is a habitat, a season, a set of neighbours or a way of living |
+| It is not another part under a second name | There is a setting where it and its nearest neighbour give different results |
+| Its effect can be seen | A player watching the tank could tell that it did something |
+
+A part that fails is reworked, merged with its neighbour, given the mechanic it lacks, or cut. The first lab runs already give a starting list of failures: the sting, camouflage, false eyes and egg size changed nothing in any habitat, and three of the four insides, eyes on stalks and paddles were never in a best design.
+
+**Second question: can what we envisaged be programmed?** The design documents promise particular ways of living. Each one has to be written out in full in the vocabulary, on a body the species sheet allows, within the allowance a player has, and then run.
+
+| Where they are listed | What |
+|---|---|
+| `design/neural-blocks.md`, sections 11 and 12 | The tested recipes and the behaviour atlas |
+| `design/social.md`, section 5 | About thirty-five societies and what each is built from |
+| `design/life-cycles.md`, section 7 | Ways of living through the year |
+| `design/body.md`, section 12 | Builds this should allow |
+| `design/presets.md`, section 3 | The twenty preset species |
+
+| Test | Passes when |
+|---|---|
+| It can be written | The whole behaviour is a program in the existing words, with nothing left as "and then it somehow" |
+| It fits | It is within the allowance for a brain, and small enough to read on a phone |
+| It does what it says | Run in the stand-in, the behaviour is there to be seen and counted: the sentinel calls and the others hide, the hoard is filled and later eaten, the pack takes prey none of them could alone |
+| It pays somewhere | In at least one setting it does better than the plain version of the same species |
+
+Where a behaviour cannot be written, the pass records exactly what is missing, and the choice is to add the smallest mechanic that makes it possible or to stop promising it. `design/neural-blocks.md` section 13 already keeps a list of what the vocabulary cannot say.
+
+**What it leaves behind.** A verdict for every part and every promised behaviour; the changes to the lists; and a library of the written behaviours. The library is used three more times: as tests the real simulation has to pass, as the preset species, and as examples for the game to teach from.
+
+**What it does not do.** It sets no costs and tunes no numbers. A part can pass while being too strong or too weak, as long as there is somewhere it is the right choice.
+
+### The balance pass
 
 "Balanced" is broken into tests that can each pass or fail.
 
@@ -141,7 +185,7 @@ Next for the lab: make those two fixes the default and re-run the search with th
 
 ## 4. Design areas, in order
 
-Earlier areas constrain later ones, so the order matters. The score, which is part of area 7, was settled first because every test depends on it. Art and the mockups in section 5 run alongside. After area 14 comes a balance pass over the whole design, using the tests in section 3, and only then the build plan. Section 8 gives what is left, in order.
+Earlier areas constrain later ones, so the order matters. The score, which is part of area 7, was settled first because every test depends on it. Art and the mockups in section 5 run alongside. A mechanics pass over areas 2, 3, 5 and 6 comes once area 13 has fixed the list of body parts, and before the screens. After area 14 comes a balance pass over the whole design. Both are set out in section 3. Only then comes the build plan. Section 8 gives what is left, in order.
 
 | # | Area | Has to answer | Done when |
 |---|---|---|---|
@@ -149,8 +193,8 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 | 2 | **Life cycles** | Eggs, growth, young forms, sexes, lifespans, death and what the dead become | At least four ways of living through a year each win somewhere |
 | 3 | **Social organisation** | Loners, pairs, herds, packs, colonies with castes, territories | Each form can be built from the vocabulary and each pays in some biome |
 | 4 | **Ecosystem balance** | Hunters and prey that persist together; the cast of preset species; how many player builds can coexist | A mixed world runs for a long time without collapsing to one species |
-| 5 | **Bodies** | Fix shells, the inside and camouflage; audit the untested parts; set costs | No part is always right or always wrong |
-| 6 | **Behaviour** | Fold in everything decided since draft 4: forms, home scent, For life, the additions from the social survey, attaching, and an extensive set of words for the world's events and directions. Audit the untested verbs and mood functions; check it can express areas 2 and 3 | Every word has passed its audit |
+| 5 | **Bodies** | Fix shells, the inside and camouflage; audit the untested parts; set costs | No part is always right or always wrong. The mechanics pass is where this is shown, part by part |
+| 6 | **Behaviour** | Fold in everything decided since draft 4: forms, home scent, For life, the additions from the social survey, attaching, and an extensive set of words for the world's events and directions. Audit the untested verbs and mood functions; check it can express areas 2 and 3 | Every word has passed its audit, and every promised behaviour has been written and run, in the mechanics pass |
 | 7 | **Lifespan and scoring** | Fading, what counts as doing well, what happens at death, the rhythm of play across weeks | Lifespans land in 3 to 7 days in simulation, and skill moves them |
 | 8 | **Player loops** | The first hour and how the game teaches itself; the daily visit; the design session; death and what follows; unlocks and puzzles, and how unlocks draw players toward ways of playing they have not tried; long-term goals | Each loop is written as a sequence of screens and has a reason to return |
 | 9 | **Pet play** | The named line: who the heir is, and which memories pass down. What a player can do with the name-bearer and with others, where, and what comes back. Whether the name-bearer can be talked to (below) | A mockup that is pleasant to poke at for five minutes |
@@ -334,8 +378,13 @@ Each is something to react to on a phone, and each belongs to one or more of the
    5. Build the body designer as a concept test on a phone, drawing with the kit.
    6. Run the checks: cover, the presets, seen, any combination, every state and act, variety, and a person.
    7. Take `design/body.md` to draft 3 and give the balance lab the same list.
-2. **The audits that have been waiting,** for direction only: about twenty body parts and the reworked ones (area 5); ten verbs, most mood functions and what draft 5 added (area 6); the four social checks that waited on forms and on the body rework (area 3).
-3. **The lab made ready for the balance pass:** the two fixes made the default; the root-stock rule for food; hunters that are designs; many more behaviour choices; long runs of a mixed world.
+2. **The rig made ready,** since both passes run on it: the two fixes to the stand-in made the default; the root-stock rule for food; hunters that are designs and not a fixed cast; the brain's whole vocabulary open to the lab, not four choices; forms; long runs of a mixed world.
+3. **The mechanics pass** (section 3).
+   1. Every body part through its four tests, starting with the ones already known to do nothing and the twenty or so never tested.
+   2. Every part of a brain through the same four: the ten untested verbs, most mood functions, and what draft 5 added.
+   3. Every promised behaviour written in full and run: the recipes and the atlas, the societies, the ways of living through the year, the builds, the presets. The four social checks that waited on forms are among these.
+   4. For each failure: rework, merge, add the missing mechanic, or cut. The species sheet and the vocabulary are changed to match and the affected tests run again.
+   5. The library of written behaviours kept, with a verdict for each part.
 4. **Screens (area 14),** in the stages already set out in section 4:
    1. The concept tests still missing: the creature inspector and the views of the world. The body designer comes from area 13.
    2. Flows: every screen and the paths between them, as plain wireframes with real content. The research on interfaces is checked at its sources first, since it was made from search summaries only.
@@ -344,7 +393,7 @@ Each is something to react to on a phone, and each belongs to one or more of the
    5. Tried on real phones by two or three friends who have not seen it.
    6. The click-through of the whole game.
 5. **The three questions on performance answered** (`design/performance.md`, section 6): the oldest phone to support; whether the world may need a connection; whether wind and small events are shared.
-6. **The balance pass** over the whole design, by the tests in section 3: the fixes to size, the inside, the sting and camouflage; hunters and prey that last together; a cast of presets that fluctuates and holds; lifespans of three to seven days that skill moves; then costs.
+6. **The balance pass** over the whole design, by the balance tests in section 3, on lists the mechanics pass has already cleared of dead parts: size and the inside; hunters and prey that last together; a cast of presets that fluctuates and holds; lifespans of three to seven days that skill moves; then costs.
 7. **The build plan (area 15),** written against the finished design.
 
 ## 9. Building, once the design is closed
@@ -355,13 +404,13 @@ The order from draft 1 stands, with the designers first. The technology is the o
 
 - **One simulation.** It is exact and repeatable, so the same design behaves in the tank as in the world, and the lab's tests are the game's tests.
 - **One species sheet** (area 13), read by the simulation, the drawing and the designer.
-- **Checks that cannot be weakened.** The audits in `design/checks/` become the simulation's tests. The look is checked from screenshots by a reviewer who did not make it, as in the paper study. Things only people can judge are tried with friends at the end of phases 3, 5 and 7.
+- **Checks that cannot be weakened.** The audits in `design/checks/` and the library of behaviours from the mechanics pass become the simulation's tests. The look is checked from screenshots by a reviewer who did not make it, as in the paper study. Things only people can judge are tried with friends at the end of phases 3, 5 and 7.
 
 | Phase | What is built | What it is tested by | It is done when |
 |---|---|---|---|
 | 1. Foundations | The project's layout; the species sheet as data that is checked when read; repeatable arithmetic and chance; the test and screenshot rigs; putting a version on the server; backups | The rigs run on every change | An empty world ticks on the server, a phone connects to it, and every check runs by itself |
-| 2. The simulation | The basin and its habitats; food and how it recovers; bodies from sheets, with their costs; the behaviour words and the small machine that runs them; life cycles, breeding and forms; societies; hunting, remains and scavenging; seasons, day and night and weather as rules; fading and the score; the record of what happened | The audits as tests; the balance lab run on it; its cost measured with 3,000 creatures on the real server | The tests in section 3 pass on the real simulation, hunters and their prey last together or the design is changed, and the cost is known |
-| 3. The designers and a test tank | The kit as the game's own drawing code: a species' pictures made from its sheet on the phone, the posture, states and acts. The body designer and the behaviour editor with "watch it think". The tank, running the same simulation. The first of the scrapbook components. The first hour. One place close up | Measured on two phones, one of them old: a place with 150 creatures, a close view with twenty, the time to make a species' pictures. Tried with friends | A friend who has not seen it designs a species and watches it live in the tank without help |
+| 2. The simulation | The basin and its habitats; food and how it recovers; bodies from sheets, with their costs; the behaviour words and the small machine that runs them; life cycles, breeding and forms; societies; hunting, remains and scavenging; seasons, day and night and weather as rules; fading and the score; the record of what happened | The audits as tests; the library of written behaviours from the mechanics pass, each of which has to run again; the balance lab run on it; its cost measured with 3,000 creatures on the real server | The mechanics pass holds on the real simulation: every part still matters somewhere and every promised behaviour still works. The balance tests pass, hunters and their prey last together or the design is changed, and the cost is known |
+| 3. The designers and a test tank | The kit as the game's own drawing code: a species' pictures made from its sheet on the phone, the posture, states and acts. The body designer and the behaviour editor with "watch it think". The tank, running the same simulation. The first of the scrapbook components. The first hour. One place close up | Measured on two phones, one of them old: a place with 150 creatures, a close view with twenty, the time to make a species' pictures. Tried with friends | A friend who has not seen it designs a species and watches it live in the tank without help, and one of them builds a behaviour from the library, given only what it should do |
 | 4. The shared world | The world running all day on the server; updates for whatever is in view; the three distances; the twenty presets, each stepping aside for a player's species; release and retiring; the day's mutation; the score and the boards | A world of presets alone run for a week of its own time; the data a visit uses | The world fluctuates and holds for a week, and a player's species can enter it |
 | 5. The daily loop and pet play | The recap and its instruments; the named line and its heirs; tending in the close view; nudges; talking, within its limits; visiting, postcards, the chronicle and titles; death and history; unlocks as kits | Tried with friends over a week | A visit takes five to fifteen minutes and gives a reason to come back |
 | 6. The art pass | Everything in section 7's second table, and sound | Independent review each round, as in the study, until every subject passes | Each biome, season, state and act has been through review, and the game runs within its budget on the oldest phone |
@@ -384,6 +433,8 @@ The order from draft 1 stands, with the designers first. The technology is the o
 | Risk | Where it is dealt with |
 |---|---|
 | Hunters and prey cannot both persist, so a player's hunter species may be unable to last | Area 4 found no fix in the stand-in. To be tested first when the real simulation exists, in phase 2; respawning covers presets only |
+| A part or a word does nothing, or is never worth choosing | The mechanics pass, part by part, before any number is tuned |
+| A behaviour the design promises cannot be built from the vocabulary, or only by us and not by a player on a phone | The mechanics pass writes each one out in full; phase 3 has a friend build one |
 | One build wins everywhere | Areas 1, 4 and 5, then the balance pass |
 | Friends cannot build behaviours on a phone | Area 8 mockups, then phase 3 |
 | A player makes a body the kit cannot draw, or one that looks like every other | Area 13: the checks on random sheets and on variety |
