@@ -1,6 +1,6 @@
 # Body designer: physical characteristics
 
-Draft 2, November 2026. A rework after the life-cycle and social designs and the first runs of the balance lab. Draft 1 is in git history.
+Draft 3, 16 November 2026. Adds the species sheet in section 16: one list of every choice about a body, read by the rules, the drawing and the designer. Sections 1 to 14 are draft 2, a rework after the life-cycle and social designs and the first runs of the balance lab. Earlier drafts are in git history.
 
 Anything marked **tested** was run in `design/checks/bodyaudit.js` or `design/checks/balancelab.js`, stand-in worlds whose numbers show direction, not balance. Everything else is on paper. Costs are left for the balance pass at the end of the design process.
 
@@ -50,6 +50,8 @@ Decided in `design/social.md`, section 9. A form is one kind of individual: a se
 | Look | Colour and pattern, free; camouflage for one kind of ground, costed | How it looks and how easily it is seen |
 
 Breeding is set for the species, not the body: see `design/life-cycles.md`.
+
+Since draft 3 these steps are written out as one sheet of 69 choices, in section 16. The sheet adds a step for looks, which this table lacked: a head, a tail, how the body is cut, a face and the style of each covering.
 
 **What the body works out,** shown live beside a test tank as the player edits:
 
@@ -314,3 +316,124 @@ Added 15 November 2026. The owner asked that the body designer let a player be a
 1. Should the seven look-only choices go into the designer as a step of their own, after Shape?
 2. Which of the six in the second table should mean something, and which should be left out of the first version?
 3. Should segments come back from the deferred list, since two of the most liked creatures depend on them?
+
+**Working answers, 16 November.** The owner said the plan looked good and to proceed, so the proposals in `design/plan.md` stand as working answers until the owner says otherwise. They are built into the sheet in section 16.
+
+1. Yes. The look-only choices are on the sheet as a kind of their own, free, and the designer shows them in groups after the ones that cost.
+2. Wings are a mover for short bursts over land. A body wave is a mover, slow on open ground and quick in water and reeds. Arms are a grip. A club is a weapon at the rear. A thing worn is how camouflage for one kind of ground is drawn. Found objects wait for a later version.
+3. Yes, as a look. Rounds are how a body is cut and cost nothing; length is what means something. A body that moves by a wave is always cut in rounds.
+
+Each of the new parts still has to be shown to matter, in the mechanics pass.
+
+## 16. The species sheet
+
+Added 16 November 2026. Design area 13 in `design/plan.md`. The sheet is `design/sheet/sheet.js`. The balance lab reads it for what a body can be given, the paper kit draws a creature from it, and the body designer in `design/mockups/body-designer.html` writes it. The page is built by `node design/sheet/make.js` from the sheet, a template and the kit, so none of the three is kept twice.
+
+**Three kinds of line.** Forty-one choices mean something in play and cost budget. Twenty-eight change only the look and are free. What is never chosen is worked out when the sheet is turned into a drawing: how light each part is against its neighbours, where the eyes sit, shadows, gait, and where limbs attach.
+
+### Choices that mean something
+
+Each has to be seen, so each names how. "In the lab" says whether the stand-in world models it yet; the twenty-five that it does not are the first work of the mechanics pass.
+
+| Choice | Options | What it does | How it is seen | In the lab |
+|---|---|---|---|---|
+| Plan | front and back, no front | Whether there is a rear to attack and a way to face | A body with a head end, or a bell with arms all round | No |
+| Length | a slider | Long bodies are fast and turn slowly | The length of the outline | Yes |
+| Width | a slider | Room inside for organs; a wide body is slow | The width of the outline | Yes |
+| Taper | a slider | Where the weight sits: a heavy front turns slowly, a heavy rear starts slowly | Which end of the outline is wider | No |
+| Size | a slider | The tempo of its whole life: small lives fast, large lives slow | How big it is beside others | Yes |
+| Gut | a slider | Lets it live on poor, bulky food | A wide middle | Yes |
+| Fat | a slider | Reserves for a winter, a famine or a sleep | Plump all over, with blunt ends | Yes |
+| Muscle | a slider | Speed off the mark, bite, carrying and digging | Wide shoulders and haunches | Yes |
+| Lungs | a slider | How long it can sprint or stay under water | A deep chest | Yes |
+| Brood | a slider | How many eggs, or how large | Wide hips | No |
+| Skin on its front | smooth, bristles, slime, spikes, shell | What can bite or cling to its front | A ruff, a slick, a brow of spikes or a hood over the head | No |
+| Skin on its sides | smooth, bristles, slime, spikes, shell | What can bite or cling to its sides | A fringed outline, a slick, spines standing out sideways or a rim of shell | No |
+| Skin on its back | smooth, bristles, slime, spikes, shell | What can bite or cling to its back | A pelt, a slick, a row of spikes or a shell | Yes |
+| Camouflage | none, grass, reed, sand, rock, mud, leaf litter | On that one ground, still or creeping, it cannot be seen except from very close | It wears a piece of that ground on its back | Yes |
+| False eyes | has it or not | A stalker thinks it is being watched | Two eye spots on its rear | Yes |
+| A tail that sheds | has it or not | Leaves its tail with whatever grabs it | A bright tail with a ring where it breaks | No |
+| Ink | has it or not | A cloud that works as cover | A short nozzle at its rear | No |
+| Eyes | none, facing forward, on the sides, on stalks | Forward: far and narrow. Side: wide and shorter. Stalks: all round and shortest | Close together at the front, far apart at the sides, or out on stalks | Yes |
+| Eye size | a slider | Larger eyes see farther and cost more | The size of the eyes | Yes |
+| Nose | has it or not | Scent in the dark and through cover | A dark nose on a pale muzzle | Yes |
+| Ears | has it or not | Hears calls from all directions | Ears | No |
+| Touch | has it or not | Touch, warmth, wet and dry, close by | Feelers or barbels at its front | No |
+| Side line | has it or not | Feels movement nearby without seeing it | A row of dots along each flank | Yes |
+| Heat pits | has it or not | Warm bodies in the dark | Two warm-coloured pits ahead of its eyes | No |
+| Echo | has it or not | A call that shows what is near, and gives its own place away | Two great dishes for ears | No |
+| Compass | has it or not | Knows north from south | One bright lozenge on the crown of its head | No |
+| Moves on | legs, stilts, webbed feet, fins, paddles, a skirt of cilia, one broad foot, body waves | What ground it is good on | Paws, stilts, webbed feet, fins, paddles, a skirt of fringe, one broad foot, or a body that goes in waves | Yes |
+| Tail fin | has it or not | Short bursts in water | A fan of a tail | No |
+| Wings | has it or not | Short bursts over land. Proposed in area 13 | Two pairs of wings | No |
+| Mouth | plain, jaws, locking jaws, tongue, beak | Jaws bite what they can open round; locking jaws hold on; a tongue strikes from a distance; a beak cracks shells | Tusks, crossed pincers, a coiled tongue or a hard beak | No |
+| Sting | none, front, rear | Wounds or tires, and needs time to refill | A lance at its front, or a barb on its tail | Yes |
+| Horns | has it or not | Pushes others off food and tips over a shelled animal | Horns | No |
+| Digging claws | has it or not | Digs burrows and buried food, and wounds | Long pale claws on its fore feet | No |
+| Club tail | has it or not | A weapon at the rear. Proposed in area 13 | A tail that ends in a club | No |
+| Grip | none, suckers, hooks, arms | Holds on to another creature or to the world. Suckers hold smooth and wet; hooks hold bristles and stems; arms hold what they are put round | Fore limbs that end in round pads, in hooks, or plain arms | No |
+| Pouch | has it or not | Carries more food or seed, and carries young | A pocket on its back | No |
+| Gland that gives | has it or not | Makes food to give: dew, or milk for the young | Pale beads along its back | No |
+| Voice | a slider | The range and number of its calls | Two pale sacs at its throat, once it is more than a small voice | No |
+| Scent glands | has it or not | Marks, and how long they last | Two ochre glands at its hips | No |
+| Glow | has it or not | A display that works in the dark | A pale lantern on a stalk | No |
+| Crest | has it or not | Puffs up to look bigger | A crest | No |
+
+The five organs are shares of one inside. An even split leaves the outline alone; a large share swells its part of the body and a small one pinches it.
+
+### Looks
+
+| Choice | Options | What it changes |
+|---|---|---|
+| Head | round, wedge, spade, none, a face on the body | The shape of the head, or a face set on the body itself |
+| Head size | a slider | How big the head is for the body |
+| Face length | a slider | A short face or a long one |
+| Blunt ends | a slider | Pointed ends or blunt ones |
+| Cut in rounds | a slider | One piece, or a row of rounds |
+| Curve | a slider | A body in rounds held straight or in an S |
+| Arms | a slider | How many arms a body with no front has |
+| Pairs of limbs | a slider | How many pairs of limbs |
+| Limb length | a slider | Short limbs or long ones |
+| Legs as | paws, pillars, hopper | Legs as paws, as round feet, or with the hind pair folded to hop |
+| Toes | cream, accent | The colour of its toes |
+| Tail | none, tuft, whip, stub, fork, knob | The tail, where no part has already decided it |
+| Tail length | a slider | How long the tail is |
+| Eye style | plain, ring, dome, one | Plain eyes, eyes in pale rings, eyes in domes, or one great eye |
+| Eye colour | dark, accent | Dark eyes, or eyes in its bright paper |
+| Lids | a slider | Wide eyes or sleepy lids |
+| Mouth as | muzzle, smile, line, dot, none | The mouth, where no weapon has already decided it |
+| Jaws as | tusks, fang | Jaws as two tusks or as one fang |
+| Cheeks | a slider | How rosy its cheeks are |
+| Ears as | round, point | Round ears or pointed ones |
+| Touch as | feelers, barbels | Feelers on the head or barbels at the mouth |
+| Ornament | none, fronds, frill | Fronds behind the head, or a frill down the spine of a body in rounds |
+| Bristles as | pelt, fringe | Bristles on the back as a pelt or as rings of soft fringe |
+| Shell as | dome, bands | A shell as one dome or as overlapping bands |
+| Pattern | none, saddle, bib, bands, spots, mask | A patch on the back, a paler front, bands, spots or a mask over the eyes |
+| Main paper | 24 papers | Its main paper. The kit sets how light each part is |
+| Second paper | 24 papers | The paper for its shell, bands and coverings |
+| Bright paper | 24 papers | Its bright paper, for tips, spots and signals |
+
+**A look never stands in for a part.** Ears are drawn only on a body that hears, a muzzle with a nose only on one that smells, horns only on one that has them. Where a weapon, a sense or a mover has decided a piece of the body, the look for that piece is not offered: a club decides the tail, a beak decides the mouth. The designer shows such choices as not in use and says why.
+
+### What the checks found
+
+Run with `node design/checks/sheetaudit.js`, which draws sheets in the designer page.
+
+| Check | Result on 16 November |
+|---|---|
+| Cover, both ways | Passes. The sheet names 99 entries in the kit, the kit has 99, and none is left over on either side. To get there the kit gained about thirty entries, and four entries the kit had with no meaning became choices of looks: folded legs, round feet, rings of fringe and a frill |
+| The presets fit | Passes. The study's sixteen creatures, a helper form, and the twenty preset species of `design/presets.md` are each written as the plain sheet and its differences, and each draws |
+| Seen | Passes, after a first run in which 18 of 69 options changed fewer than 14 pixels of a creature a centimetre long. Slime, bristles, back spikes, heat pits, a pouch, grips, a tail that sheds, ink, a compass and a front sting were redrawn |
+| Any combination | Passes. Two hundred sheets made by chance, half of them pushed to the ends of every range, were drawn 4,800 times: standing, in mid-step, and in each of the twelve states and eight bearings. None threw an error, drew nothing or ran off its picture. Every body is measured before it is drawn so that it fits |
+| Variety | Measured: of a hundred budgeted random outlines a centimetre long, the nearest other differs in 28% of its area at the median and none has a near twin. An independent reviewer's judgement is in `design/reviews/` |
+| A person | Not done. It needs someone who has not seen the designer |
+
+**What the checks cannot see.** Whether a part is where it should be, whether two parts lie across each other badly, and whether the whole is appealing. Those are for the reviewers and for the owner.
+
+### Known limits
+
+- **A body with no front uses fewer choices.** Fourteen of the forty-one do nothing on it, among them every mover, the tail, grips and the sting, because it has no ends and its arms are its limbs. Either that plan is given its own drawing for each, or it is offered as a simpler body. Not decided.
+- **Forms.** A form is a second sheet that differs from the base, and the sheet can price the difference. The designer does not edit a second form yet.
+- **Costs are placeholders.** They exist so the designer can show a budget.
+- **Left off the sheet on purpose:** spit and shock, which are untested and undefined; warning colours and looking like another species, which are deferred.

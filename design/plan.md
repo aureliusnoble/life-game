@@ -423,11 +423,11 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 |---|---|---|
 | 1.1 The sheet as one data file | Done, 16 November | `design/sheet/sheet.js`: 69 choices, 41 that mean something and 28 that are looks. It checks a sheet, makes one at random, and turns one into the row the kit draws |
 | 1.2 Cover in both directions | Done, 16 November | `node design/checks/sheetaudit.js cover` passes: the sheet names 99 kit entries, the kit has 99, and none is left over on either side. Spit, shock, warning colours and mimicry are left off the sheet on purpose |
-| 1.3 The six parts and the three questions | Not started | The plan's proposals stand as working answers unless the owner says otherwise |
-| 1.4 The kit extended | In progress | Twenty-five new entries are in the kit's tables; each still has to be looked at and checked for being seen |
-| 1.5 The body designer on a phone | In progress | `design/mockups/body-designer.html`, built by `node design/sheet/make.js` from the sheet, a template and the kit shared out of the paper study. Not yet published or reviewed |
-| 1.6 The checks | Not started | The last one needs a person |
-| 1.7 `design/body.md` draft 3, and the lab on the same list | Not started | |
+| 1.3 The six parts and the three questions | Done as working answers, 16 November | Written in `design/body.md` sections 15 and 16 and built into the sheet. They stand unless the owner says otherwise, and each new part still has to pass the mechanics pass |
+| 1.4 The kit extended | Done, 16 November | About thirty new entries in the kit's tables. All 69 options of choices that mean something change what is seen at a centimetre |
+| 1.5 The body designer on a phone | Built and published, 16 November | `design/mockups/body-designer.html`, built by `node design/sheet/make.js`. A concept test, not an interface design. It does not edit a second form |
+| 1.6 The checks | In progress | Cover, the presets, seen, any combination and every state pass. Two independent reviews are running: variety and appeal, and a blind quiz of what each part is. The check with a person is not done |
+| 1.7 `design/body.md` draft 3, and the lab on the same list | Done, 16 November | Section 16 of the body design. The lab now checks its body choices against the sheet: all 13 are on it, and 25 of the sheet's 41 are not modelled by the lab yet |
 | 2 The rig made ready | Not started | |
 | 3 The mechanics pass | Not started | |
 | 4 Screens, with the UI pass | Not started | |

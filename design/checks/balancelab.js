@@ -8,6 +8,7 @@ const { I, mean, rng } = require('./verbaudit.js');
 const { build, cost, flee, graze, SCARED, HUNT, hunterBody } = require('./bodyaudit.js');
 const { live, count, toCover } = require('./envaudit.js');
 const { BIOMES, makeBiome } = require('./worldaudit.js');
+const SHEET = require('../sheet/sheet.js');      // the species sheet: the one list of body choices, shared with the drawing and the designer
 
 // ---------- the design space: every choice a player can make, as data ----------
 const GENES = {
@@ -95,12 +96,18 @@ const load = () => { const all = {}; if (fs.existsSync(OUT)) for (const f of fs.
 const save = (k, v) => { fs.mkdirSync(OUT, { recursive: true }); fs.writeFileSync(path.join(OUT, k + '.json'), JSON.stringify(v, null, 1) + '\n'); };
 
 // ---------- checks on the lab itself, so that a broken test cannot pass as a finding ----------
+// Which of the lab's body choices are on the species sheet, and which of the sheet's choices the lab does not yet model.
+// The last four genes are behaviour, not body, and belong to the vocabulary, not the sheet.
+const BEHAVIOUR = ['threat', 'herd', 'laying', 'eggs'];
+function againstSheet() { const named = new Set(SHEET.FIELDS.filter((f) => f.lab).flatMap((f) => f.lab.split(', '))), off = Object.keys(GENES).filter((g) => !BEHAVIOUR.includes(g) && !named.has(g)), unmodelled = SHEET.FIELDS.filter((f) => f.kind === 'rule' && !f.lab).map((f) => SHEET.LABEL[f.id]);
+  const odd = []; for (const [gene, id] of [['eyes', 'eyes'], ['move', 'mover']]) for (const o of GENES[gene]) if (!SHEET.BY[id].options.includes(o)) odd.push(gene + ': ' + o); return { off, unmodelled, odd }; }
 function check() {
   console.log('\nCHECKS ON THE LAB ITSELF');
   const seeds = [1, 2, 3, 4, 5, 6], runs = seeds.map((s) => trial(PLAIN, 'meadow', s)), old = seeds.slice(0, 3).map((s) => trial(PLAIN, 'meadow', s, { hungryHunters: true }));
   const sc = runs.map((x) => x.score), sd = Math.sqrt(mean(sc.map((x) => (x - mean(sc)) ** 2)));
   const blind = mean(seeds.slice(0, 3).map((s) => trial({ ...PLAIN, eyes: 'none' }, 'meadow', s).score)), safe = mean(seeds.slice(0, 3).map((s) => trial(PLAIN, 'meadow', s, { noHunters: true }).score));
   const line = (ok, text) => console.log(`  ${ok ? 'pass' : 'FAIL'}  ${text}`);
+  { const a = againstSheet(); line(!a.off.length && !a.odd.length, `every body choice the lab searches is on the species sheet${a.off.length ? ' (not on it: ' + a.off.join(', ') + ')' : ''}${a.odd.length ? ' (options the sheet does not have: ' + a.odd.join(', ') + ')' : ''}`); console.log(`  note  the sheet has ${a.unmodelled.length} choices that mean something which the lab does not model yet: ${a.unmodelled.join(', ')}`); }
   line(mean(runs.map((x) => x.hunters)) > 0.99, `hunters are present for the whole run (${(100 * mean(runs.map((x) => x.hunters))).toFixed(0)}% of hunter-beats; with hunters that can starve, as in the earlier audits, ${(100 * mean(old.map((x) => x.hunters))).toFixed(0)}%)`);
   line(mean(sc) > 0.2 && safe > mean(sc) * 1.15, `the plain design is neither wiped out nor untroubled, so better and worse designs can both show (${mean(sc).toFixed(2)})`);
   const spiky = seeds.slice(0, 3).map((s) => trial({ ...PLAIN, spikes: 'all', threat: 'ignore' }, 'meadow', s));
@@ -174,7 +181,7 @@ function fading() {
     console.log('  ' + name.padEnd(46) + cells.join('') + life.toFixed(1).padStart(12)); }
 }
 
-module.exports = { GENES, PLAIN, price, express, trial, score, search, label };
+module.exports = { GENES, PLAIN, price, express, trial, score, search, label, againstSheet };
 if (require.main === module) { const [cmd, arg] = process.argv.slice(2);
   if (cmd === 'check') check();
   else if (cmd === 'search') { const t0 = Date.now(), r = search(arg); save(arg, r); console.log(`${arg}: best ${r.top[0].s} (plain ${r.plain}) after ${r.tried} designs in ${((Date.now() - t0) / 1000).toFixed(0)} s: ${label(r.top[0].g)}`); }
