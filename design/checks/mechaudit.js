@@ -98,9 +98,9 @@ const suite = (name) => () => { const { T } = require('./mech/' + name + '.js'),
   return ok; };
 const acts = suite('acts'), moods = suite('moods'), species = suite('species');
 // ---- library: every promised behaviour, written in the vocabulary and run
-function library() { const LIB = require('./mech/library.js'), only = process.argv[3], res = []; let ok = true; for (const e of LIB.L) { if (only && e.name !== only) continue; const r = LIB.judge(e); console.log(LIB.report(r)); res.push(r); ok = ok && r.pass; }
-  if (!only) { console.log(`\nlibrary: ${res.filter((r) => r.pass).length} of ${res.length} behaviours written, fitting, doing what they say and paying`); fs.writeFileSync(path.join(__dirname, 'mech', 'library-results.json'), JSON.stringify(res, null, 1)); } return ok; }
-
+function library() { const LIB = require('./mech/library.js'), only = process.argv[3], res = [], dir = path.join(__dirname, 'mech', 'library-results'); let ok = true; for (const e of LIB.L) { if (only && e.name !== only && e.group !== only) continue; let r; try { r = LIB.judge(e); } catch (err) { r = { name: e.name, group: e.group, from: e.from, says: e.says, unit: e.unit, pass: false, written: false, notes: ['it stopped the world: ' + String(err && err.message || err).slice(0, 160)], lines: 0, moods: 0 }; } console.log(LIB.report(r)); res.push(r); ok = ok && r.pass; }
+  const groups = [...new Set(res.map((r) => r.group))]; if (!only || groups.length === 1 && LIB.L.some((e) => e.group === only)) { fs.mkdirSync(dir, { recursive: true }); for (const g of groups) fs.writeFileSync(path.join(dir, g + '.json'), JSON.stringify(res.filter((r) => r.group === g), null, 1)); }
+  console.log(`\nlibrary: ${res.filter((r) => r.pass).length} of ${res.length} behaviours written, fitting, doing what they say and paying`); return ok; }
 const CHECKS = { cover, handles, wired, smoke, long, body, words, acts, moods, species, library }, which = process.argv[2] || 'all', list = which === 'all' ? Object.keys(CHECKS).filter((k) => !['long', 'body', 'words', 'acts', 'moods', 'species', 'library'].includes(k)) : [which];
 if (!list.every((k) => CHECKS[k])) { console.log('usage: node design/checks/mechaudit.js [' + Object.keys(CHECKS).join(' | ') + ' | all]'); process.exit(2); }
 let all = true; for (const k of list) { const ok = CHECKS[k](); all = all && ok; console.log(''); } console.log(all ? 'All of these pass.' : 'Some of these fail.'); process.exit(all ? 0 : 1);
