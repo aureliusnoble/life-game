@@ -1,4 +1,4 @@
-// node design/checks/mechaudit.js [cover | handles | wired | smoke | all | long | body [choice]]
+// node design/checks/mechaudit.js [cover | handles | wired | smoke | all | long | body [choice] | words [family]]
 // The mechanics pass (design/plan.md, section 3), as far as it has got.
 //   cover    which choices on the species sheet and which words of the vocabulary the rig says it models, family by family
 //   handles  whether the rig really has a rule for each word it names: the word is taken by the parser or the table that
@@ -7,6 +7,8 @@
 //   smoke    five short lives: a grazer eats, a hunter kills and eats, pairs breed, a mood binds to one creature, a brood comes in two forms
 //   body     the mechanics pass for bodies: each choice on the sheet with it, without it and with its nearest neighbour
 //            (design/checks/mech/body.js). Slow, so it runs only when named; give a choice's id to run that one
+//   words    the mechanics pass for the noticing words: one scene for each word, and every word of its family asked in
+//            every scene, so that two words that answer alike are found (design/checks/mech/words.js)
 //   long     a mixed world of grazers and hunters, both of them designs, over two seasons. Slow, so it runs only when named
 // These say that a rule exists. Whether each rule matters in play is the mechanics pass itself, which comes next.
 const fs = require('fs'), path = require('path');
@@ -83,6 +85,12 @@ function body() { const { T } = require('./mech/body.js'), H = require('./mech/h
     fs.writeFileSync(path.join(__dirname, 'mech', 'body-results.json'), JSON.stringify(res, null, 1)); }
   return ok; }
 
-const CHECKS = { cover, handles, wired, smoke, long, body }, which = process.argv[2] || 'all', list = which === 'all' ? Object.keys(CHECKS).filter((k) => k !== 'long' && k !== 'body') : [which];
+// ---- words: is every word of the vocabulary its own word?
+function words() { const W = require('./mech/words.js'), only = process.argv[3], out = W.all(only); let ok = true, n = 0, good = 0; const untested = [];
+  for (const f of out) { const bad = f.res.filter((r) => !r.ok); n += f.res.length; good += f.res.length - bad.length; console.log((bad.length || f.missing.length ? '  FAIL  ' : '  ok    ') + (f.kind + ' / ' + f.family).padEnd(34) + (f.res.length - bad.length) + ' of ' + f.res.length + (bad.length ? '   ' + bad.map((r) => r.word + ': ' + r.note).join('; ') : '') + (f.missing.length ? '   no scene for: ' + f.missing.join(', ') : '')); if (bad.length || f.missing.length) ok = false; }
+  if (!only) { const done = new Set(out.map((f) => f.kind + ' / ' + f.family)); for (const [name] of VOCAB.families()) if (!done.has(name)) untested.push(name); console.log(`\nwords: ${good} of ${n} words are told apart from their neighbours, in ${out.length} families`); if (untested.length) console.log('  families tested elsewhere or not yet: ' + untested.join('; ')); }
+  return ok; }
+
+const CHECKS = { cover, handles, wired, smoke, long, body, words }, which = process.argv[2] || 'all', list = which === 'all' ? Object.keys(CHECKS).filter((k) => k !== 'long' && k !== 'body' && k !== 'words') : [which];
 if (!list.every((k) => CHECKS[k])) { console.log('usage: node design/checks/mechaudit.js [' + Object.keys(CHECKS).join(' | ') + ' | all]'); process.exit(2); }
 let all = true; for (const k of list) { const ok = CHECKS[k](); all = all && ok; console.log(''); } console.log(all ? 'All of these pass.' : 'Some of these fail.'); process.exit(all ? 0 : 1);
