@@ -421,19 +421,19 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 
 | Step | State | Notes |
 |---|---|---|
-| 1.1 The sheet as one data file | Done, 16 November | `design/sheet/sheet.js`: 69 choices, 41 that mean something and 28 that are looks. It checks a sheet, makes one at random, and turns one into the row the kit draws |
+| 1.1 The sheet as one data file | Done, 16 November | `design/sheet/sheet.js`: 72 choices, 41 that mean something and 31 that are looks (three were added by the reviews: a waist, a wing span and the paper a pattern is cut from). It checks a sheet, makes one at random, and turns one into the row the kit draws |
 | 1.2 Cover in both directions | Done, 16 November | `node design/checks/sheetaudit.js cover` passes: the sheet names 99 kit entries, the kit has 99, and none is left over on either side. Spit, shock, warning colours and mimicry are left off the sheet on purpose |
 | 1.3 The six parts and the three questions | Done as working answers, 16 November | Written in `design/body.md` sections 15 and 16 and built into the sheet. They stand unless the owner says otherwise, and each new part still has to pass the mechanics pass |
 | 1.4 The kit extended | Done, 16 November | About thirty new entries in the kit's tables. All 69 options of choices that mean something change what is seen at a centimetre |
 | 1.5 The body designer on a phone | Built and published, 16 November | `design/mockups/body-designer.html`, built by `node design/sheet/make.js`. A concept test, not an interface design. It does not edit a second form |
-| 1.6 The checks | In progress | Cover, the presets, seen, any combination and every state pass. Two independent reviews are running: variety and appeal, and a blind quiz of what each part is. The check with a person is not done |
+| 1.6 The checks | Done, 16 November, but for the check with a person | Cover, the presets, seen, any combination and every state pass. Two rounds of independent review, with what was accepted and rejected, are in `design/reviews/sheet-*.md`. The blind quiz of what each part is went from 59 of 63 to 60 of 62, with more answers given confidently. Variety, appeal and craft went from 6, 4 and 5 to 7, 5 and 6; the reviewer's verdict is still half met: wide enough, not yet clear enough when many parts share a small body. That finish is listed for the art pass in `design/look.md` section 21. The check with a person who has not seen the designer needs a person |
 | 1.7 `design/body.md` draft 3, and the lab on the same list | Done, 16 November | Section 16 of the body design. The lab now checks its body choices against the sheet: all 13 are on it, and 25 of the sheet's 41 are not modelled by the lab yet |
 | 2.1 The vocabulary as one data file | Done, 16 November | `design/sheet/vocab.js`: 350 words in 71 families, taken from `design/neural-blocks.md` draft 5 |
-| 2.2 One rig, and a count of what it models | Done, 16 November | `design/checks/rig.js` and `node design/checks/mechaudit.js cover`. At the start the stand-in models 16 of 41 body choices and 85 of 350 words |
-| 2.3 A mechanic in the rig for each of the 25 body choices it lacks | Not started | |
-| 2.4 A mechanic in the rig for each family of words it lacks | Not started | 265 words in about 60 families; a family shares one mechanic |
-| 2.5 The two fixes made the default; the root-stock rule for food | Not started | |
-| 2.6 Hunters that are designs; forms; long runs of a mixed world | Not started | |
+| 2.2 One rig, and a count of what it models | Done, 16 November | `design/checks/rig.js` and `node design/checks/mechaudit.js cover`. At the start the stand-in modelled 16 of 41 body choices and 85 of 350 words |
+| 2.3 A mechanic in the rig for each of the 25 body choices it lacks | Done, 16 November | `design/checks/rig/body.js` turns a sheet into 72 numbers. `mechaudit.js wired` checks that every choice changes a number and every number is read |
+| 2.4 A mechanic in the rig for each family of words it lacks | Done, 16 November | `design/checks/rig/senses.js` and `mind.js`: all 350 words have a rule, and `mechaudit.js handles` checks each by program. A rule existing is not the same as it mattering: that is step 3 |
+| 2.5 The two fixes made the default; the root-stock rule for food | Done, 16 November | In the rig a plant is eaten in bites, so a large body needs more of them, and nothing caps a species' numbers. A patch of food eaten to nothing comes back slowly and one left some growth comes back fast |
+| 2.6 Hunters that are designs; forms; long runs of a mixed world | Done, 16 November | Every species in the rig is a sheet and a brain. Forms have their own bodies. `mechaudit.js long` runs grazers and hunters for two seasons: both were alive at the end (63 and 14), which the older stand-in never managed, though nothing is balanced yet |
 | 3.1 Every body choice through its four tests | Not started | |
 | 3.2 Every word through its four tests, family by family | Not started | |
 | 3.3 Every promised behaviour written in full and run | Not started | |

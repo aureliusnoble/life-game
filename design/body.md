@@ -51,7 +51,7 @@ Decided in `design/social.md`, section 9. A form is one kind of individual: a se
 
 Breeding is set for the species, not the body: see `design/life-cycles.md`.
 
-Since draft 3 these steps are written out as one sheet of 69 choices, in section 16. The sheet adds a step for looks, which this table lacked: a head, a tail, how the body is cut, a face and the style of each covering.
+Since draft 3 these steps are written out as one sheet of 72 choices, in section 16. The sheet adds a step for looks, which this table lacked: a head, a tail, how the body is cut, a face and the style of each covering.
 
 **What the body works out,** shown live beside a test tank as the player edits:
 
@@ -377,7 +377,7 @@ Each has to be seen, so each names how. "In the lab" says whether the stand-in w
 | Voice | a slider | The range and number of its calls | Two pale sacs at its throat, once it is more than a small voice | No |
 | Scent glands | has it or not | Marks, and how long they last | Two ochre glands at its hips | No |
 | Glow | has it or not | A display that works in the dark | A pale lantern on a stalk | No |
-| Crest | has it or not | Puffs up to look bigger | A crest | No |
+| Crest | has it or not | Puffs up to look bigger | A row of bright feathers from brow to nape | No |
 
 The five organs are shares of one inside. An even split leaves the outline alone; a large share swells its part of the body and a small one pinches it.
 
@@ -388,7 +388,8 @@ The five organs are shares of one inside. An even split leaves the outline alone
 | Head | round, wedge, spade, none, a face on the body | The shape of the head, or a face set on the body itself |
 | Head size | a slider | How big the head is for the body |
 | Face length | a slider | A short face or a long one |
-| Blunt ends | a slider | Pointed ends or blunt ones |
+| Rounded ends | a slider | Square ends, or ends that round to a point |
+| Waist | one piece, head on a neck, two lobes, three lobes | How the body is divided. Added after the first review of variety |
 | Cut in rounds | a slider | One piece, or a row of rounds |
 | Curve | a slider | A body in rounds held straight or in an S |
 | Arms | a slider | How many arms a body with no front has |
@@ -397,7 +398,9 @@ The five organs are shares of one inside. An even split leaves the outline alone
 | Legs as | paws, pillars, hopper | Legs as paws, as round feet, or with the hind pair folded to hop |
 | Toes | cream, accent | The colour of its toes |
 | Tail | none, tuft, whip, stub, fork, knob | The tail, where no part has already decided it |
-| Tail length | a slider | How long the tail is |
+| Tail length | a slider | How long the tail is, up to 3.4 times the plain length |
+| Wing span | a slider | How far its wings spread, where it has them |
+| Pattern cut from | the pale paper, the second, the bright one | With the second paper the pattern makes a coat of two colours |
 | Eye style | plain, ring, dome, one | Plain eyes, eyes in pale rings, eyes in domes, or one great eye |
 | Eye colour | dark, accent | Dark eyes, or eyes in its bright paper |
 | Lids | a slider | Wide eyes or sleepy lids |
@@ -405,7 +408,7 @@ The five organs are shares of one inside. An even split leaves the outline alone
 | Jaws as | tusks, fang | Jaws as two tusks or as one fang |
 | Cheeks | a slider | How rosy its cheeks are |
 | Ears as | round, point | Round ears or pointed ones |
-| Touch as | feelers, barbels | Feelers on the head or barbels at the mouth |
+| Touch as | feelers, barbels, feathers | Feelers on the head, barbels at the mouth, or feathered feelers like a moth's |
 | Ornament | none, fronds, frill | Fronds behind the head, or a frill down the spine of a body in rounds |
 | Bristles as | pelt, fringe | Bristles on the back as a pelt or as rings of soft fringe |
 | Shell as | dome, bands | A shell as one dome or as overlapping bands |
@@ -422,14 +425,30 @@ Run with `node design/checks/sheetaudit.js`, which draws sheets in the designer 
 
 | Check | Result on 16 November |
 |---|---|
-| Cover, both ways | Passes. The sheet names 99 entries in the kit, the kit has 99, and none is left over on either side. To get there the kit gained about thirty entries, and four entries the kit had with no meaning became choices of looks: folded legs, round feet, rings of fringe and a frill |
+| Cover, both ways | Passes. The sheet names 103 entries in the kit, the kit has 103, and none is left over on either side. To get there the kit gained about thirty entries, and four entries the kit had with no meaning became choices of looks: folded legs, round feet, rings of fringe and a frill |
 | The presets fit | Passes. The study's sixteen creatures, a helper form, and the twenty preset species of `design/presets.md` are each written as the plain sheet and its differences, and each draws |
 | Seen | Passes, after a first run in which 18 of 69 options changed fewer than 14 pixels of a creature a centimetre long. Slime, bristles, back spikes, heat pits, a pouch, grips, a tail that sheds, ink, a compass and a front sting were redrawn |
 | Any combination | Passes. Two hundred sheets made by chance, half of them pushed to the ends of every range, were drawn 4,800 times: standing, in mid-step, and in each of the twelve states and eight bearings. None threw an error, drew nothing or ran off its picture. Every body is measured before it is drawn so that it fits |
-| Variety | Measured: of a hundred budgeted random outlines a centimetre long, the nearest other differs in 28% of its area at the median and none has a near twin. An independent reviewer's judgement is in `design/reviews/` |
+| Variety, measured | Of a hundred random outlines a centimetre long, the nearest other differs in 30% of its area at the median and none has a near twin |
+| Told apart: a blind quiz | Two rounds, each with a fresh reviewer who was shown one part at a time and the list of parts. 59 of 63, then 60 of 62 with thirty answers given confidently against 22. After the first, twenty parts were redrawn; after the second, six. The organs are the weak point by nature: each is a share of the inside and shows only as build. Records: `design/reviews/sheet-quiz-round1.md` and `-round2.md` |
+| Variety and appeal: a reviewer's judgement | Two rounds. Variety 6 then 7, appeal 4 then 5, craft 5 then 6; appealing creatures 18 then 34 of a hundred, bad ones 38 then 19. Verdict both times: half met. The choices are wide enough to go far beyond the presets; they are not yet clear enough when many parts share one small body. Records: `design/reviews/sheet-variety-round1.md` and `-round2.md` |
 | A person | Not done. It needs someone who has not seen the designer |
 
 **What the checks cannot see.** Whether a part is where it should be, whether two parts lie across each other badly, and whether the whole is appealing. Those are for the reviewers and for the owner.
+
+### What the reviews changed
+
+The first review of variety found that nothing in the drawing decided which idea wins when a body carries eight or ten. These rules now do, and the drawing keeps them whatever the player chooses:
+
+- **One thing on the back.** Camouflage is one piece of one ground. It lies between the hips and the neck, stops short of the face on a body with no head, bends with a body in rounds, and steps a tone from the body's paper.
+- **Only real eyes look.** Eye spots are flat rings in the body's tone. An eye gains a pale rim on a head too close to it in tone.
+- **Papers keep a step apart.** The second and bright papers step a tone from a body of nearly their own colour; three pale papers or three loud ones from far sides of the wheel are never drawn as chosen.
+- **One shadow.** A long spine casts no further than a short one.
+- **A picture holds the whole drawing,** tail, wings and leaf included.
+- **What bends, bends together.** A rim, a skirt, a broad foot and what is worn on the back all follow the spine.
+- **A body made by chance spends a random share of the budget,** so the plain end shows as well as the loaded end.
+
+The reviews also widened the outline: a waist (one piece, head on a neck, two lobes, three), longer tails, a wing span, and a pattern that can take the second paper.
 
 ### Known limits
 

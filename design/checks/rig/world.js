@@ -47,7 +47,10 @@ class World {
   nearestRegion(c, test, reach) { let best = null, bd = reach; for (const g of this.regions) { if (!test(g)) continue; const [dx, dy, d] = this.off(c, g), r = this.rOf(g), gap = Math.max(0, d - r); if (r > 0 && gap < bd) { bd = gap; best = { g, dx: dx / (d || 1), dy: dy / (d || 1), d: gap, centre: d, inside: d < r }; } } return best; }
   // ---- things lying about: food, seed, eggs, material, the dead. Each has a kind, a place, and how much is left
   item(kind, x, y, more = {}) { const it = Object.assign({ id: this.nextId++, kind, x, y, left: 1, born: this.t }, more); this.items.push(it); return it; }
-  take(it) { const i = this.items.indexOf(it); if (i >= 0) this.items.splice(i, 1); }
+  take(it) { const i = this.items.indexOf(it); if (i >= 0) this.items.splice(i, 1); if (it.patch && it.left <= 0.01) it.patch.stock = Math.max(0.05, it.patch.stock - it.patch.wear); }
+  // a patch grows food of one type up to a cap; a patch that fills in bursts (a tide, a fall of fruit) says when food has just arrived
+  // Root stock: a patch eaten down to nothing comes back slowly, and one left some of its growth comes back fast, so holding back can pay
+  patch(type, x, y, r, o = {}) { const p = Object.assign({ type, x, y, r, rate: 0.02, cap: 8, kind: 'plant', n: 0, stock: 1, wear: 0.06 }, o); (this.patches || (this.patches = [])).push(p); return p; }
   // ---- marks, calls and clouds
   mark(c, name, lasts, reach) { this.marks.push({ name, x: c.x, y: c.y, t: this.t, until: this.t + lasts, reach, by: c.id, kind: c.kind, home: c.home }); }
   call(c, name, range) { this.calls.push({ name, x: c.x, y: c.y, t: this.t, range, by: c.id, kind: c.kind }); }
@@ -63,6 +66,8 @@ class World {
     for (const g of this.regions) if (g.burnt && !g.regrown && t - g.burnt > 600) { g.regrown = t; g.fresh = t; }                    // new growth comes after a fire
     for (const it of this.items.slice()) { if (it.kind === 'seed' && !it.held && it.sprout && t >= it.sprout) { this.take(it); this.item('plant', it.x, it.y, { type: it.type || 'plant', sown: true }); }
       if ((it.kind === 'meat' || it.kind === 'the dead') && !it.kept && t - it.born > 1500) this.take(it); }
+    for (const p of this.patches || []) { const have = this.items.filter((it) => it.patch === p && !it.held).length, put = () => { const a = this.rnd() * Math.PI * 2, d = Math.sqrt(this.rnd()) * p.r; this.item(p.kind, p.x + Math.cos(a) * d, p.y + Math.sin(a) * d, Object.assign({ type: p.type, patch: p }, p.more)); };
+      if (p.every) { if (t % p.every === 0 && (!p.season || p.season === this.season)) { for (let i = have; i < p.cap; i++) put(); this.moment('food just arrived', 6); } } else if (have < p.cap && (!p.season || p.season === this.season) && this.rnd() < p.rate * p.stock) put(); p.stock = Math.min(1, p.stock + 0.0004 * (0.3 + have / p.cap)); }
     this.t++; }
   // ---- setting things going from a test
   rain(on) { if (on !== this.raining) this.moment(on ? 'rain just started' : 'rain just stopped'); this.raining = on; }

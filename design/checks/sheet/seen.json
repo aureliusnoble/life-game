@@ -97,7 +97,7 @@
  {
   "label": "Skin on its back: slime",
   "id": "skinBack",
-  "n": 30
+  "n": 67
  },
  {
   "label": "Skin on its back: spikes",
@@ -142,7 +142,7 @@
  {
   "label": "False eyes",
   "id": "falseEyes",
-  "n": 39
+  "n": 27
  },
  {
   "label": "A tail that sheds",
@@ -202,7 +202,7 @@
  {
   "label": "Echo",
   "id": "ping",
-  "n": 195
+  "n": 94
  },
  {
   "label": "Compass",
@@ -252,7 +252,7 @@
  {
   "label": "Wings",
   "id": "wings",
-  "n": 288
+  "n": 289
  },
  {
   "label": "Mouth: jaws",
@@ -262,7 +262,7 @@
  {
   "label": "Mouth: locking jaws",
   "id": "mouth",
-  "n": 368
+  "n": 375
  },
  {
   "label": "Mouth: tongue",
@@ -332,7 +332,7 @@
  {
   "label": "Scent glands",
   "id": "scent",
-  "n": 30
+  "n": 22
  },
  {
   "label": "Glow",

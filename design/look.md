@@ -555,3 +555,31 @@ The reviewer could not have made a nest, a burrow or snowy grass from the guide 
 7. **Solid is its own property, apart from height.** A creature walks over what is flat or low, steps over a root, goes round a body such as a log or a stone, passes under what is tall or overhead, and goes into a recess with a mouth. Each asset says which.
 8. **Food may carry the accent.** A thing that is eaten may be saturated, so it can be found: fruit, a flower, lichen, a kingcup.
 9. **A worked example** is the lichen in the study: one torn outline lying flat, a second smaller piece, a few dark dabs, and bites as scallops cut from its rim.
+
+## 21. The species sheet's reviews: rules of composition, and what waits for the art pass
+
+Area 13 fitted the look and the body rules to each other (`design/body.md` section 16). Two rounds of blind quiz and two of variety review followed; their records are `design/reviews/sheet-*.md`. This section holds what they settled for the look.
+
+**Rules the drawing keeps for the player.** None removes a choice. The part stays owned and counted; the drawing places it, sizes it or re-tones it.
+
+1. One thing is worn on the back. It lies between the hips and the neck, never over a face, bends with the body, and steps a tone away from the body's paper. Reeds are one bundle of three along the spine.
+2. Only real eyes have a pupil and a light in them. Eye spots are flat rings, smaller than before, in the body's tone.
+3. An eye never sinks into its head: where the two are close in tone the eye gets a pale rim.
+4. Papers keep a step apart (`settle()` on the sheet), and a part laid on the body steps a tone from it (`apart()` in the kit).
+5. One shadow offset for the whole creature.
+6. A picture is scaled to hold the whole drawing.
+7. What follows the body's edge follows its bend (`hem()` in the kit).
+8. A thing with a fixed meaning keeps one sign wherever it sits: a sting is one barb at the front or the rear; shell is scored into plates on the back, the sides and the front; slime is one yellow green; arcs are sound and dots are scent.
+9. A blot of ink, a trail of slime and anything else that is an event or belongs to the ground is not part of a body's drawing.
+
+**For the art pass.** The second reviewer's verdict was half met: wide enough, not yet clear enough. What it listed and what was deferred:
+
+- Detail that follows drawn size: a small species shows fewer kinds of part, drawn larger. It needs a simpler form of every part and belongs with the level-of-detail work.
+- The skin of the front (a ruff, a hood, spikes at the brow) redrawn to frame the eyes, not to crowd them. Two big cones among the brow's spikes read as horns.
+- At most two kinds of thing projecting forward of a head, and at most two kinds of round thing on a rim.
+- An order of yielding on the back between a pattern, eye spots and the thing worn.
+- The third paper held to about a sixth of the area; fixed-colour parts (scent, heat pits, the compass, the lantern, mud) tinted toward the body as slime now is.
+- Lit edges on dark plates and legs; a harder edge on shell at the sides.
+- A head pushed clear of a body that is wider than it is long.
+
+**Candidates for new rows,** each an entry in a table that exists: a row of wing shapes (butterfly, bat, bird, ray, flap, long ear); pattern layouts for a coat of two colours (halves, a spine stripe, blotches); front and hind legs sized apart; big claws and lopsided bodies; fur as a surface and not a rim; coils and trailing arms.
