@@ -103,7 +103,7 @@
     eyes: 'Eyes', eyeSize: 'Eye size', nose: 'Nose', ears: 'Ears', whiskers: 'Touch', sideLine: 'Side line', heatPits: 'Heat pits', ping: 'Echo', compass: 'Compass', mover: 'Moves on', tailFin: 'Tail fin', wings: 'Wings', mouth: 'Mouth', sting: 'Sting', horns: 'Horns', claws: 'Digging claws', club: 'Club tail', grip: 'Grip',
     pouch: 'Pouch', gland: 'Gland that gives', voice: 'Voice', scent: 'Scent glands', glow: 'Glow', crest: 'Crest', head: 'Head', headSize: 'Head size', headLong: 'Face length', blunt: 'Blunt ends', rounds: 'Cut in rounds', curve: 'Curve', arms: 'Arms', pairs: 'Pairs of limbs', limbLen: 'Limb length', legStyle: 'Legs as', toes: 'Toes',
     tail: 'Tail', tailLen: 'Tail length', eyeStyle: 'Eye style', eyeColour: 'Eye colour', lids: 'Lids', mouthStyle: 'Mouth as', jawStyle: 'Jaws as', cheeks: 'Cheeks', earStyle: 'Ears as', touchStyle: 'Touch as', ornament: 'Ornament', furStyle: 'Bristles as', shellStyle: 'Shell as', pattern: 'Pattern', hueBody: 'Main paper', hueSecond: 'Second paper', hueAccent: 'Bright paper' };
-  const WORD = { 'plan.front': 'front and back', round: 'no front', longLegs: 'stilts', wideFeet: 'webbed feet', suckerFoot: 'one broad foot', wave: 'body waves', cilia: 'a skirt of cilia', locking: 'locking jaws', litter: 'leaf litter', forward: 'facing forward', side: 'on the sides', stalk: 'on stalks', none: 'none' };
+  const WORD = { 'plan.front': 'front and back', 'plan.round': 'no front', 'head.none': 'none, a face on the body', longLegs: 'stilts', wideFeet: 'webbed feet', suckerFoot: 'one broad foot', wave: 'body waves', cilia: 'a skirt of cilia', locking: 'locking jaws', litter: 'leaf litter', forward: 'facing forward', side: 'on the sides', stalk: 'on stalks', none: 'none' };
   const word = (v, id) => WORD[id + '.' + v] || WORD[v] || String(v);
   // choices that do nothing as the sheet stands, and why. A choice that is idle is not offered and is not tested for being seen
   const idle = (s) => { const o = {}, round = s.plan === 'round', limbed = ['legs', 'longLegs', 'wideFeet', 'fins', 'paddles'].includes(s.mover), headless = round || s.head === 'none', set = (ids, why) => ids.forEach((id) => { if (!o[id]) o[id] = why; });
@@ -136,7 +136,10 @@
   const faults = (s) => { const bad = []; for (const f of FIELDS) { const v = s[f.id]; if (v === undefined) { bad.push(f.id + ' is missing'); continue; } if (f.type === 'num' && !(v >= f.range[0] && v <= f.range[1])) bad.push(f.id + ' is out of range'); if ((f.type === 'pick' || f.type === 'hue') && !f.options.includes(v)) bad.push(f.id + ' is not an option'); } for (const k in s) if (!BY[k] && k !== 'name') bad.push(k + ' is not on the sheet'); return bad; };
   // a sheet made by chance. `wild` reaches for the ends of every range, to stress the kit
   const random = (rnd, wild) => { const s = {}; for (const f of FIELDS) { if (f.type === 'num') { let u = rnd(); if (wild) u = u < 0.5 ? u * u * 2 : 1 - (1 - u) * (1 - u) * 2; s[f.id] = lerp(f.range[0], f.range[1], u); } else if (f.type === 'flag') s[f.id] = rnd() < (f.kind === 'rule' ? 0.22 : 0.5); else s[f.id] = f.options[Math.floor(rnd() * f.options.length)]; }
-    if (rnd() < 0.55) s.rounds = 1; if (rnd() < 0.8) s.plan = 'front'; return tidy(s); };
+    if (rnd() < 0.55) s.rounds = 1; if (rnd() < 0.8) s.plan = 'front'; let out = tidy(s); if (wild) return out;
+    // held to the budget, as a player's would be: parts are taken off by chance until it can be afforded
+    const extras = FIELDS.filter((f) => f.kind === 'rule' && (f.type === 'flag' || f.type === 'pick') && !['plan', 'eyes', 'mover'].includes(f.id)); let guard = 200;
+    while (cost(out) > BUDGET && guard--) { const f = extras[Math.floor(rnd() * extras.length)]; if (f.type === 'flag') out[f.id] = false; else out[f.id] = f.options.includes('none') ? 'none' : f.options.includes('smooth') ? 'smooth' : f.options[0]; if (guard < 120) out.size = Math.max(0.7, out.size - 0.05); } return tidy(out); };
 
   // ---- cost: placeholders, so the designer can show a budget. Numbers are for the balance pass and mean nothing yet ----
   const cost = (s) => { let c = 3 * s.size * s.size; c += { none: 0, forward: 2, side: 2, stalk: 3 }[s.eyes] + (s.eyeSize > 0.6 ? 1 : 0); for (const k of ['skinFront', 'skinFlanks', 'skinBack']) c += { smooth: 0, bristles: 0.5, slime: 0.5, spikes: 1, shell: 1.5 }[s[k]];
@@ -214,12 +217,56 @@
     return spec;
   }
 
+  // ---- sheets already written. The first sixteen are the creatures of the paper study; the next twenty are the preset species of design/presets.md.
+  // Each is the plain sheet and its differences. They are here to show that the sheet can say them, not as finished designs
+  const KIT16 = {
+    Plain: {},
+    Plated: { length: 0.46, width: 0.5, taper: -0.42, skinBack: 'shell', shellStyle: 'bands', skinFront: 'shell', pairs: 3, tail: 'knob', nose: false, mouthStyle: 'dot', ears: false, pattern: 'none', headSize: 0.85, hueBody: '#e9a0b4', hueSecond: '#6b2d4e', hueAccent: '#ffc857' },
+    Hunter: { length: 0.42, width: 0.45, taper: 0.4, head: 'wedge', headSize: 1.15, eyes: 'forward', eyeSize: 0.6, eyeColour: 'accent', eyeStyle: 'ring', pattern: 'mask', mouth: 'jaws', jawStyle: 'fang', tail: 'whip', tailLen: 1.9, muscle: 0.5, earStyle: 'point', hueBody: '#3a3640', hueSecond: '#7fb8c9', hueAccent: '#ffc857' },
+    Long: { length: 0.83, width: 0.2, taper: -0.6, rounds: 7, mover: 'paddles', pairs: 6, whiskers: true, ears: false, nose: false, mouthStyle: 'none', headSize: 1.3, tail: 'stub', pattern: 'none', hueBody: '#7c6bd6', hueSecond: '#b9aef0', hueAccent: '#ffc857' },
+    Swimmer: { length: 0.4, width: 0.5, mover: 'fins', tailFin: true, ornament: 'fronds', ears: false, nose: false, mouthStyle: 'none', pattern: 'spots', lungs: 0.5, hueBody: '#e9a0b4', hueSecond: '#ff6b9d', hueAccent: '#ff6b9d' },
+    Shelled: { length: 0.25, width: 0.75, skinBack: 'shell', mover: 'paddles', pairs: 2, ears: false, nose: false, mouthStyle: 'smile', tail: 'stub', pattern: 'none', headSize: 0.8, hueBody: '#7fb8c9', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Swarm: { size: 0.7, length: 0.02, width: 0.1, headSize: 1.45, ears: false, nose: false, mouthStyle: 'none', tail: 'fork', pattern: 'none', pairs: 1, limbLen: 0.6, cheeks: 0, hueBody: '#5b9be6', hueSecond: '#2f6fde', hueAccent: '#ff6b9d' },
+    Breeder: { length: 0.36, width: 0.9, brood: 0.7, pattern: 'bands', skinFront: 'bristles', pairs: 3, ears: false, tail: 'none', hueBody: '#d98a3a', hueSecond: '#ff6b9d', hueAccent: '#f4f1de' },
+    Helper: { size: 0.75, length: 0.25, width: 0.45, pattern: 'bands', mouth: 'jaws', pairs: 3, ears: false, tail: 'none', horns: true, hueBody: '#d98a3a', hueSecond: '#ff6b9d', hueAccent: '#f4f1de' },
+    Puffle: { length: 0.2, width: 0.72, blunt: 1, head: 'none', skinBack: 'bristles', furStyle: 'fringe', skinFlanks: 'bristles', eyes: 'forward', eyeStyle: 'ring', eyeSize: 0.2, ears: false, nose: false, mouthStyle: 'none', tail: 'none', pattern: 'none', limbLen: 0.7, toes: 'accent', cheeks: 0, hueBody: '#3a3640', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Flit: { length: 0.1, width: 0.4, wings: true, skinFront: 'bristles', whiskers: true, ears: false, nose: false, mouthStyle: 'none', lids: 0.4, tail: 'none', pattern: 'none', limbLen: 1.3, hueBody: '#b9aef0', hueSecond: '#f4f1de', hueAccent: '#d98a3a' },
+    Ribbon: { length: 1, width: 0, rounds: 12, mover: 'wave', curve: 0.9, head: 'spade', ornament: 'frill', eyes: 'side', eyeSize: 0.4, ears: false, nose: false, mouthStyle: 'smile', tail: 'none', pattern: 'none', cheeks: 0, hueBody: '#f26a3d', hueSecond: '#f4f1de', hueAccent: '#2ec4b6' },
+    Stilt: { length: 0, width: 0.3, blunt: 1, head: 'none', mover: 'longLegs', pairs: 3, eyes: 'forward', eyeStyle: 'one', eyeSize: 0.9, ears: false, nose: false, mouthStyle: 'none', tail: 'none', pattern: 'none', cheeks: 0, toes: 'accent', hueBody: '#f4f1de', hueSecond: '#8a6a52', hueAccent: '#e67c5c' },
+    Lugg: { length: 0.23, width: 0.42, blunt: 0.9, camo: 'litter', grip: 'arms', legStyle: 'pillars', pairs: 1, ears: false, nose: false, mouthStyle: 'none', headSize: 0.9, tail: 'stub', pattern: 'none', hueBody: '#6cc5c1', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Bloom: { plan: 'round', width: 0.64, arms: 5, cheeks: 1.4, nose: false, mouthStyle: 'none', hueBody: '#ffe98a', hueSecond: '#d98a3a', hueAccent: '#ff6b9d' },
+    Hopper: { length: 0.26, width: 0.55, taper: 0.8, blunt: 0.9, head: 'none', legStyle: 'hopper', eyes: 'side', eyeStyle: 'dome', eyeColour: 'accent', eyeSize: 0.7, ears: false, nose: false, mouthStyle: 'line', tail: 'none', pattern: 'bib', toes: 'accent', cheeks: 0, hueBody: '#2f6fde', hueSecond: '#5b9be6', hueAccent: '#ffc857' },
+    Bolster: { size: 1.5, length: 0.52, width: 1, taper: -0.5, fat: 0.5, gut: 0.4, legStyle: 'pillars', pouch: true, headSize: 0.62, cheeks: 1.6, tail: 'tuft', pattern: 'saddle', hueBody: '#bc4749', hueSecond: '#e8b4a0', hueAccent: '#6cc5c1' },
+  };
+  const CAST20 = {
+    Nubbins: { size: 0.7, length: 0.1, width: 0.4, whiskers: true, ears: false, pairs: 3, tail: 'none', pattern: 'bands', hueBody: '#c9b08a', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Lollops: { size: 1.45, length: 0.5, width: 0.95, gut: 0.6, brood: 0.4, skinBack: 'bristles', legStyle: 'pillars', mouthStyle: 'muzzle', headSize: 0.75, earStyle: 'round', pattern: 'none', hueBody: '#e8b4a0', hueSecond: '#c9b08a', hueAccent: '#f4f1de' },
+    Frizzles: { size: 0.75, length: 0.12, width: 0.55, skinBack: 'spikes', skinFlanks: 'spikes', claws: true, tail: 'none', pattern: 'none', hueBody: '#d98a3a', hueSecond: '#8a6a52', hueAccent: '#f4f1de' },
+    Glimps: { length: 0.35, width: 0.4, mover: 'fins', tailFin: true, ears: false, nose: false, mouthStyle: 'smile', gut: 0.45, pattern: 'bands', hueBody: '#6cc5c1', hueSecond: '#2ec4b6', hueAccent: '#ffe98a' },
+    Scrumps: { size: 0.9, pouch: true, scent: true, tail: 'tuft', tailLen: 1.6, earStyle: 'point', pattern: 'bib', hueBody: '#8a6a52', hueSecond: '#c9b08a', hueAccent: '#ffc857' },
+    Sippets: { size: 0.72, length: 0.1, width: 0.35, falseEyes: true, gland: true, mouth: 'tongue', nose: false, ears: false, whiskers: true, tail: 'none', pattern: 'none', hueBody: '#ffe98a', hueSecond: '#ff6b9d', hueAccent: '#ff6b9d' },
+    Pipkins: { size: 0.8, length: 0.15, width: 0.35, mover: 'longLegs', pairs: 2, eyes: 'stalk', whiskers: true, touchStyle: 'barbels', voice: 0.8, crest: true, ears: false, nose: false, mouthStyle: 'none', tail: 'stub', pattern: 'none', hueBody: '#f4f1de', hueSecond: '#7fb8c9', hueAccent: '#e67c5c' },
+    Splodges: { length: 0.3, width: 0.6, blunt: 0.9, nose: true, ears: false, gut: 0.4, tail: 'stub', pattern: 'spots', hueBody: '#9aa574', hueSecond: '#8a6a52', hueAccent: '#ffe98a' },
+    Blibs: { length: 0.22, width: 0.6, blunt: 1, head: 'none', eyes: 'none', skinFront: 'slime', skinFlanks: 'slime', skinBack: 'slime', mover: 'suckerFoot', whiskers: true, ears: false, nose: false, mouthStyle: 'none', tail: 'none', pattern: 'none', cheeks: 0, hueBody: '#b9d977', hueSecond: '#6cc5c1', hueAccent: '#ffe98a' },
+    Hobbins: { claws: true, pouch: true, pattern: 'bib', earStyle: 'round', hueBody: '#a7c957', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Yips: { length: 0.55, width: 0.4, taper: 0.3, muscle: 0.4, lungs: 0.4, eyes: 'forward', mouth: 'jaws', voice: 0.7, head: 'wedge', earStyle: 'point', tail: 'whip', tailLen: 1.4, limbLen: 1.3, pattern: 'saddle', hueBody: '#d98a3a', hueSecond: '#8a6a52', hueAccent: '#f4f1de' },
+    Gawps: { size: 1.35, length: 0.3, width: 0.9, blunt: 0.9, head: 'none', camo: 'reed', mouth: 'tongue', eyes: 'side', eyeStyle: 'dome', eyeSize: 0.7, mover: 'wideFeet', ears: false, nose: false, tail: 'none', pattern: 'none', hueBody: '#9aa574', hueSecond: '#8a6a52', hueAccent: '#ffc857' },
+    Glumps: { size: 1.4, length: 0.6, width: 0.6, mover: 'fins', tailFin: true, sideLine: true, eyes: 'none', mouth: 'jaws', jawStyle: 'fang', ears: false, nose: false, glow: true, pattern: 'none', hueBody: '#3a3640', hueSecond: '#2f6fde', hueAccent: '#2ec4b6' },
+    Snickets: { size: 0.8, length: 0.4, width: 0.3, heatPits: true, sting: 'rear', nose: true, eyes: 'forward', eyeSize: 0.1, earStyle: 'point', pattern: 'mask', hueBody: '#6b2d4e', hueSecond: '#3a3640', hueAccent: '#ffc857' },
+    Fidgets: { size: 0.7, length: 0.2, width: 0.3, mouth: 'locking', pairs: 3, ears: false, nose: false, eyeSize: 0.15, tail: 'none', pattern: 'none', hueBody: '#bc4749', hueSecond: '#3a3640', hueAccent: '#ffc857' },
+    Galumphs: { size: 1.5, length: 0.6, width: 0.85, mouth: 'beak', muscle: 0.5, legStyle: 'pillars', eyes: 'forward', ears: false, nose: false, headSize: 0.9, tail: 'stub', pattern: 'saddle', hueBody: '#7fb8c9', hueSecond: '#f4f1de', hueAccent: '#d98a3a' },
+    Grumbles: { size: 1.35, length: 0.4, width: 0.9, fat: 0.5, nose: true, claws: true, mouth: 'jaws', earStyle: 'round', tail: 'tuft', pattern: 'bib', hueBody: '#8a6a52', hueSecond: '#c9b08a', hueAccent: '#f4f1de' },
+    Mooches: { size: 0.8, length: 0.3, width: 0.35, nose: true, voice: 0.7, mover: 'wideFeet', earStyle: 'point', tail: 'whip', pattern: 'spots', hueBody: '#c9b08a', hueSecond: '#8a6a52', hueAccent: '#e67c5c' },
+    Clonks: { size: 1.4, length: 0.3, width: 0.95, skinFront: 'shell', skinFlanks: 'shell', skinBack: 'shell', grip: 'hooks', mover: 'wideFeet', eyes: 'stalk', ears: false, nose: false, mouthStyle: 'none', tail: 'none', pattern: 'none', hueBody: '#e8b4a0', hueSecond: '#bc4749', hueAccent: '#f4f1de' },
+    Fibs: { size: 0.8, length: 0.35, width: 0.3, shedTail: true, tail: 'whip', tailLen: 1.5, mover: 'cilia', ears: false, eyeSize: 0.5, pattern: 'none', hueBody: '#7fb8c9', hueSecond: '#3a3640', hueAccent: '#ff6b9d' },
+  };
+  const PRESETS = {}; for (const [n, d] of Object.entries(KIT16).concat(Object.entries(CAST20))) PRESETS[n] = tidy(Object.assign({}, d));
   // every kit entry a sheet can call for, for the check of cover
   const draws = () => { const out = new Map(); for (const f of FIELDS) for (const d of f.draws || []) { if (!out.has(d)) out.set(d, []); out.get(d).push(f.id); } return out; };
   // a form is the base sheet and its differences. Leaving a part out is free; every other difference costs, and each one more than the last
   const form = (base, diff) => tidy(Object.assign({}, base, diff));
   const formCost = (base, diff) => { let n = 0; for (const id in diff) { const f = BY[id]; if (!f || f.kind !== 'rule') continue; const off = f.type === 'flag' ? diff[id] === false : f.type === 'pick' ? ['none', 'smooth', 'plain'].includes(diff[id]) : false; if (!off && diff[id] !== base[id]) n++; } return n * (n + 1) / 2; };
 
-  const SHEET = { FIELDS, BY, LABEL, word, LEFT_OUT, SIDES, GROUNDS, SWATCHES, BUDGET, plain, tidy, faults, random, cost, toKit, draws, form, formCost, idle, says };
+  const SHEET = { FIELDS, BY, LABEL, word, LEFT_OUT, SIDES, GROUNDS, SWATCHES, BUDGET, PRESETS, KIT16: Object.keys(KIT16), CAST20: Object.keys(CAST20), plain, tidy, faults, random, cost, toKit, draws, form, formCost, idle, says };
   if (typeof module !== 'undefined' && module.exports) module.exports = SHEET; else root.SHEET = SHEET;
 })(typeof window !== 'undefined' ? window : globalThis);
