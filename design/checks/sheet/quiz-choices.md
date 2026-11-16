@@ -1,0 +1,37 @@
+# What a body can be given
+
+- **Plan** (front and back; no front): Whether there is a rear to attack and a way to face.
+- **Gut**: Lets it live on poor, bulky food.
+- **Fat**: Reserves for a winter, a famine or a sleep.
+- **Muscle**: Speed off the mark, bite, carrying and digging.
+- **Lungs**: How long it can sprint or stay under water.
+- **Brood**: How many eggs, or how large.
+- **Skin on its front** (bristles; slime; spikes; shell): What can bite or cling to its front.
+- **Skin on its sides** (bristles; slime; spikes; shell): What can bite or cling to its sides.
+- **Skin on its back** (bristles; slime; spikes; shell): What can bite or cling to its back.
+- **Camouflage** (grass; reed; sand; rock; mud; leaf litter): On that one ground, still or creeping, it cannot be seen except from very close.
+- **False eyes**: A stalker thinks it is being watched.
+- **A tail that sheds**: Leaves its tail with whatever grabs it.
+- **Ink**: A cloud that works as cover.
+- **Eyes** (facing forward; on the sides; on stalks): Forward: far and narrow. Side: wide and shorter. Stalks: all round and shortest.
+- **Nose**: Scent in the dark and through cover.
+- **Ears**: Hears calls from all directions.
+- **Touch**: Touch, warmth, wet and dry, close by.
+- **Side line**: Feels movement nearby without seeing it.
+- **Heat pits**: Warm bodies in the dark.
+- **Echo**: A call that shows what is near, and gives its own place away.
+- **Compass**: Knows north from south.
+- **Moves on** (legs; stilts; webbed feet; fins; paddles; a skirt of cilia; one broad foot; body waves): What ground it is good on.
+- **Tail fin**: Short bursts in water.
+- **Wings**: Short bursts over land. Proposed in area 13.
+- **Mouth** (jaws; locking jaws; tongue; beak): Jaws bite what they can open round; locking jaws hold on; a tongue strikes from a distance; a beak cracks shells.
+- **Sting** (front; rear): Wounds or tires, and needs time to refill.
+- **Horns**: Pushes others off food and tips over a shelled animal.
+- **Digging claws**: Digs burrows and buried food, and wounds.
+- **Club tail**: A weapon at the rear. Proposed in area 13.
+- **Grip** (suckers; hooks; arms): Holds on to another creature or to the world. Suckers hold smooth and wet; hooks hold bristles and stems; arms hold what they are put round.
+- **Pouch**: Carries more food or seed, and carries young.
+- **Gland that gives**: Makes food to give: dew, or milk for the young.
+- **Scent glands**: Marks, and how long they last.
+- **Glow**: A display that works in the dark.
+- **Crest**: Puffs up to look bigger.
