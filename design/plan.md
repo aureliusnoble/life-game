@@ -428,8 +428,17 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 | 1.5 The body designer on a phone | Built and published, 16 November | `design/mockups/body-designer.html`, built by `node design/sheet/make.js`. A concept test, not an interface design. It does not edit a second form |
 | 1.6 The checks | In progress | Cover, the presets, seen, any combination and every state pass. Two independent reviews are running: variety and appeal, and a blind quiz of what each part is. The check with a person is not done |
 | 1.7 `design/body.md` draft 3, and the lab on the same list | Done, 16 November | Section 16 of the body design. The lab now checks its body choices against the sheet: all 13 are on it, and 25 of the sheet's 41 are not modelled by the lab yet |
-| 2 The rig made ready | Not started | |
-| 3 The mechanics pass | Not started | |
+| 2.1 The vocabulary as one data file | Done, 16 November | `design/sheet/vocab.js`: 350 words in 71 families, taken from `design/neural-blocks.md` draft 5 |
+| 2.2 One rig, and a count of what it models | Done, 16 November | `design/checks/rig.js` and `node design/checks/mechaudit.js cover`. At the start the stand-in models 16 of 41 body choices and 85 of 350 words |
+| 2.3 A mechanic in the rig for each of the 25 body choices it lacks | Not started | |
+| 2.4 A mechanic in the rig for each family of words it lacks | Not started | 265 words in about 60 families; a family shares one mechanic |
+| 2.5 The two fixes made the default; the root-stock rule for food | Not started | |
+| 2.6 Hunters that are designs; forms; long runs of a mixed world | Not started | |
+| 3.1 Every body choice through its four tests | Not started | |
+| 3.2 Every word through its four tests, family by family | Not started | |
+| 3.3 Every promised behaviour written in full and run | Not started | |
+| 3.4 Failures reworked, merged, given a mechanic or cut; lists changed to match | Not started | |
+| 3.5 The library of written behaviours, with a verdict for each part and word | Not started | |
 | 4 Screens, with the UI pass | Not started | |
 | 5 The performance questions | Waiting on the owner | Three questions in `design/performance.md` |
 | 6 The balance pass | Not started | |
