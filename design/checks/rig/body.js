@@ -59,5 +59,5 @@ function bodyOf(sheet0) {
 // which side of a body something at (dx, dy) from it is on, given the way it faces. A body with no front has only flanks
 const sideOf = (c, dx, dy) => { if (c.B.round) return 'flanks'; const d = Math.hypot(dx, dy) || 1, a = Math.acos(clamp((dx * c.hx + dy * c.hy) / d, -1, 1)); return a < 0.8 ? 'front' : a > 2.1 ? 'back' : 'flanks'; };
 // what holds on what. Body design, section 6
-const HOLDS = { suckers: { smooth: 1, shell: 1, bristles: 0, slime: 0, spikes: 0.6 }, hooks: { smooth: 0.5, shell: 0, bristles: 1, slime: 0, spikes: 0.6 }, arms: { smooth: 0.8, shell: 0.8, bristles: 0.8, slime: 0, spikes: 0 }, jaws: { smooth: 1, shell: 0, bristles: 1, slime: 0.5, spikes: 0.3 } };
+const HOLDS = { suckers: { smooth: 1, shell: 1, bristles: 0, slime: 0, spikes: 0.6 }, hooks: { smooth: 0.5, shell: 0, bristles: 1, slime: 0, spikes: 0.6 }, arms: { smooth: 0.8, shell: 0.8, bristles: 0.8, slime: 0, spikes: 0 }, jaws: { smooth: 1, shell: 0, bristles: 1, slime: 0.12, spikes: 0.3 } };
 module.exports = { bodyOf, sideOf, FOOTING, HOLDS, SIDES };

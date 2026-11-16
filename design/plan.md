@@ -434,7 +434,7 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 | 2.4 A mechanic in the rig for each family of words it lacks | Done, 16 November | `design/checks/rig/senses.js` and `mind.js`: all 350 words have a rule, and `mechaudit.js handles` checks each by program. A rule existing is not the same as it mattering: that is step 3 |
 | 2.5 The two fixes made the default; the root-stock rule for food | Done, 16 November | In the rig a plant is eaten in bites, so a large body needs more of them, and nothing caps a species' numbers. A patch of food eaten to nothing comes back slowly and one left some growth comes back fast |
 | 2.6 Hunters that are designs; forms; long runs of a mixed world | Done, 16 November | Every species in the rig is a sheet and a brain. Forms have their own bodies. `mechaudit.js long` runs grazers and hunters for two seasons: both were alive at the end (63 and 14), which the older stand-in never managed, though nothing is balanced yet |
-| 3.1 Every body choice through its four tests | Not started | |
+| 3.1 Every body choice through its four tests | Done, 16 November | `design/mechanics.md` section 1 and `node design/checks/mechaudit.js body`: 73 tests on all 41 choices pass. Seventeen findings changed the stand-in's rules, among them taper (which only ever cost), the brood organ (which did nothing) and poses (which nobody could see). They are listed there and have still to be carried into `design/body.md` |
 | 3.2 Every word through its four tests, family by family | Not started | |
 | 3.3 Every promised behaviour written in full and run | Not started | |
 | 3.4 Failures reworked, merged, given a mechanic or cut; lists changed to match | Not started | |
