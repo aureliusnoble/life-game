@@ -25,9 +25,9 @@ function bodyOf(sheet0) {
   const eyes = { forward: [1.35, 120], side: [0.85, 300], stalk: [0.7, 360], none: [0, 0] }[s.eyes];
   const b = { sheet: s, round, size, mass, len, organs: o, skin, mover: s.mover, footing: FOOTING[s.mover],
     // ---- moving
-    top: shape * (0.8 + 0.8 * o.muscle * 1.25) * (1 - 0.6 * (o.fat * 1.25 - 0.25)) * Math.pow(sc, 0.15) * (1 - armour) * (round ? 0.6 : 1) * (s.claws ? 0.94 : 1),
-    turn: round ? undefined : (0.22 / (len * sc)) * (s.mover === 'legs' ? 1.2 : 1) * (1 - 0.35 * Math.max(0, s.taper)),      // long, big and front-heavy bodies turn slowly
-    quick: clamp(0.5 / (len * sc) * (1 + 0.5 * Math.min(0, s.taper)), 0.08, 1),                 // how fast it gets up to speed; a heavy rear is slow to start
+    top: shape * (0.8 + 0.8 * o.muscle * 1.25) * (1 - 0.6 * (o.fat * 1.25 - 0.25)) * Math.pow(sc, 0.15) * (1 - armour) * (round ? 0.6 : 1) * (s.claws ? 0.94 : 1) * (1 + 0.12 * Math.max(0, -s.taper)),      // a heavy rear drives a faster run
+    turn: round ? undefined : (0.22 / (len * sc)) * (s.mover === 'legs' ? 1.2 : 1) * (1 - 0.5 * Math.max(0, s.taper)),      // long, big and front-heavy bodies turn slowly
+    quick: clamp(0.5 / (len * sc) * (1 + 0.7 * Math.min(0, s.taper)), 0.08, 1),                 // how fast it gets up to speed; a heavy rear is slow to start
     noSprint: round || s.mover === 'cilia' || s.mover === 'suckerFoot', silent: s.mover === 'cilia',
     burstWater: s.tailFin ? 1.5 : 1, burstLand: s.wings ? 1.6 : 1, holdsFast: s.mover === 'suckerFoot',
     stam: 0.5 + 2 * o.lungs * 1.25, dive: 20 + 200 * o.lungs,
@@ -35,7 +35,8 @@ function bodyOf(sheet0) {
     hp: Math.max(1, Math.round(2 * Math.pow(mass, 0.67) + has('shell') * 0.34)),
     upkeep: Math.pow(mass, 0.75) * (1 + 0.6 * (o.muscle * 1.25 - 0.25)) * (1 + 0.3 * armour),
     store: mass * (0.6 + 1.6 * o.fat * 1.25), bulk: o.gut > 0.3, richOnly: o.gut < 0.12, mealGain: 0.3 * (0.8 + 0.8 * o.gut * 1.25),
-    clutch: Math.max(1, Math.round(1 + 10 * o.brood)), tempo: 1 / Math.pow(sc, 1.2),          // small bodies grow up, lay and die sooner
+    clutch: Math.max(1, Math.round(1 + 10 * o.brood)), eggCost: 1 / (0.45 + 2.75 * o.brood),      // a large brood organ lays more at a time and makes each egg from less food
+    tempo: 1 / Math.pow(sc, 1.2),          // small bodies grow up, lay and die sooner
     warm: has('bristles') * 0.34 + clamp((sc - 0.7) / 0.8, 0, 1) * 0.4,                         // holds its heat: bristles, and bulk
     // ---- senses, each from its organ
     sight: 60 * (0.7 + 0.6 * s.eyeSize) * eyes[0], arc: round && s.eyes !== 'none' ? 360 : eyes[1],
@@ -47,7 +48,7 @@ function bodyOf(sheet0) {
     slimeSides: SIDES.filter((x) => skin[x] === 'slime'), shellSides: SIDES.filter((x) => skin[x] === 'shell'), spikeSides: SIDES.filter((x) => skin[x] === 'spikes'), bristleSides: SIDES.filter((x) => skin[x] === 'bristles'),
     canWithdraw: skin.back === 'shell', fits: 1 + 0.15 * has('shell') + 0.1 * has('spikes'),      // how big it is when squeezing into a crevice or a burrow
     // ---- weapons
-    mouth: s.mouth, gape: size * { plain: 0.45, jaws: 0.9, locking: 0.75, tongue: 0.6, beak: 0.8 }[s.mouth], dmg: { plain: 0.5, jaws: 1, locking: 0.7, tongue: 0.5, beak: 1 }[s.mouth] * (0.75 + o.muscle * 1.25),
+    mouth: s.mouth, gape: size * { plain: 0.45, jaws: 0.9, locking: 0.75, tongue: 0.6, beak: 0.8 }[s.mouth], dmg: { plain: 0.5, jaws: 1, locking: 0.7, tongue: 0.5, beak: 1 }[s.mouth] * (0.75 + o.muscle * 1.25) * (1 + 0.35 * Math.max(0, s.taper)),      // a heavy front puts weight behind the bite
     reach: s.mouth === 'tongue' ? 14 : null, crack: s.mouth === 'beak', biteCool: s.mouth === 'beak' ? 10 : 5, biteArc: round ? 360 : s.mouth === 'tongue' ? 120 : 100, locks: s.mouth === 'locking',
     sting: s.sting === 'none' ? null : s.sting, horns: s.horns, claws: s.claws, club: s.club, shedTail: s.shedTail, ink: s.ink,
     // ---- holding and carrying

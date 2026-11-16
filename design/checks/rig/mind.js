@@ -61,7 +61,7 @@ function think(w, c) { const br = c.brain, P = { px: 0, py: 0, still: 0, pace: '
     let wt = STR[ins.str] * (ins.habit ? c.habit[i] : 1); for (const k of ins.more) if (holds(w, c, k)) wt *= 1.7; for (const k of ins.less) if (holds(w, c, k)) wt *= 0.45;
     c.fired[i] = w.t; if (ins.n.reach !== 'always' && ins.n.reach !== 'sometimes') fired++;
     const pull = wt * (0.4 + 0.6 * n.s), act = ins.act, D = DIST[ins.dist]; let mx = 0, my = 0;
-    if (act === 'approach' && n.dx !== undefined) { mx = n.dx * pull; my = n.dy * pull; }
+    if (act === 'approach' && n.dx !== undefined) { const tg = n.target; if (tg && !n.dir && tg.x !== undefined && n.d < (c.B.touch + (tg.sz || 0) * 2) * 0.7) { P.face = P.face || [n.dx, n.dy]; P.stay = Math.max(P.stay || 0, pull); } else { mx = n.dx * pull; my = n.dy * pull; } }      // it goes to the thing and stops there, turned toward it
     else if (act === 'move away' && n.dx !== undefined) { mx = -n.dx * pull; my = -n.dy * pull; }
     else if (act === 'stay near' && n.dx !== undefined) { if (n.d > D) { mx = n.dx * pull; my = n.dy * pull; } }
     else if (act === 'keep apart' && n.dx !== undefined) { if (n.d < D) { const k = wt * (1 - n.d / D) * 2; mx = -n.dx * k; my = -n.dy * k; } }
@@ -69,7 +69,7 @@ function think(w, c) { const br = c.brain, P = { px: 0, py: 0, still: 0, pace: '
     else if (act === 'go the same way' && n.dx !== undefined) { const tg = n.target; if (n.dir) { mx = n.dx * wt; my = n.dy * wt; } else if (tg && tg.hx !== undefined) { mx = tg.hx * wt; my = tg.hy * wt; } }
     else if (act === 'head off' && n.target && n.target.vx !== undefined) { const lead = n.d / (c.B.top * PACE[ins.pace] || 1), ax = n.dx * n.d + n.target.vx * lead, ay = n.dy * n.d + n.target.vy * lead, am = Math.hypot(ax, ay) || 1; mx = (ax / am) * pull; my = (ay / am) * pull; }
     else if (act === 'go along' && n.dx !== undefined) { if (n.trail) { const v = trail(w, c, n); mx = v[0] * pull; my = v[1] * pull; } else { const k = n.inside ? -1 : clamp((n.d - 5) / 10, -1, 1); mx = (-n.dy * c.side + n.dx * k * 0.7) * pull; my = (n.dx * c.side + n.dy * k * 0.7) * pull; } }      // keep the line to one side, a little way off
-    else if (act === 'wander') { const a = (w.rnd() - 0.5) * JITTER[ins.turn], cs = Math.cos(a), sn = Math.sin(a); [c.wx, c.wy] = [c.wx * cs - c.wy * sn, c.wx * sn + c.wy * cs]; mx = c.wx * wt * 0.6; my = c.wy * wt * 0.6; }
+    else if (act === 'wander') { const a = (w.rnd() - 0.5) * JITTER[ins.turn], cs = Math.cos(a), sn = Math.sin(a), bx = c.spd > 0.05 ? c.hx : c.wx, by = c.spd > 0.05 ? c.hy : c.wy; [c.wx, c.wy] = [bx * cs - by * sn, bx * sn + by * cs]; mx = c.wx * wt * 0.6; my = c.wy * wt * 0.6; }      // it drifts on from the way it is already going
     else if (act === 'hold still') P.still = Math.max(P.still, Math.min(1, wt * n.s));
     else if (act === 'face') { if (n.dx !== undefined) { P.face = [n.dx, n.dy]; P.still = 1; } }
     else if (act === 'raise' || act === 'calm' || act === 'hurry') { const m = ins.arg, def = br.moods[m]; if (!def) return; const k = RAISE[ins.speed] * (ins.str === 'strong' ? 1.5 : ins.str === 'weak' ? 0.6 : 1);
@@ -77,7 +77,8 @@ function think(w, c) { const br = c.brain, P = { px: 0, py: 0, still: 0, pace: '
     else P.urge.push({ act, arg: ins.arg, u: wt * n.s, n, ins });
     if (mx || my) { P.px += mx; P.py += my; const mag = Math.hypot(mx, my); mags += mag; if (mag > best) { best = mag; P.pace = ins.pace; } }
   });
-  c.idle = fired === 0; c.torn = mags > 0.8 && Math.hypot(P.px, P.py) < 0.35 * mags; P.want = Math.hypot(P.px, P.py); return P; }
+  c.idle = fired === 0; c.torn = mags > 0.8 && Math.hypot(P.px, P.py) < 0.35 * mags; P.want = Math.hypot(P.px, P.py); if (P.stay && P.want < P.stay * 0.6) P.still = 1;      // having arrived, it stays unless something pulls harder
+  return P; }
 const toward = (w, c, o) => { const [dx, dy, d] = w.off(c, o); return { dx: dx / (d || 1), dy: dy / (d || 1), d, target: o }; };
 const facing = (w, c) => { let best = null, bd = 1e9; for (const o of w.creatures) { if (o === c || !o.alive) continue; const [dx, dy, d] = w.off(c, o); if (d < S.NEAR + o.sz * 2 && (dx * c.hx + dy * c.hy) / (d || 1) > 0.7 && d < bd) { bd = d; best = o; } } return best; };
 // the line of a trail of marks: the long axis of the marks in reach, taken the way the creature already faces
@@ -112,7 +113,7 @@ function eat(w, c, it) { if (it.hard && !c.B.crack) return false; if (it.buried 
 function bite(w, c, n) { const tg = n.target; if (!tg || c.biteCool > 0 || c.riding && c.riding !== tg && !c.locked) return; if (tg.B === undefined) { if (tg.kind && w.off(c, tg)[2] <= reachOf(c, tg) + 1) eat(w, c, tg); return; }
   if (!tg.alive) return; const [dx, dy, d] = w.off(c, tg); if (d > reachOf(c, tg)) return; const B = c.B;
   if (!inArc(w, c, tg, B.biteArc)) { if (B.club && inArc(w, c, tg, 140, true)) { c.biteCool = 8; shove(w, c, tg, 7); hurt(w, tg, c, 0.8 * (0.75 + B.organs.muscle * 1.25)); } return; }      // a club strikes what is behind it
-  c.biteCool = B.biteCool; const side = tg.belly > 0 ? 'belly' : sideOf(tg, -dx, -dy), skin = tg.B.skin[side] || 'smooth';
+  c.biteCool = B.biteCool; c.bites = (c.bites || 0) + 1; const side = tg.belly > 0 ? 'belly' : sideOf(tg, -dx, -dy), skin = tg.B.skin[side] || 'smooth'; if (skin === 'bristles') c.biteCool *= 2;      // a mouthful of bristle: slow to bite again
   if (tg.sz <= B.gape * 0.5 && skin !== 'spikes' && !tg.hiding) { c.energy = Math.min(c.store, c.energy + tg.B.mass * 0.5); c.meals++; moment(w, c, 'just ate', tg, 6); reward(w, c, 1.15); learn(c, 'one that I ate', tg.kind); hurt(w, tg, c, 99); return; }      // small enough to swallow
   let dmg = B.dmg * (B.claws ? 1.3 : 1) * (tg.hiding && tg.B.canWithdraw && tg.belly <= 0 ? 0.1 : 1) * (skin === 'shell' && !B.crack ? 0.2 : 1) * (skin === 'bristles' ? 0.8 : 1) * (skin === 'slime' ? 0.7 : 1);
   if (skin === 'spikes') { c.hp -= 0.3; moment(w, c, 'just bitten', tg, 4); reward(w, c, 0.8); if (c.hp <= 0) { die(w, c, tg); return; } }                                  // spikes wound the mouth that bites them
@@ -146,8 +147,8 @@ function hide(w, c) { const sh = w.shelterAt(c.x, c.y, c.sz * c.B.fits); if (c.B
 function lay(w, c, n) { const br = c.sp.breed; if (c.asleep || c.age < c.grown || c.spent || c.nextLay > w.t) return;
   if (br.way === 'splitting') { if (c.energy < 0.8 * c.store) return; c.energy *= 0.5; const k = spawn(w, c.sp, { x: c.x + 2, y: c.y, age: Math.round(c.grown * 0.5), home: c.home, family: c.family, form: c.form }); k.energy = c.energy; c.nextLay = w.t + 150 / c.B.tempo; c.laid++; moment(w, c, 'just laid', k, 6); return; }
   if (br.way === 'one breeder with helpers' && c.form !== (br.breeder || 'breeder') && !c.breeder) return; if (c.sex === 'male') return; if (br.way !== 'alone' && !c.gravid && !(br.mating === 'once and lay for life' && c.mated)) return; if (br.where === 'kept inside until they hatch' && w.t < c.gravid + 200 / c.B.tempo) return;
-  const big = br.eggs === 'a few large', each = (big ? 0.5 : 0.14) * c.B.mass, all = br.lay === 'once, with everything', spend = all ? c.energy * 0.95 : Math.min(c.energy - 0.3 * c.store, c.B.clutch * (big ? 0.45 : 1.5) * each); let k = Math.floor(spend / each); if (all) k = Math.max(k, 1); if (k < 1) return;
-  c.energy -= k * each; c.gravid = 0; c.nextLay = w.t + 300 / c.B.tempo; c.laid += k; const tg = n && n.target, on = tg && tg.B && tg !== c ? tg : null, nest = w.at(c.x, c.y, 'made');
+  const big = br.eggs === 'a few large', each = (big ? 0.5 : 0.14) * c.B.mass, all = br.lay === 'once, with everything', spend = all ? c.energy * 0.95 : Math.min(c.energy - 0.3 * c.store, c.B.clutch * (big ? 0.45 : 1.5) * each); let k = Math.floor(spend / (each * c.B.eggCost)); if (all) k = Math.max(k, 1); if (k < 1) return;
+  c.energy -= Math.min(c.energy, k * each * c.B.eggCost); c.gravid = 0; c.nextLay = w.t + 300 / c.B.tempo; c.laid += k; const tg = n && n.target, on = tg && tg.B && tg !== c ? tg : null, nest = w.at(c.x, c.y, 'made');
   for (let i = 0; i < k; i++) { const mix = mixOf(w, c), sex = br.way === 'both sexes in one' ? 'both' : br.way === 'alone' ? 'female' : w.rnd() < (mix.male ?? 0.5) ? 'male' : 'female'; let form = null, r = w.rnd(); for (const [f, share] of Object.entries(mix.forms || {})) { if (r < share) { form = f; break; } r -= share; }
     const kid = { sp: c.sp, sex, form, home: c.home, family: c.family ?? c.id, start: big ? 0.35 : 0, energy: clamp(each * 0.9 / c.B.store, 0.08, 0.9) };      // a young one starts with what its egg held, and no more
     if (br.where === 'kept inside until they hatch') hatch(w, Object.assign(kid, { x: c.x + (w.rnd() - 0.5) * 4, y: c.y + (w.rnd() - 0.5) * 4 }));
@@ -172,7 +173,7 @@ function act(w, c, P) { let used = false; c.wants = false; P.urge.sort((a, b) =>
     if (act === 'ping') { if (c.B.ping && c.callCool <= 0) { c.echo = w.t + 8; c.callCool = 10; w.call(c, 'ping', c.B.ping * 2.5); } continue; } if (act === 'puff up') { if (c.B.puff > 1) c.pose = 'puff'; continue; } if (act === 'crouch') { c.pose = 'crouch'; P.still = Math.max(P.still, 0.9); continue; }
     if (act === 'play dead') { c.pose = 'dead'; P.still = 1; continue; } if (act === 'let go') { release(w, c); continue; } if (act === 'spray') { if (c.B.ink && c.inkCool <= 0) { c.inkCool = 120; w.cloud(c.x, c.y, 18, 45); } continue; } if (act === 'shed') { shedTail(w, c); continue; }
     if (act === 'rest') { c.resting = 2; P.still = 1; continue; } if (act === 'hide') { hide(w, c); if (c.hiding) P.still = 1; continue; } if (act === 'mate') c.wants = true;
-    if (used) continue; used = true;
+    if (used) continue; used = true; if (n.target && n.dx !== undefined && ['bite', 'sting', 'grab', 'give', 'tend', 'cling', 'mate'].includes(act) && !(act === 'sting' && c.B.sting === 'rear')) P.face = [n.dx, n.dy];      // it turns to what it acts on
     if (act === 'bite') bite(w, c, n); else if (act === 'sting') sting(w, c, n); else if (act === 'grab') grab(w, c, n); else if (act === 'drop') drop(w, c); else if (act === 'give') give(w, c, n); else if (act === 'tend') tend(w, c, n); else if (act === 'cling') cling(w, c, n);
     else if (act === 'roll') roll(w, c); else if (act === 'lay') lay(w, c, n); else if (act === 'mate') mate(w, c, n); else if (act === 'wipe') wipe(w, c); else if (act === 'dig') dig(w, c, n); else if (act === 'build') build(w, c, arg); else used = false; } }
 
@@ -190,6 +191,7 @@ function move(w, c, P) { const B = c.B, t = w.t; if (c.heldBy) { const h = c.hel
   if (w.windy && B.burstLand > 1 && pace === 'sprint') { nx += w.wind[0] * 0.2; ny += w.wind[1] * 0.2; }
   const wall = w.at(nx, ny, 'made'); if (wall && wall.solid && w.at(c.x, c.y, 'made') !== wall) { nx = c.x; ny = c.y; c.spd = 0; }                                    // a wall stops what walks into it
   const sh = w.shelterAt(nx, ny); if (sh && sh.maxSize && c.sz * B.fits > sh.maxSize && w.shelterAt(c.x, c.y) !== sh) { nx = c.x; ny = c.y; c.spd = 0; }               // too big for the crevice
+  for (const o of w.creatures) { if (o === c || !o.alive || o.sz <= c.sz || o.heldBy === c || c.heldBy === o || o.riding) continue; const reachIn = (o.sz + c.sz) * 0.9, d1 = Math.hypot(o.x - nx, o.y - ny); if (d1 < reachIn && d1 < Math.hypot(o.x - c.x, o.y - c.y)) { nx = c.x; ny = c.y; c.spd = 0; break; } }      // a body does not walk through a bigger one
   if (w.torus) { nx = (nx + w.size) % w.size; ny = (ny + w.size) % w.size; } else { nx = clamp(nx, 0, w.size); ny = clamp(ny, 0, w.size); }
   const moved = Math.hypot(nx - c.x, ny - c.y); c.vx = nx - c.x; c.vy = ny - c.y; c.x = nx; c.y = ny; c.stuck = P.want > 0.3 && still < 0.5 && moved < 0.03 ? c.stuck + 1 : 0;
   // stamina: a sprint spends it, and so does swimming badly or holding breath under water

@@ -1,10 +1,12 @@
-// node design/checks/mechaudit.js [cover | handles | wired | smoke | all | long]
+// node design/checks/mechaudit.js [cover | handles | wired | smoke | all | long | body [choice]]
 // The mechanics pass (design/plan.md, section 3), as far as it has got.
 //   cover    which choices on the species sheet and which words of the vocabulary the rig says it models, family by family
 //   handles  whether the rig really has a rule for each word it names: the word is taken by the parser or the table that
 //            should take it, and is not quietly read as nothing
 //   wired    whether every choice on the sheet changes a number of the body, and every number is read by the rig
 //   smoke    five short lives: a grazer eats, a hunter kills and eats, pairs breed, a mood binds to one creature, a brood comes in two forms
+//   body     the mechanics pass for bodies: each choice on the sheet with it, without it and with its nearest neighbour
+//            (design/checks/mech/body.js). Slow, so it runs only when named; give a choice's id to run that one
 //   long     a mixed world of grazers and hunters, both of them designs, over two seasons. Slow, so it runs only when named
 // These say that a rule exists. Whether each rule matters in play is the mechanics pass itself, which comes next.
 const fs = require('fs'), path = require('path');
@@ -74,6 +76,13 @@ function long() { const plain = SHEET.plain(), w = new World(300, 7), beats = 96
   for (let i = 0; i < beats; i++) { M.step(w); if (i % 1200 === 1199) { const by = w.log.kills.reduce((a, k) => (a[k.by] = (a[k.by] || 0) + 1, a), {}); console.log('  ' + String((i + 1) / 400).padEnd(5) + w.season.padEnd(9) + String(count('Grazer')).padEnd(9) + String(count('Hunter')).padEnd(9) + String(w.items.filter((x) => x.kind === 'egg').length).padEnd(6) + String(w.items.filter((x) => x.kind === 'plant').length).padEnd(9) + Object.entries(by).map(([k, v]) => k.toLowerCase() + ' ' + v).join(', ')); } }
   console.log(''); line(true, `it ran ${beats} beats at ${Math.round(beats / ((Date.now() - t0) / 1000))} beats a second`); return line(count('Grazer') > 0 && count('Hunter') > 0, `both kinds are alive after two seasons: ${count('Grazer')} grazers and ${count('Hunter')} hunters`); }
 
-const CHECKS = { cover, handles, wired, smoke, long }, which = process.argv[2] || 'all', list = which === 'all' ? Object.keys(CHECKS).filter((k) => k !== 'long') : [which];
+// ---- body: the four questions, for every choice on the sheet
+function body() { const { T } = require('./mech/body.js'), H = require('./mech/harness.js'), only = process.argv[3], rule = SHEET.FIELDS.filter((f) => f.kind === 'rule'), res = []; let ok = true;
+  for (const t of T) { if (only && t.id !== only) continue; const r = H.judge(t); console.log(H.report(r)); res.push(r); ok = ok && r.pass; }
+  if (!only) { const untested = rule.filter((f) => !T.some((t) => t.id === f.id)); console.log(`\nbody: ${res.filter((r) => r.pass).length} of ${res.length} tests pass, on ${new Set(T.map((t) => t.id)).size} of ${rule.length} choices`); if (untested.length) { console.log('  not yet tested: ' + untested.map((f) => SHEET.LABEL[f.id]).join(', ')); ok = false; }
+    fs.writeFileSync(path.join(__dirname, 'mech', 'body-results.json'), JSON.stringify(res, null, 1)); }
+  return ok; }
+
+const CHECKS = { cover, handles, wired, smoke, long, body }, which = process.argv[2] || 'all', list = which === 'all' ? Object.keys(CHECKS).filter((k) => k !== 'long' && k !== 'body') : [which];
 if (!list.every((k) => CHECKS[k])) { console.log('usage: node design/checks/mechaudit.js [' + Object.keys(CHECKS).join(' | ') + ' | all]'); process.exit(2); }
 let all = true; for (const k of list) { const ok = CHECKS[k](); all = all && ok; console.log(''); } console.log(all ? 'All of these pass.' : 'Some of these fail.'); process.exit(all ? 0 : 1);
