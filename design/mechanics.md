@@ -125,13 +125,13 @@ None of these was visible until a part was tested alone. Each change is to the s
 
 ## 2. Brains: every word of the vocabulary
 
-Status on 16 November: 350 of the 350 words are done. Every word has now been through its tests. Five findings are open and wait for step 3.4: tight and medium wandering, pointing, one breeder with helpers, and mating each time.
+Status on 16 November: 350 of the 350 words are done. Every word has now been through its tests. Four findings are open and wait for step 3.4: tight and medium wandering, pointing, one breeder with helpers, and mating each time.
 
 ### 2a. The words a brain notices with
 
 Run with `node design/checks/mechaudit.js words`; the scenes are in `design/checks/mech/words.js`. For each family there is one small scene for each word, built so that the word should be true in it. Every word of the family is asked in every scene. A word passes when it is true in its own scene and its row of answers differs from every other word's row. Words that point (directions, which one) are checked by where they point, and moments by making them happen.
 
-**Result: 233 of 233 words in 45 families are told apart from their neighbours.** This answers two of the four questions for these words: each changes something, and none is another under a second name. Whether each family pays in play is shown by the acts that use them, below and in section 3.
+**Result: 243 of 243 words in 47 families are told apart from their neighbours.** That count includes whose a mark is (four words) and the six rules for what attention costs. This answers two of the four questions for these words: each changes something, and none is another under a second name. Whether each family pays in play is shown by the acts that use them, below and in section 3.
 
 What it found, each now with its own rule:
 
@@ -265,6 +265,57 @@ What the tests found:
 | **An animal set to grow up slowly died of old age on the day it grew up** | However long it takes to grow up, it has a life after that |
 | **Born watchers did not pay.** A call set off by a sight fires only when the hunter is already close, and feeders look up between bites anyway | "Born with" is shown with born guards, which kill an egg-eater. Whether sentinels can be made to pay is a question for the behaviours in section 3 |
 | **A count needs a mood that fades between events,** or single events add up over a lifetime | Kept: a count with a lingering time is "this many, close together" |
+
+### 2d. Signals, and the settings for a whole species
+
+Run with `node design/checks/mechaudit.js species`; the tests are in `design/checks/mech/species.js`.
+
+**Result: 25 of 28 pass.**
+
+| Word | Verdict | Setting | With it against without | Told from its neighbour | What a watcher sees |
+|---|---|---|---|---|---|
+| a call heard far | Passes | It finds food and calls. Three of its kind are a long way off, hungry, with no way to find the food themselves | 97.8 against 0 bites its kin eat in 400 beats | a call heard near: 0 in the same setting | The call carries to them and they come; an ordinary call does not reach |
+| a call heard near | Passes | A dark night. A family keeps together by calling, and a hunter that listens for calls is prowling not far off | 555 against 121 beats lived of 600 | a call heard far: 121 in the same setting | Their calls reach each other and no farther; an ordinary call brings the hunter |
+| a mark that lasts | Passes | One of its kind walks to distant food, marking as it goes. Another comes to the start a good while afterwards | 18.4 against 0 bites eaten by one that follows the trail later | a mark that fades soon: 0 in the same setting | The trail is still there to follow; an ordinary mark has faded |
+| a mark that fades soon | Passes | The food at the end of a trail has all been eaten, and there is new food near the start. Another of its kind comes to the start | 14.2 against 0 bites eaten in 500 beats | a mark that lasts: 0 in the same setting | The stale trail has gone, and it finds the new food; a trail that is still there leads it a long way to nothing |
+| a display | Passes | Two of a size at one small pile of food. The other backs off from a threat it can see | 12 against 6.3 bites eaten of about 12 | a call heard near: 6.3 in the same setting | It shows a threat, the rival draws back, and it eats |
+| facing while showing | **Fails: does not pay** | A scout that remembers where it found food, far off. A follower beside it has never been there | 0 against 0 bites the follower eats in 700 beats |  | The scout turns toward the place as it shows, and the follower sets off the way it points and finds the food. A scout that shows without turning sends the follower anywhere |
+| alone | Passes | One founder on its own, with plenty of food | 12 against 0 more of them after 900 beats | splitting: 5.4 in the same setting | It lays without a mate and founds a population; one that needs a mate leaves nothing |
+| splitting | Passes | Plenty of food, and an animal that eats every egg it finds | 39.3 against 3.7 more of them after 1200 beats | alone: 28 in the same setting | It divides in two with no egg for anything to eat; the ones that lay feed the egg-eater |
+| both sexes in one | Passes | Two founders, whatever sex chance gives them | 274 against 20.1 more of them after 1200 beats | in pairs: 20.1 in the same setting | Any two can breed, and both lay; of two that are each one sex, half the time they are the same sex and leave nothing |
+| in pairs | Passes | Four founders, two of each sex, with plenty of food | 81.4 against 0 more of them after 1200 beats | alone: 384 in the same setting | They pair and breed |
+| one breeder with helpers | **Fails: does not pay** | One breeder, one male and four helpers that bring her food; only the breeder lays | 1.6 against 25.7 more of them after 1200 beats | in pairs: 25.7 in the same setting | The helpers feed her and she lays without stopping to feed |
+| share of each sex and form | Passes | Pairs with plenty of food, over several generations | 185 against 110 more of them after 1800 beats | a rule on the mix: 72.4 in the same setting | Most of each brood are daughters, and the numbers climb faster than with as many sons as daughters |
+| a rule on the mix | Passes | Layers, with an animal of another kind in sight. Guards are a second form | 20.4 against 0 guards among the brood after 700 beats | share of each sex and form: 9.9 in the same setting | When one of another kind is in sight the brood is all guards; with a fixed share most of the brood are still layers |
+| once and lay for life | Passes | Three females and one male, and the male does not last long | 38 against 8.9 more of them after 1200 beats | each time: 8.9 in the same setting | Mated once, they go on laying after he is gone |
+| each time | **Fails: not told from once and lay for life** | Pairs with plenty of food | 81.4 against 81.4 more of them after 1200 beats | once and lay for life: 97.2 in the same setting | They mate before each clutch |
+| the mother dies after laying | Passes | No food for the young but what their mother leaves | 8 against 1.8 young alive after 1900 beats | nothing: 1.8 in the same setting | She dies at the nest and her brood feed on her; where she lives, they starve round her |
+| the father dies after mating | Passes | Pairs with nothing else to eat | 10.2 against 3 eggs laid in 800 beats | nothing: 3 in the same setting | He dies when they have mated, she eats him, and lays the more for it |
+| nothing | Passes | Plenty of food, and time for many clutches | 37.9 against 6 more of them after 1500 beats | the mother dies after laying: 6 in the same setting | She lives to lay again and again |
+| many small | Passes | Plenty of food and no enemies | 24 against 5.5 more of them after 900 beats | a few large: 5.5 in the same setting | Clutches of many, and most of them make it |
+| a few large | Passes | Nothing for the young to eat for a long while | 3 against 0 young alive after 1700 beats | many small: 0 in the same setting | Each hatches big, with enough inside it to reach the next meal; the small ones hatch hungry and die |
+| kept inside until they hatch | Passes | Plenty of food, and an animal that eats every egg it finds | 57.2 against 30.2 more of them after 1200 beats | laid: 30.2 in the same setting | There is never an egg on the ground to be eaten; the young are born alive |
+| laid | Passes | A hunter of middling speed, and mothers carrying a brood | 600 against 488 beats the mothers live, of 600 | kept inside until they hatch: 488 in the same setting | She has laid and runs light; one that carries her brood inside her is slow, and is caught |
+| wait for a season | Passes | Eggs laid in a burrow in autumn, and a winter of hard frost | 8 against 0 young alive in the spring | hatch at once: 0 in the same setting | The eggs lie in the burrow all winter and hatch in spring; hatched at once, the young meet the frost |
+| hatch at once | Passes | A good season with plenty of food | 24 against 0 young out of the egg after 900 beats | wait for a season: 0 in the same setting | The young are out and feeding while the eggs of the others are still waiting |
+| once, with everything | Passes | A season too short for more than one clutch | 18 against 12 eggs and young after 250 beats | repeatedly: 12 in the same setting | She puts everything she has into one great clutch |
+| repeatedly | Passes | Plenty of food, and time for many clutches | 37.9 against 12 more of them after 1500 beats | once, with everything: 12 in the same setting | She lays, feeds and lays again |
+| adults sleep through a season | Passes | A winter with nothing to eat | 4 against 0 alive at the end of a winter with no food, of 4 | no sleep: 0 in the same setting | They sleep through it, using almost nothing, and wake thin in spring; the ones that stay awake starve |
+| no sleep | Passes | A mild winter with food about | 362 against 240 more of them after a mild winter | adults sleep through a season: 240 in the same setting | They feed and breed all winter while the sleepers lie still |
+
+The six words for what attention costs are rules, not choices. Each is checked in `mechaudit.js words`: a notice that is true without the rule is false with it (6 of 6). Four of them also decide a test above: creeping, a walk against a sprint, resting against holding still, and hiding.
+
+What the tests found:
+
+| Finding | What was done |
+|---|---|
+| **An instinct to lay "always" starved its owner.** An act that could not be done still used up the beat, so the animal never fed. It had also made the first Rhythm test pass for the wrong reason | Laying, mating, building, rolling, giving and tending no longer use the beat when they cannot be done. Rhythm was tested again in a fair setting (calling in pulses) and passes |
+| **Eggs that "wait for a season" hatched at the start of winter** when laid in autumn | They lie through whatever is left of the year and hatch when spring comes |
+| **One breeder with helpers does not pay.** Six in a colony leave far fewer young than three pairs, even with the helpers feeding the breeder | **Open.** A colony has to earn its keep through what helpers do: guard, build, carry, defend. That is a behaviour to write in section 3, and if none pays there the setting needs a rule of its own |
+| **Mating each time has no advantage over mating once for life** | **Open.** It is the plain setting. To settle in 3.4: give mating once a cost, or keep one of the two |
+| **Pointing is not shown.** A follower takes the heading of a scout that shows while facing a remembered place, but over a long walk it drifts off the line and misses the food | **Open.** To be written as a full behaviour in section 3 (the scout's dance), where the follower can be given a way to hold a heading |
+| **A call set off by a sight far away never fired,** again | The same finding as in 2b. The far-call test uses a call set off by touching food |
+| **The mother's death and the father's death each needed a use** | Both are shown as food: her brood feed on her, and the female eats him and lays the more for it. Whether that is the meaning the design wants is a question for the owner |
 
 ## 3. The promised behaviours
 
