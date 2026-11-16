@@ -26,7 +26,7 @@ const I = (when, act, o = {}) => { const verb = VERBS.find((v) => act === v || a
 
 // ---- a creature
 function spawn(w, sp, o = {}) { const br = sp.breed = Object.assign({}, BREED, sp.breed), rnd = w.rnd, a = o.heading ?? rnd() * TAU, form = o.form || null, F = form && sp.forms && sp.forms[form];
-  if (!sp.B) sp.B = bodyOf(sp.sheet); const B = F ? (F.B || (F.B = bodyOf(Object.assign({}, sp.sheet, F.sheet)))) : sp.B, brain = (F && F.brain) || sp.brain, grown = Math.round((sp.grown || 500) / B.tempo), old = Math.round((sp.old || 8000) / B.tempo);
+  if (!sp.B) sp.B = bodyOf(sp.sheet); const B = F ? (F.B || (F.B = bodyOf(Object.assign({}, sp.sheet, F.sheet)))) : sp.B, brain = (F && F.brain) || sp.brain, grown = Math.round((sp.grown || 500) / B.tempo), old = Math.max(Math.round((sp.old || 8000) / B.tempo), grown * 4); /* however long it takes to grow up, it has a life after that */
   const c = { id: w.nextId++, kind: sp.kind, sp, brain, B, form, tag: o.tag || sp.kind, x: o.x ?? rnd() * w.size, y: o.y ?? rnd() * w.size, hx: Math.cos(a), hy: Math.sin(a), wx: Math.cos(a), wy: Math.sin(a), vx: 0, vy: 0, spd: 0, pace: 'normal', side: rnd() < 0.5 ? 1 : -1,
     age: o.age ?? grown, grown, old, sz: B.size, hp: B.hp, hpMax: B.hp, store: B.store, energy: (o.energy ?? 0.7) * B.store, stamina: 1, tired: false, heat: 0, alive: true,
     sex: o.sex || (br.way === 'in pairs' || br.way === 'one breeder with helpers' ? (rnd() < (br.mix.male ?? 0.5) ? 'male' : 'female') : br.way === 'both sexes in one' ? 'both' : 'female'), home: o.home ?? null, family: o.family ?? null,
@@ -40,7 +40,7 @@ const grow = (c) => { c.sz = c.B.size * (c.age >= c.grown ? 1 : 0.45 + 0.55 * c.
 const moment = (w, c, name, who, beats = 3) => { c.just[name] = w.t + beats; c.justWho[name] = who || undefined; };
 const learn = (c, key, kind) => { if (!c.brain.learns && !Object.values(c.brain.moods || {}).some((d) => d.learn)) return; (c.learned[key] || (c.learned[key] = new Set())).add(kind); };
 // a habit grows when its instinct is soon followed by something good, and shrinks when it is followed by pain
-const reward = (w, c, k) => { c.brain.instincts.forEach((ins, i) => { if (ins.habit && w.t - c.fired[i] < 25) c.habit[i] = clamp(c.habit[i] * k, 0.2, 2.5); }); };
+const reward = (w, c, k) => { c.brain.instincts.forEach((ins, i) => { if (ins.habit && w.t - c.fired[i] < 25) c.habit[i] = clamp(c.habit[i] * k, 0.04, 2.5); }); };
 const holds = (w, c, k) => sense(w, c, k).s > 0;
 
 // ---- noticing: the senses, with what the mind adds (moments, attention, losing sight)
@@ -61,7 +61,7 @@ function think(w, c) { const br = c.brain, P = { px: 0, py: 0, still: 0, pace: '
     let wt = STR[ins.str] * (ins.habit ? c.habit[i] : 1); for (const k of ins.more) if (holds(w, c, k)) wt *= 1.7; for (const k of ins.less) if (holds(w, c, k)) wt *= 0.45;
     c.fired[i] = w.t; if (ins.n.reach !== 'always' && ins.n.reach !== 'sometimes') fired++;
     const pull = wt * (0.4 + 0.6 * n.s), act = ins.act, D = DIST[ins.dist]; let mx = 0, my = 0;
-    if (act === 'approach' && n.dx !== undefined) { const tg = n.target; if (tg && !n.dir && tg.x !== undefined && n.d < (4 + (tg.sz || 0) * 2) * 0.7) { P.face = P.face || [n.dx, n.dy]; P.stay = Math.max(P.stay || 0, pull); } else { mx = n.dx * pull; my = n.dy * pull; } }      // it goes to the thing and stops there, turned toward it
+    if (act === 'approach' && n.dx !== undefined) { const tg = n.target; if (tg && !n.dir && tg.x !== undefined && n.d < (4 + (tg.sz || 0) * 2) * 0.7) { P.turnTo = P.turnTo || [n.dx, n.dy]; P.stay = Math.max(P.stay || 0, pull); } else { mx = n.dx * pull; my = n.dy * pull; } }      // it goes to the thing and stops there, turned toward it
     else if (act === 'move away' && n.dx !== undefined) { mx = -n.dx * pull; my = -n.dy * pull; }
     else if (act === 'stay near' && n.dx !== undefined) { if (n.d > D) { mx = n.dx * pull; my = n.dy * pull; } }
     else if (act === 'keep apart' && n.dx !== undefined) { if (n.d < D) { const k = wt * (1 - n.d / D) * 2; mx = -n.dx * k; my = -n.dy * k; } }
@@ -186,7 +186,7 @@ function move(w, c, P) { const B = c.B, t = w.t; if (c.heldBy) { const h = c.hel
   const still = c.belly > 0 || c.asleep || c.holding && P.want < 0.3 ? 1 : P.still, burst = pace === 'sprint' ? (foot === 'water' || foot === 'shallows' ? B.burstWater : B.burstLand) : 1, load = c.carry.reduce((a, it) => a + (it.B ? it.B.mass : (it.left ?? 1) * 0.4), 0) + c.riders.reduce((a, r) => a + r.B.mass, 0);
   const top = B.top * footing * burst * (gr.slow || 1) * (gr.drag ? 1 - gr.drag * clamp(c.sz - 0.7, 0, 1) : 1) * (c.age < c.grown ? 0.8 : 1) * clamp(1 - 0.35 * load / (B.mass * B.carries * (0.6 + B.organs.muscle * 2)), 0.3, 1) * (c.gravid && c.sp.breed.where === 'kept inside until they hatch' ? 0.8 : 1) * (c.heat < -0.6 ? 0.7 : 1);
   let want = P.want > 0.05 ? PACE[pace] * top * (1 - still) * Math.min(1, P.want * 2) : 0; if (c.holding && want > 0) c.holding = false;
-  if (P.want > 0.05 || P.face) { const [tx, ty] = P.face || [P.px / P.want, P.py / P.want]; if (B.turn === undefined) { c.hx = tx; c.hy = ty; } else { const a0 = Math.atan2(c.hy, c.hx); let da = Math.atan2(ty, tx) - a0; da = Math.atan2(Math.sin(da), Math.cos(da)); const lim = B.turn * (c.spd > 0.6 * B.top ? 0.6 : 1), a = a0 + clamp(da, -lim, lim); c.hx = Math.cos(a); c.hy = Math.sin(a); if (Math.abs(da) > 1.2) want *= 0.5; } }
+  if (P.want > 0.05 || P.face || P.turnTo) { const [tx, ty] = P.face || (P.want > 0.05 && !(P.turnTo && still >= 1) ? [P.px / P.want, P.py / P.want] : P.turnTo || [P.px / P.want, P.py / P.want]); /* having arrived and staying, it turns to the thing; if something pulls it elsewhere it turns that way */ if (B.turn === undefined) { c.hx = tx; c.hy = ty; } else { const a0 = Math.atan2(c.hy, c.hx); let da = Math.atan2(ty, tx) - a0; da = Math.atan2(Math.sin(da), Math.cos(da)); const lim = B.turn * (c.spd > 0.6 * B.top ? 0.6 : 1), a = a0 + clamp(da, -lim, lim); c.hx = Math.cos(a); c.hy = Math.sin(a); if (Math.abs(da) > 1.2) want *= 0.5; } }
   c.spd += (want - c.spd) * (want > c.spd ? B.quick : 0.6); if (c.spd < 0.004) c.spd = 0; c.pace = pace; let nx = c.x + c.hx * c.spd, ny = c.y + c.hy * c.spd;
   const flow = w.flowAt(c.x, c.y); c.swept = false; if (flow && !c.holding && !B.holdsFast) { const push = Math.hypot(flow[0], flow[1]) * (1 - 0.75 * B.footing.water) * (depth > 0.3 ? 1 : 0.4); nx += flow[0] / (Math.hypot(flow[0], flow[1]) || 1) * push; ny += flow[1] / (Math.hypot(flow[0], flow[1]) || 1) * push; c.swept = push > c.spd + 0.05; }
   if (w.windy && B.burstLand > 1 && pace === 'sprint') { nx += w.wind[0] * 0.2; ny += w.wind[1] * 0.2; }
