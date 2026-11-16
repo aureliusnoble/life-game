@@ -27,27 +27,27 @@
  {
   "label": "Gut: least and most",
   "id": "gut",
-  "n": 114
+  "n": 173
  },
  {
   "label": "Fat: least and most",
   "id": "fat",
-  "n": 76
+  "n": 59
  },
  {
   "label": "Muscle: least and most",
   "id": "muscle",
-  "n": 56
+  "n": 59
  },
  {
   "label": "Lungs: least and most",
   "id": "lungs",
-  "n": 129
+  "n": 196
  },
  {
   "label": "Brood: least and most",
   "id": "brood",
-  "n": 137
+  "n": 183
  },
  {
   "label": "Skin on its front: bristles",
@@ -57,17 +57,17 @@
  {
   "label": "Skin on its front: slime",
   "id": "skinFront",
-  "n": 211
+  "n": 37
  },
  {
   "label": "Skin on its front: spikes",
   "id": "skinFront",
-  "n": 201
+  "n": 47
  },
  {
   "label": "Skin on its front: shell",
   "id": "skinFront",
-  "n": 133
+  "n": 197
  },
  {
   "label": "Skin on its sides: bristles",
@@ -77,17 +77,17 @@
  {
   "label": "Skin on its sides: slime",
   "id": "skinFlanks",
-  "n": 198
+  "n": 66
  },
  {
   "label": "Skin on its sides: spikes",
   "id": "skinFlanks",
-  "n": 175
+  "n": 38
  },
  {
   "label": "Skin on its sides: shell",
   "id": "skinFlanks",
-  "n": 66
+  "n": 79
  },
  {
   "label": "Skin on its back: bristles",
@@ -97,12 +97,12 @@
  {
   "label": "Skin on its back: slime",
   "id": "skinBack",
-  "n": 213
+  "n": 30
  },
  {
   "label": "Skin on its back: spikes",
   "id": "skinBack",
-  "n": 52
+  "n": 59
  },
  {
   "label": "Skin on its back: shell",
@@ -112,37 +112,37 @@
  {
   "label": "Camouflage: grass",
   "id": "camo",
-  "n": 78
+  "n": 55
  },
  {
   "label": "Camouflage: reed",
   "id": "camo",
-  "n": 64
+  "n": 40
  },
  {
   "label": "Camouflage: sand",
   "id": "camo",
-  "n": 187
+  "n": 148
  },
  {
   "label": "Camouflage: rock",
   "id": "camo",
-  "n": 246
+  "n": 201
  },
  {
   "label": "Camouflage: mud",
   "id": "camo",
-  "n": 180
+  "n": 144
  },
  {
   "label": "Camouflage: leaf litter",
   "id": "camo",
-  "n": 451
+  "n": 253
  },
  {
   "label": "False eyes",
   "id": "falseEyes",
-  "n": 47
+  "n": 39
  },
  {
   "label": "A tail that sheds",
@@ -152,7 +152,7 @@
  {
   "label": "Ink",
   "id": "ink",
-  "n": 121
+  "n": 131
  },
  {
   "label": "Eyes: facing forward",
@@ -197,17 +197,17 @@
  {
   "label": "Heat pits",
   "id": "heatPits",
-  "n": 22
+  "n": 14
  },
  {
   "label": "Echo",
   "id": "ping",
-  "n": 237
+  "n": 195
  },
  {
   "label": "Compass",
   "id": "compass",
-  "n": 21
+  "n": 17
  },
  {
   "label": "Moves on: stilts",
@@ -217,12 +217,12 @@
  {
   "label": "Moves on: webbed feet",
   "id": "mover",
-  "n": 25
+  "n": 26
  },
  {
   "label": "Moves on: fins",
   "id": "mover",
-  "n": 68
+  "n": 67
  },
  {
   "label": "Moves on: paddles",
@@ -232,17 +232,17 @@
  {
   "label": "Moves on: a skirt of cilia",
   "id": "mover",
-  "n": 125
+  "n": 109
  },
  {
   "label": "Moves on: one broad foot",
   "id": "mover",
-  "n": 113
+  "n": 115
  },
  {
   "label": "Moves on: body waves",
   "id": "mover",
-  "n": 285
+  "n": 166
  },
  {
   "label": "Tail fin",
@@ -257,12 +257,12 @@
  {
   "label": "Mouth: jaws",
   "id": "mouth",
-  "n": 326
+  "n": 125
  },
  {
   "label": "Mouth: locking jaws",
   "id": "mouth",
-  "n": 375
+  "n": 368
  },
  {
   "label": "Mouth: tongue",
@@ -277,7 +277,7 @@
  {
   "label": "Sting: front",
   "id": "sting",
-  "n": 357
+  "n": 399
  },
  {
   "label": "Sting: rear",
@@ -287,32 +287,32 @@
  {
   "label": "Horns",
   "id": "horns",
-  "n": 20
+  "n": 216
  },
  {
   "label": "Digging claws",
   "id": "claws",
-  "n": 18
+  "n": 34
  },
  {
   "label": "Club tail",
   "id": "club",
-  "n": 197
+  "n": 199
  },
  {
   "label": "Grip: suckers",
   "id": "grip",
-  "n": 57
+  "n": 97
  },
  {
   "label": "Grip: hooks",
   "id": "grip",
-  "n": 51
+  "n": 182
  },
  {
   "label": "Grip: arms",
   "id": "grip",
-  "n": 28
+  "n": 195
  },
  {
   "label": "Pouch",
@@ -327,21 +327,21 @@
  {
   "label": "Voice: least and most",
   "id": "voice",
-  "n": 29
+  "n": 47
  },
  {
   "label": "Scent glands",
   "id": "scent",
-  "n": 19
+  "n": 30
  },
  {
   "label": "Glow",
   "id": "glow",
-  "n": 203
+  "n": 294
  },
  {
   "label": "Crest",
   "id": "crest",
-  "n": 36
+  "n": 61
  }
 ]
