@@ -1,0 +1,41 @@
+[
+ {
+  "name": "Torn between food and fear",
+  "from": "neural-blocks.md, section 11",
+  "says": "It keeps clear of the big animal that bites, and goes in to feed only when it is very hungry",
+  "unit": "bites eaten in 1500 beats",
+  "written": true,
+  "notes": [],
+  "fits": true,
+  "over": [],
+  "lines": 4,
+  "moods": 0,
+  "with": 2.6,
+  "does": false,
+  "against": {
+   "no fear": 6.1,
+   "always moves away": 0
+  },
+  "pays": false,
+  "pass": false
+ },
+ {
+  "name": "Remembering a place",
+  "from": "neural-blocks.md, section 11",
+  "says": "Having fed at a patch, it goes back there whenever it is hungry",
+  "unit": "bites eaten in 2000 beats",
+  "written": true,
+  "notes": [],
+  "fits": true,
+  "over": [],
+  "lines": 5,
+  "moods": 1,
+  "with": 10.8,
+  "does": true,
+  "against": {
+   "no memory": 4.1
+  },
+  "pays": true,
+  "pass": true
+ }
+]

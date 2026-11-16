@@ -319,4 +319,33 @@ What the tests found:
 
 ## 3. The promised behaviours
 
-Not yet run.
+Status on 16 November: begun. The way of doing it is in place and two of the eight tested recipes have been through it. About 220 behaviours are promised across the documents.
+
+**How it is done.** Each behaviour is written in full in the notation of `design/neural-blocks.md`, as a player would read it. `design/checks/rig/script.js` reads that notation into the rig, so what is tested is the text itself. The entries are in `design/checks/mech/library.js`, each with a body the species sheet allows, a setting, and the plainer versions of the same animal that it has to beat. Run with `node design/checks/mechaudit.js library [name]`.
+
+| Test | Passes when |
+|---|---|
+| It can be written | The whole program is read, and every word in it is one the rig has a rule for |
+| It fits | It is within the cap that keeps a brain readable: six moods, twenty-four instincts, two conditions on any one instinct |
+| It does what it says | Run in the rig, the count that shows the behaviour reaches what the entry says it should |
+| It pays somewhere | It does better than each plainer version, by more than the noise from map to map |
+
+**Where the promises are,** and how many are done:
+
+| Source | What | Done |
+|---|---|---|
+| `design/neural-blocks.md` section 11 | Eight tested recipes | 2 run: one passes, one fails |
+| `design/neural-blocks.md` section 12 | The behaviour atlas, about 140 rows | 0 |
+| `design/social.md` section 5 | About thirty-five societies | 0 |
+| `design/life-cycles.md` section 7 | Ways of living through the year | 0 |
+| `design/body.md` section 12 | Builds this should allow | 0 |
+| `design/presets.md` section 3 | The twenty preset species | 0 |
+
+**So far:**
+
+| Behaviour | Written | Fits | Does what it says | Pays | Note |
+|---|---|---|---|---|---|
+| Remembering a place | Yes | 5 instincts, 1 mood | Yes: 10.8 bites in 2000 beats | Yes: 4.1 with no memory | |
+| Torn between food and fear | Yes | 4 instincts, no moods | **No** | **No**: 2.6 bites against 6.1 with no fear at all | As written ("move away, not when very hungry") it goes in only when it is nearly starved, takes one bite and is driven off again. The tests of "more when" and "less when" in 2b show the same idea working when hunger weakens the fear by degrees. To settle in 3.4: rewrite the recipe that way |
+
+The four findings left open by section 2 (tight and medium wandering, pointing, one breeder with helpers, mating each time) are settled here or in step 3.4.
