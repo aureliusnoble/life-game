@@ -50,7 +50,7 @@ entry({ name: 'Remembering a place', from: 'neural-blocks.md, section 11', unit:
   // one small patch where food keeps coming up, in wide empty country, and no nose
   run: (text, s) => { const w = new World(400, s, { light: 1 }); w.patch('plant', 200, 200, 14, { cap: 6, rate: 0.05, wear: 0 }); const c = spawn(w, species('Forager', text, { nose: false }), { x: 215, y: 200, energy: 0.45 }); run(w, 2000); return c.meals; } });
 
-entry({ name: 'Pack hunt on big prey', from: 'neural-blocks.md, section 11', unit: 'hunters still alive when the prey is dead, of 8 (none if it never is)', atLeast: 4, seeds: 30,
+entry({ name: 'Pack hunt on big prey', from: 'neural-blocks.md, section 11', unit: 'hunters still alive when the prey is dead, of 8 (none if it never is)', atLeast: 4, seeds: 100,
   says: 'One sees the big prey and calls; the rest come; none goes in until enough of them are there, and then they all do',
   text: `
     Moods
@@ -75,10 +75,10 @@ entry({ name: 'Pack hunt on big prey', from: 'neural-blocks.md, section 11', uni
     see bigger creature → keep apart (strong)   not when Brave
     touch bigger creature → bite
     always → wander (weak)` },
-  // one big animal that bites back, and eight small hunters scattered over wide country
-  run: (text, s) => { const w = new World(700, s, { light: 1, torus: true }), big = spawn(w, species('Big', `
+  // one big animal that bites back hard, and eight small hunters scattered about. A hundred maps, as in the document's own test: the gain is a modest one
+  run: (text, s) => { const w = new World(360, s, { light: 1, torus: true }), big = spawn(w, species('Big', `
       touch smaller creature → bite (strong)
-      always → wander (weak)`, { size: 1.8, mouth: 'jaws', eyes: 'stalk', muscle: 0.5 }), { x: 350, y: 350 }); for (let i = 0; i < 8; i++) spawn(w, species('Hunter', text, { size: 0.9, mouth: 'jaws', ears: true, voice: 1 }), {}); const hs = w.creatures.filter((c) => c.kind === 'Hunter'); for (let t = 0; t < 3000 && big.alive; t++) step(w); return big.alive ? 0 : hs.filter((c) => c.alive).length; } });
+      always → wander (weak)`, { size: 1.8, mouth: 'jaws', eyes: 'stalk', muscle: 0.5 }), { x: 180, y: 180 }); for (let i = 0; i < 8; i++) spawn(w, species('Hunter', text, { size: 0.9, mouth: 'jaws', ears: true, voice: 1 }), {}); const hs = w.creatures.filter((c) => c.kind === 'Hunter'); for (let t = 0; t < 1500 && big.alive; t++) step(w); return big.alive ? 0 : hs.filter((c) => c.alive).length; } });
 
 entry({ name: 'Flocking', from: 'neural-blocks.md, section 11', unit: 'beats on which all eight are within 45 of their middle, of the last 400', atLeast: 250,
   says: 'They gather, keep a little apart from each other, and travel the same way',
