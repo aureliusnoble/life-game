@@ -421,11 +421,11 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 
 | Step | State | Notes |
 |---|---|---|
-| 1.1 The sheet as one data file | Not started | |
+| 1.1 The sheet as one data file | Done, 16 November | `design/sheet/sheet.js`: 69 choices, 41 that mean something and 28 that are looks. It checks a sheet, makes one at random, and turns one into the row the kit draws |
 | 1.2 Cover in both directions | Not started | |
 | 1.3 The six parts and the three questions | Not started | The plan's proposals stand as working answers unless the owner says otherwise |
-| 1.4 The kit extended | Not started | |
-| 1.5 The body designer on a phone | Not started | |
+| 1.4 The kit extended | In progress | Twenty-five new entries are in the kit's tables; each still has to be looked at and checked for being seen |
+| 1.5 The body designer on a phone | In progress | `design/mockups/body-designer.html`, built by `node design/sheet/make.js` from the sheet, a template and the kit shared out of the paper study. Not yet published or reviewed |
 | 1.6 The checks | Not started | The last one needs a person |
 | 1.7 `design/body.md` draft 3, and the lab on the same list | Not started | |
 | 2 The rig made ready | Not started | |
