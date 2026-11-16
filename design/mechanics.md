@@ -2,7 +2,7 @@
 
 Record of the pass set out in `design/plan.md` section 3: does every part matter, and can what the design promises be programmed. It runs on the rig (`design/checks/rig.js`), a stand-in for the simulation, and sets no costs and tunes no numbers. A part passes when there is one setting in which it is the right choice.
 
-Status on 16 November 2026: bodies done. Brains and the promised behaviours follow.
+Status on 16 November 2026: bodies done; 290 of the 350 words of a brain done; the promised behaviours not yet begun.
 
 ## 1. Bodies: every choice on the species sheet that means something
 
@@ -125,7 +125,104 @@ None of these was visible until a part was tested alone. Each change is to the s
 
 ## 2. Brains: every word of the vocabulary
 
-Not yet run. The rig has a rule for each of the 350 words (`node design/checks/mechaudit.js handles`).
+Status on 16 November: 290 of the 350 words are done. The sixty that remain are the words for moods and their ten functions, signals, what attention costs, and the settings for a whole species.
+
+### 2a. The words a brain notices with
+
+Run with `node design/checks/mechaudit.js words`; the scenes are in `design/checks/mech/words.js`. For each family there is one small scene for each word, built so that the word should be true in it. Every word of the family is asked in every scene. A word passes when it is true in its own scene and its row of answers differs from every other word's row. Words that point (directions, which one) are checked by where they point, and moments by making them happen.
+
+**Result: 233 of 233 words in 45 families are told apart from their neighbours.** This answers two of the four questions for these words: each changes something, and none is another under a second name. Whether each family pays in play is shown by the acts that use them, below and in section 3.
+
+What it found, each now with its own rule:
+
+| Finding | What was done |
+|---|---|
+| **A stranger and one of another home were the same thing** | A stranger is neither family nor of my home. One of another home may still be family |
+| **Everyone was family** when no family had been set | Family needs a family to belong to |
+| **Low water and the tide being out were the same thing** | Low water is a river or a pool in a dry spell, and has nothing to do with the tide |
+| **A remembered place and the way toward it were the same thing** | The place itself is noticed from within reach. The way toward it is known from anywhere |
+| **Fighting was never true on the first beat** of a world | A slip in the rule, put right |
+
+### 2b. The words a brain acts with
+
+Run with `node design/checks/mechaudit.js acts`; the tests are in `design/checks/mech/acts.js`. They are the same four questions as for bodies: one brain with the word, without it, and with its nearest neighbour in its place.
+
+**Result: 55 of 57 pass.** The two that fail are one finding: see the table after this one.
+
+| Word | Verdict | Setting | With it against without | Told from its neighbour | What a watcher sees |
+|---|---|---|---|---|---|
+| approach | Passes | Food it can smell | 20.1 against 2.7 bites eaten in 400 beats | stay near: 3.6 in the same setting | It walks up to the food and eats; told only to stay near, it stops short and never touches it |
+| move away | Passes | A hunter in open country | 558 against 287 beats lived of 600 | keep apart: 0 against 42 bites eaten beside a big animal that only bites what touches it | It runs and keeps running |
+| keep apart | Passes | A hunter that rushes anything it sees within its short sight | 600 against 465 beats lived of 600 | move away: 42 against 0 bites eaten beside a big harmless animal | It keeps its distance, and the hunter never sees it |
+| stay near | Passes | A parent that walks steadily on | 365 against 92.9 beats within 40 of its parent, of 400 | approach: 30.2 against 9.1 mean distance from its parent | It trails after its parent at a little distance |
+| go the same way | Passes | A leader that walks steadily on | 400 against 92.9 beats within 40 of its leader, of 400 | head off: 11.8 against 1.3 mean distance from a leader that stands still, facing east | It turns to the leader's heading and travels beside it |
+| head off | Passes | Prey faster than the hunter runs across its front | 2.4 against 0 kills of 4 in 300 beats | go the same way: 0 in the same setting | It runs to where the prey will be and meets it; told only to approach, it falls in behind and is left |
+| circle | Passes | A hunter that is fast in a straight line and slow to turn. The prey runs, and when the hunter is on it, it circles | 527 against 414 beats lived of 600 | go along: 414 in the same setting | It runs round the hunter, always at its side or behind, and the hunter cannot bring its jaws to bear; running straight, it is caught |
+| go along | Passes | A trail of its kind's marks leads to food far off | 14.5 against 0 bites eaten in 560 beats | circle: 11.6 in the same setting | It follows the line of marks to the food; told to circle, it goes round the first marks it finds |
+| face | Passes | A hunter comes from any side at an animal with a shell on its front only | 76 against 31 beats lived of 400 | hold still: 31 in the same setting | It turns its shell to the hunter; holding still, it is bitten wherever the hunter arrives |
+| wander | Passes | Food scattered beyond where it can see, and no nose to find it | 25.8 against 0 bites eaten in 600 beats | hold still: 0 in the same setting | It drifts about and comes on food by chance; standing where it is, it sees none |
+| hold still | Passes | A hunter that hunts by eye, and prey that matches the ground | 366 against 259 beats lived of 700 | rest: 490 against 286 beats lived when the hunter has seen it | It freezes and the hunter walks past; one that keeps moving is seen |
+| sprinting | Passes | A hunter in open country | 558 against 449 beats lived of 600 | creeping: 367 in the same setting | It runs flat out and gets away |
+| creeping | Passes | A dark night; prey that feels movement and bolts | 2.2 against 0 kills of 5 in 600 beats | sprinting: 0.1 in the same setting | It creeps up unfelt and takes them; at any other pace they feel it coming |
+| normal pace | Passes | A dark night, food to be found, and a hunter that feels for movement | 489 against 356 beats lived of 600 | creeping: 22.1 against 17.3 bites eaten in 500 beats | At a walk it is felt only from close by; at a sprint the hunter feels it from twice as far and comes |
+| bite | Passes | Food it can smell | 20.1 against 0 bites eaten in 400 beats | grab: 0 in the same setting | It eats; told to grab, it picks the food up and carries it about hungry |
+| rest | Passes | No food at all | 5070 against 2901 beats lived of 6000 | hold still: 2901 in the same setting | It lies down, uses little, and lasts far longer |
+| lay | Passes | Pairs, with plenty of food | 25.4 against 0 young and eggs after 900 beats | drop: 0 in the same setting | Eggs appear, and then young |
+| mate | Passes | Pairs, with plenty of food | 25.4 against 0 young and eggs after 900 beats | tend: 0 in the same setting | Two meet, and one of them goes off to lay |
+| grab | Passes | Food lying about, and a larder to fill | 4 against 0 pieces in the larder after 600 beats | bite: 0 in the same setting | It picks food up and carries it home; told to bite, it eats where it stands and the larder stays empty |
+| drop | Passes | Food lying about, and a larder to fill | 4 against 0 pieces in the larder after 600 beats | give: 0 in the same setting | It sets its load down in the larder and goes back for more; without the word it carries the first piece for ever |
+| give | Passes | Six newborn that cannot feed themselves, and one parent | 4.3 against 0 young alive after 3000 beats, of 6 | tend: 0 in the same setting | It feeds them and they live; tended but not fed, they starve |
+| tend | Passes | Six newborn with enough inside them to last, and one parent | 2 against 0 young grown up after 500 beats, of 6 | give: 0 in the same setting | Tended, they are grown in a third of the time |
+| roll | Passes | Two small riders cling to its back and feed on it | 600 against 42.7 beats lived of 600 | shed: 42.7 in the same setting | It rolls, and they are thrown off and crushed |
+| cling | Passes | A big animal that runs when bitten, and small ones that feed on it | 11 against 5 bites the riders get in 600 beats | grab: 4.9 in the same setting | They take hold and ride, feeding as they go; without a hold they get one bite and are left behind |
+| let go | Passes | It rides a bigger animal that walks past food far from where it started | 35.7 against 0 bites eaten in 700 beats | drop: 0 in the same setting | It lets go as it passes the food, and eats; without the word it is carried on past |
+| hide | Passes | A hunter, and an animal with a shell on its back | 182 against 41.3 beats lived of 500 | hold still: 37.2 in the same setting | It pulls in under its shell and the hunter can do little to it |
+| shed | Passes | A hunter with locking jaws, and prey with a tail that sheds | 475 against 410 beats lived of 500 | roll: 427 in the same setting | It is seized, drops its tail and runs |
+| sting | Passes | A hunter runs it down from behind; it has a sting at its rear | 539 against 423 beats lived of 600 | bite: 422 in the same setting | It stings, and the hunter can only crawl after it |
+| spray | Passes | A hunter a little faster than its prey, which carries ink | 480 against 423 beats lived of 600 | glow: 423 in the same setting | A cloud goes up between them and the hunter loses it |
+| glow | Passes | A night that does not end; they have lights | 28.1 against 0.3 young and eggs after 900 beats | show: 0.3 in the same setting | They light up, find each other and breed; a display without a light is not seen in the dark |
+| puff up | Passes | A hunter that takes what is smaller than itself; it has a crest | 467 against 276 beats lived of 600 | crouch: 342 in the same setting | It stands and puffs up, and the hunter leaves it |
+| play dead | Passes | A hunter that wants live prey | 471 against 276 beats lived of 600 | crouch: 342 in the same setting | It drops and lies still, and the hunter walks over it |
+| crouch | Passes | A hunter that hunts by eye, on open ground | 357 against 263 beats lived of 700 | hold still: 255 in the same setting | It flattens itself and is seen only from a third as far |
+| mark | Passes | One of its kind walks to distant food. Another comes to the same starting place afterwards | 34.4 against 0 bites eaten by one that comes later | call: 0 in the same setting | The first leaves a line of marks and the second follows it; a call is gone by the time the second arrives |
+| wipe | Passes | A trail of its kind's marks leads to food. A thief of another kind follows such trails. It walks home along the trail | 5.2 against 36 bites a thief gets, of the food at the end of the trail | mark: 36 in the same setting | It rubs the marks out behind it; the thief comes to where the trail stops and casts about |
+| dig | Passes | Open ground with nowhere to hide. A hunter arrives after a while | 800 against 688 beats lived of 800 | build: 688 in the same setting | It digs a hollow, and is down it when the hunter comes |
+| build | Passes | A hard frost, material lying about, and eggs to lay at nightfall | 5 against 0.8 young hatched after a frosty 700 beats | drop: 0 in the same setting | It carries material together, builds a nest and lays in it; eggs laid on bare ground freeze |
+| call | Passes | A hunter comes up behind its kin, who are far off and looking the other way. It sees the hunter | 587 against 547 beats its kin live, of 600 | show: 547 in the same setting | It calls and they run; a display behind their backs is not seen |
+| show | Passes | Two of a size at one small pile of food. The other backs off from a threat it can see | 12 against 6.3 bites eaten of about 12 | call: 6.3 in the same setting | It shows a threat, the rival draws back, and it eats |
+| raise | Passes | A hunter of middling speed in open country | 558 against 398 beats lived of 600 | calm: 398 in the same setting | Its fear outlasts the sight of the hunter, and it keeps running after the hunter has dropped behind where it cannot see |
+| calm | Passes | A big harmless animal passes by once. Its fear does not fade by itself | 36 against 0 bites eaten in 900 beats | raise: 0 in the same setting | When the big one has gone it calms down and goes back to feeding; without the word it cowers for the rest of its life |
+| hurry | Passes | Four of a kind, each lit for half of a slow rhythm of its own | 89.7 against 26.9 beats on which all four are lit together, of the last 300 | raise: 26.9 in the same setting | Each sees another light up and hurries its own; after a while they pulse together |
+| ping | Passes | A dark night; it can make a call that comes back | 4.6 against 0.6 kills of 5 in 600 beats | call: 0.6 in the same setting | It calls, and for a moment knows where everything near it is |
+| the one it is facing | Passes | A hunter that backs off when hurt. It has a sting at its front, turns to face what frightens it, and stings when afraid | 500 against 274 beats lived of 500 |  | Afraid, it stings whatever is in front of it. Without the aim, being afraid points at nothing and the sting never goes in |
+| only when | Passes | Food found by eye, through days and nights | 51.3 against 0.3 bites eaten in four days | not when: 6.8 in the same setting | It rests only at night and feeds by day; resting whenever it can, it starves, and resting only by day it blunders about in the dark |
+| not when | Passes | Food found by eye, through days and nights | 42 against 0.3 bites eaten in four days | only when: 13 in the same setting | It rests except by day, and feeds by day |
+| more when | Passes | Food lies round a big animal it is afraid of, which is in fact harmless | 13.6 against 0 bites eaten in 500 beats | less when: 0 in the same setting | When it is hungry enough its hunger wins and it goes in to feed |
+| less when | Passes | Food lies round a big animal it is afraid of, which is in fact harmless | 8.8 against 0 bites eaten in 500 beats | more when: 0 in the same setting | When it is hungry its fear counts for less and it goes in to feed |
+| strong | Passes | A hunter, in country full of food it would like to stop for | 527 against 354 beats lived of 600 | normal strength: 380 in the same setting | Its fear is stronger than its appetite and it does not stop |
+| weak | Passes | Food lies round a big animal it is afraid of, which is in fact harmless | 37.8 against 0 bites eaten in 500 beats | normal strength: 0 in the same setting | Its fear is slight and it feeds under the big one's nose |
+| normal strength | Passes | A hunter, in country full of food that tempts it a little | 517 against 326 beats lived of 600 | strong: 37.7 against 0 bites eaten beside a big harmless animal | An ordinary fear outweighs a slight appetite and it runs; a slight fear only matches it, and it dithers |
+| close | Passes | Food round a big animal that bites whatever touches it | 1.8 against 0 bites eaten in 500 beats | mid: 0 in the same setting | It keeps just out of reach and can still get at the food |
+| mid | Passes | A hunter that lunges at whatever comes near it | 600 against 561 beats lived of 600 | far apart: 522 against 600 beats lived of 600 | It keeps beyond the lunge; keeping only a little apart, it is inside it |
+| far apart | Passes | A hunter that rushes anything it sees within its short sight | 600 against 460 beats lived of 600 | mid: 509 in the same setting | It keeps so far off that the hunter never sees it |
+| wide | Passes | The food is all far away, and it has no nose | 7.1 against 2.9 bites eaten in 1600 beats | medium: 25.9 against 45.9 bites eaten on one small patch | It strikes out in long straight runs and comes on the food; turning tightly, it never leaves where it began |
+| tight | **Fails: not told from medium** | One small patch where food keeps coming up, and it has no nose | 55.3 against 25.8 bites eaten in 2500 beats | medium: 4.5 against 6.9 bites eaten when the food is far away | It turns and turns about the patch and is there when food comes up; ranging wide, it leaves and does not find its way back |
+| medium | **Fails: not told from tight** | One small patch where food keeps coming up, and it has no nose | 47.1 against 25.8 bites eaten on one small patch in 2500 beats | tight: 6.9 against 4.5 bites eaten when the food is far away | It stays about the patch better than the one that ranges wide |
+
+What the tests found:
+
+| Finding | What was done |
+|---|---|
+| **Tight and medium wandering cannot be told apart,** even on 48 maps. A body's turn rate caps how tightly it can wander, so both come to the same thing | **Open.** To settle in step 3.4: make the dial two settings, or space the three further apart. Long, big and front-heavy bodies cannot wander tightly at all, which is a consequence worth keeping |
+| **Circling a prey never led to a bite.** A body moves the way it faces, so one that goes round its prey is never facing it | Circle is kept for what it does do: a small animal that circles a hunter which is fast but slow to turn stays at its flank, out of the jaws. Running straight, it is caught |
+| **A hunter circling at a sprint cannot close.** Its turning circle is wider than its reach | Kept: it follows from turn rate and speed |
+| **Go along went round a creature** as if it were a line | A line is an edge, a bank, a wall or a trail of marks. A creature is not one |
+| **Sprinting to food cost nothing.** The rule that a sprinter smells nothing only made it stutter | No rule changed. A walk pays where something listens: a hunter that feels for movement feels a sprinter from twice as far |
+| **An act set off by something seen far away does not fire.** How strongly a sight pulls falls with distance, and an act needs half strength | Kept, and to be written into the vocabulary's notes: a pose or a call meant for a distant threat has to be a strong instinct |
+| **Crouching halved the distance it was seen from, and that was not enough** to matter | A crouching body is seen from a third as far |
+| **Hiding in a shell bought little** | A withdrawn body takes a twentieth of a bite, not a tenth |
+| **Eggs laid at the edge of a nest were not in it** | A nest it stands in or touches takes the eggs |
+| **An empty slot in a brain stopped the world** | A slip in the stand-in, put right |
 
 ## 3. The promised behaviours
 
