@@ -1,6 +1,6 @@
 # Plan: full design first, then build
 
-Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a design area of its own, a mechanics pass before the balance pass, what the mockup stage of the look settled and what waits for the art pass, what is left of the design stage in order, and the build in detail.
+Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a design area of its own, a mechanics pass before the balance pass, a UI pass on the screens, a table of progress, what the mockup stage of the look settled and what waits for the art pass, what is left of the design stage in order, and the build in detail.
 
 ## Where the project stands
 
@@ -8,10 +8,13 @@ Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a
 |---|---|---|
 | 1. Design | Fifteen areas, each written down, tested for direction, answered and closed; mockups to react to | Twelve areas are written and their questions answered. The look has had two rounds of independent review and is closed for the mockup stage. Left: the species sheet (area 13), the screens (area 14), and the audits that have been waiting |
 | 2. Mechanics pass | Every body part and every part of a brain shown to matter in play somewhere, and every complex behaviour the design promises written in the vocabulary and run (section 3) | Not started as a pass. Parts of it exist: thirteen body parts and draft 4's verbs were audited, and the first lab runs already name parts that do nothing |
-| 3. Balance pass | The whole design run through the balance tests in section 3, and its numbers set | Not started. It comes after the mechanics pass and the screens |
-| 4. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
-| 5. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
-| 6. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
+| 3. UI pass | The screens reviewed over several rounds by independent reviewers, who comment and propose small changes and other layouts; each proposal is accepted or rejected (section 4) | Not started. It runs inside area 14, on the flows, the style system and each batch of key screens |
+| 4. Balance pass | The whole design run through the balance tests in section 3, and its numbers set | Not started. It comes after the mechanics pass and the screens |
+| 5. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
+| 6. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
+| 7. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
+
+Section 8 keeps a table of progress, step by step.
 
 **What the mockup stage is for** (the owner, 16 November). The mockups exist to make sure that the systems later work depends on are in place and flexible enough. They are not the full design pass. Seasons, night, weather, every state on every body and every biome's full set of things come later, in the art pass during the build (section 7). What the reviews found is carried forward to that pass and is not lost.
 
@@ -31,6 +34,7 @@ Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a
 | Time | A day is about one real hour and a season about two real days |
 | Boom and bust | Stays. A species that breeds without restraint can eat its biome bare and die out; managing resources is part of designing it |
 | Score | Total life: the living weight of a species added up over every hour it lasts, which is biomass times longevity. Weight is counted as it is, so that a species that carries more life on the same food scores for it. A hunter's weight counts for more than a grazer's, because it takes several grazers to make one hunter. Longest-lived and highest peak are kept as records beside it |
+| UI pass | The interface gets a pass of its own, like the look and the mechanics. Independent reviewers, each a fresh Fable 5.2 agent, comment over several rounds and propose both small changes and other layouts or design ideas. The main thread accepts or rejects each one and writes down why. Asked on 16 November |
 | Mechanics pass | Before balance is set, every body part and every part of a brain has to have a meaningful effect on play. It need not be balanced, but it has to be worth choosing in some setting. And the complex behaviours the design promises have to be programmable with the mechanics that exist. Asked on 16 November |
 | Balance | Testing that the options are viable, different from each other and free of dominant strategies is treated as the hardest part of designing the mechanics. It is finalised at the end of the design process, not area by area. Until then the lab is used to check direction and to catch broken tests |
 | Fading | The same for every species of the same age, whatever state the species is in. Two days of grace, then a ramp slower than doubling that never stops, so that everything dies in the end. A better design lasts longer: few are expected past seven or eight days, and twenty is acceptable for a truly exceptional one |
@@ -252,11 +256,26 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 **How the interface gets from mockups to release quality.** The mockups made so far are concept tests. Each answers whether an idea works at all, and none of them is an interface design. The first one, the behaviour editor, was judged on 15 November to work as a concept and to be nowhere near a finished interface. The interface itself is designed in stages, and each stage is reviewed before the next begins.
 
 1. **Concepts.** Rough and interactive, one question each. This is where the mockups are now.
-2. **Flows.** Every screen and the paths between them as plain wireframes at phone size, with real content, before any styling. The wireframes settle what each screen is for and what it says. They are not layouts to be dressed.
-3. **A style system.** The paper rulebook: type, colour, spacing, shapes, shadows, motion and sound, and every component drawn in every state it can be in.
-4. **Key screens at full quality,** a few at a time, in several versions set side by side. This stage starts again from what each moment should feel like and do, with careful and deliberate thought about the design. It does not lean on the wireframes for layout.
+2. **Flows.** Every screen and the paths between them as plain wireframes at phone size, with real content, before any styling. The wireframes settle what each screen is for and what it says. They are not layouts to be dressed. The UI pass reads them for words and order.
+3. **A style system.** The paper rulebook: type, colour, spacing, shapes, shadows, motion and sound, and every component drawn in every state it can be in. It goes through the UI pass.
+4. **Key screens at full quality,** a few at a time, in several versions set side by side, each batch through the UI pass. This stage starts again from what each moment should feel like and do, with careful and deliberate thought about the design. It does not lean on the wireframes for layout.
 5. **Tested on real phones** by two or three friends who have not seen it, then revised.
 6. **Only then built** as the game's own components.
+
+**The UI pass.** Asked for on 16 November. It is to the interface what the review rounds were to the look and the mechanics pass is to the rules: nothing about the interface is called done on the main thread's word alone.
+
+- **Who.** Independent reviewers, each a fresh Fable 5.2 agent that has not seen how the screen was made. No other model is used. Each is given the screens at phone size, as pictures and as a page it can try, with one line on what each screen is for.
+- **Several at once, each with a different eye:** someone opening the game for the first time; a thumb on a small phone; reading order, type and contrast; whether it feels handmade and is still easy to read; whether depth is revealed a little at a time; whether it is consistent with the other screens.
+- **What each returns.**
+  1. Comments, worst first, each tied to a place on a screen.
+  2. Small changes, each specific enough to make without asking: what, where, and to what.
+  3. Other ideas: at least two different layouts or designs for the screen's main problem, described well enough to build. These are wanted even when the screen is acceptable.
+  4. A score for each screen against a beautiful shipped game, where 5 is a competent prototype.
+- **What the main thread does.** Every proposal is accepted, rejected or tried side by side, and the choice is written in a table with its reason. An accepted alternative is built as a second version beside the first, and the next round judges both. A reviewer is told what was rejected before and why, so it is not proposed again without a new argument.
+- **Rounds.** At least three for each group of screens. It stops when two rounds running bring no serious comment and every screen scores 7 or more, or when the reviewers agree on a ceiling and name what would raise it.
+- **When.** On the flows, for words and order only. On the style system. On each batch of key screens. On the click-through as a whole. Again in the build, on the real components, in phases 3 and 5.
+- **Records.** Each report is kept in `design/reviews/` with the round's table of what was accepted and rejected.
+- **What it cannot judge.** Reviewers see pictures and a page in a desktop browser at phone size. How it feels in the hand is for the friends who try it on real phones, which stays a separate step.
 
 **Scoped for area 8: unlocks that widen play.** Ideas to design, not decisions.
 
@@ -387,14 +406,34 @@ Each is something to react to on a phone, and each belongs to one or more of the
    5. The library of written behaviours kept, with a verdict for each part.
 4. **Screens (area 14),** in the stages already set out in section 4:
    1. The concept tests still missing: the creature inspector and the views of the world. The body designer comes from area 13.
-   2. Flows: every screen and the paths between them, as plain wireframes with real content. The research on interfaces is checked at its sources first, since it was made from search summaries only.
-   3. The scrapbook style system: type, colour, spacing, shapes, motion, and every component in every state.
-   4. Key screens at full quality, a few at a time, in several versions side by side, starting from what each moment should feel like.
+   2. Flows: every screen and the paths between them, as plain wireframes with real content. The research on interfaces is checked at its sources first, since it was made from search summaries only. UI pass on words and order.
+   3. The scrapbook style system: type, colour, spacing, shapes, motion, and every component in every state. UI pass.
+   4. Key screens at full quality, a few at a time, in several versions side by side, starting from what each moment should feel like. UI pass on each batch, at least three rounds.
    5. Tried on real phones by two or three friends who have not seen it.
-   6. The click-through of the whole game.
+   6. The click-through of the whole game. UI pass on the whole.
 5. **The three questions on performance answered** (`design/performance.md`, section 6): the oldest phone to support; whether the world may need a connection; whether wind and small events are shared.
 6. **The balance pass** over the whole design, by the balance tests in section 3, on lists the mechanics pass has already cleared of dead parts: size and the inside; hunters and prey that last together; a cast of presets that fluctuates and holds; lifespans of three to seven days that skill moves; then costs.
 7. **The build plan (area 15),** written against the finished design.
+
+### Progress
+
+Kept up to date as work is done. A step is marked done only when its own checks pass.
+
+| Step | State | Notes |
+|---|---|---|
+| 1.1 The sheet as one data file | Not started | |
+| 1.2 Cover in both directions | Not started | |
+| 1.3 The six parts and the three questions | Not started | The plan's proposals stand as working answers unless the owner says otherwise |
+| 1.4 The kit extended | Not started | |
+| 1.5 The body designer on a phone | Not started | |
+| 1.6 The checks | Not started | The last one needs a person |
+| 1.7 `design/body.md` draft 3, and the lab on the same list | Not started | |
+| 2 The rig made ready | Not started | |
+| 3 The mechanics pass | Not started | |
+| 4 Screens, with the UI pass | Not started | |
+| 5 The performance questions | Waiting on the owner | Three questions in `design/performance.md` |
+| 6 The balance pass | Not started | |
+| 7 The build plan | Not started | |
 
 ## 9. Building, once the design is closed
 
@@ -410,9 +449,9 @@ The order from draft 1 stands, with the designers first. The technology is the o
 |---|---|---|---|
 | 1. Foundations | The project's layout; the species sheet as data that is checked when read; repeatable arithmetic and chance; the test and screenshot rigs; putting a version on the server; backups | The rigs run on every change | An empty world ticks on the server, a phone connects to it, and every check runs by itself |
 | 2. The simulation | The basin and its habitats; food and how it recovers; bodies from sheets, with their costs; the behaviour words and the small machine that runs them; life cycles, breeding and forms; societies; hunting, remains and scavenging; seasons, day and night and weather as rules; fading and the score; the record of what happened | The audits as tests; the library of written behaviours from the mechanics pass, each of which has to run again; the balance lab run on it; its cost measured with 3,000 creatures on the real server | The mechanics pass holds on the real simulation: every part still matters somewhere and every promised behaviour still works. The balance tests pass, hunters and their prey last together or the design is changed, and the cost is known |
-| 3. The designers and a test tank | The kit as the game's own drawing code: a species' pictures made from its sheet on the phone, the posture, states and acts. The body designer and the behaviour editor with "watch it think". The tank, running the same simulation. The first of the scrapbook components. The first hour. One place close up | Measured on two phones, one of them old: a place with 150 creatures, a close view with twenty, the time to make a species' pictures. Tried with friends | A friend who has not seen it designs a species and watches it live in the tank without help, and one of them builds a behaviour from the library, given only what it should do |
+| 3. The designers and a test tank | The kit as the game's own drawing code: a species' pictures made from its sheet on the phone, the posture, states and acts. The body designer and the behaviour editor with "watch it think". The tank, running the same simulation. The first of the scrapbook components. The first hour. One place close up | Measured on two phones, one of them old: a place with 150 creatures, a close view with twenty, the time to make a species' pictures. The UI pass on the real designers. Tried with friends | A friend who has not seen it designs a species and watches it live in the tank without help, and one of them builds a behaviour from the library, given only what it should do |
 | 4. The shared world | The world running all day on the server; updates for whatever is in view; the three distances; the twenty presets, each stepping aside for a player's species; release and retiring; the day's mutation; the score and the boards | A world of presets alone run for a week of its own time; the data a visit uses | The world fluctuates and holds for a week, and a player's species can enter it |
-| 5. The daily loop and pet play | The recap and its instruments; the named line and its heirs; tending in the close view; nudges; talking, within its limits; visiting, postcards, the chronicle and titles; death and history; unlocks as kits | Tried with friends over a week | A visit takes five to fifteen minutes and gives a reason to come back |
+| 5. The daily loop and pet play | The recap and its instruments; the named line and its heirs; tending in the close view; nudges; talking, within its limits; visiting, postcards, the chronicle and titles; death and history; unlocks as kits | The UI pass on the real screens; tried with friends over a week | A visit takes five to fifteen minutes and gives a reason to come back |
 | 6. The art pass | Everything in section 7's second table, and sound | Independent review each round, as in the study, until every subject passes | Each biome, season, state and act has been through review, and the game runs within its budget on the oldest phone |
 | 7. A first season | The group plays | What is used, what is never used, and how species die, recorded; the balance tests run again on that | The list of changes for a second season |
 
@@ -437,6 +476,7 @@ The order from draft 1 stands, with the designers first. The technology is the o
 | A behaviour the design promises cannot be built from the vocabulary, or only by us and not by a player on a phone | The mechanics pass writes each one out in full; phase 3 has a friend build one |
 | One build wins everywhere | Areas 1, 4 and 5, then the balance pass |
 | Friends cannot build behaviours on a phone | Area 8 mockups, then phase 3 |
+| The interface is judged only by whoever made it | The UI pass: independent reviewers over several rounds, with every proposal answered |
 | A player makes a body the kit cannot draw, or one that looks like every other | Area 13: the checks on random sheets and on variety |
 | A part looks as if it does something it does not, or does something that cannot be seen | Area 13: the rules of fit |
 | A rich world is too much for a small server or a phone | Area 1 sets the size; measured in phases 2 and 3 |
