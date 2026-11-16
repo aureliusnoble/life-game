@@ -315,7 +315,7 @@ What the tests found:
 | **Mating each time has no advantage over mating once for life** | **Open.** It is the plain setting. To settle in 3.4: give mating once a cost, or keep one of the two |
 | **Pointing is not shown.** A follower takes the heading of a scout that shows while facing a remembered place, but over a long walk it drifts off the line and misses the food | **Open.** To be written as a full behaviour in section 3 (the scout's dance), where the follower can be given a way to hold a heading |
 | **A call set off by a sight far away never fired,** again | The same finding as in 2b. The far-call test uses a call set off by touching food |
-| **The mother's death and the father's death each needed a use** | Both are shown as food: her brood feed on her, and the female eats him and lays the more for it. Whether that is the meaning the design wants is a question for the owner |
+| **The mother's death and the father's death each needed a use** | Both are shown as food: her brood feed on her, and the female eats him and lays the more for it. The owner agreed this meaning on 17 November |
 
 ## 3. The promised behaviours
 

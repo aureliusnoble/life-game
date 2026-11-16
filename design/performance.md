@@ -1,6 +1,6 @@
 # Performance, and what runs where
 
-Draft 1, 15 November 2026. Two things were measured for this note, both with stand-ins. Everything else is reasoned and marked as such. Nothing here is decided.
+Draft 1, 15 November 2026. Two things were measured for this note, both with stand-ins. Everything else is reasoned and marked as such. The three questions at the end were answered on 17 November; the rest is proposed and has still to be proved on phones.
 
 ## 1. The split
 
@@ -114,8 +114,12 @@ A phone's graphics chip places thousands of stored pictures in a frame, so the c
 
 The first belongs to building step 2 and the rest to step 3 in `design/plan.md`.
 
-## 6. Questions
+## 6. Answered
 
-1. **Which is the oldest phone the game has to run well on?** It sets every budget in section 4.
-2. **Is it acceptable that the world cannot be watched without a connection,** with the designers and the tank still usable?
-3. **Should the wind and the small events be the same for everyone,** taken from the shared clock, or does it not matter?
+The owner agreed these on 17 November.
+
+| Question | Answer |
+|---|---|
+| Which is the oldest phone the game has to run well on? | A mid-range phone from about five years ago, unless someone in the group turns out to use an older one. Every budget in section 4 is set against that |
+| Is it acceptable that the world cannot be watched without a connection? | Yes. The designers and the tank still work offline. A copy of the world kept on the phone would drift from the real one |
+| Should the wind and the small events be the same for everyone? | Yes. They are taken from the shared clock, so two people looking at the same place see the same gust. The phone works them out from the time; nothing is sent |

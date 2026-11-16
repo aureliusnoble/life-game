@@ -10,7 +10,7 @@ Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a
 | 2. Mechanics pass | Every body part and every part of a brain shown to matter in play somewhere, and every complex behaviour the design promises written in the vocabulary and run (section 3) | Not started as a pass. Parts of it exist: thirteen body parts and draft 4's verbs were audited, and the first lab runs already name parts that do nothing |
 | 3. UI pass | The screens reviewed over several rounds by independent reviewers, who comment and propose small changes and other layouts; each proposal is accepted or rejected (section 4) | Not started. It runs inside area 14, on the flows, the style system and each batch of key screens |
 | 4. Balance pass | The whole design run through the balance tests in section 3, and its numbers set | Not started. It comes after the mechanics pass and the screens |
-| 5. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
+| 5. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted and its three questions are answered |
 | 6. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
 | 7. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
 
@@ -59,6 +59,10 @@ Section 8 keeps a table of progress, step by step.
 | Systems | Creatures, parts, states, acts, assets, places and weather are tables and rows, so that content can be added without new drawing code. Asked on 15 November |
 | One species sheet, fitted both ways | The look must be able to draw every body part the rules have. The parts and choices must be shown clearly, and be flexible enough for a player to make creatures that look far beyond the presets. One definition of a species is read by the simulation, the drawing and the designer. This is area 13. Decided on 16 November |
 | No types of creature | A player never selects a type. The editor shapes and paints one body, and has to be able to make the creatures in the mockups and many more. Lists are for parts, never for creatures; the mockups' creatures are examples made with the same choices. Tested by setting each of the study's sixteen beside the nearest the sheet can make (16 November) |
+| The oldest phone | A mid-range phone from about five years ago is the floor the game has to run well on, unless someone in the group turns out to use an older one. It sets the budgets in `design/performance.md` section 4 (17 November) |
+| Watching needs a connection | The world cannot be watched without a connection. The designers and the tank still work offline (17 November) |
+| One wind for everyone | The wind and the small events (a gust, a falling leaf, a fish rising) come from the shared clock, so everyone looking at a place sees the same ones (17 November) |
+| What a parent's death is for | Where a species is set so that a parent dies at breeding, the death feeds the brood: the young eat the mother, and the female eats the father and lays the more for it (17 November) |
 | Remains | A dead creature is shown in stages, so that feeding on it can be seen. It keeps its eyes, as crosses |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
@@ -442,7 +446,7 @@ Kept up to date as work is done. A step is marked done only when its own checks 
 | 3.4 Failures reworked, merged, given a mechanic or cut; lists changed to match | Not started | |
 | 3.5 The library of written behaviours, with a verdict for each part and word | Not started | |
 | 4 Screens, with the UI pass | Not started | |
-| 5 The performance questions | Waiting on the owner | Three questions in `design/performance.md` |
+| 5 The performance questions | Done, 17 November | The owner agreed all three: a mid-range phone from about five years ago as the floor, no watching without a connection, and one wind for everyone. Recorded in section 1 and in `design/performance.md` section 6 |
 | 6 The balance pass | Not started | |
 | 7 The build plan | Not started | |
 
