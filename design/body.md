@@ -1,6 +1,6 @@
 # Body designer: physical characteristics
 
-Draft 3, 16 November 2026. Adds the species sheet in section 16: one list of every choice about a body, read by the rules, the drawing and the designer. Sections 1 to 14 are draft 2, a rework after the life-cycle and social designs and the first runs of the balance lab. Earlier drafts are in git history.
+Draft 3, 16 November 2026. Adds the species sheet in section 16: one list of every choice about a body, read by the rules, the drawing and the designer. Section 17 lists the rules the mechanics pass changed; where it and an earlier section disagree, section 17 is the later thinking. Sections 1 to 14 are draft 2, a rework after the life-cycle and social designs and the first runs of the balance lab. Earlier drafts are in git history.
 
 Anything marked **tested** was run in `design/checks/bodyaudit.js` or `design/checks/balancelab.js`, stand-in worlds whose numbers show direction, not balance. Everything else is on paper. Costs are left for the balance pass at the end of the design process.
 
@@ -204,13 +204,13 @@ Two rules sit behind these:
 
 | Part | What it does | Status |
 |---|---|---|
-| Pouch | Carries more food or seed; carries young | Untested |
-| Brood organ | Sets how many eggs and how large; lets a breeder lay for life | Untested |
-| Gland that gives | Makes food to give without first eating it: dew, or milk for the young | Untested |
+| Pouch | Carries more food or seed; carries young | Tested, 16 November: `design/mechanics.md`, section 1 |
+| Brood organ | Sets how many eggs and how large; lets a breeder lay for life | Tested, 16 November: `design/mechanics.md`, section 1 |
+| Gland that gives | Makes food to give without first eating it: dew, or milk for the young | Tested, 16 November: `design/mechanics.md`, section 1 |
 | Voice | The range and number of calls | In the social checks |
-| Scent glands | Marks, and how long they last | Untested |
-| Glow | A display that works in the dark | Untested |
-| Crest or sac | Puffing up to look bigger | In the stand-in |
+| Scent glands | Marks, and how long they last | Tested, 16 November: `design/mechanics.md`, section 1 |
+| Glow | A display that works in the dark | Tested, 16 November: `design/mechanics.md`, section 1 |
+| Crest or sac | Puffing up to look bigger | Tested, 16 November: `design/mechanics.md`, section 1 |
 
 ## 11. What has been tested
 
@@ -263,7 +263,7 @@ A test of breadth. Each line is a distinct way to live, and the preset cast in `
 ## 13. Open, and not yet audited
 
 - **Untested reworks:** the inside, shells, spikes that can be seen and learned, camouflage by ground, and effort that costs a hunter food.
-- **Untested parts:** grips and the skins they fail on, heat pits, ping, compass, long legs, wide feet, tail fin, sucker foot, pouch, brood organ, a gland that gives, scent glands, glow, horns, digging claws, spit, shock, a tail that sheds, ink.
+- **Every part has now been tested alone,** on 16 November: each of the 41 choices that mean something, with it, without it and beside its nearest neighbour (`design/mechanics.md`, section 1; section 17 here says what changed). The list that stood here (grips, heat pits, ping, compass, long legs, wide feet, tail fin, sucker foot, pouch, brood organ, a gland that gives, scent glands, glow, horns, digging claws, spit, shock, a tail that sheds, ink) is closed. None of it is balanced.
 - **Two social checks wait on this:** a pack against large prey, and riders against a carrier (`design/social.md`, section 13).
 - **Costs** are not set. They are for the balance pass.
 - **Deferred:** warning colours, looking like another species, a body made of repeating segments, and feeding on light.
@@ -340,7 +340,7 @@ Each has to be seen, so each names how. "In the lab" says whether the stand-in w
 | Plan | front and back, no front | Whether there is a rear to attack and a way to face | A body with a head end, or a bell with arms all round | No |
 | Length | a slider | Long bodies are fast and turn slowly | The length of the outline | Yes |
 | Width | a slider | Room inside for organs; a wide body is slow | The width of the outline | Yes |
-| Taper | a slider | Where the weight sits: a heavy front turns slowly, a heavy rear starts slowly | Which end of the outline is wider | No |
+| Taper | a slider | Where the weight sits. A heavy front bites harder and turns slowly; a heavy rear runs faster and is slow to start | Which end of the outline is wider | No |
 | Size | a slider | The tempo of its whole life: small lives fast, large lives slow | How big it is beside others | Yes |
 | Gut | a slider | Lets it live on poor, bulky food | A wide middle | Yes |
 | Fat | a slider | Reserves for a winter, a famine or a sleep | Plump all over, with blunt ends | Yes |
@@ -490,3 +490,32 @@ Still out of reach: young riding on a parent's back, which is something a creatu
 - **Forms.** A form is a second sheet that differs from the base, and the sheet can price the difference. The designer does not edit a second form yet.
 - **Costs are placeholders.** They exist so the designer can show a budget.
 - **Left off the sheet on purpose:** spit and shock, which are untested and undefined; warning colours and looking like another species, which are deferred.
+
+## 17. What the mechanics pass changed
+
+Added 16 November. Every choice in section 16 that means something was tested alone in the stand-in world: with it, without it, and beside its nearest neighbour, counting something a watcher could count. All 73 tests pass, and the record is `design/mechanics.md`, section 1. Getting there changed these rules. Each is a rule of the game from now on, and where an earlier section says otherwise this one is the later thinking. None of the numbers is balanced.
+
+| Rule | Was | Is now | Amends |
+|---|---|---|---|
+| Taper | Each end only cost: a heavy front turned slowly, a heavy rear started slowly | Each end also gains: a heavy front puts weight behind the bite, a heavy rear runs faster | Section 3 |
+| Length and width | Listed as two things | For speed they are one: the ratio of length to width. They differ in what the body holds: a long body has more room inside than a narrow one | Section 3 |
+| Brood organ | More eggs at a time | Also makes each egg from less food | Sections 5 and 10 |
+| A young one | Started with more than its egg had cost | Starts with what its egg held | Section 4 |
+| Bristles against a bite | Took a little off the bite | A mouthful of bristle makes the biter slow to bite again. Warmth, and suckers failing on them, stand | Section 6 |
+| Slime and locking jaws | Jaws sometimes slipped | Locking jaws slip off slime nearly every time | Section 6 |
+| Bodies and bigger bodies | Could pass through each other | A body does not walk through a bigger one, so the side that is approached is the side that counts | Section 6 |
+| A tail that sheds | The holder let go | Whatever held the tail is busy with it for a while, and eats it | Section 6 |
+| Ink | Hid what was inside the cloud | Hides what is behind the cloud as well | Section 6 |
+| Hiding in a shell | Took a tenth of a bite | Takes a twentieth | Section 6 |
+| Crouching | Seen from half as far | Seen from a third as far | Section 6 |
+| Poses: puffing up, crouching, playing dead | Cleared at the end of the beat | Last until their owner next acts, so others have time to see them | Sections 6 and 10 |
+| Eyes facing forward | Saw 1.35 times as far | See 1.6 times as far | Section 8 |
+| Whiskers | Lengthened the reach of touch and of a bite | Feel farther. They do not bite farther | Section 8 |
+| Jaws | Swallowed whole whatever fitted the gape | Swallow whole what is no more than six tenths of the gape; larger prey is bitten | Section 7 |
+| A gland that gives | Gave what a shared meal gives | Giving costs the giver half as much and feeds the other twice as well | Section 10 |
+| Acts that cannot be done | A sting still refilling used up the beat | What cannot be done this beat does not use the beat, so the next instinct gets its turn | Section 7 |
+| Closing on prey | A hunter ran through prey that stood still | Approach stops on arrival, and a body turns to what it acts on | Section 9 |
+
+Three parts pass only in a narrow setting, and are kept knowing that: a compass (the only food is out of sight to the north), false eyes (the hunter stalks), and jaws against a plain mouth (every meeting is a single bite). A body with no front is tested standing its ground, because it is too slow for its shape to matter in flight.
+
+What the pass does not show is in `design/mechanics.md`: that anything is balanced, that the settings are common, or that a watcher can name an organ from outside.
