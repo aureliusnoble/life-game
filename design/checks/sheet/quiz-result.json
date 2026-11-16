@@ -1,0 +1,506 @@
+[
+ {
+  "no": 1,
+  "key": "Lungs: a lot",
+  "answer": "Lungs",
+  "sure": "low",
+  "saw": "Body is a wedge: broad at the shoulders, narrowing to the rear. At real size I took it for the plain one.",
+  "ok": "right"
+ },
+ {
+  "no": 2,
+  "key": "False eyes",
+  "answer": "False eyes",
+  "sure": "high",
+  "saw": "Two big yellow eyes with white rims on its rump",
+  "ok": "right"
+ },
+ {
+  "no": 3,
+  "key": "Scent glands",
+  "answer": "Scent glands",
+  "sure": "medium",
+  "saw": "Two olive-gold rings, like doughnuts, on the rear flanks",
+  "ok": "right"
+ },
+ {
+  "no": 4,
+  "key": "Fat: a lot",
+  "answer": "Fat",
+  "sure": "low",
+  "saw": "No difference I can point to. Perhaps a touch rounder, but I would not swear to it.",
+  "ok": "right"
+ },
+ {
+  "no": 5,
+  "key": "Camouflage: sand",
+  "answer": "Camouflage: sand",
+  "sure": "high",
+  "saw": "Pale sandy speckled patch over the back",
+  "ok": "right"
+ },
+ {
+  "no": 6,
+  "key": "Grip: hooks",
+  "answer": "Grip: hooks",
+  "sure": "medium",
+  "saw": "Front legs reach out and end in one big curved white claw each. At real size I read them as horns on the head.",
+  "ok": "right"
+ },
+ {
+  "no": 7,
+  "key": "Club tail",
+  "answer": "Club tail",
+  "sure": "medium",
+  "saw": "Tail is a yellow ball on a short red stalk",
+  "ok": "right"
+ },
+ {
+  "no": 8,
+  "key": "Moves on: fins",
+  "answer": "Moves on: fins",
+  "sure": "low",
+  "saw": "All four paws are soft pink rounded lobes, no toes",
+  "ok": "right"
+ },
+ {
+  "no": 9,
+  "key": "Mouth: tongue",
+  "answer": "Mouth: tongue",
+  "sure": "medium",
+  "saw": "Pink spiral where the nose and muzzle were",
+  "ok": "right"
+ },
+ {
+  "no": 10,
+  "key": "Grip: suckers",
+  "answer": "Grip: suckers",
+  "sure": "high",
+  "saw": "Front legs end in round cream pads with a pink dot. At real size I read them as eyes on stalks.",
+  "ok": "right"
+ },
+ {
+  "no": 11,
+  "key": "Gland that gives",
+  "answer": "Gland that gives",
+  "sure": "medium",
+  "saw": "Four pale blue-white beads in a diamond on the back",
+  "ok": "right"
+ },
+ {
+  "no": 12,
+  "key": "Skin on its front: shell",
+  "answer": "Skin on its front: shell",
+  "sure": "medium",
+  "saw": "Smooth brown band across the neck, behind the eyes",
+  "ok": "right"
+ },
+ {
+  "no": 13,
+  "key": "Ink",
+  "answer": "Ink",
+  "sure": "high",
+  "saw": "Red tube beside the tail squirting dark purple blobs. At real size I read it as a black-tipped sting.",
+  "ok": "right"
+ },
+ {
+  "no": 14,
+  "key": "Skin on its front: spikes",
+  "answer": "Skin on its front: spikes",
+  "sure": "high",
+  "saw": "White spikes fanning forward round the face",
+  "ok": "right"
+ },
+ {
+  "no": 15,
+  "key": "Moves on: a skirt of cilia",
+  "answer": "Moves on: a skirt of cilia",
+  "sure": "medium",
+  "saw": "Brown saw-toothed fringe right round the body; paws gone",
+  "ok": "right"
+ },
+ {
+  "no": 16,
+  "key": "Heat pits",
+  "answer": "Heat pits",
+  "sure": "medium",
+  "saw": "Two yellow rings with dark red centres between the eyes and the nose",
+  "ok": "right"
+ },
+ {
+  "no": 17,
+  "key": "Skin on its back: shell",
+  "answer": "Skin on its back: shell",
+  "sure": "high",
+  "saw": "Brown segmented shell on the back, yellow boss in the middle",
+  "ok": "right"
+ },
+ {
+  "no": 18,
+  "key": "Skin on its sides: bristles",
+  "answer": "Skin on its sides: bristles",
+  "sure": "high",
+  "saw": "Fine dark hairs along both flanks; paws still there",
+  "ok": "right"
+ },
+ {
+  "no": 19,
+  "key": "Tail fin",
+  "answer": "Tail fin",
+  "sure": "high",
+  "saw": "Tail is a pink fish tail",
+  "ok": "right"
+ },
+ {
+  "no": 20,
+  "key": "Mouth: jaws",
+  "answer": "Mouth: jaws",
+  "sure": "low",
+  "saw": "Two long ivory tusks sweeping forward from the mouth; muzzle replaced by a dark red mouth",
+  "ok": "right"
+ },
+ {
+  "no": 21,
+  "key": "Skin on its sides: shell",
+  "answer": "Skin on its sides: shell",
+  "sure": "medium",
+  "saw": "Smooth dark brown bands along both flanks",
+  "ok": "right"
+ },
+ {
+  "no": 22,
+  "key": "Moves on: paddles",
+  "answer": "Moves on: paddles",
+  "sure": "low",
+  "saw": "All four paws are red rounded stubs, like oar blades, no toes",
+  "ok": "right"
+ },
+ {
+  "no": 23,
+  "key": "Crest",
+  "answer": "Crest",
+  "sure": "low",
+  "saw": "Orange criss-cross triangles on the head between eye and ear, like little woven fans or gills",
+  "ok": "right"
+ },
+ {
+  "no": 24,
+  "key": "Touch",
+  "answer": "Touch",
+  "sure": "medium",
+  "saw": "Two red feelers with yellow knobs, pointing forward from the brow",
+  "ok": "right"
+ },
+ {
+  "no": 25,
+  "key": "Wings",
+  "answer": "Wings",
+  "sure": "high",
+  "saw": "Brown moth wings with a yellow spot on each",
+  "ok": "right"
+ },
+ {
+  "no": 26,
+  "key": "Nose",
+  "answer": "Eyes: on the sides",
+  "sure": "low",
+  "saw": "No difference from the plain one that I can see",
+  "ok": "wrong"
+ },
+ {
+  "no": 27,
+  "key": "Digging claws",
+  "answer": "Digging claws",
+  "sure": "medium",
+  "saw": "Three long straight white tines from each front paw. At real size I read them as whiskers.",
+  "ok": "right"
+ },
+ {
+  "no": 28,
+  "key": "Glow",
+  "answer": "Glow",
+  "sure": "high",
+  "saw": "Glowing yellow ball on a red stalk from the forehead",
+  "ok": "right"
+ },
+ {
+  "no": 29,
+  "key": "Eyes: on stalks",
+  "answer": "Eyes: on stalks",
+  "sure": "high",
+  "saw": "Eyes out on red stalks at the sides of the head",
+  "ok": "right"
+ },
+ {
+  "no": 30,
+  "key": "Camouflage: reed",
+  "answer": "Camouflage: reed",
+  "sure": "high",
+  "saw": "Reeds lying on the back: green stems with brown heads",
+  "ok": "right"
+ },
+ {
+  "no": 31,
+  "key": "Moves on: webbed feet",
+  "answer": "Moves on: webbed feet",
+  "sure": "medium",
+  "saw": "Paws broader, fan-shaped, with small white points along the edge. At real size I read them as claws.",
+  "ok": "right"
+ },
+ {
+  "no": 32,
+  "key": "Camouflage: mud",
+  "answer": "Camouflage: mud",
+  "sure": "medium",
+  "saw": "Brown lumps or clods on the back",
+  "ok": "right"
+ },
+ {
+  "no": 33,
+  "key": "Compass",
+  "answer": "Compass",
+  "sure": "medium",
+  "saw": "Yellow diamond with a white edge on top of the head",
+  "ok": "right"
+ },
+ {
+  "no": 34,
+  "key": "Grip: arms",
+  "answer": "Grip: arms",
+  "sure": "low",
+  "saw": "Front legs longer, ending in a red point beyond the toes",
+  "ok": "right"
+ },
+ {
+  "no": 35,
+  "key": "Pouch",
+  "answer": "Pouch",
+  "sure": "medium",
+  "saw": "Pale half-moon on the back, like a pocket",
+  "ok": "right"
+ },
+ {
+  "no": 36,
+  "key": "Skin on its sides: spikes",
+  "answer": "Skin on its sides: spikes",
+  "sure": "high",
+  "saw": "White spikes along both flanks",
+  "ok": "right"
+ },
+ {
+  "no": 37,
+  "key": "Muscle: a lot",
+  "answer": "Muscle",
+  "sure": "low",
+  "saw": "Body pinched at the shoulders and flaring at the hips. At real size I took it for the plain one.",
+  "ok": "right"
+ },
+ {
+  "no": 38,
+  "key": "Camouflage: rock",
+  "answer": "Camouflage: rock",
+  "sure": "high",
+  "saw": "Grey stones on the back",
+  "ok": "right"
+ },
+ {
+  "no": 39,
+  "key": "Moves on: one broad foot",
+  "answer": "Moves on: one broad foot",
+  "sure": "medium",
+  "saw": "Pale pink rim all round the body, wider behind; paws gone, tail nearly hidden",
+  "ok": "right"
+ },
+ {
+  "no": 40,
+  "key": "A tail that sheds",
+  "answer": "A tail that sheds",
+  "sure": "low",
+  "saw": "Tail is a yellow stub crossed by white rings",
+  "ok": "right"
+ },
+ {
+  "no": 41,
+  "key": "Skin on its back: bristles",
+  "answer": "Skin on its back: bristles",
+  "sure": "medium",
+  "saw": "Dark brown patch with a jagged edge and pale dashes on the back",
+  "ok": "right"
+ },
+ {
+  "no": 42,
+  "key": "Mouth: locking jaws",
+  "answer": "Mouth: locking jaws",
+  "sure": "low",
+  "saw": "Two big red pincers from the mouth; muzzle replaced by a dark red mouth",
+  "ok": "right"
+ },
+ {
+  "no": 43,
+  "key": "Moves on: body waves",
+  "answer": "Moves on: body waves",
+  "sure": "medium",
+  "saw": "Body in orange and brown bands, like segments; no paws",
+  "ok": "right"
+ },
+ {
+  "no": 44,
+  "key": "Skin on its front: bristles",
+  "answer": "Skin on its front: bristles",
+  "sure": "medium",
+  "saw": "Brown jagged ruff round the neck, like a mane",
+  "ok": "right"
+ },
+ {
+  "no": 45,
+  "key": "Camouflage: leaf litter",
+  "answer": "Camouflage: leaf litter",
+  "sure": "high",
+  "saw": "One big brown dead leaf over the back",
+  "ok": "right"
+ },
+ {
+  "no": 46,
+  "key": "Eyes: facing forward",
+  "answer": "Eyes: facing forward",
+  "sure": "high",
+  "saw": "Eyes close together at the front, looking ahead",
+  "ok": "right"
+ },
+ {
+  "no": 47,
+  "key": "Ears",
+  "answer": "Nose",
+  "sure": "low",
+  "saw": "No difference from the plain one that I can see",
+  "ok": "wrong"
+ },
+ {
+  "no": 48,
+  "key": "Moves on: stilts",
+  "answer": "Moves on: stilts",
+  "sure": "high",
+  "saw": "Four long thin red legs with yellow knees",
+  "ok": "right"
+ },
+ {
+  "no": 49,
+  "key": "Brood: a lot",
+  "answer": "Brood",
+  "sure": "low",
+  "saw": "Body a triangle, very wide at the rear",
+  "ok": "right"
+ },
+ {
+  "no": 50,
+  "key": "Side line",
+  "answer": "Side line",
+  "sure": "high",
+  "saw": "A row of dark dots along each side of the back",
+  "ok": "right"
+ },
+ {
+  "no": 51,
+  "key": "Sting: front",
+  "answer": "Sting: front",
+  "sure": "medium",
+  "saw": "Yellow needle with a black tip sticking out of the muzzle, like a pencil",
+  "ok": "right"
+ },
+ {
+  "no": 52,
+  "key": "Sting: rear",
+  "answer": "Sting: rear",
+  "sure": "high",
+  "saw": "Tail is a red stalk with a yellow arrowhead",
+  "ok": "right"
+ },
+ {
+  "no": 53,
+  "key": "Eyes: on the sides",
+  "answer": "Moves on: legs",
+  "sure": "low",
+  "saw": "No difference from the plain one that I can see",
+  "ok": "wrong"
+ },
+ {
+  "no": 54,
+  "key": "Horns",
+  "answer": "Horns",
+  "sure": "low",
+  "saw": "Small cream curved pieces at the front edge of each ear",
+  "ok": "right"
+ },
+ {
+  "no": 55,
+  "key": "Skin on its back: spikes",
+  "answer": "Skin on its back: spikes",
+  "sure": "high",
+  "saw": "Six pale cone spikes standing on the back",
+  "ok": "right"
+ },
+ {
+  "no": 56,
+  "key": "Skin on its back: slime",
+  "answer": "Skin on its back: slime",
+  "sure": "medium",
+  "saw": "Two pale blue teardrops on the back and pale blue drops trailing behind the tail",
+  "ok": "right"
+ },
+ {
+  "no": 57,
+  "key": "Echo",
+  "answer": "Ears",
+  "sure": "medium",
+  "saw": "Huge round ears with rings in them, like dishes",
+  "ok": "wrong"
+ },
+ {
+  "no": 58,
+  "key": "Mouth: beak",
+  "answer": "Mouth: beak",
+  "sure": "high",
+  "saw": "Yellow beak, open, in place of the muzzle",
+  "ok": "right"
+ },
+ {
+  "no": 59,
+  "key": "Gut: a lot",
+  "answer": "Gut",
+  "sure": "low",
+  "saw": "Body a diamond: pointed bulges out to each side in the middle",
+  "ok": "right"
+ },
+ {
+  "no": 60,
+  "key": "Camouflage: grass",
+  "answer": "Camouflage: grass",
+  "sure": "medium",
+  "saw": "Green leaves or blades lying on the back",
+  "ok": "right"
+ },
+ {
+  "no": 61,
+  "key": "Skin on its sides: slime",
+  "answer": "Skin on its sides: slime",
+  "sure": "medium",
+  "saw": "Pale blue pointed shapes along both flanks and drops behind the tail",
+  "ok": "right"
+ },
+ {
+  "no": 62,
+  "key": "Skin on its front: slime",
+  "answer": "Skin on its front: slime",
+  "sure": "medium",
+  "saw": "Pale blue shapes round the head (by each ear and on the brow) and drops behind the tail",
+  "ok": "right"
+ },
+ {
+  "no": 63,
+  "key": "Plan: no front",
+  "answer": "Plan: no front",
+  "sure": "high",
+  "saw": "A different animal: a pink five-sided disc with five long red arms tipped yellow, a tiny face in the middle",
+  "ok": "right"
+ }
+]
