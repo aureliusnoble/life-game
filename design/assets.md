@@ -211,6 +211,8 @@ The reviewer could not have made a nest, a burrow or snowy grass from the guide 
 
 ## 6. Order of building
 
+On 16 November the owner called the study good enough for the mockup stage. The lists above are for the art pass during the build (`design/plan.md`, sections 7 and 9), not for now. A second lake screen, the lakeshore, has been built: a reed fringe, lily shallows, a stream mouth with drift, weed, litter on the bottom, tadpoles, a pond skater and a sunk log.
+
 1. Extend the guide with section 5.
 2. The general set: prints, a burrow, a nest with eggs, bones, a scent mark.
 3. The three kinds the world lacks most: a stand that hides a body (reeds, tall grass), a sward that can be grazed down, and a recess.

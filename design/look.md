@@ -258,7 +258,7 @@ Decided on 15 November:
 
 The depth study is `design/mockups/paper-study.html`: one creature on a bank beside a pond, seen from above. It is worked on in rounds, each reviewed, until it is good. Its findings then become the rules for everything else: how a sheet is drawn, how a creature is built from parts, how a place is composed. The three earlier studies stay as records of what was tried; they are not the standard.
 
-Screens, area 13, wait until this is done.
+Screens, area 14, wait until this is done.
 
 ## 16. The depth study so far
 
@@ -470,10 +470,10 @@ The owner asked for clearer hot, cold and ill, and for remains that show feeding
 
 A dead creature was a pale blank, which lost its colours, vanished on sand and showed nothing of feeding.
 
-- **A creature is a stack of skin, flesh and bone, and death takes it apart from the top.** Skin is its own sheets turned face down: its own colour, duller, a little out of register, with no marks and no face, so it is still known whose it was. Flesh is rose with a pale rind and bone is ivory, the same for every species. Rose showing means food is left.
+- **A creature is a stack of skin, flesh and bone, and death takes it apart from the top.** Skin is its own sheets turned face down: its own colour, duller, a little out of register, with no marks, and with crosses where its eyes were, so it is still known whose it was and it is plainly not asleep. The owner asked for the eyes on 16 November. Flesh is rose with a pale rind and bone is ivory, the same for every species. Rose showing means food is left.
 - **Five stages:** fresh; opened, with one scalloped bite; part eaten; bones on a darker patch of ground; and gone back into the ground, with flowers.
 - **Bone comes from a body's own parts:** beads of spine, ribs in pairs, one strip to each limb, the head's outline with holes for eyes. A shell, plates and spikes stay whole.
-- **Where the line is:** no red, no liquid, no organs, no flies, no face on anything being eaten. Bites are clean scallops. It ends in flowers.
+- **Where the line is:** no red, no liquid, no organs, no flies, and no open eyes on anything being eaten: crosses only. Bites are clean scallops. It ends in flowers.
 - **A zigzag edge means hatched and a scallop means bitten,** on eggs as on bodies.
 
 ### Eggs
@@ -492,7 +492,9 @@ The owner asked that every biome get the attention the pond had, starting with t
 - **Highlands.** An outcrop comes in from the top right in four slabs, each a step higher and a step paler, with walls that are lit or shaded by the way they face and strata scored in broken lines. The leading line is the foot of the rock; under it lies a cold tarn three depths deep. Clusters: a cave under a brow of rock, with a spring running to the tarn; scree in one fan from a notch, its largest pieces lowest, with the block where lichen grows thickest; a boulder left on the turf with snow in its lee. Its own things: lichen, which is the food and keeps the bites taken from it; a crevice; pale caps at the cave's lip; weed under the water; blown seed behind small stones. Now and then the shadow of something soaring crosses the ground, and the thing itself is never seen.
 - **Woodland.** A great trunk stands at a third and rises out of sight into leaves that close over it. Three roots run out from it, each folded along its ridge so one half is lit, each diving under a slit in the floor; the longest is the leading line. A brook is the cut-down; a thicket with berries closes one side; a glade is the third terrace. Clusters: the windward crook of the trunk, with a drift of leaves, toadstools and fruit under a fruiting bough; the brook, with stones, a log across it and brackets of fungus; a root's end at the glade, with a second drift, a fern and nuts. Leaves are scuffed aside by whatever walks through them. A fruit that is eaten shows its flesh in scallops and is not mended: another falls where it lay. The sun comes through in a few places and lies over root, leaf and creature alike, and moves as the boughs move.
 
-Heath, grassland and the tidal flats are designed in `design/reviews/heath-grassland-tidal-designs.md`. The rest of the lakeland beyond one screen has not been drawn.
+- **Lakeshore.** More of the lakeland than one pond. A long shore runs from the top right to the bottom left and is the leading line; the lake goes down in six sheets to near black. A fringe of reeds stands along the shore and a body goes under it, the tops parting over it. A stream is cut through the meadow, with silt fanned out at its mouth and drift carried out over the shallows. Clusters: the stream's mouth; the fringe, with a log whose far half is under water; three rafts of lily pads with lanes between. Its own things: weed in ribbons, which is the food and loses a ribbon to each bite; tadpoles that scatter while something drinks; a pond skater; a dragonfly; and now and then something large far down in the deep.
+
+Heath, grassland and the tidal flats have not been drawn or designed. A designer was asked for them on 15 November and did not finish. On 16 November the owner called the study good enough for the mockup stage, so they wait for the art pass, which `design/plan.md` section 7 places in the build.
 
 ## 20. After the second round: what was fixed, and the rules that came of it
 

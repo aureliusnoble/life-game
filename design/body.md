@@ -307,6 +307,8 @@ Added 15 November 2026. The owner asked that the body designer let a player be a
 
 **Two rules the kit already keeps, which the designer should keep too:** the player picks hues and the kit sets the steps of lightness between touching parts; and eyes are placed by ratio and pulled inside the outline, whatever the head.
 
+**The owner's answer, 16 November: it cuts both ways.** The look has to be able to show every body part that is designed, and the parts and choices have to be shown clearly and be flexible enough to make creatures that look far beyond the presets. This is now design area 13 in `design/plan.md`, the species sheet, which sets out the rules of fit, the checks, and a proposed answer to each question below. The questions stay open until that area is worked.
+
 **Questions for the owner:**
 
 1. Should the seven look-only choices go into the designer as a step of their own, after Shape?

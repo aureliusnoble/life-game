@@ -1,6 +1,18 @@
 # Plan: full design first, then build
 
-Draft 3, November 2026. Adds the larger world, how balance is tested, and the interface as a design area.
+Draft 4, 16 November 2026. Adds where the project stands, the species sheet as a design area of its own, what the mockup stage of the look settled and what waits for the art pass, what is left of the design stage in order, and the build in detail.
+
+## Where the project stands
+
+| Stage | What it is | State on 16 November |
+|---|---|---|
+| 1. Design | Fifteen areas, each written down, tested for direction, answered and closed; mockups to react to | Twelve areas are written and their questions answered. The look has had two rounds of independent review and is closed for the mockup stage. Left: the species sheet (area 13), the screens (area 14), and the audits that have been waiting |
+| 2. Balance pass | The whole design run through the tests in section 3, and its numbers set | Not started. It needs the list of parts and words frozen, which area 13 does for bodies |
+| 3. Build plan | Architecture, phases and tests, written against the finished design (area 15) | A performance note is drafted, with three questions open |
+| 4. Build | Seven phases, the designers and a test tank first (section 9) | Not started |
+| 5. First season | The group plays. Which options are used and how species die is recorded, and balance is run again on that | Not started |
+
+**What the mockup stage is for** (the owner, 16 November). The mockups exist to make sure that the systems later work depends on are in place and flexible enough. They are not the full design pass. Seasons, night, weather, every state on every body and every biome's full set of things come later, in the art pass during the build (section 7). What the reviews found is carried forward to that pass and is not lost.
 
 ## 1. Decisions made
 
@@ -35,11 +47,12 @@ Draft 3, November 2026. Adds the larger world, how balance is tested, and the in
 | Friends | A board for each world year and for all time, with titles that change hands. A keeper's nudge is noticed only by the keeper's own species. A visitor can stroke a friend's named one and give it a treat. An ended design can be taken as a starting point, marked "after" its source, and released only with the taker's own unlocks |
 | View | The world is seen from above, and creatures turn to face where they are heading. A front-on close-up is used for tending, portraits and the card for one creature. Confirmed on 15 November after seeing both |
 | Interface material | Scrapbook: torn slips, tape, pencil and rubber stamps |
-| How the look is developed | Depth before breadth. One small thing is worked on until it looks like a beautifully crafted game, judged each round by an independent reviewer, before it is extended or made into a design language |
-| Every biome | Each biome gets the attention to detail the pond scene had, with its own assets, before the look is called done. Asked on 15 November |
+| How the look is developed | Depth before breadth. One small thing is worked on until it looks like a beautifully crafted game, judged each round by an independent reviewer, before it is extended or made into a design language. On 16 November the owner called the study good enough for the mockup stage |
+| Stage of the look | The paper study is a mockup. Its job was to prove the systems: the kit, the posture, states, acts, assets, places and weather. The full pass over every season, time of day, state and biome is part of the build |
+| Every biome | Each biome gets the attention to detail the pond scene had, with its own assets, before the look is called done. Asked on 15 November. Six places are built in the study as proof that a place is a row: the pond, the dunes, the marsh, the highlands, the woodland and a lakeshore. Heath, grassland and the tidal flats wait for the art pass |
 | Systems | Creatures, parts, states, acts, assets, places and weather are tables and rows, so that content can be added without new drawing code. Asked on 15 November |
-| Body designer | It has to let a player be as expressive as the creature kit in the paper study. To be checked against `design/body.md` when the screens are designed |
-| Remains | A dead creature is shown in stages, so that feeding on it can be seen |
+| One species sheet, fitted both ways | The look must be able to draw every body part the rules have. The parts and choices must be shown clearly, and be flexible enough for a player to make creatures that look far beyond the presets. One definition of a species is read by the simulation, the drawing and the designer. This is area 13. Decided on 16 November |
+| Remains | A dead creature is shown in stages, so that feeding on it can be seen. It keeps its eyes, as crosses |
 | Interface | Handcrafted, cute and intuitive without losing depth. Depth is revealed a little at a time, and the game teaches itself through onboarding with callouts. Researched before it is designed |
 | Working arrangement | Reviewed changes into the main branch |
 
@@ -72,7 +85,7 @@ The last three matter most. Balance in the game moves: what does well depends on
 
 **The balance lab** (`design/checks/balancelab.js`) runs these.
 
-- **Every choice is data.** Body options, behaviour kits and breeding rules are one list the lab combines under the budget. A new part or word is added once and is then tested everywhere.
+- **Every choice is data.** Body options, behaviour kits and breeding rules are one list the lab combines under the budget. A new part or word is added once and is then tested everywhere. For bodies that list is the species sheet of area 13, so the lab, the drawing and the designer cannot drift apart.
 - **A search plays the adversary.** In each habitat it breeds designs toward whatever does best there, as a player trying to break the game would. The earlier audits compared builds picked by hand, which is how they missed things.
 - **A report gives verdicts:** who wins where on maps the search has not seen, how often each option is chosen, and whether winners hold their home against visitors.
 - **A knockout test** changes one choice at a time in a winner, to show which choices matter and which make no difference.
@@ -128,7 +141,7 @@ Next for the lab: make those two fixes the default and re-run the search with th
 
 ## 4. Design areas, in order
 
-Earlier areas constrain later ones, so the order matters. The score, which is part of area 7, was settled first because every test depends on it. Art and the mockups in section 5 run alongside. After area 13 comes a balance pass over the whole design, using the tests in section 3, and only then the build plan.
+Earlier areas constrain later ones, so the order matters. The score, which is part of area 7, was settled first because every test depends on it. Art and the mockups in section 5 run alongside. After area 14 comes a balance pass over the whole design, using the tests in section 3, and only then the build plan. Section 8 gives what is left, in order.
 
 | # | Area | Has to answer | Done when |
 |---|---|---|---|
@@ -143,9 +156,54 @@ Earlier areas constrain later ones, so the order matters. The score, which is pa
 | 9 | **Pet play** | The named line: who the heir is, and which memories pass down. What a player can do with the name-bearer and with others, where, and what comes back. Whether the name-bearer can be talked to (below) | A mockup that is pleasant to poke at for five minutes |
 | 10 | **Feedback** | Recap, watching it think, the death view, the food web, records, and the classified events | For any outcome, the player can see what happened by looking, with little text |
 | 11 | **Playing with friends** | Relationships between species, seeing each other's work, sharing, rankings | Friends have reasons to talk about it |
-| 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; an interface that feels handmade and stays readable; sound | Mockups of each biome, of a creature in every mood, and of the interface style |
-| 13 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
-| 14 | **Build plan** | Architecture, phases, tests | Written against the finished design |
+| 12 | **Look, sound and feel** | Paper lagoon across every biome; bodies that show acts and moods; an interface that feels handmade and stays readable; sound | For the mockup stage: the systems in section 7 are proven in the paper study. The rest is the art pass |
+| 13 | **The species sheet** | One definition of a species that the rules, the drawing and the designer all read. Whether every part in the rules can be drawn and seen; whether the choices are wide enough to make creatures far beyond the presets; what the designer's steps are | The checks below pass, and someone who has not seen the body designer makes a creature they like on a phone in five minutes |
+| 14 | **Screens** | Every screen and the paths between them; what is shown first and what is revealed later; onboarding with callouts | A click-through mockup of the whole game, tried by someone who has not seen it |
+| 15 | **Build plan** | Architecture, phases, tests | Written against the finished design |
+
+**Area 13: one species sheet, fitted both ways.** Added on 16 November. The comparison in `design/body.md` section 15 found that the body designer as written can make four of the sixteen creatures in the paper study, and that the kit draws things the rules have no place for. The owner's answer was that it cuts both ways: the look has to be able to show every body part that is designed, and the parts and choices have to be shown clearly and be flexible enough to make creatures that look far beyond the presets.
+
+*The sheet.* A species is one piece of data. The simulation reads it for what the body can do and what it costs, the kit reads it to draw the body, and the designer's screens write it. A part cannot exist in one of the three and not in the others. It has three kinds of line:
+
+| Kind | What is in it | Cost |
+|---|---|---|
+| Choices that mean something | Size, shape, the inside, coverings, senses, limbs and movers, weapons, things for carrying, giving and signalling, and how each form differs from the base | The budget |
+| Choices that change only the look | The head and its size; the tail; how the body is cut; the curve of the spine and the resting pose; the face; the style of each covering; pattern; hues | Free |
+| Never chosen | The steps of lightness between parts that touch; where the eyes sit; shadows; the gait that follows from the limbs; the posture every body shares | Worked out from the rest |
+
+*The rules of fit.*
+
+1. **Every part in the rules has an entry in the kit.** A part is not finished until it is drawn.
+2. **Every entry in the kit belongs to a part in the rules, or is on the list of look-only choices.**
+3. **Nothing is drawn that promises what the body cannot do.** Wings mean a mover; a club on a tail means a weapon.
+4. **Every choice that means something can be seen.** It changes the outline, or a mark that is still there when the creature is a centimetre long, so a player can read a stranger's design by looking.
+5. **Look-only choices are wide, and continuous where they can be:** sizes, lengths and where a part sits along the body are slid, not picked from three. This is where creatures that look nothing like the presets come from.
+6. **Any combination draws.** No part hides another completely, eyes stay inside the outline, and parts that touch differ in lightness.
+7. **Every body wears every state and bearing and does every act,** because states are rows of numbers for a posture every body has.
+8. **A form is the base sheet and its differences,** so the forms of one species look like one family, and the more one differs the more it costs.
+
+*What the area produces.*
+
+- The sheet, written as one data file that the balance lab, the kit and the designer mockup all read.
+- A table of cover in both directions: each part in the rules against its entry in the kit, and each entry in the kit against its part or its place among the look-only choices. The gaps known today are in `design/body.md` section 15: the designer has no head, tail, cut of body, curve, face or covering style, and the kit has wings, a body that moves without limbs, arms, a thing worn, a club of a tail and segments, which the rules do not.
+- A decision on each of those six. Proposed, for the owner to confirm when the area is worked: wings are a mover for short bursts over land; a body wave is a mover that is slow on open ground and quick in water and reeds; arms are a grip; a club is a weapon at the rear; rounds are how a long body is cut and cost nothing; a thing worn is how camouflage for one ground is drawn, and found objects wait for a later version.
+- The kit extended: whatever the rules have and the kit lacks is drawn, and the look-only choices become numbers a player can set.
+- The body designer as a concept test on a phone, drawing with the kit itself, with a step for looks after the step for shape.
+- `design/body.md` taken to draft 3 with all of this folded in.
+
+*The checks.* Scripts in `design/checks/`, and people.
+
+| Check | Passes when |
+|---|---|
+| Cover, both ways | No part is without a drawing, and no drawing is without a part or a place on the look-only list |
+| The presets fit | All sixteen creatures in the study and all twenty preset species can be written as sheets |
+| Seen | For every part that means something, the outline or a mark differs with and without it at one centimetre, by more than a set amount; no two parts are closer to each other than that |
+| Any combination | Two hundred sheets made at random draw with no fault: nothing fully hidden, eyes inside, contrast between touching parts, limbs attached |
+| Every state and act | The same random sheets wear all twelve states and eight bearings and walk, feed, drink, sleep and startle without breaking |
+| Variety | An independent reviewer, shown a hundred random creatures at phone size, can tell any two apart, finds them appealing, and finds most of them unlike any preset |
+| A person | Someone who has not seen it makes a creature they like in five minutes on a phone, and can say what each of its parts is for |
+
+*When.* Next, before the screens, because the body designer is one of the two central screens, and before the balance pass, because the lab's list of choices has to be final before numbers are set.
 
 **How the interface gets from mockups to release quality.** The mockups made so far are concept tests. Each answers whether an idea works at all, and none of them is an interface design. The first one, the behaviour editor, was judged on 15 November to work as a concept and to be nowhere near a finished interface. The interface itself is designed in stages, and each stage is reviewed before the next begins.
 
@@ -198,23 +256,23 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Mockup | Covers | Areas |
 |---|---|---|
 | Behaviour editor with "watch it think" | Building instincts, moods and signals, and seeing which urges are pulling. The core of the game, and the one piece the research found no precedent for. First pass made: `design/mockups/watch-it-think.html` | 6, 10 |
-| Body designer | Parts, placement and the budget | 5 |
+| Body designer | The species sheet in use: parts, placement, looks and the budget, drawn with the kit from the paper study. The next mockup to make | 5, 13 |
 | Home screen and daily visit | The founder, the recap, pet play. Wireframes made: `design/mockups/loop-wireframes.html` | 8, 9 |
 | Creature inspector | What a creature is doing and why | 10 |
 | The recap and its instruments | Reading what happened from a record. Concept test made: `design/mockups/since-yesterday.html` | 10 |
 | World views | Basin, biome and close-up; where each species lives; where the openings are | 1, 10 |
 | Death and history | The shape of a species' life, what ended it, what carries over. Wireframes made, in `design/mockups/loop-wireframes.html` | 7, 10 |
-| First hour | The guided first build, with callouts. Wireframes made, in the same file | 8, 13 |
+| First hour | The guided first build, with callouts. Wireframes made, in the same file | 8, 14 |
 | Friends and records | Seeing and comparing each other's species. Concept test made: `design/mockups/basin-ages.html` | 11 |
-| Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style. Studies made: `design/mockups/eight-places.html`, `design/mockups/body-language.html`, `design/mockups/interface-materials.html` | 12 |
-| Click-through | Every screen joined up, tried by someone who has not seen it | 13 |
+| Look | Each biome in the Paper lagoon direction, a creature in every mood, the interface style. Studies made: `design/mockups/eight-places.html`, `design/mockups/body-language.html`, `design/mockups/interface-materials.html`. The depth study is `design/mockups/paper-study.html`, with six places, seventeen creatures, twelve states, eight bearings, remains, eggs, sixteen assets and four events | 12 |
+| Click-through | Every screen joined up, tried by someone who has not seen it | 14 |
 
 ## 6. What exists already
 
 | Area | Document | State |
 |---|---|---|
 | Behaviour | `design/neural-blocks.md` (draft 5) | Vocabulary written, with everything decided in the life-cycle and social designs folded in and the world's words worked out in full. Draft 4's verbs were audited; ten verbs, most functions and all of draft 5's additions are untested |
-| Bodies | `design/body.md` (draft 2) | Reworked on paper: a body for each form, size as the tempo of a life, an inside where each organ answers a different problem, shells and spikes with real costs, camouflage matched to one ground, and grips against skins. Thirteen parts tested in draft 1; the reworks and about twenty parts are untested, and costs wait for the balance pass |
+| Bodies | `design/body.md` (draft 2) | Reworked on paper: a body for each form, size as the tempo of a life, an inside where each organ answers a different problem, shells and spikes with real costs, camouflage matched to one ground, and grips against skins. Thirteen parts tested in draft 1; the reworks and about twenty parts are untested, and costs wait for the balance pass. Section 15 compares the designer with the creature kit: it can make four of the kit's sixteen. Area 13 closes that gap in both directions |
 | World | `design/world.md` (draft 3), on top of `design/environment.md` | Eight biomes in one river basin, accepted, with a map mockup. Tested only as single habitat patches: an overused patch recovers, a species can be designed to manage its food, and patches have different casts. Nothing has been run at biome scale |
 | Balance | `design/checks/balancelab.js`, section 3 above | Two runs done. Which body wins depends on how the score counts weight; one inside wins everywhere under every score; one design is near the best in most habitats |
 | Interface | `reports/Handcrafted game UI and onboarding.md` | Researched from search summaries only; not yet designed |
@@ -226,29 +284,112 @@ Each is something to react to on a phone, and each belongs to one or more of the
 | Feedback | `design/feedback.md` (draft 2) | Five steps from an outcome to a change, what the simulation records, eleven instruments used the same way everywhere, the recap, and what is shown of other players' species. A paper check of twenty outcomes added two records. Its four questions are answered. A concept test is in `design/mockups/since-yesterday.html` |
 | Playing with friends | `design/friends.md` (draft 2) | Relationships between two species, measured and named; alliances as instincts; what is open of a living and an ended species; a board for each world year and for all time; titles and firsts; the basin's shared history; postcards; joining and leaving. Its four questions are answered. A concept test is in `design/mockups/basin-ages.html` |
 | Player loops | `design/loops.md` (draft 1), with keeper actions in `design/world-and-loop.md` | The first hour, the daily visit, the design session and the end, each written as a flow of screens; unlocks as kits; a classification of events. Its four questions are answered. The first hour and the daily visit are wireframed |
-| Look, sound and feel | `design/look.md` (draft 3), on top of `design/art-direction.md` | The paper rulebook; three distances; how a body shows what it is doing, how it is and what it feels, with eight bearings for player-made moods; the eight places in paper; the interface's direction; sound; what it costs to draw. Three studies drawn in code, with creatures seen from above. Bearings, voices, quiet deaths and the scrapbook interface are decided. The world and the creatures were judged not yet good enough, so one small scene is being worked on in depth in `design/mockups/paper-study.html` before anything is broadened |
+| Look, sound and feel | `design/look.md` (draft 3), on top of `design/art-direction.md` | The paper rulebook; three distances; how a body shows what it is doing, how it is and what it feels, with eight bearings for player-made moods; the eight places in paper; the interface's direction; sound; what it costs to draw. Three studies drawn in code, with creatures seen from above. Bearings, voices, quiet deaths and the scrapbook interface are decided. The world and the creatures were judged not yet good enough, so one scene was worked on in depth in `design/mockups/paper-study.html`. It has had two rounds of independent review, whose reports are in `design/reviews/`; no subject reached 8 out of 10, and the reviewers put the ceiling for paper drawn in code near 8. What was changed after the second round has not been reviewed. Closed for the mockup stage on 16 November; section 7 lists what it settled and what waits |
+| Species sheet | None yet | Area 13. The kit's rows in the paper study and the lab's list of choices are its two halves, not yet one file |
 | Technology | `reports/Creature sim game design exploration.md` | A recommended stack, unmeasured |
 | Performance | `design/performance.md` (draft 1) | What runs on the server and what on the phone; what crosses the connection; a stand-in measurement of the simulation's cost (3,000 creatures at four steps a second take a third of a percent of one processor); and where a frame's time goes in the paper study (86% is live blurred shadows), with what the game would do instead. Proposed, not decided |
 
-## 7. Building, once the design is closed
+## 7. The look: what the mockup stage settled, and what waits for the art pass
 
-The order from draft 1 stands, with the designers first:
+**Settled as systems.** Each is a table or a row in `design/mockups/paper-study.html`, with its rules in `design/look.md` sections 17 to 20. The build turns these into the game's own code; it does not redesign them.
 
-1. Foundations.
-2. The simulation, with the audits as its tests.
-3. The designers and a test tank on a phone, tried with friends.
-4. The shared world.
-5. The daily loop and pet play.
-6. Look, sound and feel in production form.
-7. A first season with the group.
+| System | What is proven | A new one is |
+|---|---|---|
+| The paper | One light, five heights, one tone of shadow, lit and shaded edges, recesses cut down in steps | — |
+| A creature | Seventeen creatures drawn from one kit: bodies in one piece or in rounds, or round with no front; six tables of parts; lightness set by the kit; eyes placed by ratio | A row of choices |
+| A part | Limbs, tails, heads, things on the head, coverings, things worn | One entry in its table |
+| How it is, and how it feels | Twelve states and eight bearings, each a row of numbers for a posture every body has; hot, cold and ill as pieces beside the creature; one state fading into the next | A row |
+| What it does | Walking on planted paws, feeding, drinking, sleeping and waking, startling, looking; legs of two bones; a body in rounds that follows its own head | Targets for the posture over time, and what the world does in answer |
+| Remains and eggs | Five stages from fresh to flowers, with bone made from a body's own parts and crosses for eyes; clutches, nests, hatching | — |
+| An asset | A recipe and a guide with numbers; sixteen cells on the asset sheet | Pieces, a height, three outlines, a rule of placement |
+| A place | Six built by the same rules of composition: the pond, the dunes, the marsh, the highlands, the woodland and a lakeshore. Each has a creature that walks, feeds, drinks and sleeps in it, a food that keeps its bites, something that answers the creature, and something worth stopping for | A row: its wind, its ground, what lies under a creature and what stands over it, and where a creature goes |
+| Weather and time | Rain, winter, fire and night, as one change to the ground, the light and the air | A row |
+| Wind and clocks | One wind for everything; a period of its own for each kind of thing; gusts | — |
+| What it costs | Where a frame's time goes, and what the game would do instead (`design/performance.md`) | — |
 
-## 8. Risks carried into the design
+**Waiting for the art pass, on purpose.** None of this is needed to prove a system, and all of it is needed before the game is called finished. Where each falls in the build is in section 9.
+
+| What | Why it can wait |
+|---|---|
+| Heath, grassland and the tidal flats as places; the borders between biomes; the rest of each biome's ten screens | A place is a row. The inventory of what each needs is in `design/assets.md` |
+| Each biome in each season; day, dusk and night in each; rain, snow, fire, flood and tide as things that happen | Weather is a row, proven in four sketches |
+| Every state and bearing on every kind of body, readable at a centimetre | States are rows. The second review scored them 3.5 out of 10 at that size, and this is the largest known weakness |
+| Every act on every kind of limb: swimming, digging, flying, climbing, carrying, fighting, courting, hatching, feeding on remains, calling | An act is targets for the shared posture |
+| Young, old, each sex and each caste of one species | Forms are a base and its differences (area 13) |
+| The front-on close view for tending, portraits and the card | Decided as a view; one concept test exists |
+| The basin and the biome as seen from far off | `design/performance.md` proposes three ways of drawing for three distances |
+| Sound | Direction only, in `design/look.md` section 10 |
+| Going past the ceiling of paper drawn in code | Needs scanned paper and photographed edges; to be decided when the art pass begins |
+| A third independent review | What changed after the second round is unreviewed. The art pass starts with one |
+
+**Carried forward from the reviews,** to be held to in the art pass: a creature's state must read at a centimetre; nothing is under 10 units; one signature form to a biome; three clusters and half the screen quiet; a planted paw never moves; nothing is switched and nothing fades; an act leaves the world changed; no two kinds of thing share a clock.
+
+## 8. What is left of the design stage, in order
+
+1. **The species sheet (area 13).**
+   1. Write the sheet as one data file, in its three kinds of line.
+   2. Make the table of cover in both directions and list every gap.
+   3. Settle the six parts that need a meaning, and the three questions in `design/body.md` section 15.
+   4. Extend the kit: draw what the rules have and the kit lacks; turn the look-only choices into numbers.
+   5. Build the body designer as a concept test on a phone, drawing with the kit.
+   6. Run the checks: cover, the presets, seen, any combination, every state and act, variety, and a person.
+   7. Take `design/body.md` to draft 3 and give the balance lab the same list.
+2. **The audits that have been waiting,** for direction only: about twenty body parts and the reworked ones (area 5); ten verbs, most mood functions and what draft 5 added (area 6); the four social checks that waited on forms and on the body rework (area 3).
+3. **The lab made ready for the balance pass:** the two fixes made the default; the root-stock rule for food; hunters that are designs; many more behaviour choices; long runs of a mixed world.
+4. **Screens (area 14),** in the stages already set out in section 4:
+   1. The concept tests still missing: the creature inspector and the views of the world. The body designer comes from area 13.
+   2. Flows: every screen and the paths between them, as plain wireframes with real content. The research on interfaces is checked at its sources first, since it was made from search summaries only.
+   3. The scrapbook style system: type, colour, spacing, shapes, motion, and every component in every state.
+   4. Key screens at full quality, a few at a time, in several versions side by side, starting from what each moment should feel like.
+   5. Tried on real phones by two or three friends who have not seen it.
+   6. The click-through of the whole game.
+5. **The three questions on performance answered** (`design/performance.md`, section 6): the oldest phone to support; whether the world may need a connection; whether wind and small events are shared.
+6. **The balance pass** over the whole design, by the tests in section 3: the fixes to size, the inside, the sting and camouflage; hunters and prey that last together; a cast of presets that fluctuates and holds; lifespans of three to seven days that skill moves; then costs.
+7. **The build plan (area 15),** written against the finished design.
+
+## 9. Building, once the design is closed
+
+The order from draft 1 stands, with the designers first. The technology is the one the exploration report recommended and nobody has yet measured: one process on a small server that runs the world, sends updates and keeps a small database; a web client that can be put on a phone's home screen; and one simulation, written once and used by the server, the test tank and the balance lab.
+
+**Three things every phase rests on.**
+
+- **One simulation.** It is exact and repeatable, so the same design behaves in the tank as in the world, and the lab's tests are the game's tests.
+- **One species sheet** (area 13), read by the simulation, the drawing and the designer.
+- **Checks that cannot be weakened.** The audits in `design/checks/` become the simulation's tests. The look is checked from screenshots by a reviewer who did not make it, as in the paper study. Things only people can judge are tried with friends at the end of phases 3, 5 and 7.
+
+| Phase | What is built | What it is tested by | It is done when |
+|---|---|---|---|
+| 1. Foundations | The project's layout; the species sheet as data that is checked when read; repeatable arithmetic and chance; the test and screenshot rigs; putting a version on the server; backups | The rigs run on every change | An empty world ticks on the server, a phone connects to it, and every check runs by itself |
+| 2. The simulation | The basin and its habitats; food and how it recovers; bodies from sheets, with their costs; the behaviour words and the small machine that runs them; life cycles, breeding and forms; societies; hunting, remains and scavenging; seasons, day and night and weather as rules; fading and the score; the record of what happened | The audits as tests; the balance lab run on it; its cost measured with 3,000 creatures on the real server | The tests in section 3 pass on the real simulation, hunters and their prey last together or the design is changed, and the cost is known |
+| 3. The designers and a test tank | The kit as the game's own drawing code: a species' pictures made from its sheet on the phone, the posture, states and acts. The body designer and the behaviour editor with "watch it think". The tank, running the same simulation. The first of the scrapbook components. The first hour. One place close up | Measured on two phones, one of them old: a place with 150 creatures, a close view with twenty, the time to make a species' pictures. Tried with friends | A friend who has not seen it designs a species and watches it live in the tank without help |
+| 4. The shared world | The world running all day on the server; updates for whatever is in view; the three distances; the twenty presets, each stepping aside for a player's species; release and retiring; the day's mutation; the score and the boards | A world of presets alone run for a week of its own time; the data a visit uses | The world fluctuates and holds for a week, and a player's species can enter it |
+| 5. The daily loop and pet play | The recap and its instruments; the named line and its heirs; tending in the close view; nudges; talking, within its limits; visiting, postcards, the chronicle and titles; death and history; unlocks as kits | Tried with friends over a week | A visit takes five to fifteen minutes and gives a reason to come back |
+| 6. The art pass | Everything in section 7's second table, and sound | Independent review each round, as in the study, until every subject passes | Each biome, season, state and act has been through review, and the game runs within its budget on the oldest phone |
+| 7. A first season | The group plays | What is used, what is never used, and how species die, recorded; the balance tests run again on that | The list of changes for a second season |
+
+**The art pass is not one block at the end.** It begins with a third review of the study and runs beside phases 3 to 5, each taking what it needs: the creature kit, states and acts with phase 3; the remaining biomes, the far views, seasons and weather with phase 4; the close view with phase 5. Phase 6 is where what is left is finished and the whole is judged together.
+
+**What the paper study hands to the build.**
+
+| From the study | Goes to |
+|---|---|
+| The kit and its part tables, the posture, the rows of states and bearings | Phase 3, as the drawing code, after area 13 has made the sheet its input |
+| The acts and their rules of motion | Phase 3. The server sends what a creature is doing; the phone draws how |
+| Places as rows, the rules of composition, the asset recipe | Phase 4 for the grounds, the art pass for the rest |
+| Weather and time as rows | Phase 2 for the rules, phase 4 and the art pass for the look |
+| The measurements of cost | Phase 3, where shadows become stored layers and creatures stored pictures |
+
+## 10. Risks carried into the design
 
 | Risk | Where it is dealt with |
 |---|---|
-| Hunters and prey cannot both persist, so a player's hunter species may be unable to last | Area 4 found no fix in the stand-in. To be tested first when the real simulation exists; respawning covers presets only |
-| One build wins everywhere | Areas 1, 4 and 5 |
-| Friends cannot build behaviours on a phone | Area 8 mockups, then building step 3 |
-| A rich world is too much for a small server or a phone | Area 1 sets the size; measured in building step 2 |
+| Hunters and prey cannot both persist, so a player's hunter species may be unable to last | Area 4 found no fix in the stand-in. To be tested first when the real simulation exists, in phase 2; respawning covers presets only |
+| One build wins everywhere | Areas 1, 4 and 5, then the balance pass |
+| Friends cannot build behaviours on a phone | Area 8 mockups, then phase 3 |
+| A player makes a body the kit cannot draw, or one that looks like every other | Area 13: the checks on random sheets and on variety |
+| A part looks as if it does something it does not, or does something that cannot be seen | Area 13: the rules of fit |
+| A rich world is too much for a small server or a phone | Area 1 sets the size; measured in phases 2 and 3 |
+| States cannot be read when a creature is small | Known from the second review. The art pass, with the rule that a state must read at a centimetre |
+| Paper drawn in code stops short of beautiful | The reviewers put its ceiling near 8 out of 10. Scanned paper and photographed edges are decided at the start of the art pass |
 | A test is broken and its result is taken as a finding | The balance lab checks itself before each run (section 3) |
-| The design grows without end | Each area has a "done when", and area 14 does not start until the others are closed |
+| The design grows without end | Each area has a "done when", and area 15 does not start until the others are closed. The mockup stage proves systems and stops |
