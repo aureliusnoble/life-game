@@ -2,7 +2,7 @@
 
 Record of the pass set out in `design/plan.md` section 3: does every part matter, and can what the design promises be programmed. It runs on the rig (`design/checks/rig.js`), a stand-in for the simulation, and sets no costs and tunes no numbers. A part passes when there is one setting in which it is the right choice.
 
-Status on 16 November 2026: bodies done; 290 of the 350 words of a brain done; the promised behaviours not yet begun.
+Status on 16 November 2026: bodies done; 316 of the 350 words of a brain done; the promised behaviours not yet begun.
 
 ## 1. Bodies: every choice on the species sheet that means something
 
@@ -125,7 +125,7 @@ None of these was visible until a part was tested alone. Each change is to the s
 
 ## 2. Brains: every word of the vocabulary
 
-Status on 16 November: 290 of the 350 words are done. The sixty that remain are the words for moods and their ten functions, signals, what attention costs, and the settings for a whole species.
+Status on 16 November: 316 of the 350 words are done. The thirty-four that remain are the words for signals, what attention costs, and the settings for a whole species.
 
 ### 2a. The words a brain notices with
 
@@ -223,6 +223,48 @@ What the tests found:
 | **Hiding in a shell bought little** | A withdrawn body takes a twentieth of a bite, not a tenth |
 | **Eggs laid at the edge of a nest were not in it** | A nest it stands in or touches takes the eggs |
 | **An empty slot in a brain stopped the world** | A slip in the stand-in, put right |
+
+### 2c. The words a mood is set with, and the ten mood functions
+
+Run with `node design/checks/mechaudit.js moods`; the tests are in `design/checks/mech/moods.js`.
+
+**Result: 20 of 20 pass.**
+
+| Word | Verdict | Setting | With it against without | Told from its neighbour | What a watcher sees |
+|---|---|---|---|---|---|
+| quickly | Passes | Deep dusk. A hunter that finds warm bodies is seen only when it is nearly on them | 414 against 327 beats lived of 600 | normally: 339 in the same setting | It is afraid at the first glimpse and gone; a fear that takes longer to rise is still rising when the jaws close |
+| normally | Passes | Broad day. A hunter is seen from far off | 483 against 287 beats lived of 600 | quickly: 130 against 76.4 bites eaten in 800 beats | Its fear has risen long before the hunter arrives; a fear that rises slowly has not |
+| slowly | Passes | A harmless neighbour that calls now and then | 130 against 76.4 bites eaten in 800 beats | normally: 287 against 483 beats lived of 600 | One call does not frighten it and it goes on feeding; a fear that rises quickly stops it every time |
+| briefly | Passes | A harmless neighbour that calls now and then, and a fear that rises quickly | 124 against 0.2 bites eaten in 800 beats | a while: 75.7 in the same setting | It starts at each call and is feeding again at once |
+| a while | Passes | A harmless neighbour that calls now and then, and a fear that rises quickly | 75.7 against 0.2 bites eaten in 800 beats | a long time: 0.2 in the same setting | It stops for a few moments at each call and then feeds again; a fear that lingers a long time never lets it feed |
+| a long time | Passes | A hunter of middling speed in open country, which drops behind where the prey cannot see it | 558 against 376 beats lived of 600 | until calmed: 36 against 0 bites eaten in 900 beats | Its fear outlasts the sight of the hunter and it keeps running; a fear that is gone at once lets it stop while the hunter is still behind it |
+| until calmed | Passes | It hatches in a burrow, wanders far off, and long afterwards a hard frost comes. The burrow is the only shelter | 1500 against 573 beats lived through a frost, of 1500 | a long time: 573 in the same setting | It still knows the way home, and goes; a memory that only lingers a long time has faded, and it dies in the open |
+| kicks in low | Passes | Deep dusk. A hunter that finds warm bodies is seen only when it is nearly on them, and fear rises at the ordinary rate | 390 against 331 beats lived of 600 | kicks in at half: 339 in the same setting | A little fear is enough to make it run, and it runs in time |
+| kicks in at half | Passes | A harmless neighbour that calls now and then, and a fear that rises quickly | 75.7 against 12.6 bites eaten in 800 beats | kicks in high: 109 in the same setting | It stops at each call, but not for long; a fear that kicks in low keeps it frozen most of the time, and one that kicks in high barely stops it at all |
+| kicks in high | Passes | A harmless neighbour that calls now and then, and a fear that rises quickly | 109 against 12.6 bites eaten in 800 beats | kicks in at half: 75.7 in the same setting | It takes a great deal to frighten it, and it barely pauses in its feeding |
+| Bond | Passes | A young one, its parent that walks steadily on, and three other adults milling about | 500 against 369 beats within 30 of its own parent, of 500 | Place: 369 in the same setting | It follows the one it first knew, through the others; without the bond it follows whichever is nearest and is soon with a stranger |
+| Place | Passes | It hatches in a burrow, wanders far off, and then a hard frost comes. The burrow is the only shelter | 1500 against 573 beats lived through a frost, of 1500 | Bond: 573 in the same setting | It knows where it was born and goes back there |
+| Rhythm | Passes | Six that lay, and one animal that eats every egg it finds | 72.2 against 0 young hatched in 1500 beats | Count: 0 in the same setting | They all lay in the same few beats, and there are more eggs than the egg-eater can get round before they hatch. Laying each in its own time, they feed it one clutch after another |
+| Count | Passes | A harmless neighbour that calls now and then. Its fear rises quickly | 130 against 75.7 bites eaten in 800 beats | Rhythm: 61.5 in the same setting | It takes three calls close together to frighten it, and one call at a time never does; without the count every call stops its feeding |
+| Born with | Passes | Six that lay, and a small animal that eats every egg it finds | 1.4 against 0.3 young hatched in 1500 beats | For life: 0.3 in the same setting | A third of them are born guards: they go for the egg-eater and kill it, and the eggs hatch |
+| Catching | Passes | Three with their backs to a hunter. One of their kind, in front of them, sees it | 500 against 256 beats lived of 500 | Learn: 256 in the same setting | They see fear on the one that faces them, take fright themselves and run, without ever seeing the hunter |
+| Learn | Passes | Food all about, and big animals of another kind that bite whatever touches them | 900 against 115 beats lived of 900 | Catching: 115 in the same setting | Bitten once, it knows that kind and keeps clear of it; without the lesson it walks into them again and again |
+| Takes over | Passes | A hunter, in country full of food that it wants badly | 556 against 389 beats lived of 600 | Habit: 360 in the same setting | Once afraid it has no thought for food and runs; without that, appetite outweighs fear and it stops to eat |
+| Habit | Passes | It is drawn alike to rocks and to scrub. There is food by the rocks. In the scrub there is only a small animal that bites | 15.5 against 0 bites eaten in 2000 beats | Takes over: 0 in the same setting | Each bite it takes in the scrub makes the scrub draw it less, until it wanders off and finds the rocks. Without the habit it goes back to the scrub for as long as it lives |
+| For life | Passes | A colony of helpers whose one breeder has died. Only a breeder lays | 10.6 against 0 young hatched in 1500 beats | Born with: 0 in the same setting | With no breeder in sight, one of them slowly changes, grows into a breeder and begins to lay. Without that the colony dies out |
+
+"Raised by" and "calmed by" are the acts raise and calm seen from the mood's side, and are covered by those two tests in 2b.
+
+What the tests found:
+
+| Finding | What was done |
+|---|---|
+| **A remembered place was never forgotten,** whatever its mood was set to | A place is remembered for as long as any of its mood is left. A memory meant for life is one that lasts until calmed |
+| **A weak pull still held a body's heading** once it had arrived somewhere, so it could not wander off | A body that has arrived turns to the thing only while it stays |
+| **A habit could not weaken below a fifth,** and a fifth is enough to hold a wandering animal in place for ever | A habit can weaken almost to nothing |
+| **An animal set to grow up slowly died of old age on the day it grew up** | However long it takes to grow up, it has a life after that |
+| **Born watchers did not pay.** A call set off by a sight fires only when the hunter is already close, and feeders look up between bites anyway | "Born with" is shown with born guards, which kill an egg-eater. Whether sentinels can be made to pay is a question for the behaviours in section 3 |
+| **A count needs a mood that fades between events,** or single events add up over a lifetime | Kept: a count with a lingering time is "this many, close together" |
 
 ## 3. The promised behaviours
 
