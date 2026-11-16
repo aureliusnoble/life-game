@@ -200,4 +200,4 @@ test({ id: 'glow', neighbour: 'large eyes', unit: 'young and eggs after 900 beat
 test({ id: 'crest', neighbour: 'false eyes', unit: 'beats lived of 600', setting: 'A hunter that takes what is smaller than itself', seen: 'It stands, puffs up to half as big again, and the hunter thinks better of it',
   run: (k, s) => chase(s, sp('Prey', Object.assign({ size: 0.85 }, pickOf(k, { crest: true }, {}, { falseEyes: true })), [I('see bigger creature', 'puff up'), I('see bigger creature', 'hold still'), WANDER]), hunter(), { gap: 40 }).lived });
 
-module.exports = { T, chase, kills, feed, grazer, wary, breeders, brood, pickOf };
+module.exports = { T, chase, kills, feed, grazer, wary, breeders, brood, pickOf, from };

@@ -10,7 +10,7 @@
 const RIG = require('../rig.js'), { World, I, spawn, run, step, SHEET } = RIG, plain = SHEET.plain();
 const mean = (a) => a.reduce((x, y) => x + y, 0) / (a.length || 1), sd = (a) => { const m = mean(a); return Math.sqrt(mean(a.map((x) => (x - m) * (x - m)))); };
 // a species from the plain sheet and its differences
-const sp = (kind, sheet, instincts, more = {}) => Object.assign({ kind, sheet: Object.assign({}, plain, sheet), brain: { instincts, moods: more.moods || {}, signals: more.signals } }, more.species || {});
+const sp = (kind, sheet, instincts, more = {}) => Object.assign({ kind, sheet: Object.assign({}, plain, sheet), brain: { instincts: instincts.filter(Boolean), moods: more.moods || {}, signals: more.signals } }, more.species || {});
 const WANDER = I('always', 'wander', { str: 'weak' });
 // the stock hunter: bigger, with jaws, runs down what is smaller and eats it
 const hunter = (sheet = {}, extra = [], o = {}) => sp(o.kind || 'Hunter', Object.assign({ size: 1.35, mouth: 'jaws', eyes: 'forward', muscle: 0.4 }, sheet), [...extra, I((o.reach || 'see') + ' smaller creature', 'approach', { pace: o.pace || 'sprint' }), I('touch smaller creature', 'bite', { str: 'strong' }), WANDER]);
