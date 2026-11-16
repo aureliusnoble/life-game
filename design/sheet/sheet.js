@@ -31,10 +31,10 @@
     F('lungs', 'rule', 'Inside', 'num', { range: [0, 1], def: 0.2, src: 5, does: 'How long it can sprint or stay under water', shows: 'A deep chest', draws: ['BODY.girth'], lab: 'inside' }),
     F('brood', 'rule', 'Inside', 'num', { range: [0, 1], def: 0.2, src: 5, does: 'How many eggs, or how large', shows: 'Wide hips', draws: ['BODY.girth'] }),
     // ---- skin: what covers each side ----
-    F('skinFront', 'rule', 'Skin', 'pick', { options: SIDES, def: 'smooth', src: 6, does: 'What can bite or cling to its front', shows: 'A ruff, a slick, a brow of spikes or a hood over the head', draws: ['CROWN.ruff', 'ON.slime', 'CROWN.brow', 'CROWN.hood'] }),
-    F('skinFlanks', 'rule', 'Skin', 'pick', { options: SIDES, def: 'smooth', src: 6, does: 'What can bite or cling to its sides', shows: 'A fringed outline, a slick, spines standing out sideways or a rim of shell', draws: ['BODY.fur', 'ON.slime', 'ON.flankSpikes', 'ON.rim'] }),
+    F('skinFront', 'rule', 'Skin', 'pick', { options: SIDES, def: 'smooth', src: 6, does: 'What can bite or cling to its front', shows: 'A ruff, a slick, a brow of spikes or a hood over the head', draws: ['CROWN.ruff', 'CROWN.slick', 'ON.slime', 'CROWN.brow', 'CROWN.hood'] }),
+    F('skinFlanks', 'rule', 'Skin', 'pick', { options: SIDES, def: 'smooth', src: 6, does: 'What can bite or cling to its sides', shows: 'A fringed outline, a slick, spines standing out sideways or a rim of shell', draws: ['BODY.fur', 'ON.bristleRim', 'ON.slime', 'ON.flankSpikes', 'ON.rim'] }),
     F('skinBack', 'rule', 'Skin', 'pick', { options: SIDES, def: 'smooth', src: 6, does: 'What can bite or cling to its back', shows: 'A pelt, a slick, a row of spikes or a shell', draws: ['BACK.fur', 'ON.slime', 'BACK.spikes', 'BACK.shell', 'BACK.plates'], lab: 'shell, spikes' }),
-    F('camo', 'rule', 'Skin', 'pick', { options: GROUNDS, def: 'none', src: 6, does: 'On that one ground, still or creeping, it cannot be seen except from very close', shows: 'It wears a piece of that ground on its back', draws: ['OVER.camo'], lab: 'camo' }),
+    F('camo', 'rule', 'Skin', 'pick', { options: GROUNDS, def: 'none', src: 6, does: 'On that one ground, still or creeping, it cannot be seen except from very close', shows: 'It wears a piece of that ground on its back', draws: ['OVER.camo', 'OVER.cap'], lab: 'camo' }),
     F('falseEyes', 'rule', 'Skin', 'flag', { def: false, src: 6, does: 'A stalker thinks it is being watched', shows: 'Two eye spots on its rear', draws: ['ON.falseEyes'], lab: 'falseEyes' }),
     F('shedTail', 'rule', 'Skin', 'flag', { def: false, src: 6, does: 'Leaves its tail with whatever grabs it', shows: 'A bright tail with a ring where it breaks', draws: ['TAIL.shed'] }),
     F('ink', 'rule', 'Skin', 'flag', { def: false, src: 6, does: 'A cloud that works as cover', shows: 'A short nozzle at its rear', draws: ['ON.siphon'] }),
@@ -103,8 +103,8 @@
     eyes: 'Eyes', eyeSize: 'Eye size', nose: 'Nose', ears: 'Ears', whiskers: 'Touch', sideLine: 'Side line', heatPits: 'Heat pits', ping: 'Echo', compass: 'Compass', mover: 'Moves on', tailFin: 'Tail fin', wings: 'Wings', mouth: 'Mouth', sting: 'Sting', horns: 'Horns', claws: 'Digging claws', club: 'Club tail', grip: 'Grip',
     pouch: 'Pouch', gland: 'Gland that gives', voice: 'Voice', scent: 'Scent glands', glow: 'Glow', crest: 'Crest', head: 'Head', headSize: 'Head size', headLong: 'Face length', blunt: 'Blunt ends', rounds: 'Cut in rounds', curve: 'Curve', arms: 'Arms', pairs: 'Pairs of limbs', limbLen: 'Limb length', legStyle: 'Legs as', toes: 'Toes',
     tail: 'Tail', tailLen: 'Tail length', eyeStyle: 'Eye style', eyeColour: 'Eye colour', lids: 'Lids', mouthStyle: 'Mouth as', jawStyle: 'Jaws as', cheeks: 'Cheeks', earStyle: 'Ears as', touchStyle: 'Touch as', ornament: 'Ornament', furStyle: 'Bristles as', shellStyle: 'Shell as', pattern: 'Pattern', hueBody: 'Main paper', hueSecond: 'Second paper', hueAccent: 'Bright paper' };
-  const WORD = { front: 'front and back', round: 'no front', longLegs: 'stilts', wideFeet: 'webbed feet', suckerFoot: 'one broad foot', wave: 'body waves', cilia: 'a skirt of cilia', locking: 'locking jaws', litter: 'leaf litter', forward: 'facing forward', side: 'on the sides', stalk: 'on stalks', none: 'none' };
-  const word = (v) => WORD[v] || String(v);
+  const WORD = { 'plan.front': 'front and back', round: 'no front', longLegs: 'stilts', wideFeet: 'webbed feet', suckerFoot: 'one broad foot', wave: 'body waves', cilia: 'a skirt of cilia', locking: 'locking jaws', litter: 'leaf litter', forward: 'facing forward', side: 'on the sides', stalk: 'on stalks', none: 'none' };
+  const word = (v, id) => WORD[id + '.' + v] || WORD[v] || String(v);
   // choices that do nothing as the sheet stands, and why. A choice that is idle is not offered and is not tested for being seen
   const idle = (s) => { const o = {}, round = s.plan === 'round', limbed = ['legs', 'longLegs', 'wideFeet', 'fins', 'paddles'].includes(s.mover), headless = round || s.head === 'none', set = (ids, why) => ids.forEach((id) => { if (!o[id]) o[id] = why; });
     if (round) set(['length', 'taper', 'blunt', 'rounds', 'curve', 'mover', 'tailFin', 'wings', 'pairs', 'limbLen', 'legStyle', 'toes', 'claws', 'grip', 'tail', 'tailLen', 'shedTail', 'club', 'head', 'headSize', 'headLong', 'skinFront', 'ink', 'sting', 'ornament', 'eyes', 'pouch'], 'a body with no front has no ends, limbs or tail'); else set(['arms'], 'only a body with no front has arms all round');
@@ -174,7 +174,7 @@
     const crown = [];
     if (s.ornament === 'fronds') crown.push({ kind: 'fronds' });
     if (s.skinFront === 'bristles') crown.push({ kind: 'ruff', col: 'second', r: 1.3 });
-    if (s.skinFront === 'shell') crown.push({ kind: 'hood' });
+    if (s.skinFront === 'shell') crown.push({ kind: 'hood' }); if (s.skinFront === 'slime' && !headless) crown.push({ kind: 'slick' });
     if (s.ping) crown.push({ kind: 'dishes' }); else if (s.ears) crown.push({ kind: 'ears', point: s.earStyle === 'point' });
     if (s.horns) crown.push({ kind: 'horns' });
     if (s.crest) crown.push({ kind: 'comb' });
@@ -196,17 +196,17 @@
       paddles: (u, i, m) => ({ kind: 'paddle', u, len: 13 * ll, wd: 4.6 * k, ang: 1.5, inset: 2 * k, ph: i * 0.17 }) };
     if (!round && LIMBS[s.mover]) { const m = segs > 1 ? clamp(n, 1, segs - 1) : Math.min(n, s.mover === 'fins' ? 2 : 4); sockets(m).forEach((u, i) => { const l = LIMBS[s.mover](u, i, m); if (l.ph === undefined && i % 2) l.ph = 0.5; if (i === 0) l.front = true; limbs.push(l); }); }
     if (!round && s.claws && limbs.length && limbs[0].kind === 'paw') limbs[0].claws = true;
-    if (!round && s.grip !== 'none') limbs.unshift({ kind: { suckers: 'sucker', hooks: 'hook', arms: 'arm' }[s.grip], u: 0.88, len: 12 * ll, wd: 3.8 * k, ang: 0.55, front: true, inset: 3 * k });
+    if (!round && s.grip !== 'none') limbs.unshift({ kind: { suckers: 'sucker', hooks: 'hook', arms: 'arm' }[s.grip], u: 0.74, len: 25 * ll, wd: 4.6 * k, ang: 0.5, front: true, inset: 2 * k });
     if (!round && s.wings) limbs.push({ kind: 'wing', u: 0.62, len: lerp(26, 44, s.limbLen / 1.6) * k, wd: 13 * k, ang: 2.05, front: true, col: 'second' }, { kind: 'wing', u: 0.5, len: lerp(18, 30, s.limbLen / 1.6) * k, wd: 10 * k, ang: 2.6, col: 'second', spot: false });
     if (limbs.length) spec.limbs = limbs;
     if (s.mover === 'cilia') spec.under = { kind: 'skirt' }; if (s.mover === 'suckerFoot') spec.under = { kind: 'foot' };
     spec.step = s.mover === 'longLegs' ? 7 * s.limbLen : 4.7 * Math.sqrt(ll); spec.cycle = Math.round(36 * Math.pow(s.size, 0.5) * (s.mover === 'longLegs' ? 1.2 : 1) * (s.skinBack === 'shell' ? 1.25 : 1));
     // skin on the back, and things set on the body
     if (s.skinBack === 'shell') spec.back = s.shellStyle === 'bands' ? { kind: 'plates', n: clamp(Math.round(L / 13), 3, 7) } : { kind: 'shell' };
-    else if (s.skinBack === 'spikes') spec.back = { kind: 'spikes' }; else if (s.skinBack === 'bristles') spec.back = { kind: s.furStyle === 'fringe' ? 'fringe' : 'fur' }; else if (s.ornament === 'frill' && segs > 1) spec.back = { kind: 'frill' };
+    else if (s.skinBack === 'spikes') spec.back = { kind: 'spikes', k: Math.max(1.05, W / 17) }; else if (s.skinBack === 'bristles') spec.back = { kind: s.furStyle === 'fringe' ? 'fringe' : 'fur' }; else if (s.ornament === 'frill' && segs > 1) spec.back = { kind: 'frill' };
     const on = [];
     const slick = ['skinFront', 'skinFlanks', 'skinBack'].filter((x) => s[x] === 'slime').map((x) => x.slice(4).toLowerCase()); if (slick.length) on.push({ kind: 'slime', sides: slick });
-    if (s.skinFlanks === 'spikes') on.push({ kind: 'flankSpikes' }); if (s.skinFlanks === 'shell') on.push({ kind: 'rim' });
+    if (s.skinFlanks === 'bristles') on.push({ kind: 'bristleRim' }); if (s.skinFlanks === 'spikes') on.push({ kind: 'flankSpikes' }); if (s.skinFlanks === 'shell') on.push({ kind: 'rim' });
     if (s.sideLine) on.push({ kind: 'sideLine' }); if (s.falseEyes) on.push({ kind: 'falseEyes' }); if (s.scent) on.push({ kind: 'scent' }); if (s.gland) on.push({ kind: 'dew' }); if (s.pouch) on.push({ kind: 'pouch' }); if (s.ink) on.push({ kind: 'siphon' }); if (s.voice > 0.5) on.push({ kind: 'sacs', size: s.voice });
     if (on.length) spec.on = on;
     if (s.camo !== 'none') spec.over = { kind: 'camo', ground: s.camo };
