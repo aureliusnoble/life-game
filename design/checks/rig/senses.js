@@ -1,7 +1,7 @@
 // What a creature in the rig can notice and feel. Each reach word needs its organ; each "what" word has a way of being found.
 // The vocabulary is design/sheet/vocab.js; a word is listed in ../rig.js KNOWS when it has a rule here or in mind.js.
 const { GROUND, WATERS, SHELTERS, clamp } = require('./world.js'), { sideOf } = require('./body.js');
-const NEAR = 15, COUNTS = { 'a few': 3, many: 8, 'a crowd': 20 };
+const TOUCH = 4, NEAR = 15, COUNTS = { 'a few': 3, many: 8, 'a crowd': 20 };
 const STATES = ['coming at me', 'going away', 'facing me', 'facing away', 'still', 'eating', 'resting', 'fighting', 'carrying', 'clinging', 'hurt', 'calling'];
 const DIRS = { brighter: ['bright', 1], darker: ['bright', -1], warmer: ['warm', 1], cooler: ['warm', -1], uphill: ['high', 1], downhill: ['high', -1], deeper: ['deep', 1], shallower: ['deep', -1], wetter: ['wet', 1], drier: ['wet', -1] };
 const LINES = { 'an edge of cover': (g) => g.kind === 'shelter' && g.type === 'cover' || g.kind === 'ground' && (g.type === 'thicket' || g.type === 'tall grass'), 'the water\'s edge': (g) => g.kind === 'water', 'a river bank': (g) => g.kind === 'water' && g.type === 'running water', 'the tide line': (g) => g.kind === 'water' && g.tidal, 'a wall as a line': (g) => g.kind === 'made' && g.type === 'a wall' };
@@ -9,7 +9,7 @@ const CHANGED = { 'burnt ground': (g, w) => g.burnt && !g.regrown, 'new growth':
 
 const age = (c) => (c.age < c.grown ? 'young' : c.age > c.old ? 'old' : 'adult');
 // ---- can one creature see another? Sight needs eyes, light, a clear line and an arc of view; heat pits see warm bodies whatever the light
-function hidden(w, c, o, d) { if (o.hiding) return true; if (w.inCloud(o) && d > 4) return true; const sh = w.shelterAt(o.x, o.y, o.sz); if (sh && sh.type !== 'shade' && d > NEAR && !(d < 30 && w.shelterAt(c.x, c.y, c.sz) === sh)) return true;
+function hidden(w, c, o, d) { if (o.hiding) return true; if ((w.inCloud(o) || w.cloudBetween(c, o)) && d > 4) return true; const sh = w.shelterAt(o.x, o.y, o.sz); if (sh && sh.type !== 'shade' && d > NEAR && !(d < 30 && w.shelterAt(c.x, c.y, c.sz) === sh)) return true;
   const gr = GROUND[w.groundAt(o.x, o.y)] || {}; if (gr.hide && o.sz <= gr.hide && d > NEAR && !(GROUND[w.groundAt(c.x, c.y)] || {}).hide) return true; return false; }
 function canSee(w, c, o) { const [dx, dy, d] = w.off(c, o), warm = o.B !== undefined && o.alive; if (c.B.heat && warm && d < c.B.heat) return true; if (!c.B.sight || c.resting > 0 || c.hiding) return false;
   let R = c.B.sight * Math.max(0.12, w.lightAt(c.x, c.y)) * (o.glowing ? 1 / Math.max(0.12, w.lightAt(c.x, c.y)) : 1); if (c.headDown > 0) R = Math.min(R, NEAR);
@@ -18,7 +18,7 @@ function canSee(w, c, o) { const [dx, dy, d] = w.off(c, o), warm = o.B !== undef
 const camoOn = (w, o) => { const g = w.groundAt(o.x, o.y); return { grass: ['open grass', 'tall grass'], reed: ['thicket'], sand: ['sand'], rock: ['rock', 'scree'], mud: ['mud'], litter: ['scrub', 'bare ground'] }[o.B.camo].includes(g); };
 // the movement sense: all round, only things that move, and not things that creep or hold still
 const canFeel = (w, c, o) => !!c.B.feel && o.B && o.spd > 0.05 && o.pace !== 'creep' && !o.B.silent && w.off(c, o)[2] < c.B.feel * (o.pace === 'sprint' ? 2 : 1);
-const reaches = (w, c, o, reach) => { const d = w.off(c, o)[2]; return reach === 'touch' ? d < (c.B.reach && o.B ? Math.max(c.B.reach, c.B.touch) : c.B.touch) + (o.sz || 0) * 2 : reach === 'near' ? d < NEAR && (canSee(w, c, o) || (c.B.touch > 4 && d < c.B.touch)) : reach === 'far' ? d >= NEAR && canSee(w, c, o) : reach === 'feel' ? canFeel(w, c, o) : canSee(w, c, o); };
+const reaches = (w, c, o, reach) => { const d = w.off(c, o)[2]; return reach === 'touch' ? d < (c.B.reach && o.B ? Math.max(c.B.reach, TOUCH) : TOUCH) + (o.sz || 0) * 2 : reach === 'near' ? d < NEAR && (canSee(w, c, o) || (c.B.touch > 4 && d < c.B.touch)) : reach === 'far' ? d >= NEAR && canSee(w, c, o) : reach === 'feel' ? canFeel(w, c, o) : canSee(w, c, o); };
 
 // ---- kinds of creature. `what` is a word from the vocabulary; some are about my own kind, some about others
 function isA(w, c, o, what) { if (o === c || !o.alive || o.pose === 'dead' && what !== 'the dead') return false; const kin = o.kind === c.kind, sz = o.sz * (o.pose === 'puff' ? o.B.puff : 1);

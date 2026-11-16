@@ -55,6 +55,7 @@ class World {
   mark(c, name, lasts, reach) { this.marks.push({ name, x: c.x, y: c.y, t: this.t, until: this.t + lasts, reach, by: c.id, kind: c.kind, home: c.home }); }
   call(c, name, range) { this.calls.push({ name, x: c.x, y: c.y, t: this.t, range, by: c.id, kind: c.kind }); }
   cloud(x, y, r, beats) { this.clouds.push({ x, y, r, until: this.t + beats }); }
+  cloudBetween(a, b) { if (!this.clouds.length) return false; const [dx, dy, d] = this.off(a, b); for (const k of this.clouds) { const [kx, ky] = this.off(a, k), u = Math.max(0, Math.min(1, (kx * dx + ky * dy) / (d * d || 1))); if (Math.hypot(kx - dx * u, ky - dy * u) < k.r) return true; } return false; }      // a cloud hides what is in it and what is behind it
   inCloud(o) { for (const k of this.clouds) if (this.off(k, o)[2] < k.r) return true; return false; }
   // ---- what changes by itself each beat: marks fade, eggs and seeds wait, fire spreads and dies, the dead rot
   tick() { const t = this.t;

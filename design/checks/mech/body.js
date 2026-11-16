@@ -72,4 +72,52 @@ for (const [side, field, ang] of SIDES) { const other = field === 'skinBack' ? '
 test({ id: 'skinBack', option: 'bristles, for warmth', neighbour: 'fat', unit: 'beats lived of 3000', setting: 'A night of hard frost that does not end, with food about', seen: 'The bristled one keeps feeding; the bare one slows, stops and dies of cold',
   run: (k, s) => { const w = new World(120, s, { light: 0.15, season: 'winter' }); w.frost(true); const c = spawn(w, grazer(pickOf(k, { skinBack: 'bristles', skinFlanks: 'bristles' }, {}, { fat: 0.6 })), { x: 60, y: 60 }); w.patch('plant', 60, 60, 40, { cap: 10, rate: 0.1 }); return hunted(w, [c], 3000); } });
 
+// ---------------- defences
+const GROUNDS = { grass: 'open grass', reed: 'thicket', sand: 'sand', rock: 'rock', mud: 'mud', litter: 'scrub' }, freezer = (sheet) => sp('Prey', Object.assign({ size: 0.85 }, sheet), [I('see bigger creature', 'hold still', { str: 'strong' }), I('always', 'wander', { str: 'weak', pace: 'creep' })]);
+for (const [camo, ground] of Object.entries(GROUNDS)) { const wrong = camo === 'sand' ? 'rock' : 'sand';
+  test({ id: 'camo', option: camo, neighbour: 'the wrong camouflage', unit: 'beats lived of 700', setting: `A hunter that hunts by eye, on ${ground}, and prey that freezes when it sees it`, seen: 'The hunter walks past the one that matches the ground and finds the others',
+    run: (k, s) => chase(s, freezer(pickOf(k, { camo }, {}, { camo: wrong })), hunter({ muscle: 0.2 }), { ground, size: 150, beats: 700, n: 4, gap: 50 }).lived }); }
+const stalker = () => sp('Stalker', { size: 1.35, mouth: 'jaws', eyes: 'forward' }, [I('see smaller creature facing away', 'approach'), I('touch smaller creature facing away', 'bite', { str: 'strong' }), WANDER]), dull = (sheet) => sp('Prey', Object.assign({ size: 0.85 }, sheet), [WANDER]);
+test({ id: 'falseEyes', neighbour: 'no front', unit: 'beats lived of 700', ownUnit: 'beats lived of 600', setting: 'A stalker that only goes for what is facing away from it', seen: 'The stalker comes up behind, meets two eyes, and turns away',
+  ownSetting: 'chased by a hunter that does not care, the body with false eyes can run and the body with no front cannot',
+  run: (k, s) => chase(s, dull(pickOf(k, { falseEyes: true }, {})), stalker(), { size: 160, beats: 700, n: 4 }).lived, own: (k, s) => chase(s, prey(pickOf(k, { falseEyes: true }, null, { plan: 'round' })), hunter({ muscle: 0.18 })).lived });
+test({ id: 'shedTail', neighbour: 'ink', unit: 'beats lived of 500', setting: 'A hunter with locking jaws', seen: 'It is seized, drops its tail, and the hunter is left holding the tail',
+  run: (k, s) => chase(s, prey(pickOf(k, { shedTail: true }, {}, { ink: true }), [I('just grabbed', 'shed'), I('near bigger creature', 'spray')]), hunter({ mouth: 'locking', muscle: 0.2 }), { beats: 500, gap: 30 }).lived });
+test({ id: 'ink', neighbour: 'a tail that sheds', unit: 'beats lived of 600', setting: 'A hunter a little faster than its prey', seen: 'A cloud goes up between them, the hunter loses sight of it and casts about',
+  run: (k, s) => chase(s, prey(pickOf(k, { ink: true }, {}, { shedTail: true }), [I('near bigger creature', 'spray'), I('just grabbed', 'shed')]), hunter({ muscle: 0.3 }), { beats: 600, gap: 30 }).lived });
+
+// ---------------- senses
+const NIGHT = 0.15, behind = (gap = 40) => (w, ps, hs) => { ps.forEach((p, i) => { p.x = w.size / 2 + i * 9; p.y = w.size / 2; p.hx = 1; p.hy = 0; }); hs.forEach((h) => { h.x = w.size / 2 - gap; h.y = w.size / 2 + 2; h.hx = 1; h.hy = 0; }); };
+test({ id: 'eyes', option: 'facing forward', neighbour: 'eyes on the sides', seeds: 48, unit: 'kills of 6 in 700 beats', setting: 'A hunter, and six prey that graze with their heads down and do not look up', seen: 'It picks out prey from twice as far off and goes straight for it',
+  run: (k, s) => kills(s, hunter(pickOf(k, { eyes: 'forward' }, { eyes: 'none' }, { eyes: 'side' })), sp('Prey', { size: 0.85 }, [WANDER]), { size: 420, gap: 150, beats: 700, n: 6 }) });
+test({ id: 'eyes', option: 'on the sides', neighbour: 'eyes facing forward', unit: 'beats lived of 600', setting: 'A hunter comes from behind and to one side', seen: 'It sees the hunter without turning its head, and is gone',
+  run: (k, s) => chase(s, prey(pickOf(k, { eyes: 'side' }, { eyes: 'none' }, { eyes: 'forward' })), hunter({ muscle: 0.18 }), { n: 2, after: (w, ps, hs) => { behind(40)(w, ps, hs); hs[0].y += 24; } }).lived });
+test({ id: 'eyes', option: 'on stalks', neighbour: 'false eyes', unit: 'beats lived of 600', setting: 'A hunter comes from straight behind, where eyes on the sides of a head cannot see', seen: 'It sees all round, and runs while the hunter is still far off',
+  ownSetting: 'the same hunter and a body with false eyes: it never sees the hunter coming',
+  run: (k, s) => chase(s, prey(pickOf(k, { eyes: 'stalk' }, { eyes: 'side' }, { eyes: 'side', falseEyes: true })), hunter({ muscle: 0.18 }), { n: 2, after: behind(40) }).lived });
+test({ id: 'eyeSize', option: 'large', neighbour: 'eyes facing forward', unit: 'beats lived of 600', setting: 'A hunter of middling speed in open country', seen: 'It sees the hunter sooner and has a longer start',
+  run: (k, s) => chase(s, prey(pickOf(k, { eyeSize: 1 }, { eyeSize: 0 }, { eyeSize: 0, eyes: 'forward' })), hunter({ muscle: 0.18 }), { gap: 70 }).lived });
+const forager = (sheet) => sp('Grazer', sheet, [I('smell plant', 'approach'), I('near plant', 'approach'), I('see plant', 'approach'), I('touch plant', 'bite'), WANDER]);
+test({ id: 'nose', neighbour: 'large eyes', unit: 'bites eaten in 500 beats', setting: 'A dark night, with food scattered about', seen: 'It walks straight to food it cannot see',
+  run: (k, s) => feed(s, forager(pickOf(k, { nose: true }, { nose: false }, { nose: false, eyeSize: 1 })), { light: NIGHT }) });
+test({ id: 'whiskers', neighbour: 'a nose', unit: 'bites eaten in 500 beats', setting: 'A dark night, with food thick on the ground', seen: 'It feels its way from one piece to the next',
+  run: (k, s) => feed(s, forager(pickOf(k, { whiskers: true, nose: false }, { nose: false }, { nose: true })), { light: NIGHT, food: 40, spread: 50 }) });
+test({ id: 'ears', neighbour: 'a side line', unit: 'beats lived of 600', setting: 'A hunter comes up from behind. A big animal of another kind, which it passes on the way, calls when it sees one', seen: 'The ones with ears run at the call, long before they could see anything; the others never look round',
+  run: (k, s) => { const sheet = pickOf(k, { ears: true }, { ears: false }, { ears: false, sideLine: true }), listen = [I('hear a call alarm', 'raise fear', { speed: 'quickly' }), I('hear a call alarm', 'move away', { pace: 'sprint', str: 'strong' })], w = new World(500, s, { light: 1, torus: true });
+    spawn(w, hunter({}, [I('always', 'wander', { turn: 'wide', pace: 'sprint', str: 'normal' })]), { x: 110, y: 250, heading: 0, energy: 0.9 }); spawn(w, sp('Watcher', { size: 1.6, voice: 1, eyeSize: 1 }, [I('see species Hunter', 'call alarm'), I('always', 'hold still')]), { x: 190, y: 256, heading: Math.PI });
+    const ps = [0, 1, 2].map((i) => spawn(w, prey(sheet, listen), { x: 262 + i * 8, y: 245 + i * 5, heading: 0 })); return hunted(w, ps, 600); } });
+test({ id: 'sideLine', neighbour: 'ears', unit: 'beats lived of 600', setting: 'A dark night, and a hunter that finds warm bodies', seen: 'It feels the rush coming through the dark and bolts',
+  run: (k, s) => chase(s, prey(pickOf(k, { sideLine: true }, {}, { ears: true }), [I('feel movement', 'raise fear', { speed: 'quickly' }), I('feel movement', 'move away', { pace: 'sprint', str: 'strong' })]), hunter({ heatPits: true, muscle: 0.18 }), { light: NIGHT, gap: 50 }).lived });
+const nightHunter = (sheet, extra = []) => hunter(sheet, [...extra, I('smell smaller creature', 'approach', { pace: 'sprint' })]);
+test({ id: 'heatPits', neighbour: 'a nose', seeds: 16, unit: 'kills of 5 in 600 beats', ownUnit: 'kills of 5 that feel it coming', setting: 'A dark night', seen: 'It turns toward warm bodies it cannot see and runs them down',
+  ownSetting: 'prey that feels the rush coming and runs: heat pits follow it at a sprint, and a nose smells nothing at a sprint',
+  run: (k, s) => kills(s, nightHunter(pickOf(k, { heatPits: true, nose: false }, { nose: false })), prey(), { light: NIGHT, beats: 600, size: 200, gap: 60 }),
+  own: (k, s) => kills(s, nightHunter(pickOf(k, { heatPits: true, nose: false }, null, { nose: true })), prey({ sideLine: true }, [I('feel movement', 'raise fear', { speed: 'quickly' }), I('feel movement', 'move away', { pace: 'sprint', str: 'strong' })]), { light: NIGHT, beats: 600, size: 200, gap: 60 }) });
+test({ id: 'ping', neighbour: 'heat pits', seeds: 16, unit: 'kills of 5 in 600 beats', ownUnit: 'kills of 5 that have ears', setting: 'A dark night', seen: 'It calls, and for a moment knows where everything near it is',
+  ownSetting: 'prey with ears hear the call and are gone before it arrives; heat pits make no sound',
+  run: (k, s) => kills(s, hunter(pickOf(k, { ping: true, nose: false }, { nose: false }), [I('always', 'ping')]), prey(), { light: NIGHT, beats: 600, size: 200, gap: 60 }),
+  own: (k, s) => kills(s, hunter(pickOf(k, { ping: true, nose: false }, null, { heatPits: true, nose: false }), [I('always', 'ping')]), prey({ ears: true }, [I('hear a call ping', 'raise fear', { speed: 'quickly' }), I('hear a call ping', 'move away', { pace: 'sprint', str: 'strong' })]), { light: NIGHT, beats: 600, size: 200, gap: 60 }) });
+test({ id: 'compass', neighbour: 'large eyes', unit: 'bites eaten in 1500 beats', setting: 'The only food is far to the north, out of sight and out of smell', seen: 'It sets off north across empty ground and arrives; the other wanders where it is',
+  run: (k, s) => { const w = new World(600, s, { light: 1 }), c = spawn(w, sp('Rover', pickOf(k, { compass: true }, {}, { eyeSize: 1 }), [I('see north', 'go the same way'), I('smell plant', 'approach', { str: 'strong' }), I('touch plant', 'bite'), WANDER]), { x: 300, y: 560, energy: 0.8 }); for (let i = 0; i < 14; i++) w.item('plant', 240 + w.rnd() * 120, 20 + w.rnd() * 50); run(w, 1500); return c.meals; } });
+
 module.exports = { T, chase, kills, feed, grazer, wary, breeders, brood, pickOf };

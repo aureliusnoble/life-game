@@ -22,7 +22,7 @@ function bodyOf(sheet0) {
   const skin = { front: round ? s.skinFlanks : s.skinFront, flanks: s.skinFlanks, back: s.skinBack }, has = (k) => SIDES.filter((x) => skin[x] === k).length;
   const armour = 0.12 * has('shell') + 0.035 * has('spikes') + (s.horns ? 0.03 : 0) + (s.club ? 0.03 : 0);
   const shape = clamp(0.85 + 0.17 * (len / wid - 1), 0.78, 1.15);                                  // long is fast, round is slow
-  const eyes = { forward: [1.35, 120], side: [0.85, 300], stalk: [0.7, 360], none: [0, 0] }[s.eyes];
+  const eyes = { forward: [1.6, 120], side: [0.85, 300], stalk: [0.7, 360], none: [0, 0] }[s.eyes];
   const b = { sheet: s, round, size, mass, len, organs: o, skin, mover: s.mover, footing: FOOTING[s.mover],
     // ---- moving
     top: shape * (0.8 + 0.8 * o.muscle * 1.25) * (1 - 0.6 * (o.fat * 1.25 - 0.25)) * Math.pow(sc, 0.15) * (1 - armour) * (round ? 0.6 : 1) * (s.claws ? 0.94 : 1) * (1 + 0.12 * Math.max(0, -s.taper)),      // a heavy rear drives a faster run
@@ -40,7 +40,7 @@ function bodyOf(sheet0) {
     warm: has('bristles') * 0.34 + clamp((sc - 0.7) / 0.8, 0, 1) * 0.4,                         // holds its heat: bristles, and bulk
     // ---- senses, each from its organ
     sight: 60 * (0.7 + 0.6 * s.eyeSize) * eyes[0], arc: round && s.eyes !== 'none' ? 360 : eyes[1],
-    smell: s.nose ? 45 : 0, hearing: s.ears || s.ping ? 110 : 0, touch: s.whiskers ? 10 : 4, feelsWet: !!s.whiskers,
+    smell: s.nose ? 45 : 0, hearing: s.ears || s.ping ? 110 : 0, touch: s.whiskers ? 14 : 4, feelsWet: !!s.whiskers,
     feel: s.sideLine ? 30 : 0, heat: s.heatPits ? 40 : 0, ping: s.ping ? 70 : 0, compass: !!s.compass,
     // ---- being seen
     camo: s.camo === 'none' ? null : s.camo, falseEyes: s.falseEyes, puff: s.crest ? 1.6 : 1, glow: s.glow,
